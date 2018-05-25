@@ -7,8 +7,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<okhttp.version>3.8.0</okhttp.version>
+		<okhttp.version>3.8.0</okhttp.version> 
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.encoding>UTF-8</java.encoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+		<mybatis.version>3.4.6</mybatis.version>
 	</properties>
+		
 
 	<dependencies>
 		<dependency>
@@ -17,4 +26,18 @@
 			<version>${okhttp.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${java.encoding}</encoding>
+
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
