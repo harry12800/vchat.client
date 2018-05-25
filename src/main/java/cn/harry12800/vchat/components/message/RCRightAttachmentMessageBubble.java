@@ -5,6 +5,7 @@ import java.awt.*;
 /**
  * 右侧附件聊天气泡
  */
+@SuppressWarnings("serial")
 public class RCRightAttachmentMessageBubble extends RCAttachmentMessageBubble
 {
     public RCRightAttachmentMessageBubble()

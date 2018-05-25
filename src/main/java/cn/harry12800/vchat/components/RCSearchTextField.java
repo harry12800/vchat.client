@@ -11,6 +11,7 @@ import java.awt.geom.RoundRectangle2D;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class RCSearchTextField extends JTextField
 {
 

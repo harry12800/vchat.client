@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
  *
  * Created by harry12800 on 17-6-3.
  */
+@SuppressWarnings("serial")
 public class RCAttachmentMessageBubble extends JPanel implements RCMessageBubble
 {
     private  NinePatchImageIcon backgroundNormalIcon;

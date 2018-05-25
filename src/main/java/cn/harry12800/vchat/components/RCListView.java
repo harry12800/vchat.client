@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class RCListView extends JScrollPane
 {
     private BaseAdapter adapter;

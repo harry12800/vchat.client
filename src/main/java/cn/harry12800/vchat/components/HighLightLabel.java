@@ -9,6 +9,7 @@ import java.awt.font.LineMetrics;
 /**
  * Created by harry12800 on 22/06/2017.
  */
+@SuppressWarnings("serial")
 public class HighLightLabel extends JLabel
 {
     private String keyWord;

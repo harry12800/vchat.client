@@ -13,6 +13,7 @@ import java.awt.*;
  * 搜索结果每一个通讯录、房间项目
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class SearchResultUserItemViewHolder extends SearchResultItemViewHolder
 {
     public JLabel avatar = new JLabel();

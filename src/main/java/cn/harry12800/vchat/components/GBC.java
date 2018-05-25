@@ -5,6 +5,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 17-5-28.
  */
+@SuppressWarnings("serial")
 public class GBC extends GridBagConstraints{
     /*
      * constructs a GBC with a given gridx and gridy position and all other grid

@@ -17,6 +17,7 @@ import java.awt.Insets;
  * output. Additionally there is a vertical fill flag, which fills the last
  * component to the remaining height of the container.
  */
+@SuppressWarnings("serial")
 public class VerticalFlowLayout extends FlowLayout {
 
     /**

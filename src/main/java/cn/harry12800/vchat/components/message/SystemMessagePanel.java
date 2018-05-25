@@ -8,6 +8,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 12/06/2017.
  */
+@SuppressWarnings("serial")
 public class SystemMessagePanel extends JPanel
 {
     private String text;

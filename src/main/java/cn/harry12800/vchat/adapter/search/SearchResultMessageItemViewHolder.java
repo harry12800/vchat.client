@@ -13,6 +13,7 @@ import java.awt.*;
  * 搜索结果中的每一个消息项目
  * Created by harry12800 on 17-6-22.
  */
+@SuppressWarnings("serial")
 public class SearchResultMessageItemViewHolder extends SearchResultItemViewHolder
 {
     public JLabel avatar = new JLabel();

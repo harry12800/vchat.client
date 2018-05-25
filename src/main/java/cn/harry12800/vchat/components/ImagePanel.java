@@ -9,9 +9,11 @@ import java.io.IOException;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class ImagePanel extends JPanel
 {
-    private GeneralPath path = new GeneralPath();
+    @SuppressWarnings("unused")
+	private GeneralPath path = new GeneralPath();
     private Image image;
 
     public ImagePanel(Image image)

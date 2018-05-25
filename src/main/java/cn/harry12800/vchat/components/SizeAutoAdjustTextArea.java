@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 /**
  * Created by harry12800 on 17-6-4.
  */
+@SuppressWarnings("serial")
 public class SizeAutoAdjustTextArea extends JIMSendTextPane
 {
     private final FontMetrics fontMetrics;

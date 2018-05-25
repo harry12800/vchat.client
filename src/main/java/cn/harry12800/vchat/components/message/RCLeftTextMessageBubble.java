@@ -5,6 +5,7 @@ import java.awt.*;
 /**
  * 左侧文本聊天气泡
  */
+@SuppressWarnings("serial")
 public class RCLeftTextMessageBubble extends RCTextMessageBubble
 {
     public RCLeftTextMessageBubble()

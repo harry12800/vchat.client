@@ -1,14 +1,13 @@
 package cn.harry12800.vchat.db.dao;
 
-import cn.harry12800.vchat.db.model.BasicModel;
-import org.apache.ibatis.exceptions.PersistenceException;
-import org.apache.ibatis.session.ResultContext;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.SqlSession;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSession;
+
+import cn.harry12800.vchat.db.model.BasicModel;
 
 /**
  * Created by harry12800 on 08/06/2017.
@@ -19,7 +18,7 @@ public abstract class BasicDao
     private String className;
 
 
-    public BasicDao(SqlSession session, Class clazz)
+    public BasicDao(SqlSession session, Class<?> clazz)
     {
         this.session = session;
         this.className = clazz.getName();

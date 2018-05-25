@@ -5,6 +5,7 @@ import javax.swing.*;
 /**
  * Created by harry12800 on 27/06/2017.
  */
+@SuppressWarnings("serial")
 public class AttachmentPanel extends JPanel
 {
     private Object tag;

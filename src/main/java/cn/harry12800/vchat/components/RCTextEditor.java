@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 03/07/2017.
  */
+@SuppressWarnings("serial")
 public class RCTextEditor extends JTextPane
 {
     @Override

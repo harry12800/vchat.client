@@ -7,6 +7,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 17-6-4.
  */
+@SuppressWarnings("serial")
 public class RCProgressBar extends JProgressBar
 {
     public RCProgressBar()

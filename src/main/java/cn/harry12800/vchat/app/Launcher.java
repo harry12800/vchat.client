@@ -1,20 +1,25 @@
 package cn.harry12800.vchat.app;
 
-import cn.harry12800.vchat.db.model.Room;
-import cn.harry12800.vchat.db.service.*;
-import cn.harry12800.vchat.frames.LoginFrame;
-import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.utils.DbUtils;
-import org.apache.ibatis.session.SqlSession;
-
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.util.List;
+
+import javax.swing.JFrame;
+
+import org.apache.ibatis.session.SqlSession;
+
+import cn.harry12800.vchat.db.service.ContactsUserService;
+import cn.harry12800.vchat.db.service.CurrentUserService;
+import cn.harry12800.vchat.db.service.FileAttachmentService;
+import cn.harry12800.vchat.db.service.ImageAttachmentService;
+import cn.harry12800.vchat.db.service.MessageService;
+import cn.harry12800.vchat.db.service.RoomService;
+import cn.harry12800.vchat.frames.LoginFrame;
+import cn.harry12800.vchat.frames.MainFrame;
+import cn.harry12800.vchat.utils.DbUtils;
 
 /**
  * Created by harry12800 on 09/06/2017.
@@ -131,7 +136,8 @@ public class Launcher
             }
 
             //程序名称
-            RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(), "rw");
+            @SuppressWarnings("resource")
+			RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(), "rw");
             FileChannel fileChannel = fis.getChannel();
             FileLock fileLock = fileChannel.tryLock();
             if (fileLock == null)

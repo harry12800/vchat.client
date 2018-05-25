@@ -10,6 +10,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class RCTextField extends JTextField
 {
     private String placeholder;

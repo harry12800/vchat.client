@@ -24,6 +24,7 @@ import javax.swing.text.ViewFactory;
  * 换行，导致 JTextPane 的实际宽度变大，使得滚动条出现。
  * 下面的方法是对这个 bug 的较好修复。
  */
+@SuppressWarnings("serial")
 public class JIMSendTextPane extends JTextPane
 {
 

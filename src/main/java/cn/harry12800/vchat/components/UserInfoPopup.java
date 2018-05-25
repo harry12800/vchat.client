@@ -20,6 +20,7 @@ import static cn.harry12800.vchat.app.Launcher.roomService;
 /**
  * Created by harry12800 on 07/06/2017.
  */
+@SuppressWarnings("serial")
 public class UserInfoPopup extends JPopupMenu
 {
     private JPanel contentPanel;

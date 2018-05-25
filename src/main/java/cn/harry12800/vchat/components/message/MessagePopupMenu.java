@@ -1,5 +1,17 @@
 package cn.harry12800.vchat.components.message;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.util.Map;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.border.LineBorder;
+
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
@@ -7,22 +19,16 @@ import cn.harry12800.vchat.components.SizeAutoAdjustTextArea;
 import cn.harry12800.vchat.db.model.FileAttachment;
 import cn.harry12800.vchat.db.service.FileAttachmentService;
 import cn.harry12800.vchat.entity.MessageItem;
-import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.frames.MainFrame;
+import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.utils.ClipboardUtil;
 import cn.harry12800.vchat.utils.FileCache;
 import cn.harry12800.vchat.utils.ImageCache;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.util.Map;
-
 /**
  * Created by harry12800 on 2017/6/5.
  */
+@SuppressWarnings("serial")
 public class MessagePopupMenu extends JPopupMenu
 {
     private int messageType;

@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 /**
  * Created by harry12800 on 2017/6/5.
  */
+@SuppressWarnings("serial")
 public class MainOperationPopupMenu extends JPopupMenu
 {
     public MainOperationPopupMenu()

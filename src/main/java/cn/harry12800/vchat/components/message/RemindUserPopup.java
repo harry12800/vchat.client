@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by harry12800 on 21/06/2017.
  */
+@SuppressWarnings("serial")
 public class RemindUserPopup extends JPopupMenu
 {
     private List<String> users;
@@ -93,7 +94,8 @@ public class RemindUserPopup extends JPopupMenu
         void onSelected(String username);
     }
 
-    private class UserItem extends ViewHolder
+    @SuppressWarnings("unused")
+	private class UserItem extends ViewHolder
     {
         public UserItem()
         {
