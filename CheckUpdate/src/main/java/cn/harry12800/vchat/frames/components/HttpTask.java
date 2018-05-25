@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public abstract  class HttpTask
 {
-    protected HttpResponseListener listener;
+    protected HttpResponseListener<byte[]> listener;
 
     protected Map<String, String> headers = new HashMap<>();
     protected Map<String, String> requestParams = new HashMap<>();
@@ -26,7 +26,7 @@ public abstract  class HttpTask
 
     public abstract void execute(String url);
 
-    public void setListener(HttpResponseListener listener)
+    public void setListener(HttpResponseListener<byte[]> listener)
     {
         this.listener = listener;
     }

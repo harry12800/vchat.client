@@ -298,10 +298,9 @@ public class HttpUtil
                 return true;
             }
         };
-
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 //.addInterceptor(interceptor)
-                .sslSocketFactory(sslContext.getSocketFactory())
+                .sslSocketFactory(sslContext.getSocketFactory(),xtm)
                 .hostnameVerifier(DO_NOT_VERIFY)
                 .connectTimeout(10000, TimeUnit.MILLISECONDS);
 
