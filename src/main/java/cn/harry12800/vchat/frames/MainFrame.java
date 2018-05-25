@@ -1,6 +1,5 @@
 package cn.harry12800.vchat.frames;
 
-
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
@@ -18,282 +17,227 @@ import java.io.InputStream;
 /**
  * Created by harry12800 on 17-5-28.
  */
-public class MainFrame extends JFrame
-{
-    public static int DEFAULT_WIDTH = 900;
-    public static int DEFAULT_HEIGHT = 650;
+public class MainFrame extends JFrame {
+	public static int DEFAULT_WIDTH = 900;
+	public static int DEFAULT_HEIGHT = 650;
 
-    public int currentWindowWidth = DEFAULT_WIDTH;
-    public int currentWindowHeight = DEFAULT_HEIGHT;
+	public int currentWindowWidth = DEFAULT_WIDTH;
+	public int currentWindowHeight = DEFAULT_HEIGHT;
 
-    private LeftPanel leftPanel;
-    private RightPanel rightPanel;
+	private LeftPanel leftPanel;
+	private RightPanel rightPanel;
 
-    private static MainFrame context;
-    private Image normalTrayIcon; // 正常时的任务栏图标
-    private Image emptyTrayIcon; // 闪动时的任务栏图标
-    private TrayIcon trayIcon;
-    private boolean trayFlashing = false;
-    private AudioStream messageSound; //消息到来时候的提示间
+	private static MainFrame context;
+	private Image normalTrayIcon; // 正常时的任务栏图标
+	private Image emptyTrayIcon; // 闪动时的任务栏图标
+	private TrayIcon trayIcon;
+	private boolean trayFlashing = false;
+	private AudioStream messageSound; //消息到来时候的提示间
 
+	public MainFrame() {
+		context = this;
+		initComponents();
+		initView();
+		initResource();
 
-    public MainFrame()
-    {
-        context = this;
-        initComponents();
-        initView();
-        initResource();
+		// 连接WebSocket
+		//startWebSocket();
+	}
 
-        // 连接WebSocket
-       //startWebSocket();
-    }
+	private void initResource() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				initTray();
+			}
+		}).start();
 
-    private void initResource()
-    {
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                initTray();
-            }
-        }).start();
+	}
 
-    }
+	/**
+	 * 播放消息提示间
+	 */
+	public void playMessageSound() {
+		try {
+			InputStream inputStream = getClass().getResourceAsStream("/wav/msg.wav");
+			messageSound = new AudioStream(inputStream);
+			AudioPlayer.player.start(messageSound);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	/**
+	 * 初始化系统托盘图标
+	 */
+	private void initTray() {
+		SystemTray systemTray = SystemTray.getSystemTray();//获取系统托盘
+		try {
+			if (OSUtil.getOsType() == OSUtil.Mac_OS) {
+				normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_dark.png", 20, 20).getImage();
+			} else {
+				normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher.png", 20, 20).getImage();
+			}
 
-    /**
-     * 播放消息提示间
-     */
-    public void playMessageSound()
-    {
-        try
-        {
-            InputStream inputStream = getClass().getResourceAsStream("/wav/msg.wav");
-            messageSound = new AudioStream(inputStream);
-            AudioPlayer.player.start(messageSound);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+			emptyTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_empty.png", 20, 20).getImage();
 
+			trayIcon = new TrayIcon(normalTrayIcon, "微信");
+			trayIcon.setImageAutoSize(true);
+			trayIcon.addMouseListener(new MouseAdapter() {
 
-    /**
-     * 初始化系统托盘图标
-     */
-    private void initTray()
-    {
-        SystemTray systemTray = SystemTray.getSystemTray();//获取系统托盘
-        try
-        {
-            if (OSUtil.getOsType() == OSUtil.Mac_OS)
-            {
-                normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_dark.png", 20, 20).getImage();
-            }
-            else
-            {
-                normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher.png", 20, 20).getImage();
-            }
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// 显示主窗口
+					setVisible(true);
 
-            emptyTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_empty.png", 20, 20).getImage();
+					// 任务栏图标停止闪动
+					if (trayFlashing) {
+						trayFlashing = false;
+						trayIcon.setImage(normalTrayIcon);
+					}
 
-            trayIcon = new TrayIcon(normalTrayIcon, "微信");
-            trayIcon.setImageAutoSize(true);
-            trayIcon.addMouseListener(new MouseAdapter()
-            {
+					super.mouseClicked(e);
+				}
+			});
 
-                @Override
-                public void mousePressed(MouseEvent e)
-                {
-                    // 显示主窗口
-                    setVisible(true);
+			PopupMenu menu = new PopupMenu();
 
-                    // 任务栏图标停止闪动
-                    if (trayFlashing)
-                    {
-                        trayFlashing = false;
-                        trayIcon.setImage(normalTrayIcon);
-                    }
+			MenuItem exitItem = new MenuItem("退出");
+			exitItem.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					clearClipboardCache();
+					System.exit(1);
+				}
+			});
 
-                    super.mouseClicked(e);
-                }
-            });
+			MenuItem showItem = new MenuItem("打开微信");
+			showItem.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setVisible(true);
+				}
+			});
+			menu.add(showItem);
+			menu.add(exitItem);
 
-            PopupMenu menu = new PopupMenu();
+			trayIcon.setPopupMenu(menu);
 
-            MenuItem exitItem = new MenuItem("退出");
-            exitItem.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    clearClipboardCache();
-                    System.exit(1);
-                }
-            });
+			systemTray.add(trayIcon);
 
-            MenuItem showItem = new MenuItem("打开微信");
-            showItem.addActionListener(new ActionListener()
-            {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    setVisible(true);
-                }
-            });
-            menu.add(showItem);
-            menu.add(exitItem);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
 
-            trayIcon.setPopupMenu(menu);
+	/**
+	 * 清除剪切板缓存文件
+	 */
+	private void clearClipboardCache() {
+		ClipboardUtil.clearCache();
+	}
 
-            systemTray.add(trayIcon);
+	/**
+	 * 设置任务栏图标闪动
+	 */
+	public void setTrayFlashing() {
+		trayFlashing = true;
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (trayFlashing) {
+					try {
+						trayIcon.setImage(emptyTrayIcon);
+						Thread.sleep(800);
 
-        }
-        catch (AWTException e)
-        {
-            e.printStackTrace();
-        }
-    }
+						trayIcon.setImage(normalTrayIcon);
+						Thread.sleep(800);
 
-    /**
-     * 清除剪切板缓存文件
-     */
-    private void clearClipboardCache()
-    {
-        ClipboardUtil.clearCache();
-    }
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 
-    /**
-     * 设置任务栏图标闪动
-     */
-    public void setTrayFlashing()
-    {
-        trayFlashing = true;
-        new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                while (trayFlashing)
-                {
-                    try
-                    {
-                        trayIcon.setImage(emptyTrayIcon);
-                        Thread.sleep(800);
+			}
+		}).start();
+	}
 
-                        trayIcon.setImage(normalTrayIcon);
-                        Thread.sleep(800);
+	public boolean isTrayFlashing() {
+		return trayFlashing;
+	}
 
-                    }
-                    catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
+	public static MainFrame getContext() {
+		return context;
+	}
 
-            }
-        }).start();
-    }
+	private void initComponents() {
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-    public boolean isTrayFlashing()
-    {
-        return trayFlashing;
-    }
+		// 任务栏图标
+		if (OSUtil.getOsType() != OSUtil.Mac_OS) {
+			setIconImage(IconUtil.getIcon(this, "/image/ic_launcher.png").getImage());
+		}
 
+		UIManager.put("Label.font", FontUtil.getDefaultFont());
+		UIManager.put("Panel.font", FontUtil.getDefaultFont());
+		UIManager.put("TextArea.font", FontUtil.getDefaultFont());
 
-    public static MainFrame getContext()
-    {
-        return context;
-    }
+		UIManager.put("Panel.background", Colors.WINDOW_BACKGROUND);
+		UIManager.put("CheckBox.background", Colors.WINDOW_BACKGROUND);
 
+		leftPanel = new LeftPanel();
+		leftPanel.setPreferredSize(new Dimension(260, currentWindowHeight));
 
-    private void initComponents()
-    {
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		rightPanel = new RightPanel();
+	}
 
-        // 任务栏图标
-        if (OSUtil.getOsType() != OSUtil.Mac_OS)
-        {
-            setIconImage(IconUtil.getIcon(this, "/image/ic_launcher.png").getImage());
-        }
+	private void initView() {
+		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 
-        UIManager.put("Label.font", FontUtil.getDefaultFont());
-        UIManager.put("Panel.font", FontUtil.getDefaultFont());
-        UIManager.put("TextArea.font", FontUtil.getDefaultFont());
+		if (OSUtil.getOsType() != OSUtil.Mac_OS) {
+			// 隐藏标题栏
+			setUndecorated(true);
 
-        UIManager.put("Panel.background", Colors.WINDOW_BACKGROUND);
-        UIManager.put("CheckBox.background", Colors.WINDOW_BACKGROUND);
+			String windows = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+			try {
+				UIManager.setLookAndFeel(windows);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
+		setListeners();
 
-        leftPanel = new LeftPanel();
-        leftPanel.setPreferredSize(new Dimension(260, currentWindowHeight));
+		add(leftPanel, BorderLayout.WEST);
+		add(rightPanel, BorderLayout.CENTER);
 
-        rightPanel = new RightPanel();
-    }
+		centerScreen();
+	}
 
-    private void initView()
-    {
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+	/**
+	 * 使窗口在屏幕中央显示
+	 */
+	private void centerScreen() {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		this.setLocation((tk.getScreenSize().width - currentWindowWidth) / 2,
+				(tk.getScreenSize().height - currentWindowHeight) / 2);
+	}
 
+	private void setListeners() {
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				currentWindowWidth = (int) e.getComponent().getBounds().getWidth();
+				currentWindowHeight = (int) e.getComponent().getBounds().getHeight();
+			}
+		});
+	}
 
-        if (OSUtil.getOsType() != OSUtil.Mac_OS)
-        {
-            // 隐藏标题栏
-            setUndecorated(true);
-
-            String windows = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-            try
-            {
-                UIManager.setLookAndFeel(windows);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        setListeners();
-
-
-        add(leftPanel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.CENTER);
-
-        centerScreen();
-    }
-
-
-    /**
-     * 使窗口在屏幕中央显示
-     */
-    private void centerScreen()
-    {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        this.setLocation((tk.getScreenSize().width - currentWindowWidth) / 2,
-                (tk.getScreenSize().height - currentWindowHeight) / 2);
-    }
-
-    private void setListeners()
-    {
-        addComponentListener(new ComponentAdapter()
-        {
-            @Override
-            public void componentResized(ComponentEvent e)
-            {
-                currentWindowWidth = (int) e.getComponent().getBounds().getWidth();
-                currentWindowHeight = (int) e.getComponent().getBounds().getHeight();
-            }
-        });
-    }
-
-    @Override
-    public void dispose()
-    {
-        // 移除托盘图标
-        SystemTray.getSystemTray().remove(trayIcon);
-        super.dispose();
-    }
+	@Override
+	public void dispose() {
+		// 移除托盘图标
+		SystemTray.getSystemTray().remove(trayIcon);
+		super.dispose();
+	}
 }
-

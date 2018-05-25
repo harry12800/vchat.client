@@ -9,27 +9,21 @@ import java.util.List;
 /**
  * Created by harry12800 on 08/06/2017.
  */
-public class FileAttachmentService extends BasicService<FileAttachmentDao, FileAttachment>
-{
-    public FileAttachmentService(SqlSession session)
-    {
-        dao = new FileAttachmentDao(session);
-        super.setDao(dao);
-    }
+public class FileAttachmentService extends BasicService<FileAttachmentDao, FileAttachment> {
+	public FileAttachmentService(SqlSession session) {
+		dao = new FileAttachmentDao(session);
+		super.setDao(dao);
+	}
 
-    public int insertOrUpdate(FileAttachment attachment)
-    {
-        if (exist(attachment.getId()))
-        {
-            return update(attachment);
-        }else
-        {
-            return insert(attachment);
-        }
-    }
+	public int insertOrUpdate(FileAttachment attachment) {
+		if (exist(attachment.getId())) {
+			return update(attachment);
+		} else {
+			return insert(attachment);
+		}
+	}
 
-    public List<FileAttachment> search(String key)
-    {
-        return dao.search(key);
-    }
+	public List<FileAttachment> search(String key) {
+		return dao.search(key);
+	}
 }

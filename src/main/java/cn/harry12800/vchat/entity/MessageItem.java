@@ -9,286 +9,236 @@ import cn.harry12800.vchat.db.model.Message;
  * Created by harry12800 on 20/03/2017.
  */
 
-public class MessageItem implements Comparable<MessageItem>
-{
-    public static final int SYSTEM_MESSAGE = 0;
-    public static final int LEFT_TEXT = 1;
-    public static final int LEFT_IMAGE = 2;
-    public static final int LEFT_ATTACHMENT = 3;
+public class MessageItem implements Comparable<MessageItem> {
+	public static final int SYSTEM_MESSAGE = 0;
+	public static final int LEFT_TEXT = 1;
+	public static final int LEFT_IMAGE = 2;
+	public static final int LEFT_ATTACHMENT = 3;
 
-    public static final int RIGHT_TEXT = -1;
-    public static final int RIGHT_IMAGE = -2;
-    public static final int RIGHT_ATTACHMENT = -3;
+	public static final int RIGHT_TEXT = -1;
+	public static final int RIGHT_IMAGE = -2;
+	public static final int RIGHT_ATTACHMENT = -3;
 
+	private String id;
+	private String roomId;
+	private String messageContent;
+	private boolean groupable;
+	private long timestamp;
+	private String senderUsername;
+	private String senderId;
+	private long updatedAt;
+	private int unreadCount;
+	private boolean needToResend;
+	private int progress;
+	private boolean deleted;
+	private int messageType;
 
-    private String id;
-    private String roomId;
-    private String messageContent;
-    private boolean groupable;
-    private long timestamp;
-    private String senderUsername;
-    private String senderId;
-    private long updatedAt;
-    private int unreadCount;
-    private boolean needToResend;
-    private int progress;
-    private boolean deleted;
-    private int messageType;
+	/*List<FileAttachmentItem> fileAttachments = new ArrayList<>();
+	List<ImageAttachmentItem> imageAttachments = new ArrayList<>();*/
 
-    /*List<FileAttachmentItem> fileAttachments = new ArrayList<>();
-    List<ImageAttachmentItem> imageAttachments = new ArrayList<>();*/
+	private FileAttachmentItem fileAttachment;
+	private ImageAttachmentItem imageAttachment;
 
-    private FileAttachmentItem fileAttachment;
-    private ImageAttachmentItem imageAttachment;
+	public MessageItem() {
+	}
 
-    public MessageItem()
-    {
-    }
+	public MessageItem(Message message, String currentUserId) {
+		this();
+		this.setId(message.getId());
+		this.setMessageContent(message.getMessageContent());
+		this.setGroupable(message.isGroupable());
+		this.setRoomId(message.getRoomId());
+		this.setSenderId(message.getSenderId());
+		this.setSenderUsername(message.getSenderUsername());
+		this.setTimestamp(message.getTimestamp());
+		this.setUpdatedAt(message.getUpdatedAt());
+		this.setNeedToResend(message.isNeedToResend());
+		this.setProgress(message.getProgress());
+		this.setDeleted(message.isDeleted());
 
-    public MessageItem(Message message, String currentUserId)
-    {
-        this();
-        this.setId(message.getId());
-        this.setMessageContent(message.getMessageContent());
-        this.setGroupable(message.isGroupable());
-        this.setRoomId(message.getRoomId());
-        this.setSenderId(message.getSenderId());
-        this.setSenderUsername(message.getSenderUsername());
-        this.setTimestamp(message.getTimestamp());
-        this.setUpdatedAt(message.getUpdatedAt());
-        this.setNeedToResend(message.isNeedToResend());
-        this.setProgress(message.getProgress());
-        this.setDeleted(message.isDeleted());
+		boolean isFileAttachment = false;
+		boolean isImageAttachment = false;
 
-        boolean isFileAttachment = false;
-        boolean isImageAttachment = false;
+		if (message.getFileAttachmentId() != null) {
+			isFileAttachment = true;
 
-        if (message.getFileAttachmentId() != null)
-        {
-            isFileAttachment = true;
+			FileAttachment fa = Launcher.fileAttachmentService.findById(message.getFileAttachmentId());
+			this.fileAttachment = new FileAttachmentItem(fa);
+		}
+		if (message.getImageAttachmentId() != null) {
+			isImageAttachment = true;
 
-            FileAttachment fa = Launcher.fileAttachmentService.findById(message.getFileAttachmentId());
-            this.fileAttachment = new FileAttachmentItem(fa);
-        }
-        if (message.getImageAttachmentId() != null)
-        {
-            isImageAttachment = true;
+			ImageAttachment ia = Launcher.imageAttachmentService.findById(message.getImageAttachmentId());
+			this.imageAttachment = new ImageAttachmentItem(ia);
+		}
 
-            ImageAttachment ia = Launcher.imageAttachmentService.findById(message.getImageAttachmentId());
-            this.imageAttachment = new ImageAttachmentItem(ia);
-        }
+		/*for (FileAttachment fa : message.getFileAttachments())
+		{
+		    this.fileAttachments.add(new FileAttachmentItem(fa));
+		}
+		
+		for (ImageAttachment ia : message.getImageAttachments())
+		{
+		    this.imageAttachments.add(new ImageAttachmentItem(ia));
+		}*/
 
-        /*for (FileAttachment fa : message.getFileAttachments())
-        {
-            this.fileAttachments.add(new FileAttachmentItem(fa));
-        }
+		if (message.isSystemMessage()) {
+			this.setMessageType(SYSTEM_MESSAGE);
+		} else {
+			// 自己发的消息
+			if (message.getSenderId().equals(currentUserId)) {
+				// 文件附件
+				if (isFileAttachment) {
+					this.setMessageType(RIGHT_ATTACHMENT);
+				}
+				// 图片消息
+				else if (isImageAttachment) {
+					this.setMessageType(RIGHT_IMAGE);
+				}
+				// 普通文本消息
+				else {
+					this.setMessageType(RIGHT_TEXT);
+				}
+			} else {
+				// 文件附件
+				if (isFileAttachment) {
+					this.setMessageType(LEFT_ATTACHMENT);
+				}
+				// 图片消息
+				else if (isImageAttachment) {
+					this.setMessageType(LEFT_IMAGE);
+				}
+				// 普通文本消息
+				else {
+					this.setMessageType(LEFT_TEXT);
+				}
+			}
+		}
+	}
 
-        for (ImageAttachment ia : message.getImageAttachments())
-        {
-            this.imageAttachments.add(new ImageAttachmentItem(ia));
-        }*/
+	@Override
+	public int compareTo(MessageItem o) {
+		return (int) (this.getTimestamp() - o.getTimestamp());
 
-        if (message.isSystemMessage())
-        {
-            this.setMessageType(SYSTEM_MESSAGE);
-        }
-        else
-        {
-            // 自己发的消息
-            if (message.getSenderId().equals(currentUserId))
-            {
-                // 文件附件
-                if (isFileAttachment)
-                {
-                    this.setMessageType(RIGHT_ATTACHMENT);
-                }
-                // 图片消息
-                else if (isImageAttachment)
-                {
-                    this.setMessageType(RIGHT_IMAGE);
-                }
-                // 普通文本消息
-                else
-                {
-                    this.setMessageType(RIGHT_TEXT);
-                }
-            }
-            else
-            {
-                // 文件附件
-                if (isFileAttachment)
-                {
-                    this.setMessageType(LEFT_ATTACHMENT);
-                }
-                // 图片消息
-                else if (isImageAttachment)
-                {
-                    this.setMessageType(LEFT_IMAGE);
-                }
-                // 普通文本消息
-                else
-                {
-                    this.setMessageType(LEFT_TEXT);
-                }
-            }
-        }
-    }
+	}
 
-    @Override
-    public int compareTo( MessageItem o)
-    {
-        return (int) (this.getTimestamp() - o.getTimestamp());
+	public String getId() {
+		return id;
+	}
 
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getId()
-    {
-        return id;
-    }
+	public String getRoomId() {
+		return roomId;
+	}
 
-    public void setId(String id)
-    {
-        this.id = id;
-    }
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
 
-    public String getRoomId()
-    {
-        return roomId;
-    }
+	public String getMessageContent() {
+		return messageContent;
+	}
 
-    public void setRoomId(String roomId)
-    {
-        this.roomId = roomId;
-    }
+	public void setMessageContent(String messageContent) {
+		this.messageContent = messageContent;
+	}
 
-    public String getMessageContent()
-    {
-        return messageContent;
-    }
+	public boolean isGroupable() {
+		return groupable;
+	}
 
-    public void setMessageContent(String messageContent)
-    {
-        this.messageContent = messageContent;
-    }
+	public void setGroupable(boolean groupable) {
+		this.groupable = groupable;
+	}
 
-    public boolean isGroupable()
-    {
-        return groupable;
-    }
+	public long getTimestamp() {
+		return timestamp;
+	}
 
-    public void setGroupable(boolean groupable)
-    {
-        this.groupable = groupable;
-    }
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public long getTimestamp()
-    {
-        return timestamp;
-    }
+	public String getSenderUsername() {
+		return senderUsername;
+	}
 
-    public void setTimestamp(long timestamp)
-    {
-        this.timestamp = timestamp;
-    }
+	public void setSenderUsername(String senderUsername) {
+		this.senderUsername = senderUsername;
+	}
 
-    public String getSenderUsername()
-    {
-        return senderUsername;
-    }
+	public String getSenderId() {
+		return senderId;
+	}
 
-    public void setSenderUsername(String senderUsername)
-    {
-        this.senderUsername = senderUsername;
-    }
+	public void setSenderId(String senderId) {
+		this.senderId = senderId;
+	}
 
-    public String getSenderId()
-    {
-        return senderId;
-    }
+	public long getUpdatedAt() {
+		return updatedAt;
+	}
 
-    public void setSenderId(String senderId)
-    {
-        this.senderId = senderId;
-    }
+	public void setUpdatedAt(long updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
-    public long getUpdatedAt()
-    {
-        return updatedAt;
-    }
+	public int getUnreadCount() {
+		return unreadCount;
+	}
 
-    public void setUpdatedAt(long updatedAt)
-    {
-        this.updatedAt = updatedAt;
-    }
+	public void setUnreadCount(int unreadCount) {
+		this.unreadCount = unreadCount;
+	}
 
-    public int getUnreadCount()
-    {
-        return unreadCount;
-    }
+	public boolean isNeedToResend() {
+		return needToResend;
+	}
 
-    public void setUnreadCount(int unreadCount)
-    {
-        this.unreadCount = unreadCount;
-    }
+	public void setNeedToResend(boolean needToResend) {
+		this.needToResend = needToResend;
+	}
 
-    public boolean isNeedToResend()
-    {
-        return needToResend;
-    }
+	public int getProgress() {
+		return progress;
+	}
 
-    public void setNeedToResend(boolean needToResend)
-    {
-        this.needToResend = needToResend;
-    }
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
 
-    public int getProgress()
-    {
-        return progress;
-    }
+	public boolean isDeleted() {
+		return deleted;
+	}
 
-    public void setProgress(int progress)
-    {
-        this.progress = progress;
-    }
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
-    public boolean isDeleted()
-    {
-        return deleted;
-    }
+	public int getMessageType() {
+		return messageType;
+	}
 
-    public void setDeleted(boolean deleted)
-    {
-        this.deleted = deleted;
-    }
+	public void setMessageType(int messageType) {
+		this.messageType = messageType;
+	}
 
-    public int getMessageType()
-    {
-        return messageType;
-    }
+	public FileAttachmentItem getFileAttachment() {
+		return fileAttachment;
+	}
 
-    public void setMessageType(int messageType)
-    {
-        this.messageType = messageType;
-    }
+	public void setFileAttachment(FileAttachmentItem fileAttachment) {
+		this.fileAttachment = fileAttachment;
+	}
 
-    public FileAttachmentItem getFileAttachment()
-    {
-        return fileAttachment;
-    }
+	public ImageAttachmentItem getImageAttachment() {
+		return imageAttachment;
+	}
 
-    public void setFileAttachment(FileAttachmentItem fileAttachment)
-    {
-        this.fileAttachment = fileAttachment;
-    }
-
-    public ImageAttachmentItem getImageAttachment()
-    {
-        return imageAttachment;
-    }
-
-    public void setImageAttachment(ImageAttachmentItem imageAttachment)
-    {
-        this.imageAttachment = imageAttachment;
-    }
+	public void setImageAttachment(ImageAttachmentItem imageAttachment) {
+		this.imageAttachment = imageAttachment;
+	}
 }
-

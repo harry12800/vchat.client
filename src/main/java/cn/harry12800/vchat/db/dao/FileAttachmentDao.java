@@ -10,17 +10,14 @@ import java.util.Map;
 /**
  * Created by harry12800 on 09/06/2017.
  */
-public class FileAttachmentDao extends BasicDao
-{
-    public FileAttachmentDao(SqlSession session)
-    {
-        super(session, FileAttachmentDao.class);
-    }
+public class FileAttachmentDao extends BasicDao {
+	public FileAttachmentDao(SqlSession session) {
+		super(session, FileAttachmentDao.class);
+	}
 
-    public List<FileAttachment> search(String key)
-    {
-        Map map = new HashMap();
-        map.put("condition", "'%" + key + "%'");
-        return session.selectList(FileAttachmentDao.class.getName() + ".search", map);
-    }
+	public List<FileAttachment> search(String key) {
+		Map map = new HashMap();
+		map.put("condition", "'%" + key + "%'");
+		return session.selectList(FileAttachmentDao.class.getName() + ".search", map);
+	}
 }

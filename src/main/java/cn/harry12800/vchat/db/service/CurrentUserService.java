@@ -8,31 +8,26 @@ import org.sqlite.core.DB;
 /**
  * Created by harry12800 on 08/06/2017.
  */
-public class CurrentUserService extends BasicService<CurrentUserDao, CurrentUser>
-{
-    public CurrentUserService(SqlSession session)
-    {
-        dao = new CurrentUserDao(session);
-        super.setDao(dao);
-    }
+public class CurrentUserService extends BasicService<CurrentUserDao, CurrentUser> {
+	public CurrentUserService(SqlSession session) {
+		dao = new CurrentUserDao(session);
+		super.setDao(dao);
+	}
 
-    public int insertOrUpdate(CurrentUser currentUser)
-    {
-        if (exist(currentUser.getUserId()))
-        {
-            return update(currentUser);
-        }else
-        {
-            return insert(currentUser);
-        }
-    }
+	public int insertOrUpdate(CurrentUser currentUser) {
+		if (exist(currentUser.getUserId())) {
+			return update(currentUser);
+		} else {
+			return insert(currentUser);
+		}
+	}
 
-    /*@Override
-    public List<CurrentUser> findAll()
-    {
-        // TODO: 从数据库获取当前登录用户
-        List<CurrentUser> list = new ArrayList();
-        list.add(new CurrentUser("Ni7bJcX3W8yExKSa3", "song", "", "", "", "", "song", "", ""));
-        return list;
-    }*/
+	/*@Override
+	public List<CurrentUser> findAll()
+	{
+	    // TODO: 从数据库获取当前登录用户
+	    List<CurrentUser> list = new ArrayList();
+	    list.add(new CurrentUser("Ni7bJcX3W8yExKSa3", "song", "", "", "", "", "song", "", ""));
+	    return list;
+	}*/
 }

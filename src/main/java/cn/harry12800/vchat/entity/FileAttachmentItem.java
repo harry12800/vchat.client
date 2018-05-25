@@ -6,77 +6,65 @@ import cn.harry12800.vchat.db.model.FileAttachment;
  * Created by harry12800 on 17/05/2017.
  */
 
-public class FileAttachmentItem
-{
-    private String id;
-    private String title;
-    private String link;
-    private String description;
+public class FileAttachmentItem {
+	private String id;
+	private String title;
+	private String link;
+	private String description;
 
-    public FileAttachmentItem()
-    {
+	public FileAttachmentItem() {
 
-    }
+	}
 
-    public FileAttachmentItem(String link)
-    {
+	public FileAttachmentItem(String link) {
 
-        this.link = link;
-    }
+		this.link = link;
+	}
 
-    public FileAttachmentItem(FileAttachment fa)
-    {
-        this.id = fa.getId();
-        this.title = fa.getTitle();
-        this.link = fa.getLink();
-        this.description = fa.getDescription();
-    }
+	public FileAttachmentItem(FileAttachment fa) {
+		this.id = fa.getId();
+		this.title = fa.getTitle();
+		this.link = fa.getLink();
+		this.description = fa.getDescription();
+	}
 
-    /*public FileAttachmentItem(FileAttachment fa)
-    {
-        this.id = fa.getId();
-        this.title = fa.getTitle();
-        this.link = fa.getLink();
-        this.description = fa.getDescription();
-    }*/
+	/*public FileAttachmentItem(FileAttachment fa)
+	{
+	    this.id = fa.getId();
+	    this.title = fa.getTitle();
+	    this.link = fa.getLink();
+	    this.description = fa.getDescription();
+	}*/
 
-    public String getId()
-    {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id)
-    {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getTitle()
-    {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getLink()
-    {
-        return link;
-    }
+	public String getLink() {
+		return link;
+	}
 
-    public void setLink(String link)
-    {
-        this.link = link;
-    }
+	public void setLink(String link) {
+		this.link = link;
+	}
 
-    public String getDescription()
-    {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

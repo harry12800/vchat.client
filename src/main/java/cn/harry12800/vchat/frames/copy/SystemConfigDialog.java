@@ -13,268 +13,230 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 07/06/2017.
  */
-public class SystemConfigDialog extends JDialog
-{
-    private static SystemConfigDialog context;
-    private JPanel buttonPanel;
-    //private JButton cancelButton;
-    private JButton okButton;
+public class SystemConfigDialog extends JDialog {
+	private static SystemConfigDialog context;
+	private JPanel buttonPanel;
+	//private JButton cancelButton;
+	private JButton okButton;
 
-    private JPanel settingPanel;
-    private JPanel settingMenuPanel;
-    private JPanel settingAreaPanel;
-    private JLabel changeAvatarLabel;
-    private JLabel changePasswordLabel;
-    private JLabel meLabel;
-    private JLabel aboutLabel;
-    private JLabel clearCacheLabel;
+	private JPanel settingPanel;
+	private JPanel settingMenuPanel;
+	private JPanel settingAreaPanel;
+	private JLabel changeAvatarLabel;
+	private JLabel changePasswordLabel;
+	private JLabel meLabel;
+	private JLabel aboutLabel;
+	private JLabel clearCacheLabel;
 
-    private ChangeAvatarPanel changeAvatarPanel;
-    private ChangePasswordPanel changePasswordPanel;
-    private MePanel mePanel;
-    private AboutPanel aboutPanel;
-    private ClearCachePanel clearCachePanel;
+	private ChangeAvatarPanel changeAvatarPanel;
+	private ChangePasswordPanel changePasswordPanel;
+	private MePanel mePanel;
+	private AboutPanel aboutPanel;
+	private ClearCachePanel clearCachePanel;
 
+	private JLabel selectedLabel;
 
-    private JLabel selectedLabel;
+	public static final String CHANGE_AVATAR = "CHANGE_AVATAR";
+	public static final String CHANGE_PASSWORD = "CHANGE_PASSWORD";
+	public static final String ME = "ME";
+	public static final String ABOUT = "ABOUT";
+	public static final String CLEAR_CHACE = "CLEAR_CHACE";
 
-    public static final String CHANGE_AVATAR = "CHANGE_AVATAR";
-    public static final String CHANGE_PASSWORD = "CHANGE_PASSWORD";
-    public static final String ME = "ME";
-    public static final String ABOUT = "ABOUT";
-    public static final String CLEAR_CHACE = "CLEAR_CHACE";
+	private CardLayout cardLayout = new CardLayout();
 
-    private CardLayout cardLayout = new CardLayout();
+	public static final int DIALOG_WIDTH = 580;
+	public static final int DIALOG_HEIGHT = 500;
+	private Cursor handCursor;
 
+	public SystemConfigDialog(Frame owner, boolean modal) {
+		super(owner, modal);
+		context = this;
 
-    public static final int DIALOG_WIDTH = 580;
-    public static final int DIALOG_HEIGHT = 500;
-    private Cursor handCursor;
+		initComponents();
+		initData();
 
+		initView();
+		setListeners();
+	}
 
-    public SystemConfigDialog(Frame owner, boolean modal)
-    {
-        super(owner, modal);
-        context = this;
+	private void initData() {
 
-        initComponents();
-        initData();
+	}
 
-        initView();
-        setListeners();
-    }
+	private void initComponents() {
+		int posX = MainFrame.getContext().getX();
+		int posY = MainFrame.getContext().getY();
 
-    private void initData()
-    {
+		posX = posX + (MainFrame.getContext().currentWindowWidth - DIALOG_WIDTH) / 2;
+		posY = posY + (MainFrame.getContext().currentWindowHeight - DIALOG_HEIGHT) / 2;
+		setBounds(posX, posY, DIALOG_WIDTH, DIALOG_HEIGHT);
+		setUndecorated(true);
 
-    }
+		getRootPane().setBorder(new LineBorder(Colors.DIALOG_BORDER));
 
+		// 按钮组
+		buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+		/*cancelButton = new RCButton("取消");
+		cancelButton.setForeground(Colors.FONT_BLACK);*/
+		okButton = new RCButton("关闭", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
+		okButton.setPreferredSize(new Dimension(75, 30));
 
-    private void initComponents()
-    {
-        int posX = MainFrame.getContext().getX();
-        int posY = MainFrame.getContext().getY();
+		// 设置面板
+		settingPanel = new JPanel();
 
-        posX = posX + (MainFrame.getContext().currentWindowWidth - DIALOG_WIDTH) / 2;
-        posY = posY + (MainFrame.getContext().currentWindowHeight - DIALOG_HEIGHT) / 2;
-        setBounds(posX, posY, DIALOG_WIDTH, DIALOG_HEIGHT);
-        setUndecorated(true);
+		settingMenuPanel = new JPanel();
+		settingAreaPanel = new JPanel();
+		settingAreaPanel.setBorder(new RCBorder(RCBorder.LEFT, Colors.SCROLL_BAR_TRACK_LIGHT));
 
-        getRootPane().setBorder(new LineBorder(Colors.DIALOG_BORDER));
+		handCursor = new Cursor(Cursor.HAND_CURSOR);
 
-        // 按钮组
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-        /*cancelButton = new RCButton("取消");
-        cancelButton.setForeground(Colors.FONT_BLACK);*/
-        okButton = new RCButton("关闭", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
-        okButton.setPreferredSize(new Dimension(75, 30));
+		// 设置头像按钮
+		changeAvatarLabel = new JLabel("更改头像");
+		processButtonLabel(changeAvatarLabel);
 
-        // 设置面板
-        settingPanel = new JPanel();
+		// 更改密码按钮
+		changePasswordLabel = new JLabel("修改密码");
+		processButtonLabel(changePasswordLabel);
 
-        settingMenuPanel = new JPanel();
-        settingAreaPanel = new JPanel();
-        settingAreaPanel.setBorder(new RCBorder(RCBorder.LEFT, Colors.SCROLL_BAR_TRACK_LIGHT));
+		// "我" 按钮
+		meLabel = new JLabel("我");
+		processButtonLabel(meLabel);
 
+		// 关于 按钮
+		aboutLabel = new JLabel("关于");
+		processButtonLabel(aboutLabel);
 
-        handCursor = new Cursor(Cursor.HAND_CURSOR);
+		// 清除缓存 按钮
+		clearCacheLabel = new JLabel("清除缓存");
+		processButtonLabel(clearCacheLabel);
 
-        // 设置头像按钮
-        changeAvatarLabel = new JLabel("更改头像");
-        processButtonLabel(changeAvatarLabel);
+		// 更改头像面板
+		changeAvatarPanel = new ChangeAvatarPanel();
 
-        // 更改密码按钮
-        changePasswordLabel = new JLabel("修改密码");
-        processButtonLabel(changePasswordLabel);
+		// 更改密码面板
+		changePasswordPanel = new ChangePasswordPanel();
 
-        // "我" 按钮
-        meLabel = new JLabel("我");
-        processButtonLabel(meLabel);
+		// "我" 面板
+		mePanel = new MePanel();
 
-        // 关于 按钮
-        aboutLabel = new JLabel("关于");
-        processButtonLabel(aboutLabel);
+		// 关于面板
+		aboutPanel = new AboutPanel();
 
-        // 清除缓存 按钮
-        clearCacheLabel = new JLabel("清除缓存");
-        processButtonLabel(clearCacheLabel);
+		// 清除缓存面板
+		clearCachePanel = new ClearCachePanel();
 
+	}
 
-        // 更改头像面板
-        changeAvatarPanel = new ChangeAvatarPanel();
+	private void initView() {
+		//buttonPanel.add(cancelButton, new GBC(0, 0).setWeight(1, 1).setInsets(15, 0, 0, 0));
+		buttonPanel.add(okButton, new GBC(1, 0).setWeight(1, 1));
 
-        // 更改密码面板
-        changePasswordPanel = new ChangePasswordPanel();
+		settingPanel.setLayout(new GridBagLayout());
+		settingPanel.add(settingMenuPanel, new GBC(0, 0).setWeight(1, 1).setFill(GBC.BOTH).setInsets(10, 0, 0, 0));
+		settingPanel.add(settingAreaPanel, new GBC(1, 0).setWeight(6, 1).setFill(GBC.BOTH).setInsets(10, 0, 0, 0));
 
-        // "我" 面板
-        mePanel = new MePanel();
+		settingMenuPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0, true, false));
+		settingMenuPanel.add(meLabel);
+		settingMenuPanel.add(changeAvatarLabel);
+		settingMenuPanel.add(changePasswordLabel);
+		settingMenuPanel.add(clearCacheLabel);
+		settingMenuPanel.add(aboutLabel);
 
-        // 关于面板
-        aboutPanel = new AboutPanel();
+		settingAreaPanel.setLayout(cardLayout);
+		settingAreaPanel.add(mePanel, ME);
+		settingAreaPanel.add(changeAvatarPanel, CHANGE_AVATAR);
+		settingAreaPanel.add(changePasswordPanel, CHANGE_PASSWORD);
+		settingAreaPanel.add(aboutPanel, ABOUT);
+		settingAreaPanel.add(clearCachePanel, CLEAR_CHACE);
 
-        // 清除缓存面板
-        clearCachePanel = new ClearCachePanel();
+		add(settingPanel, BorderLayout.CENTER);
+		add(buttonPanel, BorderLayout.SOUTH);
 
-    }
+		selectedLabel(meLabel);
+	}
 
+	private void setListeners() {
+		okButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setVisible(false);
 
-    private void initView()
-    {
-        //buttonPanel.add(cancelButton, new GBC(0, 0).setWeight(1, 1).setInsets(15, 0, 0, 0));
-        buttonPanel.add(okButton, new GBC(1, 0).setWeight(1, 1));
+				super.mouseClicked(e);
+			}
+		});
 
-        settingPanel.setLayout(new GridBagLayout());
-        settingPanel.add(settingMenuPanel, new GBC(0, 0).setWeight(1, 1).setFill(GBC.BOTH).setInsets(10,0,0,0));
-        settingPanel.add(settingAreaPanel, new GBC(1, 0).setWeight(6, 1).setFill(GBC.BOTH).setInsets(10,0,0,0));
+		MouseAdapter itemMouseListener = new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				JLabel source = ((JLabel) e.getSource());
+				if (source != selectedLabel) {
+					source.setBackground(Colors.ITEM_SELECTED_LIGHT);
+				}
+				super.mouseEntered(e);
+			}
 
-        settingMenuPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 0, true, false));
-        settingMenuPanel.add(meLabel);
-        settingMenuPanel.add(changeAvatarLabel);
-        settingMenuPanel.add(changePasswordLabel);
-        settingMenuPanel.add(clearCacheLabel);
-        settingMenuPanel.add(aboutLabel);
+			@Override
+			public void mouseExited(MouseEvent e) {
+				JLabel source = ((JLabel) e.getSource());
+				if (source != selectedLabel) {
+					source.setBackground(Colors.WINDOW_BACKGROUND);
+				}
+				super.mouseExited(e);
+			}
 
-        settingAreaPanel.setLayout(cardLayout);
-        settingAreaPanel.add(mePanel, ME);
-        settingAreaPanel.add(changeAvatarPanel, CHANGE_AVATAR);
-        settingAreaPanel.add(changePasswordPanel, CHANGE_PASSWORD);
-        settingAreaPanel.add(aboutPanel, ABOUT);
-        settingAreaPanel.add(clearCachePanel, CLEAR_CHACE);
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JLabel source = ((JLabel) e.getSource());
 
+				if (source != selectedLabel) {
+					selectedLabel(source);
 
-        add(settingPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+					if (source.getText().equals("更改头像")) {
+						cardLayout.show(settingAreaPanel, CHANGE_AVATAR);
+					} else if (source.getText().equals("修改密码")) {
+						cardLayout.show(settingAreaPanel, CHANGE_PASSWORD);
+					} else if (source.getText().equals("我")) {
+						cardLayout.show(settingAreaPanel, ME);
+					} else if (source.getText().equals("关于")) {
+						cardLayout.show(settingAreaPanel, ABOUT);
+					} else if (source.getText().equals("清除缓存")) {
+						cardLayout.show(settingAreaPanel, CLEAR_CHACE);
+					}
+				}
 
-        selectedLabel(meLabel);
-    }
+				super.mouseClicked(e);
+			}
+		};
 
-    private void setListeners()
-    {
-        okButton.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                setVisible(false);
+		changeAvatarLabel.addMouseListener(itemMouseListener);
+		changePasswordLabel.addMouseListener(itemMouseListener);
+		meLabel.addMouseListener(itemMouseListener);
+		aboutLabel.addMouseListener(itemMouseListener);
+		clearCacheLabel.addMouseListener(itemMouseListener);
+	}
 
-                super.mouseClicked(e);
-            }
-        });
+	private void selectedLabel(JLabel label) {
+		selectedLabel = label;
 
-        MouseAdapter itemMouseListener = new MouseAdapter()
-        {
-            @Override
-            public void mouseEntered(MouseEvent e)
-            {
-                JLabel source = ((JLabel) e.getSource());
-                if (source != selectedLabel)
-                {
-                    source.setBackground(Colors.ITEM_SELECTED_LIGHT);
-                }
-                super.mouseEntered(e);
-            }
+		for (Component component : settingMenuPanel.getComponents()) {
+			component.setBackground(Colors.WINDOW_BACKGROUND);
+		}
 
-            @Override
-            public void mouseExited(MouseEvent e)
-            {
-                JLabel source = ((JLabel) e.getSource());
-                if (source != selectedLabel)
-                {
-                    source.setBackground(Colors.WINDOW_BACKGROUND);
-                }
-                super.mouseExited(e);
-            }
+		label.setBackground(Colors.SCROLL_BAR_TRACK_LIGHT);
+	}
 
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                JLabel source = ((JLabel) e.getSource());
+	public static SystemConfigDialog getContext() {
+		return context;
+	}
 
-                if (source != selectedLabel)
-                {
-                    selectedLabel(source);
-
-                    if (source.getText().equals("更改头像"))
-                    {
-                        cardLayout.show(settingAreaPanel, CHANGE_AVATAR);
-                    }
-                    else if (source.getText().equals("修改密码"))
-                    {
-                        cardLayout.show(settingAreaPanel, CHANGE_PASSWORD);
-                    }
-                    else if (source.getText().equals("我"))
-                    {
-                        cardLayout.show(settingAreaPanel, ME);
-                    }
-                    else if (source.getText().equals("关于"))
-                    {
-                        cardLayout.show(settingAreaPanel, ABOUT);
-                    }
-                    else if (source.getText().equals("清除缓存"))
-                    {
-                        cardLayout.show(settingAreaPanel, CLEAR_CHACE);
-                    }
-                }
-
-
-                super.mouseClicked(e);
-            }
-        };
-
-        changeAvatarLabel.addMouseListener(itemMouseListener);
-        changePasswordLabel.addMouseListener(itemMouseListener);
-        meLabel.addMouseListener(itemMouseListener);
-        aboutLabel.addMouseListener(itemMouseListener);
-        clearCacheLabel.addMouseListener(itemMouseListener);
-    }
-
-    private void selectedLabel(JLabel label)
-    {
-        selectedLabel = label;
-
-        for (Component component : settingMenuPanel.getComponents())
-        {
-            component.setBackground(Colors.WINDOW_BACKGROUND);
-        }
-
-        label.setBackground(Colors.SCROLL_BAR_TRACK_LIGHT);
-    }
-
-
-    public static SystemConfigDialog getContext()
-    {
-        return context;
-    }
-
-    private void processButtonLabel(JLabel label)
-    {
-        label.setFont(FontUtil.getDefaultFont(13));
-        label.setForeground(Colors.DARKER);
-        label.setBorder(new RCBorder(RCBorder.BOTTOM, Colors.SHADOW));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setPreferredSize(new Dimension(50, 30));
-        label.setCursor(handCursor);
-        label.setOpaque(true);
-    }
+	private void processButtonLabel(JLabel label) {
+		label.setFont(FontUtil.getDefaultFont(13));
+		label.setForeground(Colors.DARKER);
+		label.setBorder(new RCBorder(RCBorder.BOTTOM, Colors.SHADOW));
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setPreferredSize(new Dimension(50, 30));
+		label.setCursor(handCursor);
+		label.setOpaque(true);
+	}
 }

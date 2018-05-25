@@ -15,56 +15,48 @@ import java.io.File;
  * Created by harry12800 on 29/06/2017.
  */
 @SuppressWarnings("serial")
-public class FileEditorThumbnail extends JPanel
-{
-    private JLabel icon;
-    private JLabel text;
+public class FileEditorThumbnail extends JPanel {
+	private JLabel icon;
+	private JLabel text;
 
-    private String path;
-    private AttachmentIconHelper attachmentIconHelper = new AttachmentIconHelper();
+	private String path;
+	private AttachmentIconHelper attachmentIconHelper = new AttachmentIconHelper();
 
-    public FileEditorThumbnail(String path)
-    {
-        this.path = path;
+	public FileEditorThumbnail(String path) {
+		this.path = path;
 
-        initComponents();
-        initView();
-    }
+		initComponents();
+		initView();
+	}
 
+	private void initComponents() {
+		setPreferredSize(new Dimension(100, 70));
+		setMaximumSize(new Dimension(100, 70));
+		setBackground(Colors.FONT_WHITE);
+		setBorder(new LineBorder(Colors.LIGHT_GRAY));
 
-    private void initComponents()
-    {
-        setPreferredSize(new Dimension(100, 70));
-        setMaximumSize(new Dimension(100, 70));
-        setBackground(Colors.FONT_WHITE);
-        setBorder(new LineBorder(Colors.LIGHT_GRAY));
+		icon = new JLabel();
+		icon.setHorizontalAlignment(SwingConstants.CENTER);
+		ImageIcon imageIcon = attachmentIconHelper.getImageIcon(path, 35, 35);
+		icon.setIcon(imageIcon);
 
-        icon = new JLabel();
-        icon.setHorizontalAlignment(SwingConstants.CENTER);
-        ImageIcon imageIcon = attachmentIconHelper.getImageIcon(path, 35, 35);
-        icon.setIcon(imageIcon);
+		text = new JLabel();
+		text.setFont(FontUtil.getDefaultFont(12));
+		text.setText(path.substring(path.lastIndexOf(File.separator) + 1));
+		text.setHorizontalAlignment(SwingConstants.CENTER);
+	}
 
+	private void initView() {
+		setLayout(new GridBagLayout());
+		add(icon, new GBC(0, 0).setFill(GBC.BOTH).setInsets(5).setWeight(1, 1));
+		add(text, new GBC(0, 1).setFill(GBC.BOTH).setInsets(5).setWeight(1, 1));
+	}
 
-        text = new JLabel();
-        text.setFont(FontUtil.getDefaultFont(12));
-        text.setText(path.substring(path.lastIndexOf(File.separator) + 1));
-        text.setHorizontalAlignment(SwingConstants.CENTER);
-    }
+	public String getPath() {
+		return path;
+	}
 
-    private void initView()
-    {
-        setLayout(new GridBagLayout());
-        add(icon, new GBC(0, 0).setFill(GBC.BOTH).setInsets(5).setWeight(1, 1));
-        add(text, new GBC(0, 1).setFill(GBC.BOTH).setInsets(5).setWeight(1, 1));
-    }
-
-    public String getPath()
-    {
-        return path;
-    }
-
-    public void setPath(String path)
-    {
-        this.path = path;
-    }
+	public void setPath(String path) {
+		this.path = path;
+	}
 }

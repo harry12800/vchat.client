@@ -6,13 +6,12 @@ import java.awt.event.MouseListener;
 /**
  * Created by harry12800 on 27/06/2017.
  */
-public interface RCMessageBubble
-{
-    void addMouseListener(MouseListener l);
+public interface RCMessageBubble {
+	void addMouseListener(MouseListener l);
 
-    void setBackgroundIcon(Icon icon);
+	void setBackgroundIcon(Icon icon);
 
-    NinePatchImageIcon getBackgroundNormalIcon();
+	NinePatchImageIcon getBackgroundNormalIcon();
 
-    NinePatchImageIcon getBackgroundActiveIcon();
+	NinePatchImageIcon getBackgroundActiveIcon();
 }

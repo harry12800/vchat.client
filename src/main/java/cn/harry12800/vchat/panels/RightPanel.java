@@ -9,97 +9,81 @@ import java.awt.*;
 /**
  * Created by harry12800 on 17-5-29.
  */
-public class RightPanel extends JPanel
-{
-    private static RightPanel context;
-    private TitlePanel titlePanel;
-    private RoomMembersPanel roomMembersPanel;
+public class RightPanel extends JPanel {
+	private static RightPanel context;
+	private TitlePanel titlePanel;
+	private RoomMembersPanel roomMembersPanel;
 
-    private ChatPanel chatPanel;
-    private TipPanel tipPanel;
-    private UserInfoPanel userInfoPanel;
+	private ChatPanel chatPanel;
+	private TipPanel tipPanel;
+	private UserInfoPanel userInfoPanel;
 
+	private JPanel contentPanel;
 
-    private JPanel contentPanel;
+	private CardLayout cardLayout;
 
-    private CardLayout cardLayout;
+	public static final String MESSAGE = "MESSAGE";
+	public static final String TIP = "TIP";
+	public static final String USER_INFO = "USER_INFO";
 
-    public static final String MESSAGE = "MESSAGE";
-    public static final String TIP = "TIP";
-    public static final String USER_INFO = "USER_INFO";
+	public RightPanel() {
+		context = this;
+		initComponents();
+		initView();
 
+	}
 
+	private void initComponents() {
+		cardLayout = new CardLayout();
+		contentPanel = new JPanel();
+		contentPanel.setLayout(cardLayout);
 
-    public RightPanel()
-    {
-        context = this;
-        initComponents();
-        initView();
+		titlePanel = new TitlePanel(this);
+		chatPanel = new ChatPanel(this);
+		roomMembersPanel = new RoomMembersPanel(this);
+		tipPanel = new TipPanel(this);
+		userInfoPanel = new UserInfoPanel(this);
 
-    }
+		setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
+	}
 
-    private void initComponents()
-    {
-        cardLayout = new CardLayout();
-        contentPanel = new JPanel();
-        contentPanel.setLayout(cardLayout);
+	private void initView() {
+		contentPanel.add(tipPanel, TIP);
+		contentPanel.add(userInfoPanel, USER_INFO);
+		contentPanel.add(chatPanel, MESSAGE);
 
-        titlePanel = new TitlePanel(this);
-        chatPanel = new ChatPanel(this);
-        roomMembersPanel = new RoomMembersPanel(this);
-        tipPanel = new TipPanel(this);
-        userInfoPanel = new UserInfoPanel(this);
+		this.setBackground(Colors.FONT_WHITE);
+		this.setLayout(new BorderLayout());
+		add(titlePanel, BorderLayout.NORTH);
+		add(roomMembersPanel, BorderLayout.EAST);
+		add(contentPanel, BorderLayout.CENTER);
 
-        setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
-    }
+		// add(chatPanel, BorderLayout.CENTER);
+		//add(tipPanel, BorderLayout.CENTER);
+	}
 
-    private void initView()
-    {
-        contentPanel.add(tipPanel, TIP);
-        contentPanel.add(userInfoPanel, USER_INFO);
-        contentPanel.add(chatPanel, MESSAGE);
+	public void showPanel(String who) {
+		cardLayout.show(contentPanel, who);
+	}
 
-        this.setBackground(Colors.FONT_WHITE);
-        this.setLayout(new BorderLayout());
-        add(titlePanel, BorderLayout.NORTH);
-        add(roomMembersPanel, BorderLayout.EAST);
-        add(contentPanel, BorderLayout.CENTER);
+	public RoomMembersPanel getRoomMembersPanel() {
+		return roomMembersPanel;
+	}
 
+	public JPanel getTipPanel() {
+		return tipPanel;
+	}
 
-        // add(chatPanel, BorderLayout.CENTER);
-        //add(tipPanel, BorderLayout.CENTER);
-    }
+	public UserInfoPanel getUserInfoPanel() {
+		return userInfoPanel;
+	}
 
-    public void showPanel(String who)
-    {
-        cardLayout.show(contentPanel, who);
-    }
+	public static RightPanel getContext() {
+		return context;
+	}
 
-
-    public RoomMembersPanel getRoomMembersPanel()
-    {
-        return roomMembersPanel;
-    }
-
-    public JPanel getTipPanel()
-    {
-        return tipPanel;
-    }
-
-    public UserInfoPanel getUserInfoPanel()
-    {
-        return userInfoPanel;
-    }
-
-    public static RightPanel getContext()
-    {
-        return context;
-    }
-
-    public JPanel getContentPanel()
-    {
-        return contentPanel;
-    }
-
+	public JPanel getContentPanel() {
+		return contentPanel;
+	}
 
 }

@@ -8,8 +8,7 @@ import javax.swing.*;
  * Created by harry12800 on 13/06/2017.
  */
 @SuppressWarnings("serial")
-public class BaseMessageViewHolder extends ViewHolder
-{
-    public JLabel avatar = new JLabel();
-    public JLabel time = new JLabel();
+public class BaseMessageViewHolder extends ViewHolder {
+	public JLabel avatar = new JLabel();
+	public JLabel time = new JLabel();
 }

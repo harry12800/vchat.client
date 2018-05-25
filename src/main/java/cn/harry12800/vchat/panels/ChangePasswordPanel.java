@@ -1,4 +1,5 @@
 package cn.harry12800.vchat.panels;
+
 import cn.harry12800.vchat.components.*;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.FontUtil;
@@ -15,165 +16,139 @@ import java.awt.event.MouseEvent;
  * <p>
  * Created by harry12800 on 23/06/2017.
  */
-public class ChangePasswordPanel extends JPanel
-{
-    private static ChangePasswordPanel context;
-    private RCPasswordField textField;
-    private RCPasswordField textFieldConfirm;
-    private RCButton okButton;
-    private JPanel contentPanel;
-    private JLabel statusLabel;
+public class ChangePasswordPanel extends JPanel {
+	private static ChangePasswordPanel context;
+	private RCPasswordField textField;
+	private RCPasswordField textFieldConfirm;
+	private RCButton okButton;
+	private JPanel contentPanel;
+	private JLabel statusLabel;
 
-    public ChangePasswordPanel()
-    {
-        context = this;
+	public ChangePasswordPanel() {
+		context = this;
 
-        initComponents();
-        initView();
-        setListener();
-        textField.requestFocus();
-    }
+		initComponents();
+		initView();
+		setListener();
+		textField.requestFocus();
+	}
 
+	private void initComponents() {
+		textField = new RCPasswordField();
+		textField.setPlaceholder("新密码");
+		textField.setPreferredSize(new Dimension(200, 35));
+		textField.setFont(FontUtil.getDefaultFont(14));
+		textField.setForeground(Colors.FONT_BLACK);
+		textField.setMargin(new Insets(0, 15, 0, 0));
 
-    private void initComponents()
-    {
-        textField = new RCPasswordField();
-        textField.setPlaceholder("新密码");
-        textField.setPreferredSize(new Dimension(200, 35));
-        textField.setFont(FontUtil.getDefaultFont(14));
-        textField.setForeground(Colors.FONT_BLACK);
-        textField.setMargin(new Insets(0, 15, 0, 0));
+		textFieldConfirm = new RCPasswordField();
+		textFieldConfirm.setPlaceholder("再次输入密码");
+		textFieldConfirm.setPreferredSize(new Dimension(200, 35));
+		textFieldConfirm.setFont(FontUtil.getDefaultFont(14));
+		textFieldConfirm.setForeground(Colors.FONT_BLACK);
+		textFieldConfirm.setMargin(new Insets(0, 15, 0, 0));
 
-        textFieldConfirm = new RCPasswordField();
-        textFieldConfirm.setPlaceholder("再次输入密码");
-        textFieldConfirm.setPreferredSize(new Dimension(200, 35));
-        textFieldConfirm.setFont(FontUtil.getDefaultFont(14));
-        textFieldConfirm.setForeground(Colors.FONT_BLACK);
-        textFieldConfirm.setMargin(new Insets(0, 15, 0, 0));
+		okButton = new RCButton("确认修改", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
+		okButton.setPreferredSize(new Dimension(100, 35));
 
-        okButton = new RCButton("确认修改", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
-        okButton.setPreferredSize(new Dimension(100, 35));
+		statusLabel = new JLabel();
+		statusLabel.setForeground(Colors.FONT_GRAY_DARKER);
+		//statusLabel.setVisible(false);
 
-        statusLabel = new JLabel();
-        statusLabel.setForeground(Colors.FONT_GRAY_DARKER);
-        //statusLabel.setVisible(false);
+		contentPanel = new JPanel();
+	}
 
-        contentPanel = new JPanel();
-    }
+	private void initView() {
+		contentPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 10, true, false));
+		contentPanel.add(textField);
+		contentPanel.add(textFieldConfirm);
+		contentPanel.add(okButton);
+		contentPanel.add(statusLabel);
 
-    private void initView()
-    {
-        contentPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.TOP, 0, 10, true, false));
-        contentPanel.add(textField);
-        contentPanel.add(textFieldConfirm);
-        contentPanel.add(okButton);
-        contentPanel.add(statusLabel);
+		add(contentPanel);
+	}
 
+	private void setListener() {
 
-        add(contentPanel);
-    }
+		okButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				doResetPassword();
 
-    private void setListener()
-    {
+				super.mouseClicked(e);
+			}
+		});
 
-        okButton.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                doResetPassword();
+		KeyListener keyListener = new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
 
-                super.mouseClicked(e);
-            }
-        });
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					doResetPassword();
+				}
+			}
 
-        KeyListener keyListener = new KeyListener()
-        {
-            @Override
-            public void keyTyped(KeyEvent e)
-            {
-            }
+			@Override
+			public void keyReleased(KeyEvent e) {
 
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                {
-                    doResetPassword();
-                }
-            }
+			}
+		};
+		textField.addKeyListener(keyListener);
+		textFieldConfirm.addKeyListener(keyListener);
+	}
 
-            @Override
-            public void keyReleased(KeyEvent e)
-            {
+	private void doResetPassword() {
+		if (okButton.isEnabled()) {
+			String password = new String(textField.getPassword());
+			String passwordConfirm = new String(textFieldConfirm.getPassword());
 
-            }
-        };
-        textField.addKeyListener(keyListener);
-        textFieldConfirm.addKeyListener(keyListener);
-    }
+			if (password.isEmpty()) {
+				showErrorMessage("请输入新密码");
+				textField.requestFocus();
+				return;
+			} else if (passwordConfirm.isEmpty()) {
+				showErrorMessage("请再次输入密码");
+				textFieldConfirm.requestFocus();
+				return;
+			}
 
-    private void doResetPassword()
-    {
-        if (okButton.isEnabled())
-        {
-            String password = new String(textField.getPassword());
-            String passwordConfirm = new String(textFieldConfirm.getPassword());
+			if (!password.equals(passwordConfirm)) {
+				showErrorMessage("两次输入密码不一致");
+				textFieldConfirm.requestFocus();
+				return;
+			}
 
-            if (password.isEmpty())
-            {
-                showErrorMessage("请输入新密码");
-                textField.requestFocus();
-                return;
-            }
-            else if (passwordConfirm.isEmpty())
-            {
-                showErrorMessage("请再次输入密码");
-                textFieldConfirm.requestFocus();
-                return;
-            }
+			statusLabel.setVisible(false);
+			okButton.setEnabled(false);
+			okButton.setIcon(IconUtil.getIcon(this, "/image/sending.gif"));
+			okButton.setText("修改中...");
+			JOptionPane.showMessageDialog(MainFrame.getContext(), "修改密码", "修改密码", JOptionPane.INFORMATION_MESSAGE);
 
-            if (!password.equals(passwordConfirm))
-            {
-                showErrorMessage("两次输入密码不一致");
-                textFieldConfirm.requestFocus();
-                return;
-            }
+		}
+	}
 
+	public void restoreOKButton() {
+		okButton.setText("确认修改");
+		okButton.setIcon(null);
+		okButton.setEnabled(true);
+	}
 
-            statusLabel.setVisible(false);
-            okButton.setEnabled(false);
-            okButton.setIcon(IconUtil.getIcon(this, "/image/sending.gif"));
-            okButton.setText("修改中...");
-            JOptionPane.showMessageDialog(MainFrame.getContext(), "修改密码", "修改密码", JOptionPane.INFORMATION_MESSAGE);
+	public void showSuccessMessage() {
+		statusLabel.setText("密码修改成功，请重新登录");
+		statusLabel.setIcon(IconUtil.getIcon(this, "/image/check.png"));
+		statusLabel.setVisible(true);
+	}
 
-        }
-    }
+	public void showErrorMessage(String message) {
+		statusLabel.setText(message);
+		statusLabel.setIcon(new ImageIcon(IconUtil.getIcon(this, "/image/fail.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+		statusLabel.setVisible(true);
+	}
 
-
-    public void restoreOKButton()
-    {
-        okButton.setText("确认修改");
-        okButton.setIcon(null);
-        okButton.setEnabled(true);
-    }
-
-    public void showSuccessMessage()
-    {
-        statusLabel.setText("密码修改成功，请重新登录");
-        statusLabel.setIcon(IconUtil.getIcon(this, "/image/check.png"));
-        statusLabel.setVisible(true);
-    }
-
-    public void showErrorMessage(String message)
-    {
-        statusLabel.setText(message);
-        statusLabel.setIcon(new ImageIcon(IconUtil.getIcon(this, "/image/fail.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
-        statusLabel.setVisible(true);
-    }
-
-    public static ChangePasswordPanel getContext()
-    {
-        return context;
-    }
+	public static ChangePasswordPanel getContext() {
+		return context;
+	}
 }

@@ -6,6 +6,5 @@ import javax.swing.*;
  * Created by harry12800 on 17-5-30.
  */
 @SuppressWarnings("serial")
-public abstract class ViewHolder extends JPanel
-{
+public abstract class ViewHolder extends JPanel {
 }

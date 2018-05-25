@@ -14,65 +14,60 @@ import java.awt.*;
  * Created by harry12800 on 17-6-3.
  */
 @SuppressWarnings("serial")
-public class MessageRightImageViewHolder extends BaseMessageViewHolder
-{
-    public MessageImageLabel image = new MessageImageLabel();
-    //public JLabel avatar = new JLabel();
-    //public JLabel size = new JLabel();
-    public JLabel resend = new JLabel(); // 重发按钮
-    public JLabel sendingProgress = new JLabel(); // 正在发送
+public class MessageRightImageViewHolder extends BaseMessageViewHolder {
+	public MessageImageLabel image = new MessageImageLabel();
+	//public JLabel avatar = new JLabel();
+	//public JLabel size = new JLabel();
+	public JLabel resend = new JLabel(); // 重发按钮
+	public JLabel sendingProgress = new JLabel(); // 正在发送
 
-    public RCRightImageMessageBubble imageBubble = new RCRightImageMessageBubble();
-    private JPanel timePanel = new JPanel();
-    private JPanel messageAvatarPanel = new JPanel();
-    @SuppressWarnings("unused")
+	public RCRightImageMessageBubble imageBubble = new RCRightImageMessageBubble();
+	private JPanel timePanel = new JPanel();
+	private JPanel messageAvatarPanel = new JPanel();
+	@SuppressWarnings("unused")
 	private MessagePopupMenu popupMenu = new MessagePopupMenu();
 
-    public MessageRightImageViewHolder()
-    {
-        initComponents();
-        initView();
-    }
+	public MessageRightImageViewHolder() {
+		initComponents();
+		initView();
+	}
 
-    private void initComponents()
-    {
-        timePanel.setBackground(Colors.WINDOW_BACKGROUND);
-        messageAvatarPanel.setBackground(Colors.WINDOW_BACKGROUND);
+	private void initComponents() {
+		timePanel.setBackground(Colors.WINDOW_BACKGROUND);
+		messageAvatarPanel.setBackground(Colors.WINDOW_BACKGROUND);
 
-        imageBubble.add(image);
+		imageBubble.add(image);
 
-        time.setForeground(Colors.FONT_GRAY);
-        time.setFont(FontUtil.getDefaultFont(12));
+		time.setForeground(Colors.FONT_GRAY);
+		time.setFont(FontUtil.getDefaultFont(12));
 
-        ImageIcon resendIcon = new ImageIcon(getClass().getResource("/image/resend.png"));
-        resendIcon.setImage(resendIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-        resend.setIcon(resendIcon);
-        resend.setVisible(false);
-        resend.setToolTipText("图片发送失败，点击重新发送");
-        resend.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		ImageIcon resendIcon = new ImageIcon(getClass().getResource("/image/resend.png"));
+		resendIcon.setImage(resendIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		resend.setIcon(resendIcon);
+		resend.setVisible(false);
+		resend.setToolTipText("图片发送失败，点击重新发送");
+		resend.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+		ImageIcon sendingIcon = new ImageIcon(getClass().getResource("/image/sending.gif"));
+		sendingProgress.setIcon(sendingIcon);
+		sendingProgress.setVisible(false);
+	}
 
-        ImageIcon sendingIcon = new ImageIcon(getClass().getResource("/image/sending.gif"));
-        sendingProgress.setIcon(sendingIcon);
-        sendingProgress.setVisible(false);
-    }
+	private void initView() {
+		setLayout(new BorderLayout());
+		timePanel.add(time);
 
-    private void initView()
-    {
-        setLayout(new BorderLayout());
-        timePanel.add(time);
+		JPanel resendImagePanel = new JPanel();
+		resendImagePanel.setBackground(Colors.WINDOW_BACKGROUND);
+		resendImagePanel.add(resend, BorderLayout.WEST);
+		resendImagePanel.add(sendingProgress, BorderLayout.WEST);
+		resendImagePanel.add(imageBubble, BorderLayout.CENTER);
 
-        JPanel resendImagePanel = new JPanel();
-        resendImagePanel.setBackground(Colors.WINDOW_BACKGROUND);
-        resendImagePanel.add(resend, BorderLayout.WEST);
-        resendImagePanel.add(sendingProgress, BorderLayout.WEST);
-        resendImagePanel.add(imageBubble, BorderLayout.CENTER);
+		messageAvatarPanel.setLayout(new GridBagLayout());
+		messageAvatarPanel.add(resendImagePanel, new GBC(1, 0).setWeight(1000, 1).setAnchor(GBC.EAST).setInsets(0, 0, 5, 0));
+		messageAvatarPanel.add(avatar, new GBC(2, 0).setWeight(1, 1).setAnchor(GBC.NORTH).setInsets(5, 0, 0, 10));
 
-        messageAvatarPanel.setLayout(new GridBagLayout());
-        messageAvatarPanel.add(resendImagePanel, new GBC(1, 0).setWeight(1000, 1).setAnchor(GBC.EAST).setInsets(0, 0, 5, 0));
-        messageAvatarPanel.add(avatar, new GBC(2, 0).setWeight(1, 1).setAnchor(GBC.NORTH).setInsets(5, 0, 0, 10));
-
-        add(timePanel, BorderLayout.NORTH);
-        add(messageAvatarPanel, BorderLayout.CENTER);
-    }
+		add(timePanel, BorderLayout.NORTH);
+		add(messageAvatarPanel, BorderLayout.CENTER);
+	}
 }
