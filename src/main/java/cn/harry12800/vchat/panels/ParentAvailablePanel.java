@@ -5,6 +5,7 @@ import javax.swing.*;
 /**
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class ParentAvailablePanel extends JPanel {
 	private JPanel parent;
 

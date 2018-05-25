@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 /**
  * Created by harry12800 on 10/07/2017.
  */
+@SuppressWarnings("serial")
 public class ClearCachePanel extends JPanel {
 	private JLabel infoLabel;
 	private RCButton clearButton;

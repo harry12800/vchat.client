@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class MyInfoPanel extends ParentAvailablePanel {
 	private static MyInfoPanel context;
 

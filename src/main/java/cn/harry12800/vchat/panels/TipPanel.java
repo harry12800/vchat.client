@@ -9,6 +9,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 2017/6/15.
  */
+@SuppressWarnings("serial")
 public class TipPanel extends ParentAvailablePanel {
 	private JLabel imageLabel;
 

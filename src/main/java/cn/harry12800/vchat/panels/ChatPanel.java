@@ -42,6 +42,7 @@ import java.util.List;
  * <p>
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class ChatPanel extends ParentAvailablePanel {
 	private MessagePanel messagePanel;
 	private MessageEditorPanel messageEditorPanel;

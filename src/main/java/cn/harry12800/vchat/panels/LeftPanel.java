@@ -9,6 +9,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class LeftPanel extends JPanel {
 	private MyInfoPanel myInfoPanel;
 	private SearchPanel searchPanel;

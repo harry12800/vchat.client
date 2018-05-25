@@ -50,7 +50,7 @@ public class MessageViewHolderCacheHelper {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				long startTime = System.currentTimeMillis();
+				//				long startTime = System.currentTimeMillis();
 				initRightTextViewHolders();
 				initRightImageViewHolders();
 				initRightAttachmentViewHolders();

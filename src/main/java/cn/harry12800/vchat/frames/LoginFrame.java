@@ -16,6 +16,7 @@ import java.awt.event.*;
 /**
  * Created by harry12800 on 08/06/2017.
  */
+@SuppressWarnings("serial")
 public class LoginFrame extends JFrame {
 	private static final int windowWidth = 300;
 	private static final int windowHeight = 400;

@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * Created by harry12800 on 07/06/2017.
  */
+@SuppressWarnings("serial")
 public class RoomMembersPanel extends ParentAvailablePanel {
 	public static final int ROOM_MEMBER_PANEL_WIDTH = 200;
 	private static RoomMembersPanel roomMembersPanel;

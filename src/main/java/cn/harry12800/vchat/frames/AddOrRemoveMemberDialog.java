@@ -19,6 +19,7 @@ import java.util.List;
  * Created by harry12800 on 06/20/2017.
  */
 
+@SuppressWarnings("serial")
 public class AddOrRemoveMemberDialog extends JDialog {
 	private JPanel editorPanel;
 	private RCTextField searchTextField;

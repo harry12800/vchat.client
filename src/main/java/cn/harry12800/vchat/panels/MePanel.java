@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 26/06/2017.
  */
+@SuppressWarnings("serial")
 public class MePanel extends JPanel {
 	private JPanel contentPanel;
 	private JLabel imageLabel;

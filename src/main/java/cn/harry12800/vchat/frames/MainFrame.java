@@ -17,6 +17,7 @@ import java.io.InputStream;
 /**
  * Created by harry12800 on 17-5-28.
  */
+@SuppressWarnings("serial")
 public class MainFrame extends JFrame {
 	public static int DEFAULT_WIDTH = 900;
 	public static int DEFAULT_HEIGHT = 650;

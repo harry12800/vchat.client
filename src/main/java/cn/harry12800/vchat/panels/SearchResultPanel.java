@@ -16,6 +16,7 @@ import java.util.List;
  * 左侧搜索结果列表
  * Created by harry12800 on 17-6-21.
  */
+@SuppressWarnings("serial")
 public class SearchResultPanel extends ParentAvailablePanel {
 	private static SearchResultPanel context;
 	private final SearchResultItemsAdapter searchResultItemsAdapter;

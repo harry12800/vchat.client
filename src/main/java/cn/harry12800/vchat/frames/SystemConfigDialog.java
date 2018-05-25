@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 07/06/2017.
  */
+@SuppressWarnings("serial")
 public class SystemConfigDialog extends JDialog {
 	private static SystemConfigDialog context;
 	private JPanel buttonPanel;

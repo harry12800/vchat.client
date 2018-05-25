@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class TabOperationPanel extends ParentAvailablePanel {
 	private JLabel chatLabel;
 	private JLabel contactsLabel;

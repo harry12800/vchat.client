@@ -20,6 +20,7 @@ import static cn.harry12800.vchat.app.Launcher.roomService;
 /**
  * Created by harry12800 on 07/06/2017.
  */
+@SuppressWarnings("serial")
 public class CreateGroupDialog extends JDialog {
 	private static CreateGroupDialog context;
 	private JPanel editorPanel;

@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Created by harry12800 on 19/06/2017.
  */
+@SuppressWarnings("serial")
 public class SelectUserPanel extends JPanel {
 	private JPanel leftPanel;
 	private JPanel rightPanel;

@@ -24,6 +24,7 @@ import java.util.List;
 /**
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class ContactsPanel extends ParentAvailablePanel {
 	private static ContactsPanel context;
 

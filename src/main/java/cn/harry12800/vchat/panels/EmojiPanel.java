@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 /**
  * Created by harry12800 on 04/07/2017.
  */
+@SuppressWarnings("serial")
 public class EmojiPanel extends JPanel {
 	private ExpressionListener expressionListener;
 	private JPopupMenu parentPopup;

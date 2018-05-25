@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class ScreenShot extends JFrame {
 	private int startX;
 	private int startY;

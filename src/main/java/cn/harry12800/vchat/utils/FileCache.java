@@ -60,10 +60,6 @@ public class FileCache {
 
 	public String fileSizeString(String path) {
 		File file = new File(path);
-		if (file == null) {
-			return null;
-		}
-
 		long size = file.length();
 		String retString = "";
 		if (size < 1024) {

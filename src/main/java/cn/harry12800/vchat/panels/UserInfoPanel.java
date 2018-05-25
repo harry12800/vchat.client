@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 2017/6/15.
  */
+@SuppressWarnings("serial")
 public class UserInfoPanel extends ParentAvailablePanel {
 	private JPanel contentPanel;
 	private JLabel imageLabel;

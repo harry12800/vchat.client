@@ -6,6 +6,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 04/07/2017.
  */
+@SuppressWarnings("serial")
 public class ExpressionItem extends JPanel {
 	protected String code;
 	protected ImageIcon icon;

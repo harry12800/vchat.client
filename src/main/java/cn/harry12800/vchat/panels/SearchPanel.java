@@ -28,6 +28,7 @@ import java.util.List;
 /**
  * Created by harry12800 on 17-5-29.
  */
+@SuppressWarnings("serial")
 public class SearchPanel extends ParentAvailablePanel {
 	private static SearchPanel context;
 	private RCSearchTextField searchTextField;

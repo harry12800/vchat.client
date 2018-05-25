@@ -12,6 +12,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 04/07/2017.
  */
+@SuppressWarnings("serial")
 public class ExpressionPopup extends JPopupMenu {
 	private static final int WIDTH = 400;
 	private static final int HEIGHT = 300;

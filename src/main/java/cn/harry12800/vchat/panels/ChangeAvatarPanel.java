@@ -23,6 +23,7 @@ import static cn.harry12800.vchat.app.Launcher.currentUserService;
  * <p>
  * Created by harry12800 on 23/06/2017.
  */
+@SuppressWarnings("serial")
 public class ChangeAvatarPanel extends JPanel {
 	private static ChangeAvatarPanel context;
 	private ImageAdjustLabel imageLabel;

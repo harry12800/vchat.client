@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
  * <p>
  * Created by harry12800 on 23/06/2017.
  */
+@SuppressWarnings("serial")
 public class ChangePasswordPanel extends JPanel {
 	private static ChangePasswordPanel context;
 	private RCPasswordField textField;

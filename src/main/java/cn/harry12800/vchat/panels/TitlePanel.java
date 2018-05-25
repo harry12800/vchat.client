@@ -15,6 +15,7 @@ import java.awt.event.*;
 /**
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class TitlePanel extends ParentAvailablePanel {
 	private static TitlePanel context;
 

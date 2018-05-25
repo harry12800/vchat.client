@@ -9,6 +9,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class MessagePanel extends ParentAvailablePanel {
 	RCListView listView;
 

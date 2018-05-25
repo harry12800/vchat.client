@@ -12,6 +12,7 @@ import java.awt.*;
 /**
  * Created by harry12800 on 26/06/2017.
  */
+@SuppressWarnings("serial")
 public class AboutPanel extends JPanel {
 	private JLabel imageLabel;
 	private JLabel versionLabel;

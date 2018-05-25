@@ -17,6 +17,7 @@ import java.util.List;
  * 左侧聊天列表
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class RoomsPanel extends ParentAvailablePanel {
 	private static RoomsPanel context;
 

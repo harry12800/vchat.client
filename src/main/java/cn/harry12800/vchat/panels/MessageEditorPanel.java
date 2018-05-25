@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 /**
  * Created by harry12800 on 17-5-30.
  */
+@SuppressWarnings("serial")
 public class MessageEditorPanel extends ParentAvailablePanel {
 	private JPanel controlLabel;
 	private JLabel fileLabel;
