@@ -210,7 +210,8 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 				if (item.getProgress() == 100) {
 					holder.progressBar.setVisible(false);
 				} else {
-					if (!ChatPanel.getContext().uploadingOrDownloadingFiles.contains(item.getFileAttachment().getId())) {
+					ChatPanel.getContext();
+					if (!ChatPanel.uploadingOrDownloadingFiles.contains(item.getFileAttachment().getId())) {
 						item.setNeedToResend(true);
 					}
 				}
@@ -335,7 +336,8 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 				if (item.getProgress() == 100) {
 					holder.sendingProgress.setVisible(false);
 				} else {
-					if (!ChatPanel.getContext().uploadingOrDownloadingFiles.contains(item.getImageAttachment().getId())) {
+					ChatPanel.getContext();
+					if (!ChatPanel.uploadingOrDownloadingFiles.contains(item.getImageAttachment().getId())) {
 						item.setNeedToResend(true);
 					}
 				}
