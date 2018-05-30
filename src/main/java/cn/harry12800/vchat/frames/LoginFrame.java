@@ -1,17 +1,46 @@
 package cn.harry12800.vchat.frames;
 
-import cn.harry12800.vchat.components.*;
-import cn.harry12800.vchat.db.model.CurrentUser;
-import cn.harry12800.vchat.db.service.CurrentUserService;
-import cn.harry12800.vchat.listener.AbstractMouseListener;
-import cn.harry12800.vchat.utils.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONObject;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.*;
+import cn.harry12800.common.core.model.Request;
+import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.UserCmd;
+import cn.harry12800.common.module.user.dto.LoginRequest;
+import cn.harry12800.common.module.user.dto.UserResponse;
+import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCButton;
+import cn.harry12800.vchat.components.RCPasswordField;
+import cn.harry12800.vchat.components.RCTextField;
+import cn.harry12800.vchat.components.VerticalFlowLayout;
+import cn.harry12800.vchat.db.model.CurrentUser;
+import cn.harry12800.vchat.db.service.CurrentUserService;
+import cn.harry12800.vchat.listener.AbstractMouseListener;
+import cn.harry12800.vchat.utils.DbUtils;
+import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.vchat.utils.IconUtil;
+import cn.harry12800.vchat.utils.OSUtil;
+import cn.harry12800.vchat.utils.PasswordUtil;
 
 /**
  * Created by harry12800 on 08/06/2017.
@@ -35,8 +64,14 @@ public class LoginFrame extends JFrame {
 	private SqlSession sqlSession;
 	private CurrentUserService currentUserService;
 	private String username;
+	private static LoginFrame context;
+
+	public static LoginFrame getContext() {
+		return context;
+	}
 
 	public LoginFrame() {
+		context = this;
 		initService();
 		initComponents();
 		initView();
@@ -219,54 +254,51 @@ public class LoginFrame extends JFrame {
 
 	private void doLogin() {
 
-		this.dispose();
-
-		MainFrame frame = new MainFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-
 		// TODO: 登录逻辑
-		/*String name = usernameField.getText();
+		String name = usernameField.getText();
 		String pwd = new String(passwordField.getPassword());
-		
-		if (name == null || name.isEmpty())
-		{
-		    showMessage("请输入用户，注意首字母可能为大写");
+
+		if (name == null || name.isEmpty()) {
+			showMessage("请输入用户，注意首字母可能为大写");
+		} else if (pwd == null || pwd.isEmpty()) {
+			showMessage("请输入密码");
+		} else {
+			statusLabel.setVisible(false);
+			loginButton.setEnabled(false);
+			usernameField.setEditable(false);
+			passwordField.setEditable(false);
+			try {
+				LoginRequest loginRequest = new LoginRequest();
+				loginRequest.setPlayerName(name);
+				loginRequest.setPassward(pwd);
+				Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
+				Launcher.client.sendRequest(request);
+			} catch (Exception e) {
+				showMessage("无法连接服务器");
+			}
+			//		    HttpPostTask task = new HttpPostTask();
+			//		    task.setListener(new HttpResponseListener<JSONObject>()
+			//		    {
+			//		        @Override
+			//		        public void onSuccess(JSONObject ret)
+			//		        {
+			//		            processLoginResult(ret);
+			//		        }
+			//		
+			//		        @Override
+			//		        public void onFailed()
+			//		        {
+			//		            showMessage("登录失败，请检查网络设置");
+			//		            loginButton.setEnabled(true);
+			//		            usernameField.setEditable(true);
+			//		            passwordField.setEditable(true);
+			//		        }
+			//		    });
+			//		
+			//		    task.addRequestParam("username", usernameField.getText());
+			//		    task.addRequestParam("password", new String(passwordField.getPassword()));
+			//		    task.execute(Launcher.HOSTNAME + "/api/v1/login");
 		}
-		else if (pwd == null || pwd.isEmpty())
-		{
-		    showMessage("请输入密码");
-		}
-		else
-		{
-		    statusLabel.setVisible(false);
-		
-		    loginButton.setEnabled(false);
-		    usernameField.setEditable(false);
-		    passwordField.setEditable(false);
-		    HttpPostTask task = new HttpPostTask();
-		    task.setListener(new HttpResponseListener<JSONObject>()
-		    {
-		        @Override
-		        public void onSuccess(JSONObject ret)
-		        {
-		            processLoginResult(ret);
-		        }
-		
-		        @Override
-		        public void onFailed()
-		        {
-		            showMessage("登录失败，请检查网络设置");
-		            loginButton.setEnabled(true);
-		            usernameField.setEditable(true);
-		            passwordField.setEditable(true);
-		        }
-		    });
-		
-		    task.addRequestParam("username", usernameField.getText());
-		    task.addRequestParam("password", new String(passwordField.getPassword()));
-		    task.execute(Launcher.HOSTNAME + "/api/v1/login");
-		}*/
 	}
 
 	private void processLoginResult(JSONObject ret) {
@@ -302,7 +334,17 @@ public class LoginFrame extends JFrame {
 		if (!statusLabel.isVisible()) {
 			statusLabel.setVisible(true);
 		}
-
 		statusLabel.setText(message);
+	}
+
+	public void loginSuccess(UserResponse userResponse) {
+		this.dispose();
+		MainFrame frame = new MainFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+
+	public void loginFail(String tipContent) {
+		showMessage(tipContent);
 	}
 }

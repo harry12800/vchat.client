@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 
 import org.apache.ibatis.session.SqlSession;
 
+import cn.harry12800.lnk.client.Client;
 import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.db.service.FileAttachmentService;
@@ -44,7 +45,6 @@ public class Launcher {
 
 	static {
 		sqlSession = DbUtils.getSqlSession();
-		System.out.println(sqlSession);
 		roomService = new RoomService(sqlSession);
 		currentUserService = new CurrentUserService(sqlSession);
 		messageService = new MessageService(sqlSession);
@@ -53,6 +53,11 @@ public class Launcher {
 		fileAttachmentService = new FileAttachmentService(sqlSession);
 	}
 
+	public static Client client;
+	static {
+		client = new Client();
+		client.init();
+	}
 	private JFrame currentFrame;
 
 	public Launcher() {
@@ -61,12 +66,12 @@ public class Launcher {
 
 	public void launch() {
 		config();
-
-		if (!isApplicationRunning()) {
-			openFrame();
-		} else {
-			System.exit(-1);
-		}
+		openFrame();
+		//		if (!isApplicationRunning()) {
+		//			openFrame();
+		//		} else {
+		//			System.exit(-1);
+		//		}
 	}
 
 	private void openFrame() {

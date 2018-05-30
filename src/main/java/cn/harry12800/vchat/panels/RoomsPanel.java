@@ -1,17 +1,28 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Color;
+import java.awt.GridBagLayout;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import cn.harry12800.common.core.model.Request;
+import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.UserCmd;
+import cn.harry12800.common.module.user.dto.ShowAllUserRequest;
+import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
+import cn.harry12800.common.module.user.dto.UserResponse;
 import cn.harry12800.vchat.adapter.RoomItemViewHolder;
 import cn.harry12800.vchat.adapter.RoomItemsAdapter;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.*;
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.db.model.Room;
 import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.RoomItem;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 左侧聊天列表
@@ -28,7 +39,6 @@ public class RoomsPanel extends ParentAvailablePanel {
 	public RoomsPanel(JPanel parent) {
 		super(parent);
 		context = this;
-
 		initComponents();
 		initView();
 		initData();
@@ -46,23 +56,53 @@ public class RoomsPanel extends ParentAvailablePanel {
 		//add(scrollPane, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
 	}
 
-	private void initData() {
-		roomItemList.clear();
-
-		// TODO: 从数据库中加载房间列表
-		Room harry12800 = roomService.findRelativeRoomIdByUserId("song");
-		List<Room> rooms = roomService.findAll();
-		for (Room room : rooms) {
+	public void initData(ShowAllUserResponse userResponse) {
+		List<UserResponse> players = userResponse.getUsers();
+		for (UserResponse user : players) {
 			RoomItem item = new RoomItem();
-			item.setRoomId(room.getRoomId());
-			item.setTimestamp(room.getLastChatAt());
-			item.setTitle(room.getName());
-			item.setType(room.getType());
-			item.setLastMessage(room.getLastMessage());
-			item.setUnreadCount(room.getUnreadCount());
-
+			item.setRoomId(user.getId() + "");
+			item.setTimestamp(Instant.now().getEpochSecond());
+			item.setTitle(user.getUserName());
+			item.setType("d");
+			item.setLastMessage("asd");
+			item.setUnreadCount(3);
+			Room room = new Room();
+			room.setCreatorId(user.getId() + "");
+			room.setRoomId(user.getId() + "");
+			room.setName(user.getUserName());
+			room.setTopic(user.getUserName());
+			room.setType("d");
+			roomService.insertOrUpdate(room);
 			roomItemList.add(item);
 		}
+		roomItemsListView.notifyDataSetChanged(true);
+	}
+
+	private void initData() {
+		roomItemList.clear();
+		try {
+			ShowAllUserRequest request = new ShowAllUserRequest();
+			Request req = Request.valueOf(ModuleId.USER, UserCmd.SHOW_ALL_USER, request.getBytes());
+			Launcher.client.sendRequest(req);
+		} catch (Exception e) {
+			e.printStackTrace();
+			//			 MainFrame.("无法连接服务器");
+		}
+
+		// TODO: 从数据库中加载房间列表
+		//		Room harry12800 = roomService.findRelativeRoomIdByUserId("song");
+		//		List<Room> rooms = roomService.findAll();
+		//		for (Room room : rooms) {
+		//			RoomItem item = new RoomItem();
+		//			item.setRoomId(room.getRoomId());
+		//			item.setTimestamp(room.getLastChatAt());
+		//			item.setTitle(room.getName());
+		//			item.setType(room.getType());
+		//			item.setLastMessage(room.getLastMessage());
+		//			item.setUnreadCount(room.getUnreadCount());
+		//
+		//			roomItemList.add(item);
+		//		}
 	}
 
 	/**
@@ -147,4 +187,5 @@ public class RoomsPanel extends ParentAvailablePanel {
 	public static RoomsPanel getContext() {
 		return context;
 	}
+
 }

@@ -1,5 +1,10 @@
 package cn.harry12800.vchat.panels;
 
+import cn.harry12800.common.core.model.Request;
+import cn.harry12800.common.module.ChatCmd;
+import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.chat.dto.MsgResponse;
+import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
 import cn.harry12800.vchat.adapter.message.*;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
@@ -603,6 +608,16 @@ public class ChatPanel extends ParentAvailablePanel {
 			addMessageItemToEnd(item);
 
 			messageService.insert(dbMessage);
+			try {
+				PrivateChatRequest request = new PrivateChatRequest();
+				request.setContext(content);
+				request.setTargetPlayerId(Long.valueOf(roomId));
+				//构建请求
+				Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
+				Launcher.client.sendRequest(req);
+			} catch (Exception e) {
+
+			}
 
 		}
 		// 已有消息重发
@@ -1177,5 +1192,21 @@ public class ChatPanel extends ParentAvailablePanel {
 
 	public void restoreRemoteHistoryLoadedRooms() {
 		remoteHistoryLoadedRooms.clear();
+	}
+
+	public void showReceiveMsg(MsgResponse msg) {
+		Message message = new Message();
+		message.setId("213");
+		message.setRoomId(room.getRoomId());
+		message.setMessageContent(new String(msg.getBytes()));
+		message.setSenderId(msg.getFromId() + "");
+		message.setTimestamp(new Date().getTime());
+		MessageItem item = new MessageItem(message, room.getRoomId());
+		addMessageItemToEnd(item);
+	}
+
+	public void showReceiveMsgFail(String tipContent) {
+		// TODO Auto-generated method stub
+
 	}
 }

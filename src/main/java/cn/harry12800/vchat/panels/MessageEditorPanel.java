@@ -55,16 +55,16 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 
 	private void registerHotKey() {
 		int SCREEN_SHOT_CODE = 10001;
-		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE, JIntellitype.MOD_ALT, 'S');
-
-		JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
-			@Override
-			public void onHotKey(int markCode) {
-				if (markCode == SCREEN_SHOT_CODE) {
-					screenShot();
-				}
-			}
-		});
+		//		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE, JIntellitype.MOD_ALT, 'S');
+		//
+		//		JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
+		//			@Override
+		//			public void onHotKey(int markCode) {
+		//				if (markCode == SCREEN_SHOT_CODE) {
+		//					screenShot();
+		//				}
+		//			}
+		//		});
 	}
 
 	private void initComponents() {

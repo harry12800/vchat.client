@@ -1,8 +1,10 @@
 package cn.harry12800.vchat.frames;
 
+import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
+import cn.harry12800.vchat.panels.RoomsPanel;
 import cn.harry12800.vchat.utils.ClipboardUtil;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
@@ -240,5 +242,9 @@ public class MainFrame extends JFrame {
 		// 移除托盘图标
 		SystemTray.getSystemTray().remove(trayIcon);
 		super.dispose();
+	}
+
+	public void ShowAllUser(ShowAllUserResponse userResponse) {
+		RoomsPanel.getContext().initData(userResponse);
 	}
 }
