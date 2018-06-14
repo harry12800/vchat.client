@@ -24,6 +24,7 @@ public class RCTextEditor extends JTextPane {
 			ImageIcon icon = (ImageIcon) data;
 			adjustAndInsertIcon(icon);
 		} else if (data instanceof java.util.List) {
+			@SuppressWarnings("unchecked")
 			java.util.List<Object> list = (java.util.List<Object>) data;
 			for (Object obj : list) {
 				// 图像

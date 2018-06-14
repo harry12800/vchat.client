@@ -12,6 +12,7 @@ import cn.harry12800.vchat.db.model.BasicModel;
 /**
  * Created by harry12800 on 08/06/2017.
  */
+@SuppressWarnings("rawtypes")
 public abstract class BasicDao {
 	protected SqlSession session;
 	private String className;

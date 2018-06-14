@@ -107,7 +107,7 @@ public class Launcher {
 	 *
 	 * @return 如果正在运行返回true，否则返回false
 	 */
-	private static boolean isApplicationRunning() {
+	public static boolean isApplicationRunning() {
 		boolean rv = false;
 		try {
 			String path = appFilesBasePath + System.getProperty("file.separator") + "appLock";

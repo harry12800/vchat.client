@@ -15,7 +15,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public class RCListView extends JScrollPane {
-	private BaseAdapter adapter;
+	private BaseAdapter  adapter;
 	private JPanel contentPanel;
 	private int vGap;
 	private int hGap;
@@ -211,7 +211,7 @@ public class RCListView extends JScrollPane {
 		return adapter;
 	}
 
-	public void setAdapter(BaseAdapter adapter) {
+	public void setAdapter(BaseAdapter  adapter) {
 		this.adapter = adapter;
 
 		fillComponents();
@@ -229,7 +229,7 @@ public class RCListView extends JScrollPane {
 	/**
 	 * 获取滚动条在底部时显示的条目数
 	 */
-	private int getLastVisibleItemCount() {
+	protected int getLastVisibleItemCount() {
 		int height = getHeight();
 
 		int elemHeight = 0;

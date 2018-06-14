@@ -21,6 +21,7 @@ public abstract class BaseAdapter<T extends ViewHolder> {
 	public abstract void onBindViewHolder(T viewHolder, int position);
 
 	public void onBindHeaderViewHolder(HeaderViewHolder viewHolder, int position) {
+	
 	}
 
 }

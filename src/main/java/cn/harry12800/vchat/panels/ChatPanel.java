@@ -1202,6 +1202,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());
 		MessageItem item = new MessageItem(message, room.getRoomId());
+		item.setMessageType(MessageItem.LEFT_TEXT);
 		addMessageItemToEnd(item);
 	}
 

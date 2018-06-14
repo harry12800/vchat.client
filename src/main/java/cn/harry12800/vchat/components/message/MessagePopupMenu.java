@@ -63,7 +63,7 @@ public class MessagePopupMenu extends JPopupMenu {
 					MessageImageLabel imageLabel = (MessageImageLabel) getInvoker();
 					Object obj = imageLabel.getTag();
 					if (obj != null) {
-						Map map = (Map) obj;
+						Map<?, ?> map = (Map<?, ?>) obj;
 						String id = (String) map.get("attachmentId");
 						String url = (String) map.get("url");
 						imageCache.requestOriginalAsynchronously(id, url, new ImageCache.ImageCacheRequestListener() {
@@ -90,7 +90,7 @@ public class MessagePopupMenu extends JPopupMenu {
 					AttachmentPanel attachmentPanel = (AttachmentPanel) getInvoker();
 					Object obj = attachmentPanel.getTag();
 					if (obj != null) {
-						Map map = (Map) obj;
+						Map<?, ?> map = (Map<?, ?>) obj;
 						String id = (String) map.get("attachmentId");
 						String name = (String) map.get("name");
 
@@ -142,7 +142,7 @@ public class MessagePopupMenu extends JPopupMenu {
 					MessageImageLabel imageLabel = (MessageImageLabel) getInvoker();
 					Object obj = imageLabel.getTag();
 					if (obj != null) {
-						Map map = (Map) obj;
+						Map<?, ?> map = (Map<?, ?>) obj;
 						messageId = (String) map.get("messageId");
 					}
 					break;
@@ -152,7 +152,7 @@ public class MessagePopupMenu extends JPopupMenu {
 					AttachmentPanel attachmentPanel = (AttachmentPanel) getInvoker();
 					Object obj = attachmentPanel.getTag();
 					if (obj != null) {
-						Map map = (Map) obj;
+						Map<?, ?> map = (Map<?, ?>) obj;
 						messageId = (String) map.get("messageId");
 					}
 					break;
