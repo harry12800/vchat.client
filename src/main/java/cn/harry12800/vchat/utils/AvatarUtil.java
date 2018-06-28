@@ -101,11 +101,11 @@ public class AvatarUtil {
 
 	public static Image createOrLoadUserAvatar(String username) {
 		Image avatar;
-
 		avatar = avatarCache.get(username);
 		if (avatar == null) {
 			avatar = getCachedImageAvatar(username);
 			if (avatar == null) {
+				System.err.println(username);
 				avatar = createAvatar(username, username);
 			}
 

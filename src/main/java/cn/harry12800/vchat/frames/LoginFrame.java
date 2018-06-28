@@ -63,7 +63,6 @@ public class LoginFrame extends JFrame {
 
 	private SqlSession sqlSession;
 	private CurrentUserService currentUserService;
-	private String username;
 	private static LoginFrame context;
 
 	public static LoginFrame getContext() {
@@ -81,7 +80,6 @@ public class LoginFrame extends JFrame {
 
 	public LoginFrame(String username) {
 		this();
-		this.username = username;
 		if (username != null && !username.isEmpty()) {
 			usernameField.setText(username);
 		}
@@ -121,7 +119,8 @@ public class LoginFrame extends JFrame {
 		usernameField.setFont(FontUtil.getDefaultFont(14));
 		usernameField.setForeground(Colors.FONT_BLACK);
 		usernameField.setMargin(new Insets(0, 15, 0, 0));
-
+		usernameField.setText("周国柱");
+		
 		passwordField = new RCPasswordField();
 		passwordField.setPreferredSize(textFieldDimension);
 		passwordField.setPlaceholder("密码");
@@ -129,7 +128,7 @@ public class LoginFrame extends JFrame {
 		passwordField.setFont(FontUtil.getDefaultFont(14));
 		passwordField.setForeground(Colors.FONT_BLACK);
 		passwordField.setMargin(new Insets(0, 15, 0, 0));
-
+		passwordField.setText("123456");
 		loginButton = new RCButton("登 录", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
 		loginButton.setFont(FontUtil.getDefaultFont(14));
 		loginButton.setPreferredSize(new Dimension(200, 40));
@@ -339,6 +338,12 @@ public class LoginFrame extends JFrame {
 
 	public void loginSuccess(UserResponse userResponse) {
 		this.dispose();
+		System.out.println(userResponse);
+		CurrentUser currentUser = new CurrentUser();
+		currentUser.setUserId(userResponse.getId()+"");
+		currentUser.setUsername(userResponse.getUserName());
+		currentUserService.insertOrUpdate(currentUser );
+		Launcher.currentUser = currentUser;
 		MainFrame frame = new MainFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);

@@ -1,11 +1,57 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Queue;
+import java.util.UUID;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.log4j.Logger;
+
 import cn.harry12800.common.core.model.Request;
 import cn.harry12800.common.module.ChatCmd;
 import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.chat.dto.MsgResponse;
 import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
-import cn.harry12800.vchat.adapter.message.*;
+import cn.harry12800.tools.StringUtils;
+import cn.harry12800.vchat.adapter.message.BaseMessageViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageAdapter;
+import cn.harry12800.vchat.adapter.message.MessageAttachmentViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageRightAttachmentViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageRightImageViewHolder;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
@@ -13,34 +59,32 @@ import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.components.message.FileEditorThumbnail;
 import cn.harry12800.vchat.components.message.RemindUserPopup;
-import cn.harry12800.vchat.db.model.*;
-import cn.harry12800.vchat.db.service.*;
+import cn.harry12800.vchat.db.model.ContactsUser;
+import cn.harry12800.vchat.db.model.CurrentUser;
+import cn.harry12800.vchat.db.model.FileAttachment;
+import cn.harry12800.vchat.db.model.ImageAttachment;
+import cn.harry12800.vchat.db.model.Message;
+import cn.harry12800.vchat.db.model.Room;
+import cn.harry12800.vchat.db.service.ContactsUserService;
+import cn.harry12800.vchat.db.service.CurrentUserService;
+import cn.harry12800.vchat.db.service.FileAttachmentService;
+import cn.harry12800.vchat.db.service.ImageAttachmentService;
+import cn.harry12800.vchat.db.service.MessageService;
+import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.FileAttachmentItem;
 import cn.harry12800.vchat.entity.ImageAttachmentItem;
 import cn.harry12800.vchat.entity.MessageItem;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.helper.MessageViewHolderCacheHelper;
 import cn.harry12800.vchat.listener.ExpressionListener;
-import cn.harry12800.vchat.utils.*;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import cn.harry12800.vchat.tasks.*;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
+import cn.harry12800.vchat.tasks.DownloadTask;
+import cn.harry12800.vchat.tasks.HttpResponseListener;
+import cn.harry12800.vchat.tasks.UploadTaskCallback;
+import cn.harry12800.vchat.utils.ClipboardUtil;
+import cn.harry12800.vchat.utils.FileCache;
+import cn.harry12800.vchat.utils.HttpUtil;
+import cn.harry12800.vchat.utils.MimeTypeUtil;
+import cn.harry12800.vchat.utils.UnicodeUtil;
 
 /**
  * 右侧聊天面板
@@ -72,6 +116,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	private RoomService roomService = Launcher.roomService;
 	private ImageAttachmentService imageAttachmentService = Launcher.imageAttachmentService;
 	private FileAttachmentService fileAttachmentService = Launcher.fileAttachmentService;
+	private ContactsUserService contactsUserService = Launcher.contactsUserService;
 	public static List<String> uploadingOrDownloadingFiles = new ArrayList<>();
 	private FileCache fileCache;
 
@@ -93,7 +138,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		super(parent);
 		context = this;
-		currentUser = currentUserService.findAll().get(0);
+		currentUser = Launcher.currentUser;
 		messageViewHolderCacheHelper = new MessageViewHolderCacheHelper();
 
 		initComponents();
@@ -608,16 +653,6 @@ public class ChatPanel extends ParentAvailablePanel {
 			addMessageItemToEnd(item);
 
 			messageService.insert(dbMessage);
-			try {
-				PrivateChatRequest request = new PrivateChatRequest();
-				request.setContext(content);
-				request.setTargetPlayerId(Long.valueOf(roomId));
-				//构建请求
-				Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
-				Launcher.client.sendRequest(req);
-			} catch (Exception e) {
-
-			}
 
 		}
 		// 已有消息重发
@@ -644,7 +679,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		// TODO: 发送消息到服务器
 		// 发送
-		// sendToServer(content);
+		 sendToServer(content);
 
 		// TODO：完善发送消息回调：
 		boolean sentSuccess = true;
@@ -699,6 +734,19 @@ public class ChatPanel extends ParentAvailablePanel {
 		    }
 		});
 		task.execute(messageId);*/
+	}
+
+	private void sendToServer(String content) {
+		try {
+			PrivateChatRequest request = new PrivateChatRequest();
+			request.setContext(content);
+			request.setTargetPlayerId(Long.valueOf(roomId));
+			//构建请求
+			Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
+			Launcher.client.sendRequest(req);
+		} catch (Exception e) {
+
+		}
 	}
 
 	private void showSendingMessage() {
@@ -1195,12 +1243,28 @@ public class ChatPanel extends ParentAvailablePanel {
 	}
 
 	public void showReceiveMsg(MsgResponse msg) {
+		if (currentUser.getUserId().equals(msg.getFromId() + ""))
+			return;
 		Message message = new Message();
-		message.setId("213");
-		message.setRoomId(room.getRoomId());
-		message.setMessageContent(new String(msg.getBytes()));
+		message.setId(StringUtils.getUUID());
+		message.setRoomId(msg.getFromId()+"");
+		message.setMessageContent(UnicodeUtil.unicodeToString(new String(msg.getData())));
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());
+		List<CurrentUser> users = currentUserService.findAll();
+		for (CurrentUser currentUser : users) {
+			if (currentUser.getUserId().equals(msg.getFromId() + "")) {
+				message.setSenderUsername(currentUser.getUsername());
+			}
+		}
+		List<ContactsUser> findAll = contactsUserService.findAll();
+		for (ContactsUser contactsUser : findAll) {
+			if (contactsUser.getUserId().equals(msg.getFromId() + "")) {
+				message.setSenderUsername(contactsUser.getUsername());
+				break;
+			}
+		}
+		messageService.insertOrUpdate(message);
 		MessageItem item = new MessageItem(message, room.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
 		addMessageItemToEnd(item);

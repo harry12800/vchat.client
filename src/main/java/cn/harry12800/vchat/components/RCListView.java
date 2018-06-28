@@ -258,12 +258,10 @@ public class RCListView extends JScrollPane {
 				contentPanel.setPreferredSize(new Dimension(contentPanel.getWidth(), contentPanel.getHeight()));
 			}
 		}
-
 		contentPanel.removeAll();
 		contentPanel.repaint();
 		fillComponents();
 		contentPanel.revalidate();
-
 	}
 
 	/**

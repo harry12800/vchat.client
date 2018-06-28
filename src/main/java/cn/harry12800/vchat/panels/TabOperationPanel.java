@@ -16,7 +16,8 @@ import java.awt.event.MouseListener;
 public class TabOperationPanel extends ParentAvailablePanel {
 	private JLabel chatLabel;
 	private JLabel contactsLabel;
-	private JLabel meLable;
+	private JLabel meLabel;
+	private JLabel diaryLabel;
 	private TabItemClickListener clickListener;
 	private ImageIcon chatIconActive;
 	private ImageIcon chatIconNormal;
@@ -48,7 +49,8 @@ public class TabOperationPanel extends ParentAvailablePanel {
 		chatLabel.setHorizontalAlignment(JLabel.CENTER);
 		chatLabel.setCursor(handCursor);
 		chatLabel.addMouseListener(clickListener);
-
+		chatLabel.setToolTipText("消息");
+		
 		contactIconNormal = new ImageIcon(getClass().getResource("/image/contacts_normal.png"));
 		contactIconActive = new ImageIcon(getClass().getResource("/image/contacts_active.png"));
 		contactsLabel = new JLabel();
@@ -57,15 +59,23 @@ public class TabOperationPanel extends ParentAvailablePanel {
 		contactsLabel.setHorizontalAlignment(JLabel.CENTER);
 		contactsLabel.setCursor(handCursor);
 		contactsLabel.addMouseListener(clickListener);
-
+		contactsLabel.setToolTipText("联系人");
+		
 		meIconNormal = new ImageIcon(getClass().getResource("/image/me_normal.png"));
 		meIconActive = new ImageIcon(getClass().getResource("/image/me_active.png"));
-		meLable = new JLabel();
-		meLable.setIcon(meIconNormal);
-		meLable.setHorizontalAlignment(JLabel.CENTER);
-		meLable.setCursor(handCursor);
-		meLable.addMouseListener(clickListener);
+		meLabel = new JLabel();
+		meLabel.setIcon(meIconNormal);
+		meLabel.setHorizontalAlignment(JLabel.CENTER);
+		meLabel.setCursor(handCursor);
+		meLabel.setToolTipText("收藏");
+		meLabel.addMouseListener(clickListener);
 
+		diaryLabel = new JLabel();
+		diaryLabel.setIcon(meIconNormal);
+		diaryLabel.setHorizontalAlignment(JLabel.CENTER);
+		diaryLabel.setCursor(handCursor);
+		diaryLabel.addMouseListener(clickListener);
+		diaryLabel.setToolTipText("日记");
 		parent = (LeftPanel) getParentPanel();
 	}
 
@@ -75,7 +85,8 @@ public class TabOperationPanel extends ParentAvailablePanel {
 		setBorder(new RCBorder(RCBorder.BOTTOM));
 		add(chatLabel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1).setInsets(0, 10, 0, 10));
 		add(contactsLabel, new GBC(1, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1).setInsets(0, 10, 0, 10));
-		add(meLable, new GBC(2, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1).setInsets(0, 10, 0, 10));
+		add(meLabel, new GBC(2, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1).setInsets(0, 10, 0, 10));
+		add(diaryLabel, new GBC(3, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1).setInsets(10, 10, 10, 10));
 	}
 
 	@Override
@@ -93,19 +104,28 @@ public class TabOperationPanel extends ParentAvailablePanel {
 			if (e.getComponent() == chatLabel) {
 				chatLabel.setIcon(chatIconActive);
 				contactsLabel.setIcon(contactIconNormal);
-				meLable.setIcon(meIconNormal);
+				meLabel.setIcon(meIconNormal);
+				diaryLabel.setIcon(meIconNormal);
 				parent.getListPanel().showPanel(ListPanel.CHAT);
 
 			} else if (e.getComponent() == contactsLabel) {
 				chatLabel.setIcon(chatIconNormal);
 				contactsLabel.setIcon(contactIconActive);
-				meLable.setIcon(meIconNormal);
+				meLabel.setIcon(meIconNormal);
+				diaryLabel.setIcon(meIconNormal);
 				parent.getListPanel().showPanel(ListPanel.CONTACTS);
-			} else if (e.getComponent() == meLable) {
+			} else if (e.getComponent() == meLabel) {
 				chatLabel.setIcon(chatIconNormal);
 				contactsLabel.setIcon(contactIconNormal);
-				meLable.setIcon(meIconActive);
+				meLabel.setIcon(meIconActive);
+				diaryLabel.setIcon(meIconNormal);
 				parent.getListPanel().showPanel(ListPanel.COLLECTIONS);
+			} else if (e.getComponent() == diaryLabel) {
+				chatLabel.setIcon(chatIconNormal);
+				contactsLabel.setIcon(contactIconNormal);
+				meLabel.setIcon(meIconNormal);
+				diaryLabel.setIcon(meIconActive);
+				parent.getListPanel().showPanel(ListPanel.DIARY);
 			}
 		}
 

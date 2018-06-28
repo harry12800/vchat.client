@@ -57,8 +57,8 @@ public class RoomsPanel extends ParentAvailablePanel {
 	}
 
 	public void initData(ShowAllUserResponse userResponse) {
-		List<UserResponse> players = userResponse.getUsers();
-		for (UserResponse user : players) {
+		List<UserResponse> users = userResponse.getUsers();
+		for (UserResponse user : users) {
 			RoomItem item = new RoomItem();
 			item.setRoomId(user.getId() + "");
 			item.setTimestamp(Instant.now().getEpochSecond());

@@ -13,11 +13,13 @@ public class ListPanel extends ParentAvailablePanel {
 	private ContactsPanel contactsPanel;
 	private CollectionsPanel collectionPanel;
 	private SearchResultPanel searchResultPanel;
+	private SearchResultPanel diaryPanel;
 
 	public static final String CHAT = "CHAT";
 	public static final String CONTACTS = "CONTACTS";
 	public static final String COLLECTIONS = "COLLECTIONS";
 	public static final String SEARCH = "SEARCH";
+	public static final String DIARY = "DIARY";
 
 	private String previousTab = CHAT;
 	private String currentTab = CHAT;
@@ -40,6 +42,8 @@ public class ListPanel extends ParentAvailablePanel {
 		collectionPanel = new CollectionsPanel(this);
 
 		searchResultPanel = new SearchResultPanel(this);
+		
+		diaryPanel = new SearchResultPanel(this);
 
 	}
 
@@ -49,6 +53,7 @@ public class ListPanel extends ParentAvailablePanel {
 		add(contactsPanel, CONTACTS);
 		add(collectionPanel, COLLECTIONS);
 		add(searchResultPanel, SEARCH);
+		add(diaryPanel, DIARY);
 	}
 
 	/**

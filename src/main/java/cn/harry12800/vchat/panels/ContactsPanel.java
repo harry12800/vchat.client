@@ -121,7 +121,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 
 			processAvatarData(image, username);
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 		if (hotRefresh) {

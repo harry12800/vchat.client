@@ -3,6 +3,7 @@ package cn.harry12800.vchat.components;
 import cn.harry12800.vchat.utils.FontUtil;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -18,8 +19,8 @@ public class RCPasswordField extends JPasswordField {
 		setBackground(Colors.FONT_WHITE);
 		setForeground(Colors.FONT_BLACK);
 		setCaretColor(Color.GRAY);
-		setBorder(null);
-
+		setBorder(new EmptyBorder(new Insets(0,20, 0, 0) ));
+		setMargin(new Insets(0,20, 0, 0));
 		getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -51,7 +52,7 @@ public class RCPasswordField extends JPasswordField {
 			g2.setBackground(Color.gray);
 			g2.setFont(FontUtil.getDefaultFont());
 			g2.setColor(Color.GRAY);
-			g2.drawString(placeholder, 10, 25);
+			g2.drawString(placeholder, 20, 25);
 			g2.dispose();
 		}
 

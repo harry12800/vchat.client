@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import org.apache.ibatis.session.SqlSession;
 
 import cn.harry12800.lnk.client.Client;
+import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.db.service.FileAttachmentService;
@@ -43,6 +44,7 @@ public class Launcher {
 	public static String userHome;
 	public static String appFilesBasePath;
 
+	public static CurrentUser currentUser;
 	static {
 		sqlSession = DbUtils.getSqlSession();
 		roomService = new RoomService(sqlSession);

@@ -1,7 +1,9 @@
 package cn.harry12800.vchat.frames;
 
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
+import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -42,7 +44,7 @@ public class MainFrame extends JFrame {
 		initComponents();
 		initView();
 		initResource();
-
+		ImageUtils.addImage(MainFrame.class);
 		// 连接WebSocket
 		//startWebSocket();
 	}
@@ -74,6 +76,7 @@ public class MainFrame extends JFrame {
 	 * 初始化系统托盘图标
 	 */
 	private void initTray() {
+		String tip = "Nickname：harry12800\r\nQQ:804151219\r\n开发者常用功能";
 		SystemTray systemTray = SystemTray.getSystemTray();//获取系统托盘
 		try {
 			if (OSUtil.getOsType() == OSUtil.Mac_OS) {
@@ -83,9 +86,9 @@ public class MainFrame extends JFrame {
 			}
 
 			emptyTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_empty.png", 20, 20).getImage();
-
-			trayIcon = new TrayIcon(normalTrayIcon, "微信");
-			trayIcon.setImageAutoSize(true);
+			trayIcon = new TrayIcon(ImageUtils.getByName("image/system.png"), tip);
+//			trayIcon = new TrayIcon(normalTrayIcon, "Author：harry12800\nQQ:804151219\n开发者常用功能");
+//			trayIcon.setImageAutoSize(true);
 			trayIcon.addMouseListener(new MouseAdapter() {
 
 				@Override
@@ -104,30 +107,8 @@ public class MainFrame extends JFrame {
 			});
 
 			PopupMenu menu = new PopupMenu();
-
-			MenuItem exitItem = new MenuItem("退出");
-			exitItem.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					clearClipboardCache();
-					System.exit(1);
-				}
-			});
-
-			MenuItem showItem = new MenuItem("打开微信");
-			showItem.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setVisible(true);
-				}
-			});
-			menu.add(showItem);
-			menu.add(exitItem);
-
 			trayIcon.setPopupMenu(menu);
-
 			systemTray.add(trayIcon);
-
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
@@ -136,7 +117,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * 清除剪切板缓存文件
 	 */
-	private void clearClipboardCache() {
+	public void clearClipboardCache() {
 		ClipboardUtil.clearCache();
 	}
 
@@ -244,7 +225,8 @@ public class MainFrame extends JFrame {
 		super.dispose();
 	}
 
-	public void ShowAllUser(ShowAllUserResponse userResponse) {
+	public void showAllUser(ShowAllUserResponse userResponse) {
 		RoomsPanel.getContext().initData(userResponse);
 	}
+
 }

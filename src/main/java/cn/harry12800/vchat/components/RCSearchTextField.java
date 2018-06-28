@@ -17,7 +17,6 @@ public class RCSearchTextField extends JTextField {
 	private RoundRectangle2D.Double shape;
 
 	public RCSearchTextField() {
-		setBorder(null);
 		setBackground(Colors.DARK);
 		setForeground(Colors.FONT_WHITE);
 		setCaretColor(Color.GRAY);
@@ -66,6 +65,5 @@ public class RCSearchTextField extends JTextField {
 			g2.drawString("搜索 ", 10, 20);
 			g2.dispose();
 		}
-
 	}
 }

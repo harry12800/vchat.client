@@ -1,20 +1,26 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.message.MainOperationPopupMenu;
-import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.frames.SystemConfigDialog;
 import cn.harry12800.vchat.listener.AbstractMouseListener;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -26,7 +32,6 @@ public class MyInfoPanel extends ParentAvailablePanel {
 	private JLabel avatar;
 	private JLabel username;
 	private JLabel menuIcon;
-	private CurrentUserService currentUserService = Launcher.currentUserService;
 
 	MainOperationPopupMenu mainOperationPopupMenu;
 	private String currentUsername;
@@ -46,7 +51,7 @@ public class MyInfoPanel extends ParentAvailablePanel {
 		//        CurrentUser test = currentUserService.findById("Ni7bJcX3W8yExKSa3");
 		//        System.out.println(test);
 		;
-		currentUsername = currentUserService.findAll().get(0).getUsername();
+		currentUsername = Launcher.currentUser.getUsername();
 		//        currentUsername  = "song";
 		avatar = new JLabel();
 		avatar.setIcon(new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUsername).getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
@@ -102,7 +107,7 @@ public class MyInfoPanel extends ParentAvailablePanel {
 	}
 
 	public void reloadAvatar() {
-		currentUsername = currentUserService.findAll().get(0).getUsername();
+		currentUsername = Launcher.currentUser.getUsername();
 		//Image image = AvatarUtil.createOrLoadUserAvatar(currentUsername);
 		//avatar.setImage(image);
 		avatar.setIcon(new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUsername).getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
