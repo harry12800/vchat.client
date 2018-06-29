@@ -64,14 +64,17 @@ public class RoomsPanel extends ParentAvailablePanel {
 			item.setTimestamp(Instant.now().getEpochSecond());
 			item.setTitle(user.getUserName());
 			item.setType("d");
-			item.setLastMessage("asd");
-			item.setUnreadCount(3);
-			Room room = new Room();
+			Room room = roomService.findById(user.getId() + "");
+			if (room == null) {
+				room = new Room();
+			}
 			room.setCreatorId(user.getId() + "");
 			room.setRoomId(user.getId() + "");
 			room.setName(user.getUserName());
 			room.setTopic(user.getUserName());
 			room.setType("d");
+			item.setUnreadCount(room.getUnreadCount());
+			item.setLastMessage(room.getLastMessage());
 			roomService.insertOrUpdate(room);
 			roomItemList.add(item);
 		}
