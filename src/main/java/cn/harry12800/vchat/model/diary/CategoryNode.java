@@ -28,8 +28,8 @@ public class CategoryNode extends DefaultMutableTreeNode {
 		Builder createBgColorBuilder = CatalogItemPanel.createBuilder(this,
 				UI.backColor);
 		createBgColorBuilder.image = ImageUtils.getByName("image/arrow_left.png");
-		panelItem = new CatalogItemPanel(file.getName(), 200, 30, createBgColorBuilder);
-		panelItem.setBounds(0, 0, 200, 30);
+		panelItem = new CatalogItemPanel(file.getName(), 250, 30, createBgColorBuilder);
+		panelItem.setBounds(0, 0, 250, 30);
 	}
 	public Component getView() {
 		return panelItem;

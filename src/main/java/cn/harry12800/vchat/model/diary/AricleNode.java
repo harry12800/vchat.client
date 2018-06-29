@@ -34,7 +34,7 @@ public class AricleNode extends DefaultMutableTreeNode {
 		setFile(file,aritcle);
 		builder = AricleItemPanel.createBuilder(this,UI.backColor);
 		builder.image = ImageUtils.getByName("image/arrow_left.png");
-		plainButton = new AricleItemPanel(this.aritcle.title, 200, 30,builder);
+		plainButton = new AricleItemPanel(this.aritcle.title, 250, 30,builder);
 		SimpleDateFormat format = new SimpleDateFormat(StringUtils.yyyy_MM_dd_HH24_mm_ss);
 	    date = new Date();
 		try {
@@ -43,7 +43,7 @@ public class AricleNode extends DefaultMutableTreeNode {
 //			e.printStackTrace();
 		}
 		plainButton.updatedateL.setText(RelativeDateFormat.format(date));
-		plainButton.setBounds(0	, 0, 200, 30);
+		plainButton.setBounds(0	, 0, 250, 30);
 	}
 
 	public Component getView() {

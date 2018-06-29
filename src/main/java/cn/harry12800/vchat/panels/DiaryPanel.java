@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -48,7 +47,6 @@ import cn.harry12800.vchat.model.diary.AreaTextPanel;
 import cn.harry12800.vchat.model.diary.AricleNode;
 import cn.harry12800.vchat.model.diary.Aritcle;
 import cn.harry12800.vchat.model.diary.BaiduReader;
-import cn.harry12800.vchat.model.diary.MyTreeUI;
 import cn.harry12800.vchat.model.diary.RelativeDateFormat;
 import cn.harry12800.vchat.model.diary.SearchInputText;
 import cn.harry12800.vchat.model.diary.SelectButtonDialog;
@@ -211,8 +209,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).date = new Date();
 			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).plainButton.text.setText(title);
 			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).plainButton.updatedateL.setText(RelativeDateFormat.format(new Date()));
-			DiaryCatalogPanel.getContext().getCatalogTree().setUI(new MyTreeUI());
-			DiaryCatalogPanel.getContext().getCatalogTree().revalidate();
+			DiaryCatalogPanel.getContext().getModel().reload(((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()));
 		}
 		MainFrame.getContext().alert("保存成功！");
 	}
@@ -257,6 +254,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 					});
 					System.out.println(listFiles.length);
 					Aritcle[] aritcles = new Aritcle[listFiles.length];
+					@SuppressWarnings("unused")
 					int currIndex = 0;
 					for (int i = 0; i < listFiles.length; i++) {
 						try {

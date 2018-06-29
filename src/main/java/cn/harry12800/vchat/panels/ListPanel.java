@@ -14,7 +14,7 @@ public class ListPanel extends ParentAvailablePanel {
 	private ContactsPanel contactsPanel;
 	private CollectionsPanel collectionPanel;
 	private SearchResultPanel searchResultPanel;
-	private JPanel diaryPanel;
+	private DiaryCatalogPanel diaryCatalogPanel;
 
 	public static final String CHAT = "CHAT";
 	public static final String CONTACTS = "CONTACTS";
@@ -39,7 +39,7 @@ public class ListPanel extends ParentAvailablePanel {
 		contactsPanel = new ContactsPanel(this);
 		collectionPanel = new CollectionsPanel(this);
 		searchResultPanel = new SearchResultPanel(this);
-		diaryPanel = new DiaryCatalogPanel(this);
+		diaryCatalogPanel = new DiaryCatalogPanel(this);
 	}
 
 	private void initView() {
@@ -48,7 +48,7 @@ public class ListPanel extends ParentAvailablePanel {
 		add(contactsPanel, CONTACTS);
 		add(collectionPanel, COLLECTIONS);
 		add(searchResultPanel, SEARCH);
-		add(diaryPanel, DIARY);
+		add(diaryCatalogPanel, DIARY);
 	}
 
 	/**

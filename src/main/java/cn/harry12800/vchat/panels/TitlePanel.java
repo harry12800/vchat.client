@@ -259,7 +259,9 @@ public class TitlePanel extends ParentAvailablePanel {
 		this.titleLabel.setText("微聊");
 		roomInfoButton.setVisible(false);
 	}
-
+	public void updateAppTitle(String text) {
+		this.titleLabel.setText(text);
+	}
 	/**
 	 * 显示状态栏
 	 * @param text

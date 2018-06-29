@@ -92,7 +92,7 @@ public class AricleItemPanel extends JPanel {
 		add(updatedateL);
 		text.setText(name);
 		text.setOpaque(false);
-		text.setBounds(0, 0, w-70, h);
+		text.setBounds(30, 0, w-70, h);
 		add(text);
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 		addKeyListener(new KeyAdapter() {

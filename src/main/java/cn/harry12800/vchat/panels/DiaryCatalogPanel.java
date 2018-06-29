@@ -1,6 +1,5 @@
 package cn.harry12800.vchat.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +23,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import cn.harry12800.j2se.dialog.InputMessageDialog;
@@ -48,7 +48,7 @@ import cn.harry12800.vchat.model.diary.TreeNodeRenderer;
  * @author Yuexin
  * 
  */
-public class DiaryCatalogPanel extends JPanel {
+public class DiaryCatalogPanel extends JScrollPane {
 
 	/**
 	 * 
@@ -94,7 +94,6 @@ public class DiaryCatalogPanel extends JPanel {
 	}
 	public DiaryCatalogPanel(JPanel parent) {
 		context = this;
-		setLayout(new BorderLayout());
 		root = new DefaultMutableTreeNode();
 		model = new DefaultTreeModel(root);
 		setOpaque(false);
@@ -136,6 +135,7 @@ public class DiaryCatalogPanel extends JPanel {
 						.getLastSelectedPathComponent(); // 返回最后选中的结点
 				if (node instanceof AricleNode) {
 					RightPanel.getContext().showPanel(RightPanel.DIARY);
+					TitlePanel.getContext().updateAppTitle("日记");
 					selectDiary(((AricleNode) node).getFile());
 					setCurrTree(catalogTree);
 					setCurrNode(node);
@@ -167,15 +167,15 @@ public class DiaryCatalogPanel extends JPanel {
 							pm.setBorder(LIGHT_GRAY_BORDER);
 							pm.setBorderPainted(false);
 							JMenuItem mit3 = new JMenuItem("删除分组");
-							//							mit0.setOpaque(false);
 							mit3.setFont(BASIC_FONT);
 							mit3.setBackground(Colors.DARK);
 							JMenuItem mit1 = new JMenuItem("更换名称");
-							//							mit1.setOpaque(false);
+							mit1.setOpaque(false);
 							mit1.setFont(BASIC_FONT);
 							JMenuItem mit2 = new JMenuItem("添加文章");
 							JMenuItem mit0 = new JMenuItem("打开目录");
-							//							mit2.setOpaque(false);
+							mit2.setOpaque(false);
+							mit0.setOpaque(false);
 							mit2.setFont(BASIC_FONT);
 							mit0.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
@@ -192,8 +192,9 @@ public class DiaryCatalogPanel extends JPanel {
 								public void actionPerformed(ActionEvent e) {
 									((CategoryNode) (object)).removeFromParent();
 									FileUtils.deleteDir(((CategoryNode) (object)).getFile());
-									catalogTree.setUI(new MyTreeUI());
-									catalogTree.revalidate();
+//									catalogTree.setUI(new MyTreeUI());
+//									catalogTree.revalidate();
+									model.nodeStructureChanged(root);
 								}
 							});
 							// 更换名称
@@ -207,8 +208,7 @@ public class DiaryCatalogPanel extends JPanel {
 													dirFile.renameTo(new File(path));
 												}
 											});
-									catalogTree.setUI(new MyTreeUI());
-									catalogTree.revalidate();
+									model.nodeStructureChanged((CategoryNode) (object));
 								}
 							});
 							mit2.addActionListener(new ActionListener() {
@@ -220,9 +220,8 @@ public class DiaryCatalogPanel extends JPanel {
 									AricleNode newChild = new AricleNode(f, aritcle);
 
 									((CategoryNode) (object)).insert(newChild, 0);
+									model.nodeStructureChanged(node);
 									catalogTree.expandPath(path);
-									catalogTree.setUI(new MyTreeUI());
-									catalogTree.revalidate();
 								}
 							});
 							pm.add(mit0);
@@ -245,9 +244,10 @@ public class DiaryCatalogPanel extends JPanel {
 							//							mit0.setFont(BASIC_FONT);
 							mit2.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
+									TreeNode parent2 = ((AricleNode) (object)).getParent();
 									((AricleNode) (object)).removeFromParent();
 									delAricle(((AricleNode) (object)).getFile());
-									catalogTree.setUI(new MyTreeUI());
+									model.nodeStructureChanged(parent2);
 								}
 							});
 							mit1.addActionListener(new ActionListener() {
@@ -270,7 +270,7 @@ public class DiaryCatalogPanel extends JPanel {
 													aritcleFile.renameTo(new File(path));
 												}
 											});
-									catalogTree.setUI(new MyTreeUI());
+									model.nodeStructureChanged(((AricleNode) (object)).getParent());
 								}
 							});
 							pm.add(mit0);
@@ -295,20 +295,16 @@ public class DiaryCatalogPanel extends JPanel {
 			}
 		});
 		catalogTree.setTransferHandler(new MyJTreeTransferHandler());
-		JScrollPane jScrollPane = new JScrollPane();
-		jScrollPane.setOpaque(false);
-		jScrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-		jScrollPane.setViewportView(catalogTree);
-		jScrollPane.getViewport().setOpaque(false);
+		setBorder(new EmptyBorder(10, 10, 10, 10));
+		setViewportView(catalogTree);
+		getViewport().setOpaque(false);
 		//		jScrollPane.getViewport().setBackground( UI.backColor);
 		//		jScrollPane.setBackground(UI.backColor);
-		jScrollPane.getVerticalScrollBar().setBackground(UI.backColor);
+		getVerticalScrollBar().setBackground(UI.backColor);
 		//		jScrollPane.getVerticalScrollBar().setVisible(false);
-		jScrollPane.getVerticalScrollBar().setUI(new MyScrollBarUI());
+		getVerticalScrollBar().setUI(new MyScrollBarUI());
 		// 屏蔽横向滚动条
-		jScrollPane
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		add(jScrollPane, BorderLayout.CENTER);
+		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 
 	// 微软雅黑
@@ -366,6 +362,14 @@ public class DiaryCatalogPanel extends JPanel {
 		return catalogTree;
 	}
 
+
+	public DefaultTreeModel getModel() {
+		return model;
+	}
+
+	public void setModel(DefaultTreeModel model) {
+		this.model = model;
+	}
 
 	public void setCatalogTree(JTree catalogTree) {
 		this.catalogTree = catalogTree;
