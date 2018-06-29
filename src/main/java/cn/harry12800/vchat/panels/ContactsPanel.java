@@ -1,5 +1,17 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.GridBagLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+import org.apache.log4j.Logger;
+
 import cn.harry12800.vchat.adapter.ContactsItemsAdapter;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
@@ -10,16 +22,6 @@ import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.entity.ContactsItem;
 import cn.harry12800.vchat.utils.AvatarUtil;
-import org.apache.log4j.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -118,7 +120,6 @@ public class ContactsPanel extends ParentAvailablePanel {
 		try {
 			URL url = getClass().getResource("/avatar/" + username + ".png");
 			BufferedImage image = ImageIO.read(url);
-
 			processAvatarData(image, username);
 		} catch (IOException e) {
 //			e.printStackTrace();
@@ -126,7 +127,6 @@ public class ContactsPanel extends ParentAvailablePanel {
 
 		if (hotRefresh) {
 			AvatarUtil.refreshUserAvatarCache(username);
-
 			if (username.equals(currentUsername)) {
 				MyInfoPanel.getContext().reloadAvatar();
 			}

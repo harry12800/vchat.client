@@ -114,7 +114,6 @@ public class ImageUtils {
 	private static BufferedImage getResource(String name) {
 		InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
 		BufferedImage read = null;
-		System.err.println(name);
 		try {
 			read = ImageIO.read(resourceAsStream);
 		} catch (IOException e) {

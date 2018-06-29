@@ -105,7 +105,6 @@ public class AvatarUtil {
 		if (avatar == null) {
 			avatar = getCachedImageAvatar(username);
 			if (avatar == null) {
-				System.err.println(username);
 				avatar = createAvatar(username, username);
 			}
 

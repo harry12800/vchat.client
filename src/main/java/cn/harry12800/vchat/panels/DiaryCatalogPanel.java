@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
@@ -32,6 +33,7 @@ import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
+import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.frames.MainFrame;
@@ -54,7 +56,8 @@ public class DiaryCatalogPanel extends JScrollPane {
 	 * 
 	 */
 	public static DiaryCatalogPanel context;
-	public String dirPath = "C:/Users/ZR0014/Desktop/a/data/diary";
+	public final static String dirName = "diary";
+	public String dirPath = "";
 	private static final long serialVersionUID = 1L;
 	FileFilter filter = new FileFilter() {
 		@Override
@@ -92,14 +95,41 @@ public class DiaryCatalogPanel extends JScrollPane {
 	public static DiaryCatalogPanel getContext() {
 		return context;
 	}
+
 	public DiaryCatalogPanel(JPanel parent) {
 		context = this;
+		boolean byClass = MachineUtils.getByClass(DiaryCatalogPanel.class);
+		String homePath = "";
+		if (byClass) {
+			String clazz = System.getProperty("sun.java.command");
+			System.err.println("sun.java.command: " + clazz);
+			File file = new File(clazz);
+			//			MachineUtils.printSystemProperties();
+			if (file.exists()) {
+				File file2 = new File(file.getAbsolutePath());
+				File parentFile = file2.getParentFile();
+				homePath = parentFile.getAbsolutePath();
+			} else {
+				homePath = System.getProperty("user.dir");
+			}
+		} else {
+			homePath = System.getProperty("user.dir");
+		}
+		dirPath = homePath + File.separator + "data" + File.separator + dirName;
+		if(!new File(dirPath).exists()){
+			new File(dirPath).mkdirs();
+		}
 		root = new DefaultMutableTreeNode();
 		model = new DefaultTreeModel(root);
 		setOpaque(false);
 		File file = new File(dirPath);
 		File[] listFiles = file.listFiles(filter);
 		int x = 0;
+		if (Objects.isNull(listFiles) || listFiles.length == 0) {
+			String test = dirPath + File.separator + "Test";
+			new File(test).mkdirs();
+		}
+		listFiles = file.listFiles(filter);
 		for (final File f : listFiles) {
 			if (f.isDirectory()) {
 				CategoryNode node = new CategoryNode(f);
@@ -139,7 +169,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 					selectDiary(((AricleNode) node).getFile());
 					setCurrTree(catalogTree);
 					setCurrNode(node);
-//					setCurrFile(((AricleNode) node).getFile());
+					//					setCurrFile(((AricleNode) node).getFile());
 				}
 				if (node instanceof CategoryNode) {
 
@@ -192,8 +222,8 @@ public class DiaryCatalogPanel extends JScrollPane {
 								public void actionPerformed(ActionEvent e) {
 									((CategoryNode) (object)).removeFromParent();
 									FileUtils.deleteDir(((CategoryNode) (object)).getFile());
-//									catalogTree.setUI(new MyTreeUI());
-//									catalogTree.revalidate();
+									//									catalogTree.setUI(new MyTreeUI());
+									//									catalogTree.revalidate();
 									model.nodeStructureChanged(root);
 								}
 							});
@@ -345,7 +375,6 @@ public class DiaryCatalogPanel extends JScrollPane {
 			file.delete();
 		}
 	}
-	
 
 	public void setCurrNode(DefaultMutableTreeNode node) {
 		this.currNode = node;
@@ -357,11 +386,9 @@ public class DiaryCatalogPanel extends JScrollPane {
 		this.catalogTree = catalogTree;
 	}
 
- 
 	public JTree getCatalogTree() {
 		return catalogTree;
 	}
-
 
 	public DefaultTreeModel getModel() {
 		return model;
@@ -375,16 +402,13 @@ public class DiaryCatalogPanel extends JScrollPane {
 		this.catalogTree = catalogTree;
 	}
 
-
 	public String getCurrPath() {
 		return currPath;
 	}
 
-
 	public void setCurrPath(String currPath) {
 		this.currPath = currPath;
 	}
-
 
 	public DefaultMutableTreeNode getCurrNode() {
 		return currNode;
