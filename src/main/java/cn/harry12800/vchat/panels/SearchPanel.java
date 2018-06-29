@@ -42,7 +42,6 @@ public class SearchPanel extends ParentAvailablePanel {
 	public SearchPanel(JPanel parent) {
 		super(parent);
 		context = this;
-
 		initComponent();
 		initView();
 		setListeners();

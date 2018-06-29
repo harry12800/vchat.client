@@ -181,7 +181,7 @@ public class TitlePanel extends ParentAvailablePanel {
 
 		titleLabel = new JLabel();
 		titleLabel.setFont(FontUtil.getDefaultFont(16));
-		titleLabel.setText("微信");
+		titleLabel.setText("微聊");
 		//titleLabel.setCursor(handCursor);
 
 		ControlLabelMouseListener listener = new ControlLabelMouseListener();
@@ -256,7 +256,7 @@ public class TitlePanel extends ParentAvailablePanel {
 	}
 
 	public void showAppTitle() {
-		this.titleLabel.setText("微信");
+		this.titleLabel.setText("微聊");
 		roomInfoButton.setVisible(false);
 	}
 

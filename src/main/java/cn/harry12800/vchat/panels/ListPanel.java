@@ -1,7 +1,8 @@
 package cn.harry12800.vchat.panels;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.CardLayout;
+
+import javax.swing.JPanel;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -13,7 +14,7 @@ public class ListPanel extends ParentAvailablePanel {
 	private ContactsPanel contactsPanel;
 	private CollectionsPanel collectionPanel;
 	private SearchResultPanel searchResultPanel;
-	private SearchResultPanel diaryPanel;
+	private JPanel diaryPanel;
 
 	public static final String CHAT = "CHAT";
 	public static final String CONTACTS = "CONTACTS";
@@ -29,22 +30,16 @@ public class ListPanel extends ParentAvailablePanel {
 	public ListPanel(JPanel parent) {
 		super(parent);
 		context = this;
-
 		initComponents();
 		initView();
 	}
 
 	private void initComponents() {
 		roomsPanel = new RoomsPanel(this);
-
 		contactsPanel = new ContactsPanel(this);
-
 		collectionPanel = new CollectionsPanel(this);
-
 		searchResultPanel = new SearchResultPanel(this);
-		
-		diaryPanel = new SearchResultPanel(this);
-
+		diaryPanel = new DiaryCatalogPanel(this);
 	}
 
 	private void initView() {

@@ -135,7 +135,6 @@ public class ChatPanel extends ParentAvailablePanel {
 	private Queue<String> shareAttachmentUploadQueue = new ArrayDeque<>(MAX_SHARE_ATTACHMENT_UPLOAD_COUNT);
 
 	public ChatPanel(JPanel parent) {
-
 		super(parent);
 		context = this;
 		currentUser = Launcher.currentUser;

@@ -1,9 +1,26 @@
 package cn.harry12800.vchat.frames;
 
+import java.awt.AWTException;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.InputStream;
+
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
+import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -13,10 +30,6 @@ import cn.harry12800.vchat.utils.IconUtil;
 import cn.harry12800.vchat.utils.OSUtil;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.InputStream;
 
 /**
  * Created by harry12800 on 17-5-28.
@@ -227,6 +240,10 @@ public class MainFrame extends JFrame {
 
 	public void showAllUser(ShowAllUserResponse userResponse) {
 		RoomsPanel.getContext().initData(userResponse);
+	}
+
+	public void alert(String info) {
+		new MessageDialog(MainFrame.getContext(), "温馨提示", info);
 	}
 
 }

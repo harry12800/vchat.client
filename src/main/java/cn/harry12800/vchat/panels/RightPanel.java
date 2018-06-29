@@ -16,6 +16,7 @@ public class RightPanel extends JPanel {
 	private RoomMembersPanel roomMembersPanel;
 
 	private ChatPanel chatPanel;
+	private DiaryPanel diaryPanel;
 	private TipPanel tipPanel;
 	private UserInfoPanel userInfoPanel;
 
@@ -26,6 +27,7 @@ public class RightPanel extends JPanel {
 	public static final String MESSAGE = "MESSAGE";
 	public static final String TIP = "TIP";
 	public static final String USER_INFO = "USER_INFO";
+	public static final String DIARY = "DIARY";
 
 	public RightPanel() {
 		context = this;
@@ -41,6 +43,7 @@ public class RightPanel extends JPanel {
 
 		titlePanel = new TitlePanel(this);
 		chatPanel = new ChatPanel(this);
+		diaryPanel = new DiaryPanel(this);
 		roomMembersPanel = new RoomMembersPanel(this);
 		tipPanel = new TipPanel(this);
 		userInfoPanel = new UserInfoPanel(this);
@@ -52,6 +55,7 @@ public class RightPanel extends JPanel {
 		contentPanel.add(tipPanel, TIP);
 		contentPanel.add(userInfoPanel, USER_INFO);
 		contentPanel.add(chatPanel, MESSAGE);
+		contentPanel.add(diaryPanel, DIARY);
 
 		this.setBackground(Colors.FONT_WHITE);
 		this.setLayout(new BorderLayout());

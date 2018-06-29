@@ -28,7 +28,7 @@ public class AboutPanel extends JPanel {
 		imageLabel.setIcon(icon);
 
 		versionLabel = new JLabel();
-		versionLabel.setText("微信 v" + Launcher.APP_VERSION);
+		versionLabel.setText("微聊 v" + Launcher.APP_VERSION);
 		versionLabel.setFont(FontUtil.getDefaultFont(20));
 		versionLabel.setForeground(Colors.FONT_GRAY_DARKER);
 	}
