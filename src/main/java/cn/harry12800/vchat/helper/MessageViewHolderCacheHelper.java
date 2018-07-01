@@ -1,23 +1,38 @@
 package cn.harry12800.vchat.helper;
 
-import cn.harry12800.vchat.adapter.message.*;
-import cn.harry12800.vchat.panels.ChatPanel;
-
-import javax.swing.*;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JComponent;
+
+import cn.harry12800.vchat.adapter.message.MessageLeftAttachmentViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageLeftImageViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageLeftTextViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageMouseListener;
+import cn.harry12800.vchat.adapter.message.MessageRightAttachmentViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageRightImageViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageRightTextViewHolder;
+import cn.harry12800.vchat.adapter.message.MessageSystemMessageViewHolder;
+import cn.harry12800.vchat.panels.ChatPanel;
+
 /**
  * 提供消息ViewHolder缓存
  * <p>
- * <p>对消息的ViewHolder进入缓存能大大加速消息列表的加载速度，在刚进入房间时，默认先加载10条消息，
- * 这10条消息的ViewHolder将从缓存中获取，避免了new ViewHolder花费的时间。</p>
  * <p>
- * <p>在新进入新的房间时，{@link ChatPanel#enterRoom(String)} 方法将会调用本类的{@link MessageViewHolderCacheHelper#reset()} 方法，
- * 对上一个房间所使用的ViewHolder对象进行释放，从而实现循环使用缓存的ViewHolder</p>
+ * 对消息的ViewHolder进入缓存能大大加速消息列表的加载速度，在刚进入房间时，默认先加载10条消息，
+ * 这10条消息的ViewHolder将从缓存中获取，避免了new ViewHolder花费的时间。
+ * </p>
  * <p>
- * <p>默认初始缓存容量为10。</p>
+ * <p>
+ * 在新进入新的房间时，{@link ChatPanel#enterRoom(String)}
+ * 方法将会调用本类的{@link MessageViewHolderCacheHelper#reset()} 方法，
+ * 对上一个房间所使用的ViewHolder对象进行释放，从而实现循环使用缓存的ViewHolder
+ * </p>
+ * <p>
+ * <p>
+ * 默认初始缓存容量为10。
+ * </p>
  * <p>
  * Created by harry12800 on 2017/6/24.
  */
@@ -50,7 +65,7 @@ public class MessageViewHolderCacheHelper {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				//				long startTime = System.currentTimeMillis();
+				// long startTime = System.currentTimeMillis();
 				initRightTextViewHolders();
 				initRightImageViewHolders();
 				initRightAttachmentViewHolders();
@@ -175,9 +190,9 @@ public class MessageViewHolderCacheHelper {
 	}
 
 	public synchronized void reset() {
-		//long start = System.currentTimeMillis();
+		// long start = System.currentTimeMillis();
 
-		//for (MessageRightTextViewHolder viewHolder : rightTextViewHolders)
+		// for (MessageRightTextViewHolder viewHolder : rightTextViewHolders)
 		for (int i = 0; i < rightTextPosition; i++) {
 			MessageRightTextViewHolder viewHolder = rightTextViewHolders.get(i);
 			clearMouseListener(viewHolder.messageBubble);
@@ -185,9 +200,9 @@ public class MessageViewHolderCacheHelper {
 			clearMouseListener(viewHolder.text);
 		}
 
-		//System.out.println("花费时间 ：" + (System.currentTimeMillis() - start));
+		// System.out.println("花费时间 ：" + (System.currentTimeMillis() - start));
 
-		//for (MessageRightImageViewHolder viewHolder : rightImageViewHolders)
+		// for (MessageRightImageViewHolder viewHolder : rightImageViewHolders)
 		for (int i = 0; i < rightImagePosition; i++) {
 			MessageRightImageViewHolder viewHolder = rightImageViewHolders.get(i);
 			clearMouseListener(viewHolder.image);
@@ -195,7 +210,8 @@ public class MessageViewHolderCacheHelper {
 			clearMouseListener(viewHolder.resend);
 		}
 
-		//for (MessageRightAttachmentViewHolder viewHolder : rightAttachmentViewHolders)
+		// for (MessageRightAttachmentViewHolder viewHolder :
+		// rightAttachmentViewHolders)
 		for (int i = 0; i < rightAttachmentPosition; i++) {
 			MessageRightAttachmentViewHolder viewHolder = rightAttachmentViewHolders.get(i);
 			clearMouseListener(viewHolder.resend);
@@ -204,7 +220,7 @@ public class MessageViewHolderCacheHelper {
 			clearMouseListener(viewHolder.attachmentTitle);
 		}
 
-		//for (MessageLeftTextViewHolder viewHolder : leftTextViewHolders)
+		// for (MessageLeftTextViewHolder viewHolder : leftTextViewHolders)
 		for (int i = 0; i < leftTextPosition; i++) {
 			MessageLeftTextViewHolder viewHolder = leftTextViewHolders.get(i);
 
@@ -213,7 +229,7 @@ public class MessageViewHolderCacheHelper {
 			clearMouseListener(viewHolder.avatar);
 		}
 
-		//for (MessageLeftImageViewHolder viewHolder : leftImageViewHolders)
+		// for (MessageLeftImageViewHolder viewHolder : leftImageViewHolders)
 		for (int i = 0; i < leftImagePosition; i++) {
 			MessageLeftImageViewHolder viewHolder = leftImageViewHolders.get(i);
 
@@ -222,7 +238,7 @@ public class MessageViewHolderCacheHelper {
 			clearMouseListener(viewHolder.avatar);
 		}
 
-		//for (MessageLeftAttachmentViewHolder viewHolder : leftAttachmentViewHolders)
+		// for (MessageLeftAttachmentViewHolder viewHolder : leftAttachmentViewHolders)
 		for (int i = 0; i < leftAttachmentPosition; i++) {
 			MessageLeftAttachmentViewHolder viewHolder = leftAttachmentViewHolders.get(i);
 

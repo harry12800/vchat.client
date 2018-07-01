@@ -33,8 +33,10 @@ public class MessageItem implements Comparable<MessageItem> {
 	private boolean deleted;
 	private int messageType;
 
-	/*List<FileAttachmentItem> fileAttachments = new ArrayList<>();
-	List<ImageAttachmentItem> imageAttachments = new ArrayList<>();*/
+	/*
+	 * List<FileAttachmentItem> fileAttachments = new ArrayList<>();
+	 * List<ImageAttachmentItem> imageAttachments = new ArrayList<>();
+	 */
 
 	private FileAttachmentItem fileAttachment;
 	private ImageAttachmentItem imageAttachment;
@@ -72,15 +74,13 @@ public class MessageItem implements Comparable<MessageItem> {
 			this.imageAttachment = new ImageAttachmentItem(ia);
 		}
 
-		/*for (FileAttachment fa : message.getFileAttachments())
-		{
-		    this.fileAttachments.add(new FileAttachmentItem(fa));
-		}
-		
-		for (ImageAttachment ia : message.getImageAttachments())
-		{
-		    this.imageAttachments.add(new ImageAttachmentItem(ia));
-		}*/
+		/*
+		 * for (FileAttachment fa : message.getFileAttachments()) {
+		 * this.fileAttachments.add(new FileAttachmentItem(fa)); }
+		 * 
+		 * for (ImageAttachment ia : message.getImageAttachments()) {
+		 * this.imageAttachments.add(new ImageAttachmentItem(ia)); }
+		 */
 
 		if (message.isSystemMessage()) {
 			this.setMessageType(SYSTEM_MESSAGE);
@@ -244,9 +244,11 @@ public class MessageItem implements Comparable<MessageItem> {
 
 	@Override
 	public String toString() {
-		return "MessageItem [id=" + id + ", roomId=" + roomId + ", messageContent=" + messageContent + ", groupable=" + groupable + ", timestamp=" + timestamp + ", senderUsername=" + senderUsername
-				+ ", senderId=" + senderId + ", updatedAt=" + updatedAt + ", unreadCount=" + unreadCount + ", needToResend=" + needToResend + ", progress=" + progress + ", deleted=" + deleted
-				+ ", messageType=" + messageType + ", fileAttachment=" + fileAttachment + ", imageAttachment=" + imageAttachment + "]";
+		return "MessageItem [id=" + id + ", roomId=" + roomId + ", messageContent=" + messageContent + ", groupable="
+				+ groupable + ", timestamp=" + timestamp + ", senderUsername=" + senderUsername + ", senderId="
+				+ senderId + ", updatedAt=" + updatedAt + ", unreadCount=" + unreadCount + ", needToResend="
+				+ needToResend + ", progress=" + progress + ", deleted=" + deleted + ", messageType=" + messageType
+				+ ", fileAttachment=" + fileAttachment + ", imageAttachment=" + imageAttachment + "]";
 	}
-	 
+
 }

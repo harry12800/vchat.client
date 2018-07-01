@@ -1,8 +1,23 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
 import cn.harry12800.vchat.adapter.RoomMembersAdapter;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.*;
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCButton;
+import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.model.Room;
@@ -12,13 +27,6 @@ import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.SelectUserData;
 import cn.harry12800.vchat.frames.AddOrRemoveMemberDialog;
 import cn.harry12800.vchat.frames.MainFrame;
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by harry12800 on 07/06/2017.
@@ -66,7 +74,8 @@ public class RoomMembersPanel extends ParentAvailablePanel {
 		operationPanel.setPreferredSize(new Dimension(60, 80));
 		operationPanel.setBackground(Colors.FONT_WHITE);
 
-		leaveButton = new RCButton("退出群聊", Colors.WINDOW_BACKGROUND_LIGHT, Colors.WINDOW_BACKGROUND, Colors.SCROLL_BAR_TRACK_LIGHT);
+		leaveButton = new RCButton("退出群聊", Colors.WINDOW_BACKGROUND_LIGHT, Colors.WINDOW_BACKGROUND,
+				Colors.SCROLL_BAR_TRACK_LIGHT);
 		leaveButton.setForeground(Colors.RED);
 		leaveButton.setPreferredSize(new Dimension(180, 30));
 
@@ -202,12 +211,14 @@ public class RoomMembersPanel extends ParentAvailablePanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (isRoomCreator()) {
-					int ret = JOptionPane.showConfirmDialog(MainFrame.getContext(), "确认解散群聊？", "确认解散群聊", JOptionPane.YES_NO_OPTION);
+					int ret = JOptionPane.showConfirmDialog(MainFrame.getContext(), "确认解散群聊？", "确认解散群聊",
+							JOptionPane.YES_NO_OPTION);
 					if (ret == JOptionPane.YES_OPTION) {
 						deleteChannelOrGroup(room.getRoomId());
 					}
 				} else {
-					int ret = JOptionPane.showConfirmDialog(MainFrame.getContext(), "退出群聊，并从聊天列表中删除该群聊", "确认退出群聊", JOptionPane.YES_NO_OPTION);
+					int ret = JOptionPane.showConfirmDialog(MainFrame.getContext(), "退出群聊，并从聊天列表中删除该群聊", "确认退出群聊",
+							JOptionPane.YES_NO_OPTION);
 					if (ret == JOptionPane.YES_OPTION) {
 						leaveChannelOrGroup(room.getRoomId());
 					}

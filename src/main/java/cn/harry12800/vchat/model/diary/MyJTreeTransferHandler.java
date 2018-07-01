@@ -24,7 +24,8 @@ public class MyJTreeTransferHandler extends TransferHandler {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MyJTreeTransferHandler(){}
+	public MyJTreeTransferHandler() {
+	}
 
 	public int getSourceActions(JComponent c) {
 		return MOVE;
@@ -69,19 +70,16 @@ public class MyJTreeTransferHandler extends TransferHandler {
 	@Override
 	public boolean canImport(TransferSupport support) {
 		if (support.isDataFlavorSupported(JTreeTransferable.FLAVOR)) {
-//			Component component = support.getComponent();
-//			System.out.println(component);
-//			DataFlavor[] dataFlavors = support.getDataFlavors();
-//			for (DataFlavor dataFlavor : dataFlavors) {
-//				System.out.println(dataFlavor);
-//			}
-			JTree.DropLocation location = (JTree.DropLocation) support
-					.getDropLocation();
-			DefaultMutableTreeNode newParent = (DefaultMutableTreeNode) location
-					.getPath().getLastPathComponent();
-			
-			
-			if(newParent instanceof AricleNode){
+			// Component component = support.getComponent();
+			// System.out.println(component);
+			// DataFlavor[] dataFlavors = support.getDataFlavors();
+			// for (DataFlavor dataFlavor : dataFlavors) {
+			// System.out.println(dataFlavor);
+			// }
+			JTree.DropLocation location = (JTree.DropLocation) support.getDropLocation();
+			DefaultMutableTreeNode newParent = (DefaultMutableTreeNode) location.getPath().getLastPathComponent();
+
+			if (newParent instanceof AricleNode) {
 				return false;
 			}
 			if (support.getDropAction() == MOVE)
@@ -97,20 +95,22 @@ public class MyJTreeTransferHandler extends TransferHandler {
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		Transferable transfer = support.getTransferable();
 		try {
-			List<DefaultMutableTreeNode> nodes = (List<DefaultMutableTreeNode>) transfer.getTransferData(JTreeTransferable.FLAVOR);
-			JTree.DropLocation location = (JTree.DropLocation) support
-					.getDropLocation();
-			DefaultMutableTreeNode newParent = (DefaultMutableTreeNode) location
-					.getPath().getLastPathComponent();
+			List<DefaultMutableTreeNode> nodes = (List<DefaultMutableTreeNode>) transfer
+					.getTransferData(JTreeTransferable.FLAVOR);
+			JTree.DropLocation location = (JTree.DropLocation) support.getDropLocation();
+			DefaultMutableTreeNode newParent = (DefaultMutableTreeNode) location.getPath().getLastPathComponent();
 			for (DefaultMutableTreeNode node : nodes) {
-				if(node instanceof CategoryNode) continue;
+				if (node instanceof CategoryNode)
+					continue;
 				model.removeNodeFromParent(node);
 				model.insertNodeInto(node, newParent, newParent.getChildCount());
-				File file = ((AricleNode)node).getFile();
-				FileUtils.moveFile(file, ((CategoryNode)newParent).getFile().getAbsolutePath());
-//				((AricleNode)node).setFile(new File(((CategoryNode)newParent).getFile().getAbsolutePath()+File.separator+file.getName()) );
-				
-//				tree.expandRow(row);
+				File file = ((AricleNode) node).getFile();
+				FileUtils.moveFile(file, ((CategoryNode) newParent).getFile().getAbsolutePath());
+				// ((AricleNode)node).setFile(new
+				// File(((CategoryNode)newParent).getFile().getAbsolutePath()+File.separator+file.getName())
+				// );
+
+				// tree.expandRow(row);
 			}
 		} catch (UnsupportedFlavorException e) {
 			e.printStackTrace();
@@ -129,8 +129,8 @@ class JTreeTransferable implements Transferable {
 
 	public JTreeTransferable(List<DefaultMutableTreeNode> nodes) {
 		try {
-			FLAVOR = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType
-					+ ";class=\"" + ArrayList.class.getName() + "\"");
+			FLAVOR = new DataFlavor(
+					DataFlavor.javaJVMLocalObjectMimeType + ";class=\"" + ArrayList.class.getName() + "\"");
 			this.nodes = nodes;
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -1,16 +1,23 @@
 package cn.harry12800.vchat.utils;
 
-import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.db.model.CurrentUser;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import org.apache.log4j.Logger;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
+import javax.swing.ImageIcon;
+
+import org.apache.log4j.Logger;
+
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
+
+import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.db.model.CurrentUser;
 
 /**
  * Created by harry12800 on 2017/6/11.
@@ -25,7 +32,8 @@ public class ImageCache {
 
 	public ImageCache() {
 		try {
-			//IMAGE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() + "/image";
+			// IMAGE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() +
+			// "/image";
 			IMAGE_CACHE_ROOT_PATH = Launcher.appFilesBasePath + "/cache/image";
 
 			File file = new File(IMAGE_CACHE_ROOT_PATH);
@@ -109,7 +117,7 @@ public class ImageCache {
 
 						// 本地上传的文件，则从原上传路径复制一份到缓存目录
 						if (reqUrl.startsWith("file://")) {
-							//String originUrl = reqUrl.substring(7);
+							// String originUrl = reqUrl.substring(7);
 							FileInputStream fileInputStream = new FileInputStream(url);
 							data = new byte[fileInputStream.available()];
 							fileInputStream.read(data);
@@ -135,7 +143,8 @@ public class ImageCache {
 						}
 
 						// 缓存原图
-						FileOutputStream fileOutputStream = new FileOutputStream(new File(IMAGE_CACHE_ROOT_PATH + "/" + identify + finalSuffix));
+						FileOutputStream fileOutputStream = new FileOutputStream(
+								new File(IMAGE_CACHE_ROOT_PATH + "/" + identify + finalSuffix));
 						fileOutputStream.write(data);
 
 						if (requestType == ORIGINAL) {
@@ -144,7 +153,7 @@ public class ImageCache {
 						}
 					} catch (IOException e) {
 						listener.onFailed("文件不存在");
-						//e.printStackTrace();
+						// e.printStackTrace();
 					}
 				}
 			}
@@ -155,7 +164,8 @@ public class ImageCache {
 		String url;
 		// 服务上的图片
 		if (imageUrl.startsWith("/file-upload")) {
-			url = Launcher.HOSTNAME + imageUrl + "?rc_uid=" + currentUser.getUserId() + "&rc_token=" + currentUser.getAuthToken();
+			url = Launcher.HOSTNAME + imageUrl + "?rc_uid=" + currentUser.getUserId() + "&rc_token="
+					+ currentUser.getAuthToken();
 		}
 		// 本地的图片
 		else {

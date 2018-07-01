@@ -66,6 +66,7 @@ public class ListPanel extends ParentAvailablePanel {
 
 	/**
 	 * 获取上一个tab，如果上一个tab是搜索tab，则返回搜索tab之前的tab
+	 * 
 	 * @return
 	 */
 	public String getPreviousTab() {
@@ -74,6 +75,7 @@ public class ListPanel extends ParentAvailablePanel {
 
 	/**
 	 * 获取当前选中的tab, 如果当前的tab是搜索tab，则返回搜索tab之前的tab
+	 * 
 	 * @return
 	 */
 	public String getCurrentTab() {

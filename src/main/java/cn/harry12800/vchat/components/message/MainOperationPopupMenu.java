@@ -1,15 +1,19 @@
 package cn.harry12800.vchat.components.message;
 
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.border.LineBorder;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMainOperationMenuItemUI;
 import cn.harry12800.vchat.frames.CreateGroupDialog;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.frames.SystemConfigDialog;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * Created by harry12800 on 2017/6/5.
@@ -40,7 +44,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item2.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//System.out.println("系统设置");
+				// System.out.println("系统设置");
 				SystemConfigDialog dialog = new SystemConfigDialog(MainFrame.getContext(), true);
 				dialog.setVisible(true);
 			}
@@ -64,7 +68,10 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		CreateGroupDialog dialog = new CreateGroupDialog(null, true);
 		dialog.setVisible(true);
 
-		/*ShadowBorderDialog shadowBorderDialog = new ShadowBorderDialog(MainFrame.getContext(), true, dialog);
-		shadowBorderDialog.setVisible(true);*/
+		/*
+		 * ShadowBorderDialog shadowBorderDialog = new
+		 * ShadowBorderDialog(MainFrame.getContext(), true, dialog);
+		 * shadowBorderDialog.setVisible(true);
+		 */
 	}
 }

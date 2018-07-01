@@ -46,10 +46,7 @@ public class ContactsUser extends BasicModel {
 
 	@Override
 	public String toString() {
-		return "ContactsUser{" +
-				"userId='" + userId + '\'' +
-				", username='" + username + '\'' +
-				", name='" + name + '\'' +
-				'}';
+		return "ContactsUser{" + "userId='" + userId + '\'' + ", username='" + username + '\'' + ", name='" + name
+				+ '\'' + '}';
 	}
 }

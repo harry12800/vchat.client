@@ -1,19 +1,33 @@
 package cn.harry12800.vchat.panels;
 
-import com.melloware.jintellitype.HotkeyListener;
-import com.melloware.jintellitype.JIntellitype;
-import cn.harry12800.vchat.components.*;
+import java.awt.AWTException;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCButton;
+import cn.harry12800.vchat.components.RCTextEditor;
+import cn.harry12800.vchat.components.ScrollUI;
 import cn.harry12800.vchat.components.message.ChatEditorPopupMenu;
 import cn.harry12800.vchat.frames.ScreenShot;
 import cn.harry12800.vchat.listener.ExpressionListener;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
 import cn.harry12800.vchat.utils.OSUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -55,16 +69,17 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 
 	private void registerHotKey() {
 		int SCREEN_SHOT_CODE = 10001;
-		//		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE, JIntellitype.MOD_ALT, 'S');
+		// JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
+		// JIntellitype.MOD_ALT, 'S');
 		//
-		//		JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
-		//			@Override
-		//			public void onHotKey(int markCode) {
-		//				if (markCode == SCREEN_SHOT_CODE) {
-		//					screenShot();
-		//				}
-		//			}
-		//		});
+		// JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
+		// @Override
+		// public void onHotKey(int markCode) {
+		// if (markCode == SCREEN_SHOT_CODE) {
+		// screenShot();
+		// }
+		// }
+		// });
 	}
 
 	private void initComponents() {

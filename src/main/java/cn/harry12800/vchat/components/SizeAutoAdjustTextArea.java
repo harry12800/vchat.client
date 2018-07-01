@@ -1,21 +1,32 @@
 package cn.harry12800.vchat.components;
 
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.Icon;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
+
+import com.vdurmont.emoji.EmojiParser;
+
 import cn.harry12800.vchat.components.message.JIMSendTextPane;
 import cn.harry12800.vchat.utils.EmojiUtil;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.OSUtil;
-import com.vdurmont.emoji.EmojiParser;
-
-import javax.swing.*;
-import javax.swing.text.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
-import java.util.*;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by harry12800 on 17-6-4.
@@ -45,8 +56,8 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 	public SizeAutoAdjustTextArea(int maxWidth) {
 		this.maxWidth = maxWidth;
 		setOpaque(false);
-		//setLineWrap(true);
-		//setWrapStyleWord(false);
+		// setLineWrap(true);
+		// setWrapStyleWord(false);
 		this.setFont(FontUtil.getDefaultFont(14));
 		setEditable(false);
 
@@ -106,9 +117,11 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 		String targetText = t.replaceAll(emojiRegx, "");
 		super.setText(targetText);
 
-		/*long start = System.currentTimeMillis();
-		Map<Integer, String> emojiPositionMap = insertEmoji(t);
-		System.out.println("花费时间 ：" + (System.currentTimeMillis() - start));*/
+		/*
+		 * long start = System.currentTimeMillis(); Map<Integer, String>
+		 * emojiPositionMap = insertEmoji(t); System.out.println("花费时间 ：" +
+		 * (System.currentTimeMillis() - start));
+		 */
 
 		// 插入emoji表情，并计算需要增加的高度
 		Map<Integer, String> emojiPositionMap = insertEmoji(t);
@@ -118,7 +131,7 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 		}
 		int emojiCount = emojiPositionMap.size();
 
-		//全是emoji的情况
+		// 全是emoji的情况
 		if (exceptEmoji.matches("\0+")) {
 			int totalWidth = emojiCount * emojiSize;
 			targetHeight = emojiSize;
@@ -299,7 +312,8 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 	/**
 	 * 分析消息文本一共有几行
 	 *
-	 * @param text 消息文本
+	 * @param text
+	 *            消息文本
 	 * @return 消息的行数，以\n分隔
 	 */
 	private int parseLineCount(String text) {
@@ -322,7 +336,7 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 		maxLengthLinePosition = 0;
 
 		for (int i = 0; i < lineArrCopy.length; i++) {
-			//String exceptEmoji = lineArrCopy[i].replaceAll(emojiRegx, "");
+			// String exceptEmoji = lineArrCopy[i].replaceAll(emojiRegx, "");
 			String exceptEmoji = lineArrCopy[i];
 
 			List<String> emojiList = lineEmojiInfoList.get(i).getEmojiList();
@@ -346,7 +360,7 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 	private List<String> parseUrl(String src) {
 		List<String> urlList = new ArrayList<>();
 
-		//long start = System.currentTimeMillis();
+		// long start = System.currentTimeMillis();
 		String regex = "(?:https?://)?(www\\.)?[\\w]+(?:\\.[\\w]+)+[\\w,\\-_/?&=#%.:]*";
 		Pattern urlPattern = Pattern.compile(regex);
 		Matcher urlMatcher = urlPattern.matcher(src);
@@ -354,7 +368,7 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 			urlList.add(urlMatcher.group());
 		}
 
-		//System.out.println("花费时间 ：" + (System.currentTimeMillis() - start));
+		// System.out.println("花费时间 ：" + (System.currentTimeMillis() - start));
 
 		return urlList;
 	}
@@ -385,7 +399,7 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 	 * 打开默认浏览器访问页面
 	 */
 	public static void openUrlWithDefaultBrowser(String url) {
-		//启用系统默认浏览器来打开网址。
+		// 启用系统默认浏览器来打开网址。
 		try {
 			URI uri = new URI(url);
 			Desktop.getDesktop().browse(uri);
@@ -410,19 +424,13 @@ public class SizeAutoAdjustTextArea extends JIMSendTextPane {
 		this.parseUrl = parseUrl;
 	}
 
-	/*    @Override
-	public synchronized void addMouseListener(MouseListener l)
-	{
-	    for (MouseListener listener : getMouseListeners())
-	    {
-	        if (listener == l)
-	        {
-	            return;
-	        }
-	    }
-	
-	    super.addMouseListener(l);
-	}*/
+	/*
+	 * @Override public synchronized void addMouseListener(MouseListener l) { for
+	 * (MouseListener listener : getMouseListeners()) { if (listener == l) { return;
+	 * } }
+	 * 
+	 * super.addMouseListener(l); }
+	 */
 }
 
 class LineEmojiInfo {

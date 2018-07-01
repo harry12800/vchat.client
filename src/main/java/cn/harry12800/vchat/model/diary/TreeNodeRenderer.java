@@ -9,40 +9,42 @@ import cn.harry12800.lnk.core.util.ImageUtils;
 
 public class TreeNodeRenderer extends DefaultTreeCellRenderer {
 	// 通过mouseEnter判定当前鼠标是否悬停
-    private boolean mouseEnter = false;
-    public TreeNodeRenderer() {
-        super();
-        setOpaque(false);
-    }
+	private boolean mouseEnter = false;
+
+	public TreeNodeRenderer() {
+		super();
+		setOpaque(false);
+	}
+
 	private static final long serialVersionUID = 1L;
 	public static int mouseRow = -1;
-	public Component getTreeCellRendererComponent(JTree tree, Object value,
-			boolean selected, boolean expanded, boolean leaf, int row,
-			boolean hasFocus) {
+
+	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
+			boolean leaf, int row, boolean hasFocus) {
 		// 执行父类原型操作
-        super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
-		 //通过mouseRow判断鼠标是否悬停在当前行
-        if (mouseRow == row) {
-            mouseEnter = true;
-        } else {
-            mouseEnter = false;
-        }
+		super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+		// 通过mouseRow判断鼠标是否悬停在当前行
+		if (mouseRow == row) {
+			mouseEnter = true;
+		} else {
+			mouseEnter = false;
+		}
 		if (value instanceof AricleNode) {
-			if(selected)
-				return ((AricleNode)value).setSelect(selected,mouseEnter);
-			else{
-				return ((AricleNode)value).setSelect(selected,mouseEnter);
+			if (selected)
+				return ((AricleNode) value).setSelect(selected, mouseEnter);
+			else {
+				return ((AricleNode) value).setSelect(selected, mouseEnter);
 			}
 		}
 		if (value instanceof CategoryNode) {
 			if (expanded) {
-				((CategoryNode)value).setIcon(ImageUtils.getIcon("image/arrow_down.png"));
+				((CategoryNode) value).setIcon(ImageUtils.getIcon("image/arrow_down.png"));
 			} else {
-				((CategoryNode)value).setIcon(ImageUtils.getIcon("image/arrow_left.png"));
+				((CategoryNode) value).setIcon(ImageUtils.getIcon("image/arrow_left.png"));
 			}
-			return ((CategoryNode)value).getView(mouseEnter);
+			return ((CategoryNode) value).getView(mouseEnter);
 		}
-		 
+
 		return this;
 	}
 

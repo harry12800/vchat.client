@@ -1,7 +1,8 @@
 package cn.harry12800.vchat.utils;
 
-import javax.swing.*;
 import java.net.URL;
+
+import javax.swing.ImageIcon;
 
 /**
  * Created by harry12800 on 2017/7/1.
@@ -11,7 +12,8 @@ public class EmojiUtil {
 	/**
 	 * 获取Emoji表情
 	 *
-	 * @param code emoji代码，形式如 {@code :dog:}
+	 * @param code
+	 *            emoji代码，形式如 {@code :dog:}
 	 * @return
 	 */
 	public static ImageIcon getEmoji(Object context, String code) {
@@ -22,6 +24,7 @@ public class EmojiUtil {
 
 	/**
 	 * 判断给定的emoji代码是否可识别
+	 * 
 	 * @param code
 	 * @return
 	 */

@@ -1,16 +1,34 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.listener.AbstractMouseListener;
-import cn.harry12800.vchat.utils.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.vchat.utils.IconUtil;
+import cn.harry12800.vchat.utils.OSUtil;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -51,19 +69,15 @@ public class TitlePanel extends ParentAvailablePanel {
 	private void initBounds() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
-		//上面这种方式获取的是整个显示屏幕的大小，包含了任务栏的高度。
+		// 上面这种方式获取的是整个显示屏幕的大小，包含了任务栏的高度。
 		Insets screenInsets = Toolkit.getDefaultToolkit()
 				.getScreenInsets(MainFrame.getContext().getGraphicsConfiguration());
-		desktopBounds = new Rectangle(
-				screenInsets.left, screenInsets.top,
+		desktopBounds = new Rectangle(screenInsets.left, screenInsets.top,
 				screenSize.width - screenInsets.left - screenInsets.right,
 				screenSize.height - screenInsets.top - screenInsets.bottom);
 
-		normalBounds = new Rectangle(
-				(screenSize.width - MainFrame.DEFAULT_WIDTH) / 2,
-				(screenSize.height - MainFrame.DEFAULT_HEIGHT) / 2,
-				MainFrame.DEFAULT_WIDTH,
-				MainFrame.DEFAULT_HEIGHT);
+		normalBounds = new Rectangle((screenSize.width - MainFrame.DEFAULT_WIDTH) / 2,
+				(screenSize.height - MainFrame.DEFAULT_HEIGHT) / 2, MainFrame.DEFAULT_WIDTH, MainFrame.DEFAULT_HEIGHT);
 
 	}
 
@@ -71,7 +85,7 @@ public class TitlePanel extends ParentAvailablePanel {
 		MouseListener mouseListener = new AbstractMouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//if (roomInfoButton.isVisible())
+				// if (roomInfoButton.isVisible())
 				{
 					RoomMembersPanel roomMemberPanel = ((RightPanel) getParentPanel()).getRoomMembersPanel();
 					if (roomMemberPanel.isVisible()) {
@@ -112,8 +126,7 @@ public class TitlePanel extends ParentAvailablePanel {
 					// 当鼠标拖动时获取窗口当前位置
 					Point p = MainFrame.getContext().getLocation();
 					// 设置窗口的位置
-					MainFrame.getContext().setLocation(p.x + e.getX() - origin.x, p.y + e.getY()
-							- origin.y);
+					MainFrame.getContext().setLocation(p.x + e.getX() - origin.x, p.y + e.getY() - origin.y);
 				}
 			};
 
@@ -182,7 +195,7 @@ public class TitlePanel extends ParentAvailablePanel {
 		titleLabel = new JLabel();
 		titleLabel.setFont(FontUtil.getDefaultFont(16));
 		titleLabel.setText("微聊");
-		//titleLabel.setCursor(handCursor);
+		// titleLabel.setCursor(handCursor);
 
 		ControlLabelMouseListener listener = new ControlLabelMouseListener();
 		Dimension controlLabelSize = new Dimension(30, 30);
@@ -232,7 +245,7 @@ public class TitlePanel extends ParentAvailablePanel {
 
 			margin = 5;
 		} else {
-			//add(controlPanel);
+			// add(controlPanel);
 
 			add(titlePanel);
 			margin = 15;
@@ -259,11 +272,14 @@ public class TitlePanel extends ParentAvailablePanel {
 		this.titleLabel.setText("微聊");
 		roomInfoButton.setVisible(false);
 	}
+
 	public void updateAppTitle(String text) {
 		this.titleLabel.setText(text);
 	}
+
 	/**
 	 * 显示状态栏
+	 * 
 	 * @param text
 	 */
 	public void showStatusLabel(String text) {

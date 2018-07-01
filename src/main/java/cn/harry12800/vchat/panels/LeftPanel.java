@@ -1,10 +1,11 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.GridBagLayout;
+
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -28,7 +29,7 @@ public class LeftPanel extends JPanel {
 		searchPanel = new SearchPanel(this);
 
 		mainOperationPanel = new TabOperationPanel(this);
-		//mainOperationPanel.setBackground(Color.blue);
+		// mainOperationPanel.setBackground(Color.blue);
 
 		listPanel = new ListPanel(this);
 		listPanel.setBackground(Colors.DARK);

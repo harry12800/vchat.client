@@ -46,7 +46,6 @@ public class AricleItemPanel extends JPanel {
 		public Color bgcolor;
 		public int borderRadius = 0;
 		public AricleNode aricleNode;
-		public String name = "";
 	}
 
 	/**
@@ -74,11 +73,10 @@ public class AricleItemPanel extends JPanel {
 	 * @param hasCheck
 	 * @param checked
 	 */
-	public AricleItemPanel(String name, int w, int h, final Builder builder) {
+	public AricleItemPanel( int w, int h, final Builder builder) {
 		this.w = w;
 		this.h = h;
 		this.builder = builder;
-		this.builder.name = name;
 		setPreferredSize(new Dimension(w, h));
 		setSize(w, h);
 		setLayout(null);
@@ -90,9 +88,10 @@ public class AricleItemPanel extends JPanel {
 		updatedateL.setForeground(new Color(255, 255, 255, 180));
 		updatedateL.setBounds(w - 70, 0, 70, h);
 		add(updatedateL);
-		text.setText(name);
+		text.setText(builder.aricleNode.aritcle.getTitle());
 		text.setOpaque(false);
-		text.setBounds(30, 0, w-70, h);
+		text.setBounds(30, 0, w - 70, h);
+		text.setForeground(UI.fontColor);
 		add(text);
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 		addKeyListener(new KeyAdapter() {
@@ -197,18 +196,20 @@ public class AricleItemPanel extends JPanel {
 				g2d.fillRoundRect(0, 0, w - 1, h - 1, 0, 0);
 			}
 		}
-//		GradientPaint p1 = new GradientPaint(0, 1, new Color(255, 255, 255, 255), 0, h, new Color(255, 255, 255, 255));
-//		g2d.setPaint(p1);
-//		Stroke stroke = g2d.getStroke();
-//		g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND)); // 设置新的画刷
-//		if (hover) {
-//			g2d.setColor(UI.hoverForeColor);
-//		} else {
-//			g2d.setColor(UI.fontColor);
-//		}
-//		g2d.setFont(UI.微软雅黑Font);
-//		g2d.drawString(builder.name, 15, h - 7);
-//		g2d.setStroke(stroke);
+		// GradientPaint p1 = new GradientPaint(0, 1, new Color(255, 255, 255, 255), 0,
+		// h, new Color(255, 255, 255, 255));
+		// g2d.setPaint(p1);
+		// Stroke stroke = g2d.getStroke();
+		// g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_SQUARE,
+		// BasicStroke.JOIN_ROUND)); // 设置新的画刷
+		// if (hover) {
+		// g2d.setColor(UI.hoverForeColor);
+		// } else {
+		// g2d.setColor(UI.fontColor);
+		// }
+		// g2d.setFont(UI.微软雅黑Font);
+		// g2d.drawString(builder.name, 15, h - 7);
+		// g2d.setStroke(stroke);
 	}
 
 	/**

@@ -1,12 +1,18 @@
 package cn.harry12800.vchat.components.message;
 
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import cn.harry12800.vchat.adapter.ViewHolder;
 import cn.harry12800.vchat.utils.AvatarUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
 
 /**
  * Created by harry12800 on 21/06/2017.
@@ -51,9 +57,11 @@ public class RemindUserPopup extends JPopupMenu {
 			for (String user : users) {
 				item = new JMenuItem(user);
 				item.setUI(new RCRemindUserMenuItemUI(120, 25));
-				//Image avatar = AvatarUtil.createOrLoadUserAvatar(user).getScaledInstance(15, 15, Image.SCALE_SMOOTH);
-				//item.setUI(new RCRemindUserMenuItemUI(80, 25, avatar));
-				item.setIcon(new ImageIcon(AvatarUtil.createOrLoadUserAvatar(user).getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
+				// Image avatar = AvatarUtil.createOrLoadUserAvatar(user).getScaledInstance(15,
+				// 15, Image.SCALE_SMOOTH);
+				// item.setUI(new RCRemindUserMenuItemUI(80, 25, avatar));
+				item.setIcon(new ImageIcon(
+						AvatarUtil.createOrLoadUserAvatar(user).getScaledInstance(18, 18, Image.SCALE_SMOOTH)));
 				item.setIconTextGap(-2);
 
 				item.addActionListener(new ActionListener() {

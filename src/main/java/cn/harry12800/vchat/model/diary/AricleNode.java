@@ -2,23 +2,19 @@ package cn.harry12800.vchat.model.diary;
 
 import java.awt.Component;
 import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import cn.harry12800.j2se.style.UI;
 import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.lnk.core.util.JsonUtil;
-import cn.harry12800.j2se.style.UI;
 import cn.harry12800.vchat.model.diary.AricleItemPanel.Builder;
 import cn.harry12800.vchat.panels.DiaryPanel;
-import cn.harry12800.vchat.model.diary.Aritcle;
-import cn.harry12800.tools.StringUtils;
 
 public class AricleNode extends DefaultMutableTreeNode {
-	
+
 	/**
 	 * 
 	 */
@@ -28,22 +24,20 @@ public class AricleNode extends DefaultMutableTreeNode {
 	private File file;
 	public Builder builder;
 	public Date date;
-	public Aritcle aritcle;
+	public Diary aritcle;
 	public DiaryPanel diaryPanel;
-	public AricleNode(File file,Aritcle aritcle) {
-		setFile(file,aritcle);
-		builder = AricleItemPanel.createBuilder(this,UI.backColor);
+
+	public AricleNode(File file, Diary aritcle) {
+		setFile(file, aritcle);
+		builder = AricleItemPanel.createBuilder(this, UI.backColor);
 		builder.image = ImageUtils.getByName("image/arrow_left.png");
-		plainButton = new AricleItemPanel(this.aritcle.title, 250, 30,builder);
-		SimpleDateFormat format = new SimpleDateFormat(StringUtils.yyyy_MM_dd_HH24_mm_ss);
-	    date = new Date();
-		try {
-			this.date = format.parse(this.aritcle.updateTime);
-		} catch (ParseException e) {
-//			e.printStackTrace();
+		plainButton = new AricleItemPanel( 250, 30, builder);
+		this.date = this.aritcle.getUpdateTime();
+		if(this.date == null) {
+			date = new Date();
 		}
 		plainButton.updatedateL.setText(RelativeDateFormat.format(date));
-		plainButton.setBounds(0	, 0, 250, 30);
+		plainButton.setBounds(0, 0, 230, 30);
 	}
 
 	public Component getView() {
@@ -57,7 +51,8 @@ public class AricleNode extends DefaultMutableTreeNode {
 
 	/**
 	 * 获取file
-	 *	@return the file
+	 * 
+	 * @return the file
 	 */
 	public File getFile() {
 		return file;
@@ -65,17 +60,20 @@ public class AricleNode extends DefaultMutableTreeNode {
 
 	/**
 	 * 设置file
-	 * @param file the file to set
-	 * @param aritcle2 
+	 * 
+	 * @param file
+	 *            the file to set
+	 * @param aritcle2
 	 */
-	public void setFile(File file, Aritcle aritcle2) {
+	public void setFile(File file, Diary aritcle2) {
 		this.file = file;
-//		System.out.println(file);
+		// System.out.println(file);
 		try {
-			this.aritcle  = JsonUtil.string2Json(file, Aritcle.class);
-			if(this.aritcle == null) this.aritcle = new Aritcle();
-			aritcle.sort = aritcle2.sort;
-//			System.out.println(aritcle);
+			this.aritcle = JsonUtil.string2Json(file, Diary.class);
+			if (this.aritcle == null)
+				this.aritcle = new Diary();
+			aritcle.setSort(aritcle2.getSort());
+			// System.out.println(aritcle);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,6 +82,7 @@ public class AricleNode extends DefaultMutableTreeNode {
 	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
+
 	@Override
 	public String toString() {
 		return file.toString();

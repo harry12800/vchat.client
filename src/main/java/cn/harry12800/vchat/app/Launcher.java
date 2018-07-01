@@ -69,11 +69,11 @@ public class Launcher {
 	public void launch() {
 		config();
 		openFrame();
-		//		if (!isApplicationRunning()) {
-		//			openFrame();
-		//		} else {
-		//			System.exit(-1);
-		//		}
+		// if (!isApplicationRunning()) {
+		// openFrame();
+		// } else {
+		// System.exit(-1);
+		// }
 	}
 
 	private void openFrame() {
@@ -97,6 +97,7 @@ public class Launcher {
 
 	/**
 	 * 检查是否有登录信息
+	 * 
 	 * @return
 	 */
 	private boolean checkLoginInfo() {
@@ -123,7 +124,7 @@ public class Launcher {
 				lockFile.createNewFile();
 			}
 
-			//程序名称
+			// 程序名称
 			@SuppressWarnings("resource")
 			RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(), "rw");
 			FileChannel fileChannel = fis.getChannel();

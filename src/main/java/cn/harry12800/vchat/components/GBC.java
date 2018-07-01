@@ -1,6 +1,7 @@
 package cn.harry12800.vchat.components;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 /**
  * Created by harry12800 on 17-5-28.
@@ -8,9 +9,11 @@ import java.awt.*;
 @SuppressWarnings("serial")
 public class GBC extends GridBagConstraints {
 	/*
-	 * constructs a GBC with a given gridx and gridy position and all other grid
-	 * bag constraint values set to the default
+	 * constructs a GBC with a given gridx and gridy position and all other grid bag
+	 * constraint values set to the default
+	 * 
 	 * @param gridx the gridx position
+	 * 
 	 * @param gridy the gridy position
 	 */
 	public GBC(int gridx, int gridy) {
@@ -27,7 +30,9 @@ public class GBC extends GridBagConstraints {
 
 	/*
 	 * sets the anchor
+	 * 
 	 * @param anchor the anchor style
+	 * 
 	 * @return this object for further modification
 	 */
 
@@ -38,7 +43,9 @@ public class GBC extends GridBagConstraints {
 
 	/*
 	 * sets the fill direction
+	 * 
 	 * @param fill the fill direction
+	 * 
 	 * @return this object for further modification
 	 */
 
@@ -49,8 +56,11 @@ public class GBC extends GridBagConstraints {
 
 	/*
 	 * sets the cell weights
+	 * 
 	 * @param weightx the cell weight in x direction
+	 * 
 	 * @param weighty the cell weight in y direction
+	 * 
 	 * @return this object for further modification
 	 */
 
@@ -62,7 +72,9 @@ public class GBC extends GridBagConstraints {
 
 	/*
 	 * sets the insets of this cell
+	 * 
 	 * @param insets distance ths spacing to use in all directions
+	 * 
 	 * @return this object for further modification
 	 */
 
@@ -73,10 +85,15 @@ public class GBC extends GridBagConstraints {
 
 	/*
 	 * sets the insets of this cell
+	 * 
 	 * @param top distance ths spacing to use on top
+	 * 
 	 * @param bottom distance ths spacing to use on bottom
+	 * 
 	 * @param left distance ths spacing to use to the left
-	 * @param right distance ths spacing to use to the  right
+	 * 
+	 * @param right distance ths spacing to use to the right
+	 * 
 	 * @return this object for further modification
 	 */
 
@@ -87,7 +104,9 @@ public class GBC extends GridBagConstraints {
 
 	/*
 	 * sets the Ipad of this cell
+	 * 
 	 * @param Ipad distance ths spacing to use in all directions
+	 * 
 	 * @return this object for further modification
 	 */
 

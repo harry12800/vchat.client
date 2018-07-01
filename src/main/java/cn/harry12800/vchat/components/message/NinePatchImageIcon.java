@@ -1,11 +1,14 @@
 package cn.harry12800.vchat.components.message;
 
-import com.android.ninepatch.NinePatch;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.swing.ImageIcon;
+
+import com.android.ninepatch.NinePatch;
 
 public class NinePatchImageIcon extends ImageIcon {
 

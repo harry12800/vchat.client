@@ -1,14 +1,16 @@
 package cn.harry12800.vchat.adapter;
 
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.frames.CreateGroupDialog;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -26,7 +28,7 @@ public class SelectedUserItemViewHolder extends ViewHolder {
 	}
 
 	private void initComponents() {
-		//panelItem = new JPanel();
+		// panelItem = new JPanel();
 		setPreferredSize(new Dimension(CreateGroupDialog.DIALOG_WIDTH / 2 - 20, 50));
 		setBorder(new RCBorder(RCBorder.BOTTOM, Colors.LIGHT_GRAY));
 		setOpaque(true);

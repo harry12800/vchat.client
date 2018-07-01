@@ -1,10 +1,14 @@
 package cn.harry12800.vchat.utils;
 
-import cn.harry12800.vchat.app.Launcher;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+
 import org.apache.log4j.Logger;
 
-import java.io.*;
-import java.text.DecimalFormat;
+import cn.harry12800.vchat.app.Launcher;
 
 /**
  * Created by harry12800 on 2017/6/11.
@@ -17,7 +21,7 @@ public class FileCache {
 
 	public FileCache() {
 		try {
-			//FILE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() + "/file";
+			// FILE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() + "/file";
 			FILE_CACHE_ROOT_PATH = Launcher.appFilesBasePath + "/cache/file";
 			File file = new File(FILE_CACHE_ROOT_PATH);
 			if (!file.exists()) {

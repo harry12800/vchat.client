@@ -1,11 +1,17 @@
 package cn.harry12800.vchat.adapter.message;
 
-import cn.harry12800.vchat.components.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.components.message.RCLeftImageMessageBubble;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-6-2.
@@ -22,28 +28,30 @@ public class MessageLeftAttachmentViewHolder extends MessageAttachmentViewHolder
 	private void initComponents() {
 		messageBubble = new RCLeftImageMessageBubble();
 
-		/*timePanel.setBackground(Colors.WINDOW_BACKGROUND);
-		messageAvatarPanel.setBackground(Colors.WINDOW_BACKGROUND);
-		
-		size.setForeground(Colors.FONT_GRAY);
-		size.setFont(FontUtil.getDefaultFont(12));*/
+		/*
+		 * timePanel.setBackground(Colors.WINDOW_BACKGROUND);
+		 * messageAvatarPanel.setBackground(Colors.WINDOW_BACKGROUND);
+		 * 
+		 * size.setForeground(Colors.FONT_GRAY);
+		 * size.setFont(FontUtil.getDefaultFont(12));
+		 */
 
 		sender.setFont(FontUtil.getDefaultFont(12));
 		sender.setForeground(Colors.FONT_GRAY);
-		//sender.setVisible(false);
+		// sender.setVisible(false);
 
-		/*attachmentPanel.setOpaque(false);
-		
-		progressBar.setMaximum(100);
-		progressBar.setMinimum(0);
-		progressBar.setValue(100);
-		progressBar.setUI(new GradientProgressBarUI());
-		progressBar.setVisible(false);
-		
-		messageBubble.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		
-		sizeLabel.setFont(FontUtil.getDefaultFont(12));
-		sizeLabel.setForeground(Colors.FONT_GRAY);*/
+		/*
+		 * attachmentPanel.setOpaque(false);
+		 * 
+		 * progressBar.setMaximum(100); progressBar.setMinimum(0);
+		 * progressBar.setValue(100); progressBar.setUI(new GradientProgressBarUI());
+		 * progressBar.setVisible(false);
+		 * 
+		 * messageBubble.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		 * 
+		 * sizeLabel.setFont(FontUtil.getDefaultFont(12));
+		 * sizeLabel.setForeground(Colors.FONT_GRAY);
+		 */
 
 		messageBubble.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -56,12 +64,13 @@ public class MessageLeftAttachmentViewHolder extends MessageAttachmentViewHolder
 
 		attachmentPanel.setLayout(new GridBagLayout());
 		attachmentPanel.add(attachmentIcon, new GBC(0, 0).setWeight(1, 1).setInsets(5, 5, 5, 0));
-		attachmentPanel.add(attachmentTitle, new GBC(1, 0).setWeight(100, 1).setAnchor(GBC.NORTH)
-				.setInsets(5, 8, 5, 5));
-		attachmentPanel.add(progressBar, new GBC(1, 1).setWeight(1, 1).setFill(GBC.HORIZONTAL)
-				.setAnchor(GBC.SOUTH).setInsets(0, 8, 5, 5));
+		attachmentPanel.add(attachmentTitle,
+				new GBC(1, 0).setWeight(100, 1).setAnchor(GBC.NORTH).setInsets(5, 8, 5, 5));
+		attachmentPanel.add(progressBar,
+				new GBC(1, 1).setWeight(1, 1).setFill(GBC.HORIZONTAL).setAnchor(GBC.SOUTH).setInsets(0, 8, 5, 5));
 
-		attachmentPanel.add(sizeLabel, new GBC(1, 1).setWeight(1, 1).setFill(GBC.HORIZONTAL).setAnchor(GBC.SOUTH).setInsets(-20, 8, 3, 0));
+		attachmentPanel.add(sizeLabel,
+				new GBC(1, 1).setWeight(1, 1).setFill(GBC.HORIZONTAL).setAnchor(GBC.SOUTH).setInsets(-20, 8, 3, 0));
 
 		messageBubble.add(attachmentPanel);
 
@@ -73,10 +82,8 @@ public class MessageLeftAttachmentViewHolder extends MessageAttachmentViewHolder
 
 		messageAvatarPanel.setLayout(new GridBagLayout());
 		messageAvatarPanel.add(avatar, new GBC(1, 0).setWeight(1, 1).setAnchor(GBC.NORTH).setInsets(4, 5, 0, 0));
-		messageAvatarPanel.add(senderMessagePanel, new GBC(2, 0)
-				.setWeight(1000, 1)
-				.setAnchor(GBC.WEST)
-				.setInsets(0, 5, 5, 0));
+		messageAvatarPanel.add(senderMessagePanel,
+				new GBC(2, 0).setWeight(1000, 1).setAnchor(GBC.WEST).setInsets(0, 5, 5, 0));
 
 		add(timePanel, BorderLayout.NORTH);
 		add(messageAvatarPanel, BorderLayout.CENTER);

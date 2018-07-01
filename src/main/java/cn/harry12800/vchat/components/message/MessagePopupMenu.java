@@ -100,18 +100,21 @@ public class MessagePopupMenu extends JPopupMenu {
 						} else {
 							FileAttachment attachment = fileAttachmentService.findById(id);
 							if (attachment == null) {
-								JOptionPane.showMessageDialog(MainFrame.getContext(), "文件不存在", "文件不存在", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(MainFrame.getContext(), "文件不存在", "文件不存在",
+										JOptionPane.WARNING_MESSAGE);
 								return;
 							}
 
 							String link = attachment.getLink();
 							if (link.startsWith("/file-upload")) {
-								JOptionPane.showMessageDialog(MainFrame.getContext(), "请先下载文件", "请先下载文件", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(MainFrame.getContext(), "请先下载文件", "请先下载文件",
+										JOptionPane.WARNING_MESSAGE);
 								return;
 							} else {
 								File file = new File(link);
 								if (!file.exists()) {
-									JOptionPane.showMessageDialog(MainFrame.getContext(), "文件不存在，可能已被删除", "文件不存在", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(MainFrame.getContext(), "文件不存在，可能已被删除", "文件不存在",
+											JOptionPane.WARNING_MESSAGE);
 									return;
 								}
 								ClipboardUtil.copyFile(link);
@@ -175,7 +178,7 @@ public class MessagePopupMenu extends JPopupMenu {
 
 		this.add(item1);
 		this.add(item2);
-		//this.add(item3);
+		// this.add(item3);
 
 		setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
 		setBackground(Colors.FONT_WHITE);
@@ -184,7 +187,7 @@ public class MessagePopupMenu extends JPopupMenu {
 	@Override
 	public void show(Component invoker, int x, int y) {
 		throw new RuntimeException("此方法不会弹出菜单，请调用 show(Component invoker, int x, int y, int messageType) ");
-		//super.show(invoker, x, y);
+		// super.show(invoker, x, y);
 	}
 
 	public void show(Component invoker, int x, int y, int messageType) {

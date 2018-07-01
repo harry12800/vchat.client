@@ -17,9 +17,9 @@ public class ChatHandler {
 	@SocketCommand(cmd = ChatCmd.PUBLIC_CHAT, desc = "发送广播消息回包")
 	public void publicChat(int resultCode, byte[] data) {
 		if (resultCode == ResultCode.SUCCESS) {
-			//			swingclient.getTips().setText("发送成功");
+			// swingclient.getTips().setText("发送成功");
 		} else {
-			//			swingclient.getTips().setText(resultCodeTip.getTipContent(resultCode));
+			// swingclient.getTips().setText(resultCodeTip.getTipContent(resultCode));
 		}
 	}
 

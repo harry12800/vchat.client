@@ -1,17 +1,23 @@
 package cn.harry12800.vchat.utils;
 
-import cn.harry12800.vchat.app.Launcher;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
+import cn.harry12800.vchat.app.Launcher;
 
 /**
  * Created by harry12800 on 20/06/2017.
@@ -53,13 +59,12 @@ public class ClipboardUtil {
 	public static void copyFile(String path) {
 		try {
 			File file = new File(path);
-			//clipboard.setContents(new FileTransferable(file), null);
+			// clipboard.setContents(new FileTransferable(file), null);
 			Transferable contents = new Transferable() {
 				DataFlavor[] dataFlavors = new DataFlavor[] { DataFlavor.javaFileListFlavor };
 
 				@Override
-				public Object getTransferData(DataFlavor flavor)
-						throws UnsupportedFlavorException, IOException {
+				public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 					ArrayList<File> files = new ArrayList<>();
 					files.add(file);
 					return files;
@@ -113,8 +118,10 @@ public class ClipboardUtil {
 
 					if (obj instanceof Image) {
 						Image image = (Image) obj;
-						File destFile = new File(CLIPBOARD_TEMP_DIR + File.separator + "clipboard_image_" + UUID.randomUUID() + ".png");
-						BufferedImage outImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+						File destFile = new File(
+								CLIPBOARD_TEMP_DIR + File.separator + "clipboard_image_" + UUID.randomUUID() + ".png");
+						BufferedImage outImage = new BufferedImage(image.getWidth(null), image.getHeight(null),
+								BufferedImage.TYPE_INT_RGB);
 						outImage.getGraphics().drawImage(image, 0, 0, null);
 						ImageIO.write(outImage, "png", destFile);
 
@@ -176,8 +183,7 @@ class ImageTransferable implements Transferable {
 		return DataFlavor.imageFlavor.equals(flavor);
 	}
 
-	public Object getTransferData(DataFlavor flavor)
-			throws UnsupportedFlavorException, IOException {
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 		if (isDataFlavorSupported(flavor))
 			return image;
 		throw new UnsupportedFlavorException(flavor);
@@ -194,8 +200,7 @@ class FileTransferable implements Transferable {
 	DataFlavor[] dataFlavors = new DataFlavor[] { DataFlavor.javaFileListFlavor };
 
 	@Override
-	public Object getTransferData(DataFlavor flavor)
-			throws UnsupportedFlavorException, IOException {
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 		return new ArrayList<>().add(file);
 	}
 

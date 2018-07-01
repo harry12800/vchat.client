@@ -1,12 +1,17 @@
 package cn.harry12800.vchat.components;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 
-import javax.swing.*;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
+
+import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -19,8 +24,8 @@ public class RCTextField extends JTextField {
 		setBackground(Colors.FONT_WHITE);
 		setForeground(Colors.FONT_BLACK);
 		setCaretColor(Color.GRAY);
-		setBorder(new EmptyBorder(new Insets(0,20, 0, 0) ));
-		setMargin(new Insets(0,20, 0, 0));
+		setBorder(new EmptyBorder(new Insets(0, 20, 0, 0)));
+		setMargin(new Insets(0, 20, 0, 0));
 		getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {

@@ -1,15 +1,19 @@
 package cn.harry12800.vchat.adapter;
 
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+
 import cn.harry12800.vchat.entity.SelectUserData;
 import cn.harry12800.vchat.listener.AbstractMouseListener;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.CharacterParser;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.*;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -43,14 +47,17 @@ public class SelectedUserItemsAdapter extends BaseAdapter<SelectedUserItemViewHo
 		SelectUserData user = userList.get(position);
 
 		// 头像
-		ImageIcon imageIcon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(user.getName()).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+		ImageIcon imageIcon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar(user.getName()).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
 		viewHolder.avatar.setIcon(imageIcon);
 
 		// 名字
 		viewHolder.username.setText(user.getName());
 
-		/*viewHolder.icon.setIcon(IconUtil.getIcon(this, "/image/remove.png", 18, 18));
-		viewHolder.icon.setToolTipText("移除");*/
+		/*
+		 * viewHolder.icon.setIcon(IconUtil.getIcon(this, "/image/remove.png", 18, 18));
+		 * viewHolder.icon.setToolTipText("移除");
+		 */
 
 		viewHolder.icon.addMouseListener(new AbstractMouseListener() {
 			@Override
@@ -64,7 +71,7 @@ public class SelectedUserItemsAdapter extends BaseAdapter<SelectedUserItemViewHo
 	}
 
 	private void processData() {
-		//Collections.sort(userList);
+		// Collections.sort(userList);
 		Collections.sort(userList, new Comparator<SelectUserData>() {
 			@Override
 			public int compare(SelectUserData o1, SelectUserData o2) {

@@ -1,5 +1,18 @@
 package cn.harry12800.vchat.adapter;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.entity.SelectUserData;
@@ -7,11 +20,6 @@ import cn.harry12800.vchat.listener.AbstractMouseListener;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.CharacterParser;
 import cn.harry12800.vchat.utils.IconUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -83,7 +91,8 @@ public class SelectUserItemsAdapter extends BaseAdapter<SelectUserItemViewHolder
 		String name = userList.get(position).getName();
 
 		// 头像
-		ImageIcon imageIcon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(name).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+		ImageIcon imageIcon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar(name).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
 		viewHolder.avatar.setIcon(imageIcon);
 
 		// 名字

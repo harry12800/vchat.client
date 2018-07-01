@@ -1,19 +1,27 @@
 package cn.harry12800.vchat.panels;
 
-import cn.harry12800.vchat.adapter.SelectUserItemViewHolder;
-import cn.harry12800.vchat.adapter.SelectUserItemsAdapter;
-import cn.harry12800.vchat.adapter.SelectedUserItemsAdapter;
-import cn.harry12800.vchat.components.*;
-import cn.harry12800.vchat.entity.SelectUserData;
-import cn.harry12800.vchat.listener.AbstractMouseListener;
-import cn.harry12800.vchat.utils.IconUtil;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+import cn.harry12800.vchat.adapter.SelectUserItemViewHolder;
+import cn.harry12800.vchat.adapter.SelectUserItemsAdapter;
+import cn.harry12800.vchat.adapter.SelectedUserItemsAdapter;
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCBorder;
+import cn.harry12800.vchat.components.RCListView;
+import cn.harry12800.vchat.entity.SelectUserData;
+import cn.harry12800.vchat.listener.AbstractMouseListener;
+import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * Created by harry12800 on 19/06/2017.
@@ -25,9 +33,10 @@ public class SelectUserPanel extends JPanel {
 	private RCListView selectUserListView;
 	private RCListView selectedUserListView;
 
-	/*private JPanel buttonPanel;
-	private JButton cancelButton;
-	private JButton okButton;*/
+	/*
+	 * private JPanel buttonPanel; private JButton cancelButton; private JButton
+	 * okButton;
+	 */
 
 	private int width;
 	private int height;

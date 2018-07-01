@@ -1,8 +1,18 @@
 package cn.harry12800.vchat.components;
 
-import javax.swing.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
-import java.awt.*;
 
 /**
  * 自定义滚动条UI
@@ -49,21 +59,18 @@ public class ScrollUI extends BasicScrollBarUI {
 	public void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
 		Graphics2D g2 = (Graphics2D) g;
 		GradientPaint gp = null;
-		//判断滚动条是垂直的 还是水平的
+		// 判断滚动条是垂直的 还是水平的
 		if (this.scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-			//设置画笔
-			gp = new GradientPaint(0, 0, trackColor,
-					trackBounds.width, 0, trackColor);
+			// 设置画笔
+			gp = new GradientPaint(0, 0, trackColor, trackBounds.width, 0, trackColor);
 		}
 		if (this.scrollbar.getOrientation() == JScrollBar.HORIZONTAL) {
-			gp = new GradientPaint(0, 0, trackColor,
-					trackBounds.height, 0, trackColor);
+			gp = new GradientPaint(0, 0, trackColor, trackBounds.height, 0, trackColor);
 		}
 
 		g2.setPaint(gp);
-		//填充Track
-		g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width,
-				trackBounds.height);
+		// 填充Track
+		g2.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
 	}
 
 	@Override
@@ -74,12 +81,10 @@ public class ScrollUI extends BasicScrollBarUI {
 		g.setColor(thumbColor);
 		// 消除锯齿
 		Graphics2D g2 = (Graphics2D) g;
-		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.addRenderingHints(rh);
 		// 半透明
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-				0.5f));
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 		// 填充圆角矩形
 		g2.fillRoundRect(0, 0, 7, thumbBounds.height - 1, 5, 5);
 	}

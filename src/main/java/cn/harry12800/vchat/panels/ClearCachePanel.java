@@ -1,18 +1,23 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.text.DecimalFormat;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.utils.FileCache;
 import cn.harry12800.vchat.utils.IconUtil;
 import cn.harry12800.vchat.utils.ImageCache;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.text.DecimalFormat;
 
 /**
  * Created by harry12800 on 10/07/2017.

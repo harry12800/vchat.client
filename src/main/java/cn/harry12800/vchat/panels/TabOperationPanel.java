@@ -1,13 +1,18 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.GridBagLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -50,7 +55,7 @@ public class TabOperationPanel extends ParentAvailablePanel {
 		chatLabel.setCursor(handCursor);
 		chatLabel.addMouseListener(clickListener);
 		chatLabel.setToolTipText("消息");
-		
+
 		contactIconNormal = new ImageIcon(getClass().getResource("/image/contacts_normal.png"));
 		contactIconActive = new ImageIcon(getClass().getResource("/image/contacts_active.png"));
 		contactsLabel = new JLabel();
@@ -60,7 +65,7 @@ public class TabOperationPanel extends ParentAvailablePanel {
 		contactsLabel.setCursor(handCursor);
 		contactsLabel.addMouseListener(clickListener);
 		contactsLabel.setToolTipText("联系人");
-		
+
 		meIconNormal = new ImageIcon(getClass().getResource("/image/me_normal.png"));
 		meIconActive = new ImageIcon(getClass().getResource("/image/me_active.png"));
 		meLabel = new JLabel();

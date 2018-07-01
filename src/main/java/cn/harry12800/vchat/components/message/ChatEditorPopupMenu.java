@@ -1,14 +1,18 @@
 package cn.harry12800.vchat.components.message;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.components.RCTextEditor;
 import cn.harry12800.vchat.utils.ClipboardUtil;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * Created by harry12800 on 2017/6/5.
@@ -67,7 +71,7 @@ public class ChatEditorPopupMenu extends JPopupMenu {
 			public void actionPerformed(ActionEvent e) {
 				RCTextEditor textEditor = (RCTextEditor) getInvoker();
 				textEditor.paste();
-				//ChatPanel.getContext().paste();
+				// ChatPanel.getContext().paste();
 			}
 		});
 
@@ -81,7 +85,7 @@ public class ChatEditorPopupMenu extends JPopupMenu {
 					textPane.replaceSelection("");
 				}
 
-				//textPane.insertComponent(new FileEditorThumbnail("/Users/song/使用说明.doc"));
+				// textPane.insertComponent(new FileEditorThumbnail("/Users/song/使用说明.doc"));
 
 			}
 		});

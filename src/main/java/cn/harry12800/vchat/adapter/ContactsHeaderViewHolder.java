@@ -1,6 +1,6 @@
 package cn.harry12800.vchat.adapter;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 /**
  * Created by harry12800 on 17-5-30.

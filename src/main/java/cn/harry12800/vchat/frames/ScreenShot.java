@@ -1,21 +1,43 @@
 package cn.harry12800.vchat.frames;
 
-import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.panels.ChatPanel;
-import cn.harry12800.vchat.utils.ClipboardUtil;
-import cn.harry12800.vchat.utils.IconUtil;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.imageio.ImageIO;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
+
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.panels.ChatPanel;
+import cn.harry12800.vchat.utils.ClipboardUtil;
+import cn.harry12800.vchat.utils.IconUtil;
 
 @SuppressWarnings("serial")
 public class ScreenShot extends JFrame {
@@ -57,7 +79,7 @@ public class ScreenShot extends JFrame {
 		setUndecorated(true);
 		setBackground(Colors.DARK);
 
-		setOpacity(0); //初始时设置窗口为透明，防止窗口闪烁
+		setOpacity(0); // 初始时设置窗口为透明，防止窗口闪烁
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -205,8 +227,7 @@ public class ScreenShot extends JFrame {
 				saveImage = image.getSubimage(drawX, drawY, selectedWidth, selectedHeight);
 				g.drawImage(saveImage, drawX, drawY, null);
 
-				ScreenShot.this.getGraphics().drawImage(tempImage2,
-						0, 0, ScreenShot.this);
+				ScreenShot.this.getGraphics().drawImage(tempImage2, 0, 0, ScreenShot.this);
 
 				if (controlDialog.isVisible()) {
 					controlDialog.setVisible(false);
@@ -277,7 +298,8 @@ public class ScreenShot extends JFrame {
 			return RIGHT_TOP;
 		} else if (x >= drawX - 8 && x <= drawX && y >= drawY + selectedHeight && y <= drawY + selectedHeight + 8) {
 			return LEFT_BOTTOM;
-		} else if (x >= drawX + selectedWidth && x <= drawX + selectedWidth + 8 && y >= drawY + selectedHeight && y <= drawY + selectedHeight + 8) {
+		} else if (x >= drawX + selectedWidth && x <= drawX + selectedWidth + 8 && y >= drawY + selectedHeight
+				&& y <= drawY + selectedHeight + 8) {
 			return RIGHT_BOTTOM;
 		} else {
 			return OUTSIDE_SELECTED;
@@ -285,15 +307,15 @@ public class ScreenShot extends JFrame {
 	}
 
 	private void screenShot() throws AWTException {
-		//获取默认屏幕设备
+		// 获取默认屏幕设备
 		GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice screen = environment.getDefaultScreenDevice();
 
-		//获取屏幕尺寸
+		// 获取屏幕尺寸
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setBounds(0, 0, d.width, d.height);
 
-		//获取屏幕截图
+		// 获取屏幕截图
 		Robot robot = new Robot(screen);
 		image = robot.createScreenCapture(new Rectangle(0, 0, d.width, d.height));
 
@@ -407,12 +429,12 @@ public class ScreenShot extends JFrame {
 		}
 	}
 
-	//保存图像到文件
+	// 保存图像到文件
 	public void saveImage() throws IOException {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setDialogTitle("保存");
 
-		//文件过滤器，用户过滤可选择的文件
+		// 文件过滤器，用户过滤可选择的文件
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG", "png");
 		jfc.setFileFilter(filter);
 
@@ -430,7 +452,7 @@ public class ScreenShot extends JFrame {
 			if (!(path.endsWith(".png") || path.endsWith("PNG"))) {
 				path += ".png";
 			}
-			//写入文件
+			// 写入文件
 			ImageIO.write(saveImage, "png", new File(path));
 		}
 	}

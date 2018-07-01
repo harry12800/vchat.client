@@ -1,8 +1,7 @@
 package cn.harry12800.vchat.entity;
 
 /**
- * 消息列表中显示的房间条目
- * Created by harry12800 on 24/03/2017.
+ * 消息列表中显示的房间条目 Created by harry12800 on 24/03/2017.
  */
 
 public class RoomItem implements Comparable<RoomItem> {
@@ -67,13 +66,8 @@ public class RoomItem implements Comparable<RoomItem> {
 
 	@Override
 	public String toString() {
-		return "RoomItem{" +
-				"roomId='" + roomId + '\'' +
-				", title='" + title + '\'' +
-				", lastMessage='" + lastMessage + '\'' +
-				", unreadCount=" + unreadCount +
-				", timestamp='" + timestamp + '\'' +
-				'}';
+		return "RoomItem{" + "roomId='" + roomId + '\'' + ", title='" + title + '\'' + ", lastMessage='" + lastMessage
+				+ '\'' + ", unreadCount=" + unreadCount + ", timestamp='" + timestamp + '\'' + '}';
 	}
 
 	public String getType() {

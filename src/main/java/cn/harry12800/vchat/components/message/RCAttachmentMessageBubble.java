@@ -1,10 +1,12 @@
 package cn.harry12800.vchat.components.message;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.Icon;
+import javax.swing.JPanel;
 
 /**
  * 附件气泡

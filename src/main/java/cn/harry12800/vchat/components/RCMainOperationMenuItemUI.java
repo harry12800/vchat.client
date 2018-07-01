@@ -1,10 +1,14 @@
 package cn.harry12800.vchat.components;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
 import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.*;
+
+import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 2017/6/5.
@@ -32,10 +36,10 @@ public class RCMainOperationMenuItemUI extends BasicMenuItemUI {
 		super.paintText(g, menuItem, newRect, text);
 	}
 
-	/*@Override
-	protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor)
-	{
-	    super.paintBackground(g, menuItem, Colors.SCROLL_BAR_TRACK_LIGHT);
-	}*/
+	/*
+	 * @Override protected void paintBackground(Graphics g, JMenuItem menuItem,
+	 * Color bgColor) { super.paintBackground(g, menuItem,
+	 * Colors.SCROLL_BAR_TRACK_LIGHT); }
+	 */
 
 }

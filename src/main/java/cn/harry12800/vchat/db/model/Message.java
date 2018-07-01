@@ -16,7 +16,7 @@ public class Message extends BasicModel {
 	private boolean needToResend;
 	private int progress; // 文件上传进度
 	private boolean deleted;
-	private boolean systemMessage; //是否是系统消息
+	private boolean systemMessage; // 是否是系统消息
 
 	private String fileAttachmentId;
 	private String imageAttachmentId;

@@ -17,15 +17,15 @@ import cn.harry12800.tools.Maps;
 
 public class Snippet {
 	public static String getHolidayJson(String date) {
-		String httpUrl = "https://api.goseek.cn/Tools/holiday?date="+date;
+		String httpUrl = "https://api.goseek.cn/Tools/holiday?date=" + date;
 		BufferedReader reader = null;
 		String result = null;
 		StringBuffer sbf = new StringBuffer();
 		try {
-//			URL url = new URL(httpUrl);
+			// URL url = new URL(httpUrl);
 			HttpsURLConnection connection = HttpsUtil.getHttpsURLConnection(httpUrl);
-//			HttpURLConnection connection = (HttpURLConnection) url
-//					.openConnection();
+			// HttpURLConnection connection = (HttpURLConnection) url
+			// .openConnection();
 			connection.setRequestMethod("GET");
 			connection.connect();
 			InputStream is = connection.getInputStream();
@@ -46,26 +46,27 @@ public class Snippet {
 	public static void main(String[] args) {
 		Calendar sCalendar = Calendar.getInstance();
 		sCalendar.set(Calendar.YEAR, 2018);
-		sCalendar.set(Calendar.DAY_OF_YEAR,1);
+		sCalendar.set(Calendar.DAY_OF_YEAR, 1);
 		Map<String, String> map = Maps.newLinkedHashMap();
 		int i = 0;
 		System.out.println(sCalendar);
-		while(i<400){
-			String timeByFormat = DateUtils.getTimeByFormat(sCalendar.getTime(),"yyyyMMdd");
+		while (i < 400) {
+			String timeByFormat = DateUtils.getTimeByFormat(sCalendar.getTime(), "yyyyMMdd");
 			try {
 				String holidayJson = getHolidayJson(timeByFormat);
-				map.put(timeByFormat, holidayJson.substring(21,22));
-				
+				map.put(timeByFormat, holidayJson.substring(21, 22));
+
 			} catch (Exception e) {
-				
+
 			}
-			sCalendar.add(Calendar.DAY_OF_MONTH,1);
+			sCalendar.add(Calendar.DAY_OF_MONTH, 1);
 			i++;
 		}
-//		DeveloperUtils.generateMapCode(map, Snippet.class, "holidayMap", 59);
+		// DeveloperUtils.generateMapCode(map, Snippet.class, "holidayMap", 59);
 	}
+
 	public static void main2(String[] args) {
-		List<String> rowByFile = FileUtils.getRowByFile(new File( "D:/desktop/a.txt"), "utf-8");
+		List<String> rowByFile = FileUtils.getRowByFile(new File("D:/desktop/a.txt"), "utf-8");
 		Collections.sort(rowByFile);
 		for (String string : rowByFile) {
 			System.out.println(string);

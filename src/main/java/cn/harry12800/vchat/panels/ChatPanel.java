@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -320,8 +322,9 @@ public class ChatPanel extends ParentAvailablePanel {
 				ImageIcon icon = (ImageIcon) label.getIcon();
 				String path = icon.getDescription();
 				if (path != null && !path.isEmpty()) {
-					/*sendFileMessage(path);
-					showSendingMessage();*/
+					/*
+					 * sendFileMessage(path); showSendingMessage();
+					 */
 
 					shareAttachmentUploadQueue.add(path);
 				}
@@ -518,7 +521,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		}
 		// 如果本地没有拿到消息，则从服务器拿消息
 		else {
-			//TODO: 从服务器拿消息
+			// TODO: 从服务器拿消息
 		}
 
 		messagePanel.getMessageListView().notifyDataSetChanged(false);
@@ -674,11 +677,11 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		}
 
-		content = StringEscapeUtils.escapeJava(content);
+//		content = StringEscapeUtils.escapeJava(content);
 
 		// TODO: 发送消息到服务器
 		// 发送
-		 sendToServer(content);
+		sendToServer(content);
 
 		// TODO：完善发送消息回调：
 		boolean sentSuccess = true;
@@ -697,42 +700,29 @@ public class ChatPanel extends ParentAvailablePanel {
 			room.setUnreadCount(0);
 			room.setTotalReadCount(room.getMsgSum());
 			roomService.update(room);
-			RoomsPanel.getContext().updateRoomsList(dbMessage.getRoomId());
+			RoomsPanel.getContext().updateRoomItem(dbMessage.getRoomId());
 		}
 
 		// 10秒后如果发送不成功，则显示重发按钮
-		/*MessageResendTask task = new MessageResendTask();
-		task.setListener(new ResendTaskCallback(10000)
-		{
-		    @Override
-		    public void onNeedResend(String messageId)
-		    {
-		        Message msg = messageService.findById(messageId);
-		        if (msg.getUpdatedAt() == 0)
-		        {
-		            // 更新消息列表
-		
-		            int pos = findMessageItemPositionInViewReverse(messageId);
-		            if (pos > -1)
-		            {
-		                messageItems.get(pos).setNeedToResend(true);
-		                msg.setNeedToResend(true);
-		                messageService.update(msg);
-		                messagePanel.getMessageListView().notifyItemChanged(pos);
-		            }
-		
-		
-		            // 更新房间列表
-		            // 注意这里不能用类的成员room，因为可能已经离开了原来的房间
-		            Room room = roomService.findById(msg.getRoomId());
-		            room.setLastMessage("[有消息发送失败]");
-		            room.setLastChatAt(msg.getTimestamp());
-		            roomService.update(room);
-		            RoomsPanel.getContext().updateRoomItem(msg.getRoomId());
-		        }
-		    }
-		});
-		task.execute(messageId);*/
+		/*
+		 * MessageResendTask task = new MessageResendTask(); task.setListener(new
+		 * ResendTaskCallback(10000) {
+		 * 
+		 * @Override public void onNeedResend(String messageId) { Message msg =
+		 * messageService.findById(messageId); if (msg.getUpdatedAt() == 0) { // 更新消息列表
+		 * 
+		 * int pos = findMessageItemPositionInViewReverse(messageId); if (pos > -1) {
+		 * messageItems.get(pos).setNeedToResend(true); msg.setNeedToResend(true);
+		 * messageService.update(msg);
+		 * messagePanel.getMessageListView().notifyItemChanged(pos); }
+		 * 
+		 * 
+		 * // 更新房间列表 // 注意这里不能用类的成员room，因为可能已经离开了原来的房间 Room room =
+		 * roomService.findById(msg.getRoomId()); room.setLastMessage("[有消息发送失败]");
+		 * room.setLastChatAt(msg.getTimestamp()); roomService.update(room);
+		 * RoomsPanel.getContext().updateRoomItem(msg.getRoomId()); } } });
+		 * task.execute(messageId);
+		 */
 	}
 
 	private void sendToServer(String content) {
@@ -740,7 +730,7 @@ public class ChatPanel extends ParentAvailablePanel {
 			PrivateChatRequest request = new PrivateChatRequest();
 			request.setContext(content);
 			request.setTargetPlayerId(Long.valueOf(roomId));
-			//构建请求
+			// 构建请求
 			Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
 			Launcher.client.sendRequest(req);
 		} catch (Exception e) {
@@ -792,7 +782,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		// TODO: 收到服务器响应，调用下面方法开始上传文件
 		notifyStartUploadFile(path, randomMessageId());
-		//WebSocketClient.getContext().sendFileMessage(roomId, path);
+		// WebSocketClient.getContext().sendFileMessage(roomId, path);
 	}
 
 	/**
@@ -995,7 +985,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 	private void sendDataPart(int partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
 		// TODO： 发送第 partIndex 个分块到服务器
-		//send(dataParts(partIndex))
+		// send(dataParts(partIndex))
 
 		new Thread(new Runnable() {
 			@Override
@@ -1042,7 +1032,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		long size = file.length();
 
 		int partSize = 512000;
-		//int partSize = 4140;
+		// int partSize = 4140;
 		int blockCount;
 		blockCount = (int) (size % partSize == 0 ? size / partSize : size / partSize + 1);
 		List<byte[]> dataParts = new ArrayList<>(blockCount);
@@ -1085,7 +1075,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		Message message = messageService.findById(messageId);
 		FileAttachment fileAttachment;
 		if (message == null) {
-			// 如果没有messageId对应的message, 尝试寻找messageId对应的file attachment，因为在自己上传文件时，此时是以fileId作为临时的messageId
+			// 如果没有messageId对应的message, 尝试寻找messageId对应的file
+			// attachment，因为在自己上传文件时，此时是以fileId作为临时的messageId
 			fileAttachment = fileAttachmentService.findById(messageId);
 		} else {
 			fileAttachment = fileAttachmentService.findById(message.getFileAttachmentId());
@@ -1148,7 +1139,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		task.setListener(new HttpResponseListener<byte[]>() {
 			@Override
 			public void onSuccess(byte[] data) {
-				//System.out.println(data);
+				// System.out.println(data);
 				String path = fileCache.cacheFile(fileAttachment.getId(), fileAttachment.getTitle(), data);
 
 				int pos = findMessageItemPositionInViewReverse(messageId);
@@ -1178,7 +1169,8 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		});
 
-		String url = Launcher.HOSTNAME + fileAttachment.getLink() + "?rc_uid=" + currentUser.getUserId() + "&rc_token=" + currentUser.getAuthToken();
+		String url = Launcher.HOSTNAME + fileAttachment.getLink() + "?rc_uid=" + currentUser.getUserId() + "&rc_token="
+				+ currentUser.getAuthToken();
 		task.execute(url);
 	}
 
@@ -1244,10 +1236,14 @@ public class ChatPanel extends ParentAvailablePanel {
 	public void showReceiveMsg(MsgResponse msg) {
 		if (currentUser.getUserId().equals(msg.getFromId() + ""))
 			return;
+		String currentTab = ListPanel.getContext().getCurrentTab();
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
-		message.setRoomId(msg.getFromId()+"");
-		message.setMessageContent(UnicodeUtil.unicodeToString(new String(msg.getData())));
+		message.setRoomId(msg.getFromId() + "");
+		String string = new String(msg.getData() );
+//		string = StringEscapeUtils.unescapeJava(string);
+		System.out.println(string);
+		message.setMessageContent(string);
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());
 		List<CurrentUser> users = currentUserService.findAll();
@@ -1263,10 +1259,18 @@ public class ChatPanel extends ParentAvailablePanel {
 				break;
 			}
 		}
+		
 		messageService.insertOrUpdate(message);
+		room.setLastMessage(message.getMessageContent());
+		room.setUnreadCount(room.getUnreadCount()+1);
+		roomService.insertOrUpdate(room);
 		MessageItem item = new MessageItem(message, room.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
-		addMessageItemToEnd(item);
+		if(currentTab.equals(ListPanel.CHAT)&&room.getType().equals("d")&&room.getName().equals(message.getSenderUsername())) {
+			System.out.println(currentUser);
+			addMessageItemToEnd(item);
+		}
+		RoomsPanel.getContext().updateRoomItem(room.getRoomId());
 	}
 
 	public void showReceiveMsgFail(String tipContent) {

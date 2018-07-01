@@ -45,11 +45,7 @@ public class SelectUserItem implements Comparable<SelectUserItem> {
 
 	@Override
 	public String toString() {
-		return "SelectUserItem{" +
-				"id='" + id + '\'' +
-				", name='" + name + '\'' +
-				", type='" + type + '\'' +
-				'}';
+		return "SelectUserItem{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", type='" + type + '\'' + '}';
 	}
 
 	@Override

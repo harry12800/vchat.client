@@ -1,11 +1,15 @@
 package cn.harry12800.vchat.components.message;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.plaf.basic.BasicMenuItemUI;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicMenuItemUI;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 21/06/2017.

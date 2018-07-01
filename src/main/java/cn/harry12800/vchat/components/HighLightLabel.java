@@ -1,10 +1,15 @@
 package cn.harry12800.vchat.components;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.font.LineMetrics;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.font.LineMetrics;
+
+import javax.swing.JLabel;
 
 /**
  * Created by harry12800 on 22/06/2017.
@@ -80,10 +85,10 @@ public class HighLightLabel extends JLabel {
 		int keyLen = key.length();
 
 		// 关键字是否是叠词，第一种情况匹配aa、setAvatar，第二种情况匹配如asdasd
-		boolean IsReduplication = key.matches("(.)\\1+")
-				|| (key.length() % 2 == 0 && key.substring(0, key.length() / 2).equals(key.substring(key.length() / 2)));
+		boolean IsReduplication = key.matches("(.)\\1+") || (key.length() % 2 == 0
+				&& key.substring(0, key.length() / 2).equals(key.substring(key.length() / 2)));
 
-		int pos = str.indexOf(key); //第一个出现的索引位置
+		int pos = str.indexOf(key); // 第一个出现的索引位置
 		List<Integer> posArr = new ArrayList<>();
 		while (pos != -1) {
 			posArr.add(pos);

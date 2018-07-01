@@ -1,8 +1,10 @@
 package cn.harry12800.vchat.components;
 
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+import javax.swing.JProgressBar;
 import javax.swing.border.LineBorder;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-6-4.

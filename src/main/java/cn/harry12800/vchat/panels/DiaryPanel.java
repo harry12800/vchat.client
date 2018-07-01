@@ -22,7 +22,9 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -37,19 +39,20 @@ import cn.harry12800.j2se.dialog.InputMessageDialog;
 import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.lnk.core.util.JsonUtil;
-import cn.harry12800.tools.DateUtils;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
+import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.model.diary.AreaTextPanel;
 import cn.harry12800.vchat.model.diary.AricleNode;
-import cn.harry12800.vchat.model.diary.Aritcle;
 import cn.harry12800.vchat.model.diary.BaiduReader;
+import cn.harry12800.vchat.model.diary.Diary;
 import cn.harry12800.vchat.model.diary.RelativeDateFormat;
 import cn.harry12800.vchat.model.diary.SearchInputText;
 import cn.harry12800.vchat.model.diary.SelectButtonDialog;
+import cn.harry12800.vchat.utils.HttpUtil;
 
 public class DiaryPanel extends JPanel implements DropTargetListener {
 	/**
@@ -57,7 +60,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String diarySuffix = ".properties";
-	public MButton save = new MButton("保存", 80, 25);
+	public MButton synchronousDiary = new MButton("同步", 80, 25);
 	public MButton see = new MButton("预览", 80, 25);
 	public MButton reader = new MButton("朗读", 80, 25);
 	public MButton stopReader = new MButton("停止朗读", 80, 25);
@@ -86,19 +89,19 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		add(centerPanel, BorderLayout.CENTER);
 		CardLayout cardLayout = new CardLayout();
 		centerPanel.setLayout(cardLayout);
-		centerPanel.add(areaTextPanel,"area");
-		centerPanel.add(searchResultPanel,"search");
+		centerPanel.add(areaTextPanel, "area");
+		centerPanel.add(searchResultPanel, "search");
 		initBtnListener();
 		JPanel jPanel = new JPanel();
 		add(jPanel, BorderLayout.SOUTH);
 		jPanel.setLayout(new FlowLayout());
-		jPanel.add(save);
+		jPanel.add(synchronousDiary);
 		jPanel.add(see);
 		jPanel.add(newA);
 		jPanel.add(cmd);
 		jPanel.add(reader);
 		jPanel.add(stopReader);
-
+		jPanel.setBackground(UI.foreColor);
 		searchInputText.setCtrlSAction(new CtrlSAction() {
 			public void ctrlS() {
 				saveAricle();
@@ -111,29 +114,30 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 				searchResultPanel.removeAll();
 				int x = 0;
 				for (final File file : searchResult) {
-					Aritcle a = null;
+					Diary a = null;
 					try {
-						a = JsonUtil.string2Json(file, Aritcle.class);
+						a = JsonUtil.string2Json(file, Diary.class);
 					} catch (Exception e2) {
 						continue;
 					}
-					PlainButton plainButton = new PlainButton(a.title, 490, 25,
+					PlainButton plainButton = new PlainButton(a.getTitle(), 490, 25,
 							PlainButton.createBgColorBuilder(UI.foreColor));
 					plainButton.addMouseListener(new ClickAction(plainButton) {
 						public void leftClick(MouseEvent e) {
-//							searchResultPanel.setVisible(false);
+							// searchResultPanel.setVisible(false);
 							DiaryCatalogPanel.getContext().currPath = file.getAbsolutePath();
-							Aritcle a;
+							Diary a;
 							try {
-								a = JsonUtil.string2Json(new File(DiaryCatalogPanel.getContext().currPath), Aritcle.class);
-								areaTextPanel.setText(a.content);
-								searchInputText.setText(a.title);
+								a = JsonUtil.string2Json(new File(DiaryCatalogPanel.getContext().currPath),
+										Diary.class);
+								areaTextPanel.setText(a.getContent());
+								searchInputText.setText(a.getTitle());
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
 							cardLayout.show(centerPanel, "area");
-//							areaTextPanel.setVisible(true);
-//							areaTextPanel.requestFocus();
+							// areaTextPanel.setVisible(true);
+							// areaTextPanel.requestFocus();
 						}
 					});
 					plainButton.setBounds(1, x * 26 + 1, 490, 25);
@@ -141,8 +145,8 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 					searchResultPanel.add(plainButton);
 					;
 				}
-//				searchResultPanel.repaint();
-//				searchResultPanel.setVisible(true);
+				// searchResultPanel.repaint();
+				// searchResultPanel.setVisible(true);
 				cardLayout.show(centerPanel, "search");
 				searchResultPanel.requestFocus();
 				searchResultPanel.addFocusListener(new FocusListener() {
@@ -196,22 +200,50 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			title = text.split("\\n")[0];
 		}
 		searchInputText.setText(title);
-		Aritcle a = new Aritcle();
+		Diary a = new Diary();
 		if (DiaryCatalogPanel.getContext().getCatalogTree() != null) {
 			a = ((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).aritcle;
 		}
-		a.title = title;
-		a.content = text;
-		a.updateTime = DateUtils.getCurrTimeByFormat(StringUtils.yyyy_MM_dd_HH24_mm_ss);
-		JsonUtil.saveObj(a, DiaryCatalogPanel.getContext().currPath);
+		a.setTitle(title);
+		a.setContent(text);
+		a.setUpdateTime(new Date());
+		String currPath = DiaryCatalogPanel.getContext().currPath;
+		JsonUtil.saveObj(a, currPath);
 		if (DiaryCatalogPanel.getContext().getCatalogTree() != null) {
-			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).builder.name = title;
-			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).date = new Date();
 			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).plainButton.text.setText(title);
-			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).plainButton.updatedateL.setText(RelativeDateFormat.format(new Date()));
-			DiaryCatalogPanel.getContext().getModel().reload(((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()));
+			((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).plainButton.updatedateL
+					.setText(RelativeDateFormat.format(new Date()));
+			DiaryCatalogPanel.getContext().getModel()
+					.reload(((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()));
 		}
-		MainFrame.getContext().alert("保存成功！");
+		MainFrame.getContext().alert("本地保存成功！");
+		saveToServer(a, currPath);
+	}
+
+	private void saveToServer(Diary a, String path) {
+
+		Map<String, String> headers = new HashMap<>(0);
+		try {
+			String post = HttpUtil.postJson(Contants.diarySaveUrl, headers, JsonUtil.object2String(a));
+			System.out.println(post);
+			Result diary = JsonUtil.string2Json(post, Result.class);
+			a.setId(diary.content.getId());
+			JsonUtil.saveObj(a, path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static class Result {
+		public Integer code;
+		public String msg;
+		public Diary content;
+
+		@Override
+		public String toString() {
+			return "Result [code=" + code + ", msg=" + msg + ", d=" + content + "]";
+		}
+
 	}
 
 	protected List<File> getSearchResult() {
@@ -233,14 +265,77 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		return files;
 	}
 
+	static class ResultAll {
+		public Integer code;
+		public String msg;
+		public List<Diary> content;
+
+		@Override
+		public String toString() {
+			return "ResultAll [code=" + code + ", msg=" + msg + ", content=" + content + "]";
+		}
+
+	}
+
+	static class ResultCatalogAll {
+		public Integer code;
+		public String msg;
+		public List<DiaryCatalog> content;
+
+	}
+
+	public static void main(String[] args) {
+		String url = "http://127.0.0.1/v1/diary/getAll";
+		try {
+			String string = HttpUtil.get(url);
+			System.out.println(string);
+			ResultAll string2Json = JsonUtil.string2Json(string, ResultAll.class);
+			System.err.println(string2Json);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void initBtnListener() {
-		save.addMouseListener(new ClickAction(save) {
+		synchronousDiary.addMouseListener(new ClickAction(synchronousDiary) {
 			public void leftClick(MouseEvent e) {
-				saveAricle();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							synchronousDiary.setEnabled(false);
+							String dirPath = DiaryCatalogPanel.getContext().dirPath;
+							String catalogString2Json = HttpUtil.get(Contants.diaryCatalogUrl);
+							ResultCatalogAll catalogObj = JsonUtil.string2Json(catalogString2Json,
+									ResultCatalogAll.class);
+							List<DiaryCatalog> catalogList = catalogObj.content;
+							Map<String, DiaryCatalog> catalogMaps = new HashMap<>();
+							for (DiaryCatalog diaryCatalog : catalogList) {
+								catalogMaps.put(diaryCatalog.getId(), diaryCatalog);
+							}
+							String diaryString2Json = HttpUtil.get(Contants.diaryUrl);
+							ResultAll string2Json = JsonUtil.string2Json(diaryString2Json, ResultAll.class);
+							List<Diary> diaryList = string2Json.content;
+							for (Diary diary : diaryList) {
+								String catalogName = catalogMaps.get(diary.getCatalogId()).getName();
+								String tempPath = dirPath + File.separator + catalogName;
+								if (!new File(tempPath).exists()) {
+									new File(tempPath).mkdir();
+								}
+								JsonUtil.saveObj(diary, tempPath + File.separator + diary.getId() + ".properties");
+							}
+							MainFrame.getContext().alert("同步完成！");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} finally {
+							synchronousDiary.setEnabled(true);
+						}
+					}
+				}).start();
 			}
 		});
 
-		see.addMouseListener(new ClickAction(save) {
+		see.addMouseListener(new ClickAction(see) {
 			public void leftClick(MouseEvent e) {
 				File selectFile = new File(DiaryCatalogPanel.getContext().currPath);
 				if (selectFile.exists()) {
@@ -253,23 +348,24 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 						}
 					});
 					System.out.println(listFiles.length);
-					Aritcle[] aritcles = new Aritcle[listFiles.length];
+					Diary[] aritcles = new Diary[listFiles.length];
 					@SuppressWarnings("unused")
 					int currIndex = 0;
 					for (int i = 0; i < listFiles.length; i++) {
 						try {
 							if (selectFile.getName().equals(listFiles[i].getName()))
 								currIndex = i;
-							aritcles[i] = JsonUtil.string2Json(listFiles[i], Aritcle.class);
+							aritcles[i] = JsonUtil.string2Json(listFiles[i], Diary.class);
 						} catch (Exception e1) {
 							MainFrame.getContext().alert(e1.getMessage());
 							return;
 						}
 					}
 
-					//					dialog = new NativeDiaryScanDialog(DiaryPanel.this, aritcles);
-					//					DiaryScanDialog dialog = new DiaryScanDialog(DiaryPanel2.this, aritcles, currIndex);
-					//					dialog.setVisible(true);
+					// dialog = new NativeDiaryScanDialog(DiaryPanel.this, aritcles);
+					// DiaryScanDialog dialog = new DiaryScanDialog(DiaryPanel2.this, aritcles,
+					// currIndex);
+					// dialog.setVisible(true);
 				} else {
 					MainFrame.getContext().alert("没有可预览的文章！");
 				}
@@ -295,9 +391,12 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 						if ("新建文件夹".equals(name)) {
 							new InputMessageDialog(MainFrame.getContext(), name, name, new Callback() {
 								public void callback(String string) {
-									if (!new File(DiaryCatalogPanel.getContext().dirPath + File.separator + string).exists()) {
-										FileUtils.createDirectory(DiaryCatalogPanel.getContext().dirPath + File.separator + string);
-										DiaryCatalogPanel.getContext().addNode(new File(DiaryCatalogPanel.getContext().dirPath + File.separator + string));
+									if (!new File(DiaryCatalogPanel.getContext().dirPath + File.separator + string)
+											.exists()) {
+										FileUtils.createDirectory(
+												DiaryCatalogPanel.getContext().dirPath + File.separator + string);
+										DiaryCatalogPanel.getContext().addNode(new File(
+												DiaryCatalogPanel.getContext().dirPath + File.separator + string));
 									} else {
 										MainFrame.getContext().alert("已存在该目录！");
 									}
@@ -352,18 +451,20 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	// coursor = 
 	// Toolkit.getDefaultToolkit().createCustomCursor(new 
 	// ImageIcon("image/pencil.gif").getImage(),new Point(10,20), "stick");
-	//	protected void paintComponent(Graphics g) {
-	//		super.paintComponent(g);
-	//		Graphics2D g2d = (Graphics2D) g.create();
-	//		GradientPaint p2 = new GradientPaint(0, 1, new Color(186, 131, 164, 200), 0, 20, new Color(255, 255, 255, 255));
-	//		g2d.setPaint(p2);
-	//		// g2d.drawRoundRect(1, 20, width, size * 25 + 1, 5, 5);
-	//		// g2d.fillRoundRect(1, 20, width, size * 25 + 1, 5, 5);
-	//		g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND)); // 设置新的画刷
-	//		g2d.setFont(new Font("宋体", Font.PLAIN, 12));
-	//		g2d.drawString("日记", 5, 15);
-	//		g2d.dispose();
-	//	}
+	// protected void paintComponent(Graphics g) {
+	// super.paintComponent(g);
+	// Graphics2D g2d = (Graphics2D) g.create();
+	// GradientPaint p2 = new GradientPaint(0, 1, new Color(186, 131, 164, 200), 0,
+	// 20, new Color(255, 255, 255, 255));
+	// g2d.setPaint(p2);
+	// // g2d.drawRoundRect(1, 20, width, size * 25 + 1, 5, 5);
+	// // g2d.fillRoundRect(1, 20, width, size * 25 + 1, 5, 5);
+	// g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_SQUARE,
+	// BasicStroke.JOIN_ROUND)); // 设置新的画刷
+	// g2d.setFont(new Font("宋体", Font.PLAIN, 12));
+	// g2d.drawString("日记", 5, 15);
+	// g2d.dispose();
+	// }
 
 	@Override
 	public void drop(DropTargetDropEvent dtde) {

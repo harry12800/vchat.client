@@ -1,7 +1,11 @@
 package cn.harry12800.vchat.panels;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * Created by harry12800 on 04/07/2017.

@@ -1,10 +1,12 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.utils.IconUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 2017/6/15.

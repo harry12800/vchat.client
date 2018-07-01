@@ -1,7 +1,8 @@
 package cn.harry12800.vchat.db.service;
 
-import cn.harry12800.vchat.db.dao.TableDao;
 import org.apache.ibatis.session.SqlSession;
+
+import cn.harry12800.vchat.db.dao.TableDao;
 
 /**
  * Created by harry12800 on 08/06/2017.

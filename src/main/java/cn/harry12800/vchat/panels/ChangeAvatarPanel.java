@@ -1,5 +1,34 @@
 package cn.harry12800.vchat.panels;
 
+import static cn.harry12800.vchat.app.Launcher.currentUserService;
+
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.commons.codec.binary.Base64;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
@@ -7,16 +36,6 @@ import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.IconUtil;
-import org.apache.commons.codec.binary.Base64;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
-import java.io.*;
-import static cn.harry12800.vchat.app.Launcher.currentUserService;
 
 /**
  * 修改头像面板
@@ -51,7 +70,8 @@ public class ChangeAvatarPanel extends JPanel {
 			int imageWidth = image.getWidth(null);
 			int imageHeight = image.getHeight(null);
 			if (imageWidth < 200 || imageHeight < 200) {
-				JOptionPane.showMessageDialog(MainFrame.getContext(), "建议使用 200 * 200 或更高分辨率的图像", "图像太low - , -!", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(MainFrame.getContext(), "建议使用 200 * 200 或更高分辨率的图像", "图像太low - , -!",
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 
@@ -65,13 +85,16 @@ public class ChangeAvatarPanel extends JPanel {
 
 	private void initComponents() {
 		CurrentUser currentUser = currentUserService.findAll().get(0);
-		Image avatar = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername()).getScaledInstance(200, 200, Image.SCALE_SMOOTH)).getImage();
+		Image avatar = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername()).getScaledInstance(200,
+				200, Image.SCALE_SMOOTH)).getImage();
 		imageLabel = new ImageAdjustLabel(imageMaxWidth, imageMaxHeight, avatar);
 		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		imageLabel.setPreferredSize(new Dimension(360, 200));
-		//imageLabel.setBorder(new LineBorder(Colors.ITEM_SELECTED_LIGHT));
+		// imageLabel.setBorder(new LineBorder(Colors.ITEM_SELECTED_LIGHT));
 
-		//imageLabel.setIcon(new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername()).getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+		// imageLabel.setIcon(new
+		// ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername()).getScaledInstance(200,
+		// 200, Image.SCALE_SMOOTH)));
 
 		okButton = new RCButton("使用头像", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
 		okButton.setPreferredSize(new Dimension(100, 35));
@@ -118,7 +141,8 @@ public class ChangeAvatarPanel extends JPanel {
 					okButton.setEnabled(false);
 
 					if (selectedFile == null) {
-						JOptionPane.showMessageDialog(MainFrame.getContext(), "请选择图像文件", "选择图片", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(MainFrame.getContext(), "请选择图像文件", "选择图片",
+								JOptionPane.WARNING_MESSAGE);
 						okButton.setEnabled(true);
 						return;
 					}
@@ -131,7 +155,8 @@ public class ChangeAvatarPanel extends JPanel {
 						restoreOKButton();
 					} else {
 						// TODO: 上传头像，图片数据为selectedImage
-						JOptionPane.showMessageDialog(MainFrame.getContext(), "更改头像", "更改头像", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(MainFrame.getContext(), "更改头像", "更改头像",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 
 				}
@@ -153,7 +178,8 @@ public class ChangeAvatarPanel extends JPanel {
 
 			String extension = selectedFile.getName();
 			if (!extension.endsWith(".jpg") && !extension.endsWith(".jpeg") && !extension.endsWith(".png")) {
-				JOptionPane.showMessageDialog(MainFrame.getContext(), "请选择图像文件", "文件类型不正确", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(MainFrame.getContext(), "请选择图像文件", "文件类型不正确",
+						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 
@@ -186,7 +212,7 @@ public class ChangeAvatarPanel extends JPanel {
 		okButton.setText("使用头像");
 		okButton.setIcon(null);
 		okButton.setEnabled(true);
-		//selectedFile = null;
+		// selectedFile = null;
 	}
 
 	public void showSuccessMessage() {
@@ -308,7 +334,8 @@ class ImageAdjustLabel extends JLabel {
 
 		// 缩放后的图像
 		scaledImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-		scaledImage.getGraphics().drawImage(image.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH), 0, 0, null);
+		scaledImage.getGraphics().drawImage(image.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH), 0,
+				0, null);
 
 		// 使图片居中显示
 		imageX = 0;
@@ -357,15 +384,10 @@ class ImageAdjustLabel extends JLabel {
 				}
 			}
 
-			/*@Override
-			public void mouseClicked(MouseEvent e)
-			{
-			    if (e.getClickCount() == 2)
-			    {
-			        getSelectedImage();
-			    }
-			    super.mouseClicked(e);
-			}*/
+			/*
+			 * @Override public void mouseClicked(MouseEvent e) { if (e.getClickCount() ==
+			 * 2) { getSelectedImage(); } super.mouseClicked(e); }
+			 */
 		});
 
 		this.addMouseMotionListener(new MouseMotionAdapter() {
@@ -444,8 +466,10 @@ class ImageAdjustLabel extends JLabel {
 					}
 					}
 
-					//selectedWidth = drawX + selectedWidth > targetWidth ? targetWidth - drawX : selectedWidth;
-					//selectedHeight = drawY + selectedHeight > targetHeight ? targetHeight - drawY : selectedHeight;
+					// selectedWidth = drawX + selectedWidth > targetWidth ? targetWidth - drawX :
+					// selectedWidth;
+					// selectedHeight = drawY + selectedHeight > targetHeight ? targetHeight - drawY
+					// : selectedHeight;
 
 					if (drawX + selectedWidth > targetWidth) {
 						selectedWidth = targetWidth - drawX;
@@ -571,16 +595,20 @@ class ImageAdjustLabel extends JLabel {
 		int x = e.getX();
 		int y = e.getY();
 
-		if (x >= drawX + imageX && x <= drawX + imageX + selectedWidth && y >= drawY + imageY && y <= drawY + imageY + selectedHeight) {
+		if (x >= drawX + imageX && x <= drawX + imageX + selectedWidth && y >= drawY + imageY
+				&& y <= drawY + imageY + selectedHeight) {
 			return IN_SELECTED_AREA;
-		} else if (x >= drawX + imageX - anchorWidth && x <= drawX + imageX && y >= drawY + imageY - anchorWidth && y <= drawY + imageY) {
+		} else if (x >= drawX + imageX - anchorWidth && x <= drawX + imageX && y >= drawY + imageY - anchorWidth
+				&& y <= drawY + imageY) {
 			return LEFT_TOP;
-		} else if (x >= drawX + imageX + selectedWidth && x <= drawX + imageX + selectedWidth + anchorWidth && y >= drawY + imageY - anchorWidth && y <= drawY + imageY) {
+		} else if (x >= drawX + imageX + selectedWidth && x <= drawX + imageX + selectedWidth + anchorWidth
+				&& y >= drawY + imageY - anchorWidth && y <= drawY + imageY) {
 			return RIGHT_TOP;
-		} else if (x >= drawX + imageX - anchorWidth && x <= drawX + imageX && y >= drawY + imageY + selectedHeight && y <= drawY + imageY + selectedHeight + anchorWidth) {
-			return LEFT_BOTTOM;
-		} else if (x >= drawX + imageX + selectedWidth && x <= drawX + imageX + selectedWidth + anchorWidth && y >= drawY + imageY + selectedHeight
+		} else if (x >= drawX + imageX - anchorWidth && x <= drawX + imageX && y >= drawY + imageY + selectedHeight
 				&& y <= drawY + imageY + selectedHeight + anchorWidth) {
+			return LEFT_BOTTOM;
+		} else if (x >= drawX + imageX + selectedWidth && x <= drawX + imageX + selectedWidth + anchorWidth
+				&& y >= drawY + imageY + selectedHeight && y <= drawY + imageY + selectedHeight + anchorWidth) {
 			return RIGHT_BOTTOM;
 		} else {
 			return OUTSIDE_SELECTED;
@@ -605,7 +633,8 @@ class ImageAdjustLabel extends JLabel {
 			selectedImage.getGraphics().drawImage(image.getSubimage(x, y, w, h), 0, 0, w, h, null);
 
 			BufferedImage outputImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-			outputImage.getGraphics().drawImage(selectedImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH), 0, 0, null);
+			outputImage.getGraphics().drawImage(selectedImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH), 0, 0,
+					null);
 
 			return outputImage;
 		} catch (Exception e) {

@@ -25,7 +25,8 @@ public class CurrentUser extends BasicModel {
 	public CurrentUser() {
 	}
 
-	public CurrentUser(String userId, String username, String authToken, String password, String rawPassword, String expireDate, String realName, String bcrypt, String avatarOrigin) {
+	public CurrentUser(String userId, String username, String authToken, String password, String rawPassword,
+			String expireDate, String realName, String bcrypt, String avatarOrigin) {
 		this.userId = userId;
 		this.username = username;
 		this.authToken = authToken;
@@ -111,16 +112,9 @@ public class CurrentUser extends BasicModel {
 
 	@Override
 	public String toString() {
-		return "CurrentUser{" +
-				"userId='" + userId + '\'' +
-				", username='" + username + '\'' +
-				", authToken='" + authToken + '\'' +
-				", password='" + password + '\'' +
-				", rawPassword='" + rawPassword + '\'' +
-				", expireDate='" + expireDate + '\'' +
-				", realName='" + realName + '\'' +
-				", bcrypt='" + bcrypt + '\'' +
-				", avatarOrigin='" + avatarOrigin + '\'' +
-				'}';
+		return "CurrentUser{" + "userId='" + userId + '\'' + ", username='" + username + '\'' + ", authToken='"
+				+ authToken + '\'' + ", password='" + password + '\'' + ", rawPassword='" + rawPassword + '\''
+				+ ", expireDate='" + expireDate + '\'' + ", realName='" + realName + '\'' + ", bcrypt='" + bcrypt + '\''
+				+ ", avatarOrigin='" + avatarOrigin + '\'' + '}';
 	}
 }

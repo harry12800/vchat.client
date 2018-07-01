@@ -8,14 +8,13 @@ import java.awt.Insets;
 
 /**
  * VerticalFlowLayout is similar to FlowLayout except it lays out components
- * vertically. Extends FlowLayout because it mimics much of the
- * behavior of the FlowLayout class, except vertically. An additional
- * feature is that you can specify a fill to edge flag, which causes
- * the VerticalFlowLayout manager to resize all components to expand to the
- * column width Warning: This causes problems when the main panel
- * has less space that it needs and it seems to prohibit multi-column
- * output. Additionally there is a vertical fill flag, which fills the last
- * component to the remaining height of the container.
+ * vertically. Extends FlowLayout because it mimics much of the behavior of the
+ * FlowLayout class, except vertically. An additional feature is that you can
+ * specify a fill to edge flag, which causes the VerticalFlowLayout manager to
+ * resize all components to expand to the column width Warning: This causes
+ * problems when the main panel has less space that it needs and it seems to
+ * prohibit multi-column output. Additionally there is a vertical fill flag,
+ * which fills the last component to the remaining height of the container.
  */
 @SuppressWarnings("serial")
 public class VerticalFlowLayout extends FlowLayout {
@@ -41,8 +40,8 @@ public class VerticalFlowLayout extends FlowLayout {
 	boolean vfill;
 
 	/**
-	 * Construct a new VerticalFlowLayout with a middle alignment, and
-	 * the fill to edge flag set.
+	 * Construct a new VerticalFlowLayout with a middle alignment, and the fill to
+	 * edge flag set.
 	 */
 	public VerticalFlowLayout() {
 		this(TOP, 5, 5, true, false);
@@ -51,8 +50,10 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Construct a new VerticalFlowLayout with a middle alignment.
 	 *
-	 * @param hfill the fill to edge flag
-	 * @param vfill the vertical fill in pixels.
+	 * @param hfill
+	 *            the fill to edge flag
+	 * @param vfill
+	 *            the vertical fill in pixels.
 	 */
 	public VerticalFlowLayout(boolean hfill, boolean vfill) {
 		this(TOP, 5, 5, hfill, vfill);
@@ -61,7 +62,8 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Construct a new VerticalFlowLayout with a middle alignment.
 	 *
-	 * @param align the alignment value
+	 * @param align
+	 *            the alignment value
 	 */
 	public VerticalFlowLayout(int align) {
 		this(align, 5, 5, true, false);
@@ -70,9 +72,12 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Construct a new VerticalFlowLayout.
 	 *
-	 * @param align the alignment value
-	 * @param hfill the horizontalfill in pixels.
-	 * @param vfill the vertical fill in pixels.
+	 * @param align
+	 *            the alignment value
+	 * @param hfill
+	 *            the horizontalfill in pixels.
+	 * @param vfill
+	 *            the vertical fill in pixels.
 	 */
 	public VerticalFlowLayout(int align, boolean hfill, boolean vfill) {
 		this(align, 0, 0, hfill, vfill);
@@ -81,15 +86,18 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Construct a new VerticalFlowLayout.
 	 *
-	 * @param align the alignment value
-	 * @param hgap  the horizontal gap variable
-	 * @param vgap  the vertical gap variable
-	 * @param hfill the fill to edge flag
-	 * @param vfill true if the panel should vertically fill.
+	 * @param align
+	 *            the alignment value
+	 * @param hgap
+	 *            the horizontal gap variable
+	 * @param vgap
+	 *            the vertical gap variable
+	 * @param hfill
+	 *            the fill to edge flag
+	 * @param vfill
+	 *            true if the panel should vertically fill.
 	 */
-	public VerticalFlowLayout(int align,
-			int hgap, int vgap,
-			boolean hfill, boolean vfill) {
+	public VerticalFlowLayout(int align, int hgap, int vgap, boolean hfill, boolean vfill) {
 		setAlignment(align);
 		this.hgap = hgap;
 		this.vgap = vgap;
@@ -98,10 +106,11 @@ public class VerticalFlowLayout extends FlowLayout {
 	}
 
 	/**
-	 * Returns the preferred dimensions given the components
-	 * in the target container.
+	 * Returns the preferred dimensions given the components in the target
+	 * container.
 	 *
-	 * @param target the component to lay out
+	 * @param target
+	 *            the component to lay out
 	 */
 	public Dimension preferredLayoutSize(Container target) {
 		Dimension tarsiz = new Dimension(0, 0);
@@ -126,7 +135,8 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Returns the minimum size needed to layout the target container.
 	 *
-	 * @param target the component to lay out.
+	 * @param target
+	 *            the component to lay out.
 	 * @return the minimum layout dimension.
 	 */
 	public Dimension minimumLayoutSize(Container target) {
@@ -152,7 +162,8 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Set true to fill vertically.
 	 *
-	 * @param vfill true to fill vertically.
+	 * @param vfill
+	 *            true to fill vertically.
 	 */
 	public void setVerticalFill(boolean vfill) {
 		this.vfill = vfill;
@@ -170,7 +181,8 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Set to true to enable horizontally fill.
 	 *
-	 * @param hfill true to fill horizontally.
+	 * @param hfill
+	 *            true to fill horizontally.
 	 */
 	public void setHorizontalFill(boolean hfill) {
 		this.hfill = hfill;
@@ -186,19 +198,25 @@ public class VerticalFlowLayout extends FlowLayout {
 	}
 
 	/**
-	 * places the components defined by first to last within the target
-	 * container using the bounds box defined.
+	 * places the components defined by first to last within the target container
+	 * using the bounds box defined.
 	 *
-	 * @param target the container.
-	 * @param x      the x coordinate of the area.
-	 * @param y      the y coordinate of the area.
-	 * @param width  the width of the area.
-	 * @param height the height of the area.
-	 * @param first  the first component of the container to place.
-	 * @param last   the last component of the container to place.
+	 * @param target
+	 *            the container.
+	 * @param x
+	 *            the x coordinate of the area.
+	 * @param y
+	 *            the y coordinate of the area.
+	 * @param width
+	 *            the width of the area.
+	 * @param height
+	 *            the height of the area.
+	 * @param first
+	 *            the first component of the container to place.
+	 * @param last
+	 *            the last component of the container to place.
 	 */
-	private void placethem(Container target, int x, int y, int width, int height,
-			int first, int last) {
+	private void placethem(Container target, int x, int y, int width, int height, int first, int last) {
 		int align = getAlignment();
 		if (align == MIDDLE)
 			y += height / 2;
@@ -219,7 +237,8 @@ public class VerticalFlowLayout extends FlowLayout {
 	/**
 	 * Lays out the container.
 	 *
-	 * @param target the container to lay out.
+	 * @param target
+	 *            the container to lay out.
 	 */
 	public void layoutContainer(Container target) {
 		Insets insets = target.getInsets();

@@ -1,5 +1,14 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.Color;
+import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import cn.harry12800.vchat.adapter.RoomItemViewHolder;
 import cn.harry12800.vchat.adapter.search.SearchResultItemsAdapter;
 import cn.harry12800.vchat.components.Colors;
@@ -7,14 +16,8 @@ import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.entity.SearchResultItem;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * 左侧搜索结果列表
- * Created by harry12800 on 17-6-21.
+ * 左侧搜索结果列表 Created by harry12800 on 17-6-21.
  */
 @SuppressWarnings("serial")
 public class SearchResultPanel extends ParentAvailablePanel {
@@ -31,7 +34,7 @@ public class SearchResultPanel extends ParentAvailablePanel {
 
 		initComponents();
 		initView();
-		//initData();
+		// initData();
 		searchResultItemsAdapter = new SearchResultItemsAdapter(searchResultItems);
 		resultItemsListView.setAdapter(searchResultItemsAdapter);
 	}
@@ -60,20 +63,20 @@ public class SearchResultPanel extends ParentAvailablePanel {
 	public void setData(List<SearchResultItem> data) {
 		searchResultItems.clear();
 		searchResultItems.addAll(data);
-		/*List<Room> rooms = roomService.findAll();
-		
-		for (Room room : rooms)
-		{
-		    SearchResultItem item = new SearchResultItem(room.getRoomId(), room.getName(), room.getType());
-		    searchResultItems.add(item);
-		}*/
+		/*
+		 * List<Room> rooms = roomService.findAll();
+		 * 
+		 * for (Room room : rooms) { SearchResultItem item = new
+		 * SearchResultItem(room.getRoomId(), room.getName(), room.getType());
+		 * searchResultItems.add(item); }
+		 */
 	}
 
 	/**
 	 * 重绘整个列表
 	 */
 	public void notifyDataSetChanged(boolean keepSize) {
-		//initData();
+		// initData();
 		resultItemsListView.notifyDataSetChanged(keepSize);
 	}
 
@@ -97,7 +100,8 @@ public class SearchResultPanel extends ParentAvailablePanel {
 		this.searchResultItemsAdapter.setKeyWord(keyWord);
 	}
 
-	public void setSearchMessageOrFileListener(SearchResultItemsAdapter.SearchMessageOrFileListener searchMessageOrFileListener) {
+	public void setSearchMessageOrFileListener(
+			SearchResultItemsAdapter.SearchMessageOrFileListener searchMessageOrFileListener) {
 		if (this.searchResultItemsAdapter == null) {
 			throw new RuntimeException("请先设置adapter!");
 		}

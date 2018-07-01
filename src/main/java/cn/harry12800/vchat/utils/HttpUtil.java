@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +18,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import cn.harry12800.lnk.core.util.JsonUtil;
+import cn.harry12800.vchat.model.diary.Diary;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -42,7 +45,8 @@ public class HttpUtil {
 		return get(url, null, null);
 	}
 
-	public static byte[] getBytes(String url, Map<String, String> headers, Map<String, String> params) throws IOException {
+	public static byte[] getBytes(String url, Map<String, String> headers, Map<String, String> params)
+			throws IOException {
 		Response response = _get(url, headers, params);
 		if (response != null) {
 			return response.body().bytes();
@@ -60,7 +64,8 @@ public class HttpUtil {
 		}
 	}
 
-	private static Response _get(String url, Map<String, String> headers, Map<String, String> params) throws IOException {
+	private static Response _get(String url, Map<String, String> headers, Map<String, String> params)
+			throws IOException {
 		if (params != null && params.size() > 0) {
 			StringBuffer buffer = new StringBuffer(url);
 			buffer.append("?");
@@ -106,11 +111,45 @@ public class HttpUtil {
 		return response.body().string();
 	}
 
+	public static void main(String[] args) {
+		String url = "http://127.0.0.1/v1/diary/saveOrUpdate";
+		Map<String, String> headers = new HashMap<>(0);
+		Map<String, String> params = new HashMap<>(0);
+		params.put("content", "asdfas");
+		params.put("catalogId", "3");
+		params.put("cipher", "0");
+		params.put("title", "dsaf 二十几");
+		Diary d = new Diary();
+		d.setContent("dsaf 二十几");
+		d.setTitle("asdfasfd");
+		d.setCatalogId("3");
+		d.setCipher(0);
+		try {
+			String post = HttpUtil.postJson(url, headers, JsonUtil.object2String(d));
+			System.out.println(post);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static String postJson(String url, Map<String, String> headers, String json) throws IOException {
+		RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+
+		Request.Builder reqBuilder = new Request.Builder().url(url);
+		if (headers != null && headers.size() > 0) {
+			for (String key : headers.keySet()) {
+				reqBuilder.addHeader(key, headers.get(key));
+			}
+		}
+		Request requestPost = reqBuilder.post(body).build();
+
+		Response response = client.newCall(requestPost).execute();
+		return response.body().string();
+	}
+
 	public static boolean upload(String url, String type, byte[] part) throws IOException {
-		Request request = new Request.Builder()
-				.url(url)
-				.post(RequestBody.create(MediaType.parse(type), part))
-				.build();
+		Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse(type), part)).build();
 
 		Response response = client.newCall(request).execute();
 		if (response.isSuccessful()) {
@@ -124,7 +163,8 @@ public class HttpUtil {
 		return download(url, null, null, null);
 	}
 
-	public static byte[] download(String url, Map<String, String> headers, Map<String, String> params, ProgressListener listener) throws IOException {
+	public static byte[] download(String url, Map<String, String> headers, Map<String, String> params,
+			ProgressListener listener) throws IOException {
 		if (params != null && params.size() > 0) {
 			StringBuffer buffer = new StringBuffer(url);
 			buffer.append("?");
@@ -150,13 +190,13 @@ public class HttpUtil {
 			if (response.isSuccessful()) {
 				InputStream inputStream = response.body().byteStream();
 				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-				//byte[] buff = new byte[2048000];
+				// byte[] buff = new byte[2048000];
 				byte[] buff = new byte[2048];
 
 				int len;
 				long total = response.body().contentLength();
-				//total = response.body().bytes().length;
-				//long total = inputStream.available();
+				// total = response.body().bytes().length;
+				// long total = inputStream.available();
 				long sum = 0L;
 				while ((len = inputStream.read(buff)) > -1) {
 					outputStream.write(buff, 0, len);
@@ -219,9 +259,8 @@ public class HttpUtil {
 		};
 
 		OkHttpClient.Builder builder = new OkHttpClient.Builder()
-				//.addInterceptor(interceptor)
-				.sslSocketFactory(sslContext.getSocketFactory())
-				.hostnameVerifier(DO_NOT_VERIFY)
+				// .addInterceptor(interceptor)
+				.sslSocketFactory(sslContext.getSocketFactory()).hostnameVerifier(DO_NOT_VERIFY)
 				.connectTimeout(10000, TimeUnit.MILLISECONDS);
 
 		return builder;

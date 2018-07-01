@@ -1,20 +1,22 @@
 package cn.harry12800.vchat.adapter;
 
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.db.model.Room;
 import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.RoomItem;
-import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.listener.AbstractMouseListener;
+import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.TimeUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -44,7 +46,7 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 		if (!viewHolders.contains(viewHolder)) {
 			viewHolders.add(viewHolder);
 		}
-		//viewHolder.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		// viewHolder.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		RoomItem item = roomItems.get(position);
 
@@ -58,12 +60,13 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 		if (type.equals("c") || type.equals("p")) {
 			String[] memberArr = getRoomMembers(item.getRoomId());
 
-			icon.setImage(AvatarUtil.createOrLoadGroupAvatar(item.getTitle(), memberArr, type)
-					.getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+			icon.setImage(AvatarUtil.createOrLoadGroupAvatar(item.getTitle(), memberArr, type).getScaledInstance(40, 40,
+					Image.SCALE_SMOOTH));
 		}
 		// 私聊头像
 		else if (type.equals("d")) {
-			Image image = AvatarUtil.createOrLoadUserAvatar(item.getTitle()).getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+			Image image = AvatarUtil.createOrLoadUserAvatar(item.getTitle()).getScaledInstance(40, 40,
+					Image.SCALE_SMOOTH);
 			icon.setImage(image);
 		}
 		viewHolder.avatar.setIcon(icon);
@@ -94,8 +97,8 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 			setBackground(viewHolder, Colors.ITEM_SELECTED);
 			selectedViewHolder = viewHolder;
 		}
-		//viewHolder.unreadCount.setVisible(true);
-		//viewHolder.unreadCount.setText(item.getUnreadCount() + "1");
+		// viewHolder.unreadCount.setVisible(true);
+		// viewHolder.unreadCount.setText(item.getUnreadCount() + "1");
 
 		viewHolder.addMouseListener(new AbstractMouseListener() {
 			@Override
@@ -112,7 +115,7 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 							}
 						}
 
-						//setBackground(viewHolder, Colors.ITEM_SELECTED);
+						// setBackground(viewHolder, Colors.ITEM_SELECTED);
 						selectedViewHolder = viewHolder;
 					}
 				}
@@ -169,12 +172,12 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 		// 加载房间消息
 		ChatPanel.getContext().enterRoom(roomId);
 
-		//TitlePanel.getContext().hideRoomMembersPanel();
-		/*RoomMembersPanel.getContext().setRoomId(roomId);
-		if (RoomMembersPanel.getContext().isVisible())
-		{
-		    RoomMembersPanel.getContext().updateUI();
-		}*/
+		// TitlePanel.getContext().hideRoomMembersPanel();
+		/*
+		 * RoomMembersPanel.getContext().setRoomId(roomId); if
+		 * (RoomMembersPanel.getContext().isVisible()) {
+		 * RoomMembersPanel.getContext().updateUI(); }
+		 */
 	}
 
 }

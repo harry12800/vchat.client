@@ -1,7 +1,11 @@
 package cn.harry12800.vchat.components;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
+
 import javax.swing.border.Border;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -49,8 +53,8 @@ public class RCBorder implements Border {
 		}
 		}
 
-		//g.setColor(Colors.DARKER);
-		//g.drawLine(x, height -1 , width, height -1 );
+		// g.setColor(Colors.DARKER);
+		// g.drawLine(x, height -1 , width, height -1 );
 	}
 
 	public void setHeightScale(float scale) {

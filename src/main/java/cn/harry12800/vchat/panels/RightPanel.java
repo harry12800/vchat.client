@@ -1,10 +1,12 @@
 package cn.harry12800.vchat.panels;
 
-import cn.harry12800.vchat.components.Colors;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-import java.awt.*;
+
+import cn.harry12800.vchat.components.Colors;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -64,7 +66,7 @@ public class RightPanel extends JPanel {
 		add(contentPanel, BorderLayout.CENTER);
 
 		// add(chatPanel, BorderLayout.CENTER);
-		//add(tipPanel, BorderLayout.CENTER);
+		// add(tipPanel, BorderLayout.CENTER);
 	}
 
 	public void showPanel(String who) {

@@ -1,15 +1,25 @@
 package cn.harry12800.vchat.utils;
 
-import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.Colors;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
+
+import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.components.Colors;
 
 /**
  * Created by harry12800 on 15/03/2017.
@@ -19,26 +29,11 @@ public class AvatarUtil {
 	private static final Color[] colorArr;
 
 	static {
-		colorArr = new Color[] {
-				new Color(244, 67, 54),
-				new Color(233, 30, 99),
-				new Color(156, 39, 176),
-				new Color(103, 58, 183),
-				new Color(63, 81, 181),
-				new Color(33, 150, 243),
-				new Color(3, 169, 244),
-				new Color(0, 188, 212),
-				new Color(0, 150, 136),
-				new Color(76, 175, 80),
-				new Color(139, 195, 74),
-				new Color(205, 220, 57),
-				new Color(255, 193, 7),
-				new Color(255, 152, 0),
-				new Color(255, 87, 34),
-				new Color(121, 85, 72),
-				new Color(158, 158, 158),
-				new Color(96, 125, 139)
-		};
+		colorArr = new Color[] { new Color(244, 67, 54), new Color(233, 30, 99), new Color(156, 39, 176),
+				new Color(103, 58, 183), new Color(63, 81, 181), new Color(33, 150, 243), new Color(3, 169, 244),
+				new Color(0, 188, 212), new Color(0, 150, 136), new Color(76, 175, 80), new Color(139, 195, 74),
+				new Color(205, 220, 57), new Color(255, 193, 7), new Color(255, 152, 0), new Color(255, 87, 34),
+				new Color(121, 85, 72), new Color(158, 158, 158), new Color(96, 125, 139) };
 	}
 
 	private static final String AVATAR_CACHE_ROOT;
@@ -116,6 +111,7 @@ public class AvatarUtil {
 
 	/**
 	 * 刷新用户头像缓存
+	 * 
 	 * @param username
 	 */
 	public static void refreshUserAvatarCache(String username) {
@@ -282,7 +278,8 @@ public class AvatarUtil {
 			int max = users.length > 9 ? 9 : users.length;
 			for (int i = 0; i < max; i++) {
 				Image avatar = AvatarUtil.createOrLoadUserAvatar(users[i]);
-				g2d.drawImage(avatar, rectangles[i].x, rectangles[i].y, rectangles[i].width, rectangles[i].height, null);
+				g2d.drawImage(avatar, rectangles[i].x, rectangles[i].y, rectangles[i].width, rectangles[i].height,
+						null);
 			}
 
 			g2d.dispose();

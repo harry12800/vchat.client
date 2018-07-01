@@ -1,9 +1,15 @@
 package cn.harry12800.vchat.components.message;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+
+import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 12/06/2017.

@@ -1,21 +1,31 @@
 package cn.harry12800.vchat.components;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.adapter.HeaderViewHolder;
 import cn.harry12800.vchat.adapter.ViewHolder;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-30.
  */
 @SuppressWarnings("serial")
 public class RCListView extends JScrollPane {
-	private BaseAdapter  adapter;
+	private BaseAdapter adapter;
 	private JPanel contentPanel;
 	private int vGap;
 	private int hGap;
@@ -92,7 +102,7 @@ public class RCListView extends JScrollPane {
 			scrollUI.setThumbColor(thumbColor);
 			scrollUI.setTrackColor(trackColor);
 		}
-		//this.getVerticalScrollBar().setUI(new ScrollUI(thumbColor, trackColor));
+		// this.getVerticalScrollBar().setUI(new ScrollUI(thumbColor, trackColor));
 	}
 
 	private void initComponents() {
@@ -112,7 +122,8 @@ public class RCListView extends JScrollPane {
 				// 之所以要加上!scrollBarPressed这个条件，scrollBar在顶部的时间，scrollbar点击和释放都分别会触发adjustmentValueChanged这个事件
 				// 所以只让scrollBar释放的时候触发这个回调
 				// !scrollToBottom 这个条件保证在自动滚动到底部之前，不会调用此回调
-				if (evt.getValue() == 0 && evt.getValue() != lastScrollValue && scrollToTopListener != null && !scrollBarPressed && !scrollToBottom) {
+				if (evt.getValue() == 0 && evt.getValue() != lastScrollValue && scrollToTopListener != null
+						&& !scrollBarPressed && !scrollToBottom) {
 					messageLoading = true;
 					scrollToTopListener.onScrollToTop();
 				}
@@ -199,11 +210,11 @@ public class RCListView extends JScrollPane {
 				rectangleList.add(headerViewHolder.getBounds());
 			}
 
-			//long startTime = System.currentTimeMillis();
+			// long startTime = System.currentTimeMillis();
 			ViewHolder holder = adapter.onCreateViewHolder(viewType);
 			adapter.onBindViewHolder(holder, i);
 			contentPanel.add(holder);
-			//System.out.println("加载完成 ，用时 " + (System.currentTimeMillis() - startTime));
+			// System.out.println("加载完成 ，用时 " + (System.currentTimeMillis() - startTime));
 		}
 	}
 
@@ -211,11 +222,11 @@ public class RCListView extends JScrollPane {
 		return adapter;
 	}
 
-	public void setAdapter(BaseAdapter  adapter) {
+	public void setAdapter(BaseAdapter adapter) {
 		this.adapter = adapter;
 
 		fillComponents();
-		//scrollToPosition(0);
+		// scrollToPosition(0);
 	}
 
 	public void setContentPanelBackground(Color color) {
@@ -271,13 +282,12 @@ public class RCListView extends JScrollPane {
 	 * @param count
 	 */
 	public void notifyItemRangeInserted(int startPosition, int count) {
-		/*for (int i = startPosition; i < count; i++)
-		{
-		    int viewType = adapter.getItemViewType(i);
-		    ViewHolder holder = adapter.onCreateViewHolder(viewType);
-		    adapter.onBindViewHolder(holder, i);
-		    contentPanel.add(holder, startPosition);
-		}*/
+		/*
+		 * for (int i = startPosition; i < count; i++) { int viewType =
+		 * adapter.getItemViewType(i); ViewHolder holder =
+		 * adapter.onCreateViewHolder(viewType); adapter.onBindViewHolder(holder, i);
+		 * contentPanel.add(holder, startPosition); }
+		 */
 
 		for (int i = count - 1; i >= startPosition; i--) {
 			int viewType = adapter.getItemViewType(i);
@@ -293,16 +303,18 @@ public class RCListView extends JScrollPane {
 	 * @param position
 	 */
 	public void notifyItemChanged(int position) {
-		//contentPanel.remove(position);
-		//int viewType = adapter.getItemViewType(position);
-		//ViewHolder holder = adapter.onCreateViewHolder(viewType);
+		// contentPanel.remove(position);
+		// int viewType = adapter.getItemViewType(position);
+		// ViewHolder holder = adapter.onCreateViewHolder(viewType);
 		ViewHolder holder = (ViewHolder) getItem(position);
 		adapter.onBindViewHolder(holder, position);
-		//contentPanel.revalidate();
+		// contentPanel.revalidate();
 		holder.repaint();
 
-		/*contentPanel.getComponent(position).setBackground(Color.red);
-		contentPanel.getComponent(position).revalidate();*/
+		/*
+		 * contentPanel.getComponent(position).setBackground(Color.red);
+		 * contentPanel.getComponent(position).revalidate();
+		 */
 	}
 
 	public Component getItem(int n) {
@@ -335,6 +347,7 @@ public class RCListView extends JScrollPane {
 
 	/**
 	 * 获取列表中所有的ViewHolder项目，不包括HeaderViewHolder
+	 * 
 	 * @return
 	 */
 	public List<Component> getItems() {

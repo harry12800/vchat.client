@@ -50,7 +50,7 @@ public class MainFrame extends JFrame {
 	private Image emptyTrayIcon; // 闪动时的任务栏图标
 	private TrayIcon trayIcon;
 	private boolean trayFlashing = false;
-	private AudioStream messageSound; //消息到来时候的提示间
+	private AudioStream messageSound; // 消息到来时候的提示间
 
 	public MainFrame() {
 		context = this;
@@ -59,7 +59,7 @@ public class MainFrame extends JFrame {
 		initResource();
 		ImageUtils.addImage(MainFrame.class);
 		// 连接WebSocket
-		//startWebSocket();
+		// startWebSocket();
 	}
 
 	private void initResource() {
@@ -90,7 +90,7 @@ public class MainFrame extends JFrame {
 	 */
 	private void initTray() {
 		String tip = "Nickname：harry12800\r\nQQ:804151219\r\n开发者常用功能";
-		SystemTray systemTray = SystemTray.getSystemTray();//获取系统托盘
+		SystemTray systemTray = SystemTray.getSystemTray();// 获取系统托盘
 		try {
 			if (OSUtil.getOsType() == OSUtil.Mac_OS) {
 				normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_dark.png", 20, 20).getImage();
@@ -100,8 +100,9 @@ public class MainFrame extends JFrame {
 
 			emptyTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_empty.png", 20, 20).getImage();
 			trayIcon = new TrayIcon(ImageUtils.getByName("image/system.png"), tip);
-//			trayIcon = new TrayIcon(normalTrayIcon, "Author：harry12800\nQQ:804151219\n开发者常用功能");
-//			trayIcon.setImageAutoSize(true);
+			// trayIcon = new TrayIcon(normalTrayIcon,
+			// "Author：harry12800\nQQ:804151219\n开发者常用功能");
+			// trayIcon.setImageAutoSize(true);
 			trayIcon.addMouseListener(new MouseAdapter() {
 
 				@Override

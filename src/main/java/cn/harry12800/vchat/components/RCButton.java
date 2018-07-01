@@ -1,12 +1,19 @@
 package cn.harry12800.vchat.components;
 
-import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.JButton;
+
+import cn.harry12800.vchat.utils.FontUtil;
 
 public class RCButton extends JButton {
 	private static final long serialVersionUID = 39082560987930759L;
@@ -61,27 +68,23 @@ public class RCButton extends JButton {
 
 		GradientPaint gp;
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if (getModel().isPressed()) {
-			gp = new GradientPaint(0.0F, 0.0F, BUTTON_COLOR3, 0.0F,
-					h, BUTTON_COLOR3, true);
+			gp = new GradientPaint(0.0F, 0.0F, BUTTON_COLOR3, 0.0F, h, BUTTON_COLOR3, true);
 		} else {
 			if (hover) {
-				gp = new GradientPaint(0.0F, 0.0F, BUTTON_COLOR2, 0.0F,
-						h, BUTTON_COLOR2, true);
+				gp = new GradientPaint(0.0F, 0.0F, BUTTON_COLOR2, 0.0F, h, BUTTON_COLOR2, true);
 			} else {
-				gp = new GradientPaint(0.0F, 0.0F, BUTTON_COLOR1, 0.0F,
-						h, BUTTON_COLOR1, true);
+				gp = new GradientPaint(0.0F, 0.0F, BUTTON_COLOR1, 0.0F, h, BUTTON_COLOR1, true);
 			}
 		}
 
-		/*g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-		        tran));*/
+		/*
+		 * g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, tran));
+		 */
 
-		RoundRectangle2D.Float r2d = new RoundRectangle2D.Float(0, 0, w - 1,
-				h - 1, 4, 4);
+		RoundRectangle2D.Float r2d = new RoundRectangle2D.Float(0, 0, w - 1, h - 1, 4, 4);
 		Shape clip = g2d.getClip();
 		g2d.clip(r2d);
 

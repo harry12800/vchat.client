@@ -28,13 +28,11 @@ public class FileAttachmentItem {
 		this.description = fa.getDescription();
 	}
 
-	/*public FileAttachmentItem(FileAttachment fa)
-	{
-	    this.id = fa.getId();
-	    this.title = fa.getTitle();
-	    this.link = fa.getLink();
-	    this.description = fa.getDescription();
-	}*/
+	/*
+	 * public FileAttachmentItem(FileAttachment fa) { this.id = fa.getId();
+	 * this.title = fa.getTitle(); this.link = fa.getLink(); this.description =
+	 * fa.getDescription(); }
+	 */
 
 	public String getId() {
 		return id;

@@ -1,9 +1,11 @@
 package cn.harry12800.vchat.panels;
 
-import cn.harry12800.vchat.components.Colors;
+import java.awt.FlowLayout;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import cn.harry12800.vchat.components.Colors;
 
 /**
  * Created by harry12800 on 17-5-30.

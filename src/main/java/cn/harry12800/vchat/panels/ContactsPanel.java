@@ -33,7 +33,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 	private RCListView contactsListView;
 	private List<ContactsItem> contactsItemList = new ArrayList<>();
 	private ContactsUserService contactsUserService = Launcher.contactsUserService;
-	private Logger logger = Logger.getLogger(this.getClass());
+	Logger logger = Logger.getLogger(this.getClass());
 	private CurrentUserService currentUserService = Launcher.currentUserService;
 	private String currentUsername;
 
@@ -65,8 +65,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 
 		List<ContactsUser> contactsUsers = contactsUserService.findAll();
 		for (ContactsUser contactsUser : contactsUsers) {
-			ContactsItem item = new ContactsItem(contactsUser.getUserId(),
-					contactsUser.getUsername(), "d");
+			ContactsItem item = new ContactsItem(contactsUser.getUserId(), contactsUser.getUsername(), "d");
 
 			contactsItemList.add(item);
 		}
@@ -96,7 +95,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 				for (ContactsItem user : contactsItemList) {
 					if (!AvatarUtil.customAvatarExist(user.getName())) {
 						final String username = user.getName();
-						//logger.debug("获取头像:" + username);
+						// logger.debug("获取头像:" + username);
 						getUserAvatar(username, true);
 					}
 				}
@@ -111,8 +110,11 @@ public class ContactsPanel extends ParentAvailablePanel {
 
 	/**
 	 * 更新指定用户头像
-	 * @param username 用户名
-	 * @param hotRefresh 是否热更新，hotRefresh = true， 将刷新该用户的头像缓存
+	 * 
+	 * @param username
+	 *            用户名
+	 * @param hotRefresh
+	 *            是否热更新，hotRefresh = true， 将刷新该用户的头像缓存
 	 */
 	public void getUserAvatar(String username, boolean hotRefresh) {
 
@@ -122,7 +124,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 			BufferedImage image = ImageIO.read(url);
 			processAvatarData(image, username);
 		} catch (IOException e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		}
 
 		if (hotRefresh) {
@@ -135,6 +137,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 
 	/**
 	 * 处理头像数据
+	 * 
 	 * @param image
 	 * @param username
 	 */

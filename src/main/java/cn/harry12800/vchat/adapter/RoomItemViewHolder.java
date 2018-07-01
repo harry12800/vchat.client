@@ -1,12 +1,18 @@
 package cn.harry12800.vchat.adapter;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -35,9 +41,11 @@ public class RoomItemViewHolder extends ViewHolder {
 		setOpaque(true);
 		setForeground(Colors.FONT_WHITE);
 
-		//        ImageIcon imageIcon = new ImageIcon(getClass().getResource("/image/avatar.jpg"));
-		//        imageIcon.setImage(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-		//        avatar.setIcon(imageIcon);
+		// ImageIcon imageIcon = new
+		// ImageIcon(getClass().getResource("/image/avatar.jpg"));
+		// imageIcon.setImage(imageIcon.getImage().getScaledInstance(40, 40,
+		// Image.SCALE_SMOOTH));
+		// avatar.setIcon(imageIcon);
 
 		roomName.setFont(FontUtil.getDefaultFont(14));
 		roomName.setForeground(Colors.FONT_WHITE);

@@ -1,14 +1,16 @@
 package cn.harry12800.vchat.panels;
 
-import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.listener.ExpressionListener;
-import cn.harry12800.vchat.utils.IconUtil;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.listener.ExpressionListener;
+import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * Created by harry12800 on 04/07/2017.
@@ -55,24 +57,23 @@ public class EmojiPanel extends JPanel {
 			}
 		};
 
-		String[] codeList = new String[] {
-				":smile:", ":blush:", ":confused:", ":anguished:", ":cold_sweat:", ":astonished:", ":cry:", ":joy:",
-				":disappointed_relieved:", ":disappointed:", ":anguished:", ":confounded:", ":angry:", ":dizzy_face:", ":expressionless:", ":fearful:",
-				":flushed:", ":frowning:", ":grin:", ":heart_eyes:", ":heart_eyes_cat:", ":hushed:", ":imp:", ":innocent:",
-				":kissing_closed_eyes:", ":kissing_heart:", ":laughing:", ":neutral_face:", ":no_mouth:", ":open_mouth:", ":pensive:", ":persevere:",
-				":rage:", ":relaxed:", ":relieved:", ":scream:", ":sleeping:", ":broken_heart:", ":smirk:", ":sob:",
-				":stuck_out_tongue_closed_eyes:", ":sunglasses:", ":sweat_smile:", ":sweat:", ":triumph:", ":unamused:", ":wink:", ":yum:",
-				":cat:", ":dog:", ":bear:", ":chicken:", ":cow:", ":ghost:", ":hear_no_evil:", ":koala:",
-				":mouse:", ":airplane:", ":ambulance:", ":bike:", ":bullettrain_side:", ":bus:", ":metro:", ":oncoming_taxi:",
-				":walking:", ":apple:", ":banana:", ":beer:", ":birthday:", ":cake:", ":cherries:", ":tada:",
-				":clap:", ":fist:", ":ok_hand:", ":pray:", ":thumbsup:", ":thumbsdown:", ":muscle:", ":v:"
-		};
+		String[] codeList = new String[] { ":smile:", ":blush:", ":confused:", ":anguished:", ":cold_sweat:",
+				":astonished:", ":cry:", ":joy:", ":disappointed_relieved:", ":disappointed:", ":anguished:",
+				":confounded:", ":angry:", ":dizzy_face:", ":expressionless:", ":fearful:", ":flushed:", ":frowning:",
+				":grin:", ":heart_eyes:", ":heart_eyes_cat:", ":hushed:", ":imp:", ":innocent:",
+				":kissing_closed_eyes:", ":kissing_heart:", ":laughing:", ":neutral_face:", ":no_mouth:",
+				":open_mouth:", ":pensive:", ":persevere:", ":rage:", ":relaxed:", ":relieved:", ":scream:",
+				":sleeping:", ":broken_heart:", ":smirk:", ":sob:", ":stuck_out_tongue_closed_eyes:", ":sunglasses:",
+				":sweat_smile:", ":sweat:", ":triumph:", ":unamused:", ":wink:", ":yum:", ":cat:", ":dog:", ":bear:",
+				":chicken:", ":cow:", ":ghost:", ":hear_no_evil:", ":koala:", ":mouse:", ":airplane:", ":ambulance:",
+				":bike:", ":bullettrain_side:", ":bus:", ":metro:", ":oncoming_taxi:", ":walking:", ":apple:",
+				":banana:", ":beer:", ":birthday:", ":cake:", ":cherries:", ":tada:", ":clap:", ":fist:", ":ok_hand:",
+				":pray:", ":thumbsup:", ":thumbsdown:", ":muscle:", ":v:" };
 
 		String iconPath = "/emoji/";
 		for (int i = 0; i < 80; i++) {
 			String name = codeList[i].substring(1, codeList[i].length() - 1);
-			JPanel panel = new ExpressionItem(codeList[i], IconUtil.getIcon(this,
-					iconPath + name + ".png"), name);
+			JPanel panel = new ExpressionItem(codeList[i], IconUtil.getIcon(this, iconPath + name + ".png"), name);
 			panel.addMouseListener(listener);
 
 			add(panel);
@@ -81,7 +82,7 @@ public class EmojiPanel extends JPanel {
 	}
 
 	private void initComponents() {
-		//setPreferredSize(new Dimension(400,300));
+		// setPreferredSize(new Dimension(400,300));
 		this.setLayout(new GridLayout(8, 10, 3, 0));
 
 	}

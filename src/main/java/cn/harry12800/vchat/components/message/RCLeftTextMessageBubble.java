@@ -1,6 +1,6 @@
 package cn.harry12800.vchat.components.message;
 
-import java.awt.*;
+import java.awt.Insets;
 
 /**
  * 左侧文本聊天气泡
@@ -9,7 +9,8 @@ import java.awt.*;
 public class RCLeftTextMessageBubble extends RCTextMessageBubble {
 	public RCLeftTextMessageBubble() {
 		NinePatchImageIcon backgroundNormal = new NinePatchImageIcon(this.getClass().getResource("/image/left.9.png"));
-		NinePatchImageIcon backgroundActive = new NinePatchImageIcon(this.getClass().getResource("/image/left_active.9.png"));
+		NinePatchImageIcon backgroundActive = new NinePatchImageIcon(
+				this.getClass().getResource("/image/left_active.9.png"));
 		setBackgroundNormalIcon(backgroundNormal);
 		setBackgroundActiveIcon(backgroundActive);
 		setBackgroundIcon(backgroundNormal);

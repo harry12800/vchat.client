@@ -1,14 +1,16 @@
 package cn.harry12800.vchat.components;
 
-import cn.harry12800.vchat.components.message.FileEditorThumbnail;
-import cn.harry12800.vchat.utils.ClipboardUtil;
-
-import cn.harry12800.vchat.forms.ImageViewerFrame;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
+
+import cn.harry12800.vchat.components.message.FileEditorThumbnail;
+import cn.harry12800.vchat.forms.ImageViewerFrame;
+import cn.harry12800.vchat.utils.ClipboardUtil;
 
 /**
  * Created by harry12800 on 03/07/2017.
@@ -64,12 +66,13 @@ public class RCTextEditor extends JTextPane {
 
 		JLabel label = new JLabel();
 		if (needToScale) {
-			ImageIcon scaledIcon = new ImageIcon(icon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
+			ImageIcon scaledIcon = new ImageIcon(
+					icon.getImage().getScaledInstance(iconWidth, iconHeight, Image.SCALE_SMOOTH));
 			scaledIcon.setDescription(icon.getDescription());
-			//this.insertIcon(scaledIcon);
+			// this.insertIcon(scaledIcon);
 			label.setIcon(scaledIcon);
 		} else {
-			//this.insertIcon(icon);
+			// this.insertIcon(icon);
 			label.setIcon(icon);
 		}
 

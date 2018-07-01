@@ -67,14 +67,8 @@ public class ImageAttachment extends BasicModel {
 
 	@Override
 	public String toString() {
-		return "ImageAttachment{" +
-				"id='" + id + '\'' +
-				", title='" + title + '\'' +
-				", description='" + description + '\'' +
-				", imageUrl='" + imageUrl + '\'' +
-				", width=" + width +
-				", height=" + height +
-				", imagesize=" + imagesize +
-				'}';
+		return "ImageAttachment{" + "id='" + id + '\'' + ", title='" + title + '\'' + ", description='" + description
+				+ '\'' + ", imageUrl='" + imageUrl + '\'' + ", width=" + width + ", height=" + height + ", imagesize="
+				+ imagesize + '}';
 	}
 }

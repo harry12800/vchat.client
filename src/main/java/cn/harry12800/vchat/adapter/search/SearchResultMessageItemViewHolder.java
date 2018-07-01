@@ -1,17 +1,20 @@
 package cn.harry12800.vchat.adapter.search;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.HighLightLabel;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.utils.FontUtil;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
- * 搜索结果中的每一个消息项目
- * Created by harry12800 on 17-6-22.
+ * 搜索结果中的每一个消息项目 Created by harry12800 on 17-6-22.
  */
 @SuppressWarnings("serial")
 public class SearchResultMessageItemViewHolder extends SearchResultItemViewHolder {

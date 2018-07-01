@@ -1,12 +1,17 @@
 package cn.harry12800.vchat.components;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
+
+import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -58,7 +63,9 @@ public class RCSearchTextField extends JTextField {
 		g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
 		g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
 
-		if (getText().isEmpty()/* && !(FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)*/) {
+		if (getText().isEmpty()/*
+								 * && !(FocusManager.getCurrentKeyboardFocusManager().getFocusOwner() == this)
+								 */) {
 			g2.setBackground(Color.gray);
 			g2.setFont(FontUtil.getDefaultFont());
 			g2.setColor(Color.GRAY);

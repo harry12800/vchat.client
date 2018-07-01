@@ -1,5 +1,18 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
@@ -10,11 +23,6 @@ import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by harry12800 on 26/06/2017.
@@ -40,7 +48,8 @@ public class MePanel extends JPanel {
 		contentPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.CENTER, 0, 20, true, false));
 
 		imageLabel = new JLabel();
-		ImageIcon icon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername()).getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+		ImageIcon icon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername())
+				.getScaledInstance(100, 100, Image.SCALE_SMOOTH));
 		imageLabel.setIcon(icon);
 
 		nameLabel = new JLabel();
@@ -72,9 +81,11 @@ public class MePanel extends JPanel {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int ret = JOptionPane.showConfirmDialog(MainFrame.getContext(), "确认退出登录？", "确认退出", JOptionPane.YES_NO_OPTION);
+				int ret = JOptionPane.showConfirmDialog(MainFrame.getContext(), "确认退出登录？", "确认退出",
+						JOptionPane.YES_NO_OPTION);
 				if (ret == JOptionPane.YES_OPTION) {
-					JOptionPane.showMessageDialog(MainFrame.getContext(), "退出登录", "退出登录", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(MainFrame.getContext(), "退出登录", "退出登录",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
 
 				super.mouseClicked(e);

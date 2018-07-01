@@ -15,52 +15,53 @@ import javax.swing.border.EmptyBorder;
 import cn.harry12800.j2se.action.CtrlSAction;
 import cn.harry12800.j2se.component.InputArea;
 
-
 @SuppressWarnings("serial")
 public class AreaTextPanel extends JPanel {
-	final JViewport jViewport  = new JViewport();
+	final JViewport jViewport = new JViewport();
 	public InputArea area = new InputArea();
-	private CtrlSAction ctrlSAction=null;
+	private CtrlSAction ctrlSAction = null;
+
 	public AreaTextPanel() {
 		setBorder(new EmptyBorder(1, 1, 1, 1));
 		setLayout(new BorderLayout());
 		jViewport.setView(area);
-		add(jViewport,BorderLayout.CENTER);
+		add(jViewport, BorderLayout.CENTER);
 		jViewport.addMouseWheelListener(new MouseWheelListener() {
-				@Override
-				public void mouseWheelMoved(MouseWheelEvent e) {
-	//				System.out.println(textPane.getBounds());
-					int left = area.getLocation().x;
-					int top = area.getLocation().y;
-	//				System.out.println( e.getWheelRotation());
-	//				Rectangle aRect = new Rectangle(left, top +e.getWheelRotation(), textPane.getBounds().width, textPane.getBounds().height);
-	//				textPane.scrollRectToVisible(aRect );
-	//				System.out.println(rootPane);
-	//				System.out.println(componentCount);
-	//				port.setViewPosition(new Point(0, 50));
-					if( e.getWheelRotation()>0)
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				// System.out.println(textPane.getBounds());
+				int left = area.getLocation().x;
+				int top = area.getLocation().y;
+				// System.out.println( e.getWheelRotation());
+				// Rectangle aRect = new Rectangle(left, top +e.getWheelRotation(),
+				// textPane.getBounds().width, textPane.getBounds().height);
+				// textPane.scrollRectToVisible(aRect );
+				// System.out.println(rootPane);
+				// System.out.println(componentCount);
+				// port.setViewPosition(new Point(0, 50));
+				if (e.getWheelRotation() > 0)
 					for (int i = 0; i < 8; i++) {
 						top = area.getLocation().y;
-						if(jViewport.getHeight()-top<area.getBounds().height)
+						if (jViewport.getHeight() - top < area.getBounds().height)
 							area.setLocation(left, top - e.getWheelRotation());
 					}
-					if( e.getWheelRotation()<0)
-						for (int i = 0; i < 8; i++) {
-							top = area.getLocation().y;
-							if(top<=0)
-								area.setLocation(left, top - e.getWheelRotation());
-						}
-						
-				}
-			});
+				if (e.getWheelRotation() < 0)
+					for (int i = 0; i < 8; i++) {
+						top = area.getLocation().y;
+						if (top <= 0)
+							area.setLocation(left, top - e.getWheelRotation());
+					}
+
+			}
+		});
 		area.addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
@@ -69,7 +70,7 @@ public class AreaTextPanel extends JPanel {
 					cPressed = false;
 				}
 			}
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
@@ -82,40 +83,48 @@ public class AreaTextPanel extends JPanel {
 					// 当Ctr + C 被按下时, 进行相应的处理.
 					controlPressed = false;
 					cPressed = false;
-					if(ctrlSAction!=null){
+					if (ctrlSAction != null) {
 						ctrlSAction.ctrlS();
 					}
 				}
-				
+
 			}
 		});
 	}
-	
+
 	protected void paintComponent(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.drawRect(0, 0,getWidth()-1, getHeight()-1);
+		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 	}
+
 	public void setText(String srcByFilePath) {
 		area.setText(srcByFilePath);
 	}
-	public String getText(){
+
+	public String getText() {
 		return area.getText();
 	}
+
 	private boolean controlPressed = false;
 	private boolean cPressed = false;
+
 	/**
 	 * 获取ctrlSAction
-	 *	@return the ctrlSAction
+	 * 
+	 * @return the ctrlSAction
 	 */
 	public CtrlSAction getCtrlSAction() {
 		return ctrlSAction;
 	}
+
 	/**
 	 * 设置ctrlSAction
-	 * @param ctrlSAction the ctrlSAction to set
+	 * 
+	 * @param ctrlSAction
+	 *            the ctrlSAction to set
 	 */
 	public void setCtrlSAction(cn.harry12800.j2se.action.CtrlSAction ctrlSAction) {
 		this.ctrlSAction = ctrlSAction;
 	}
-	
+
 }

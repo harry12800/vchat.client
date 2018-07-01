@@ -1,18 +1,26 @@
 package cn.harry12800.vchat.adapter;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.entity.ContactsItem;
-import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.listener.AbstractMouseListener;
+import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.CharacterParser;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.*;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -76,8 +84,7 @@ public class ContactsItemsAdapter extends BaseAdapter<ContactsItemViewHolder> {
 		ContactsItem item = contactsItems.get(position);
 
 		ImageIcon icon = new ImageIcon();
-		icon.setImage(AvatarUtil.createOrLoadUserAvatar(item.getName())
-				.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+		icon.setImage(AvatarUtil.createOrLoadUserAvatar(item.getName()).getScaledInstance(30, 30, Image.SCALE_SMOOTH));
 		viewHolder.avatar.setIcon(icon);
 
 		viewHolder.roomName.setText(item.getName());

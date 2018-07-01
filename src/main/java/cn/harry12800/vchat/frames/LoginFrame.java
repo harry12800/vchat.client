@@ -97,12 +97,12 @@ public class LoginFrame extends JFrame {
 
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
-		//controlPanel.setBounds(0,5, windowWidth, 30);
+		// controlPanel.setBounds(0,5, windowWidth, 30);
 
 		closeLabel = new JLabel();
 		closeLabel.setIcon(IconUtil.getIcon(this, "/image/close.png"));
 		closeLabel.setHorizontalAlignment(JLabel.CENTER);
-		//closeLabel.setPreferredSize(new Dimension(30,30));
+		// closeLabel.setPreferredSize(new Dimension(30,30));
 		closeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		titleLabel = new JLabel();
@@ -120,11 +120,11 @@ public class LoginFrame extends JFrame {
 		usernameField.setForeground(Colors.FONT_BLACK);
 		usernameField.setMargin(new Insets(0, 15, 0, 0));
 		usernameField.setText("周国柱");
-		
+
 		passwordField = new RCPasswordField();
 		passwordField.setPreferredSize(textFieldDimension);
 		passwordField.setPlaceholder("密码");
-		//passwordField.setBorder(new RCBorder(RCBorder.BOTTOM, Colors.LIGHT_GRAY));
+		// passwordField.setBorder(new RCBorder(RCBorder.BOTTOM, Colors.LIGHT_GRAY));
 		passwordField.setFont(FontUtil.getDefaultFont(14));
 		passwordField.setForeground(Colors.FONT_BLACK);
 		passwordField.setMargin(new Insets(0, 15, 0, 0));
@@ -174,8 +174,7 @@ public class LoginFrame extends JFrame {
 	 */
 	private void centerScreen() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		this.setLocation((tk.getScreenSize().width - windowWidth) / 2,
-				(tk.getScreenSize().height - windowHeight) / 2);
+		this.setLocation((tk.getScreenSize().width - windowWidth) / 2, (tk.getScreenSize().height - windowHeight) / 2);
 	}
 
 	private void setListeners() {
@@ -213,8 +212,7 @@ public class LoginFrame extends JFrame {
 					// 当鼠标拖动时获取窗口当前位置
 					Point p = LoginFrame.this.getLocation();
 					// 设置窗口的位置
-					LoginFrame.this.setLocation(p.x + e.getX() - origin.x, p.y + e.getY()
-							- origin.y);
+					LoginFrame.this.setLocation(p.x + e.getX() - origin.x, p.y + e.getY() - origin.y);
 				}
 			});
 		}
@@ -274,75 +272,80 @@ public class LoginFrame extends JFrame {
 				Launcher.client.sendRequest(request);
 			} catch (Exception e) {
 				showMessage("无法连接服务器");
+				loginButton.setEnabled(true);
+				usernameField.setEditable(true);
+				passwordField.setEditable(true);
 			}
-			//		    HttpPostTask task = new HttpPostTask();
-			//		    task.setListener(new HttpResponseListener<JSONObject>()
-			//		    {
-			//		        @Override
-			//		        public void onSuccess(JSONObject ret)
-			//		        {
-			//		            processLoginResult(ret);
-			//		        }
-			//		
-			//		        @Override
-			//		        public void onFailed()
-			//		        {
-			//		            showMessage("登录失败，请检查网络设置");
-			//		            loginButton.setEnabled(true);
-			//		            usernameField.setEditable(true);
-			//		            passwordField.setEditable(true);
-			//		        }
-			//		    });
-			//		
-			//		    task.addRequestParam("username", usernameField.getText());
-			//		    task.addRequestParam("password", new String(passwordField.getPassword()));
-			//		    task.execute(Launcher.HOSTNAME + "/api/v1/login");
+			// HttpPostTask task = new HttpPostTask();
+			// task.setListener(new HttpResponseListener<JSONObject>()
+			// {
+			// @Override
+			// public void onSuccess(JSONObject ret)
+			// {
+			// processLoginResult(ret);
+			// }
+			//
+			// @Override
+			// public void onFailed()
+			// {
+			// showMessage("登录失败，请检查网络设置");
+			// loginButton.setEnabled(true);
+			// usernameField.setEditable(true);
+			// passwordField.setEditable(true);
+			// }
+			// });
+			//
+			// task.addRequestParam("username", usernameField.getText());
+			// task.addRequestParam("password", new String(passwordField.getPassword()));
+			// task.execute(Launcher.HOSTNAME + "/api/v1/login");
 		}
 	}
 
-	private void processLoginResult(JSONObject ret) {
-		if (ret.get("status").equals("success")) {
-
-			JSONObject data = ret.getJSONObject("data");
-			String authToken = data.getString("authToken");
-			String userId = data.getString("userId");
-
-			CurrentUser currentUser = new CurrentUser();
-			currentUser.setUserId(userId);
-			currentUser.setAuthToken(authToken);
-			currentUser.setRawPassword(new String(passwordField.getPassword()));
-			currentUser.setPassword(PasswordUtil.encryptPassword(currentUser.getRawPassword()));
-			currentUser.setUsername(usernameField.getText());
-			currentUserService.insertOrUpdate(currentUser);
-
-			this.dispose();
-
-			MainFrame frame = new MainFrame();
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setVisible(true);
-		} else {
-			showMessage("用户不存在或密码错误");
-			loginButton.setEnabled(true);
-			usernameField.setEditable(true);
-			passwordField.setEditable(true);
-		}
-
-	}
+//	private void processLoginResult(JSONObject ret) {
+//		if (ret.get("status").equals("success")) {
+//			JSONObject data = ret.getJSONObject("data");
+//			String authToken = data.getString("authToken");
+//			String userId = data.getString("userId");
+//
+//			CurrentUser currentUser = new CurrentUser();
+//			currentUser.setUserId(userId);
+//			currentUser.setAuthToken(authToken);
+//			currentUser.setRawPassword(new String(passwordField.getPassword()));
+//			currentUser.setPassword(PasswordUtil.encryptPassword(currentUser.getRawPassword()));
+//			currentUser.setUsername(usernameField.getText());
+//			currentUserService.insertOrUpdate(currentUser);
+//
+//			this.dispose();
+//
+//			MainFrame frame = new MainFrame();
+//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//			frame.setVisible(true);
+//		} else {
+//			showMessage("用户不存在或密码错误");
+//			loginButton.setEnabled(true);
+//			usernameField.setEditable(true);
+//			passwordField.setEditable(true);
+//		}
+//
+//	}
 
 	private void showMessage(String message) {
 		if (!statusLabel.isVisible()) {
 			statusLabel.setVisible(true);
 		}
 		statusLabel.setText(message);
+		loginButton.setEnabled(true);
+		usernameField.setEditable(true);
+		passwordField.setEditable(true);
 	}
 
 	public void loginSuccess(UserResponse userResponse) {
 		this.dispose();
 		System.out.println(userResponse);
 		CurrentUser currentUser = new CurrentUser();
-		currentUser.setUserId(userResponse.getId()+"");
+		currentUser.setUserId(userResponse.getId() + "");
 		currentUser.setUsername(userResponse.getUserName());
-		currentUserService.insertOrUpdate(currentUser );
+		currentUserService.insertOrUpdate(currentUser);
 		Launcher.currentUser = currentUser;
 		MainFrame frame = new MainFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

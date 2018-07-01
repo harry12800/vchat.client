@@ -18,26 +18,26 @@ import javax.swing.border.EmptyBorder;
 import cn.harry12800.j2se.action.DragListener;
 import cn.harry12800.j2se.tab.Tab;
 import cn.harry12800.j2se.tab.TabRootPane;
-import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.model.diary.Aritcle;
-import cn.harry12800.vchat.panels.DiaryPanel;
 import cn.harry12800.tools.Lists;
+import cn.harry12800.vchat.frames.MainFrame;
+import cn.harry12800.vchat.panels.DiaryPanel;
 
 @SuppressWarnings("serial")
 public class DiaryScanDialog extends JDialog {
 	public static DiaryScanDialog instance;
-	public DiaryScanDialog(DiaryPanel diaryPanel, Aritcle[] aritcles, int currIndex) {
+
+	public DiaryScanDialog(DiaryPanel diaryPanel, Diary[] aritcles, int currIndex) {
 		super(MainFrame.getContext());
 		instance = this;
 		setType(JFrame.Type.UTILITY);
-		setSize(500,600);
-		 
-		//setModal(true);
+		setSize(500, 600);
+
+		// setModal(true);
 		TabRootPane tabRootPane = new TabRootPane();
-		tabRootPane.add(new OperatePanel(this),BorderLayout.SOUTH);
+		tabRootPane.add(new OperatePanel(this), BorderLayout.SOUTH);
 		List<Tab> tabs = Lists.newArrayList();
-		for (Aritcle a : aritcles) {
-			Tab tab = new Tab(a.title);
+		for (Diary a : aritcles) {
+			Tab tab = new Tab(a.getTitle());
 			DiaryItemScanPanel item = new DiaryItemScanPanel(a);
 			tab.setContentPane(item);
 			item.requestFocus();
@@ -49,29 +49,30 @@ public class DiaryScanDialog extends JDialog {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				System.out.println(e);
-				if(e.getKeyCode()==27) {
+				if (e.getKeyCode() == 27) {
 					DiaryScanDialog.this.dispose();
 				}
 			}
 		});
-		
-		tabRootPane.addTab(tabs.toArray(new Tab[]{}));
+
+		tabRootPane.addTab(tabs.toArray(new Tab[] {}));
 		tabRootPane.showTab(tab);
-		JPanel jpeg  =new JPanel(){
+		JPanel jpeg = new JPanel() {
 			@Override
 			protected void paintComponent(Graphics g) {
 				g.setColor(Color.WHITE);
-				g.drawRect(0, 0, getWidth()-1, getHeight()-1);
+				g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 			}
 		};
 		jpeg.setBorder(new EmptyBorder(1, 1, 1, 1));
 		jpeg.setLayout(new BorderLayout());
-		jpeg.add(tabRootPane,BorderLayout.CENTER);
+		jpeg.add(tabRootPane, BorderLayout.CENTER);
 		setContentPane(jpeg);
 		setAlwaysOnTop(true);
 		setUndecorated(true);
 		new DragListener(this);
 	}
+
 	public void setCenterScreen() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension d = tk.getScreenSize();

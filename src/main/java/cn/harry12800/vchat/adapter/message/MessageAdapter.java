@@ -1,10 +1,25 @@
 package cn.harry12800.vchat.adapter.message;
 
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import org.apache.log4j.Logger;
+
 import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.adapter.ViewHolder;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.message.MessageImageLabel;
 import cn.harry12800.vchat.components.RCListView;
+import cn.harry12800.vchat.components.UserInfoPopup;
+import cn.harry12800.vchat.components.message.MessageImageLabel;
 import cn.harry12800.vchat.components.message.MessagePopupMenu;
 import cn.harry12800.vchat.components.message.RCMessageBubble;
 import cn.harry12800.vchat.db.model.CurrentUser;
@@ -13,23 +28,16 @@ import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.db.service.MessageService;
 import cn.harry12800.vchat.entity.FileAttachmentItem;
 import cn.harry12800.vchat.entity.MessageItem;
-import cn.harry12800.vchat.panels.ChatPanel;
+import cn.harry12800.vchat.forms.ImageViewerFrame;
 import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.components.UserInfoPopup;
 import cn.harry12800.vchat.helper.AttachmentIconHelper;
 import cn.harry12800.vchat.helper.MessageViewHolderCacheHelper;
-import cn.harry12800.vchat.utils.*;
-
-import cn.harry12800.vchat.forms.*;
-
-import org.apache.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import cn.harry12800.vchat.panels.ChatPanel;
+import cn.harry12800.vchat.utils.AvatarUtil;
+import cn.harry12800.vchat.utils.FileCache;
+import cn.harry12800.vchat.utils.IconUtil;
+import cn.harry12800.vchat.utils.ImageCache;
+import cn.harry12800.vchat.utils.TimeUtil;
 
 /**
  * Created by harry12800 on 17-6-2.
@@ -49,7 +57,8 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 
 	MessageViewHolderCacheHelper messageViewHolderCacheHelper;
 
-	public MessageAdapter(List<MessageItem> messageItems, RCListView listView, MessageViewHolderCacheHelper messageViewHolderCacheHelper) {
+	public MessageAdapter(List<MessageItem> messageItems, RCListView listView,
+			MessageViewHolderCacheHelper messageViewHolderCacheHelper) {
 		this.messageItems = messageItems;
 		this.listView = listView;
 
@@ -380,16 +389,13 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 	}
 
 	private void processImage(MessageItem item, MessageImageLabel imageLabel, ViewHolder holder) {
-		/* String url;
-		if (imageUrl.startsWith("/file-upload"))
-		{
-		    //url = Launcher.HOSTNAME + imageUrl + ".jpg?rc_uid=" + currentUser.getUserId() + "&rc_token=" + currentUser.getAuthToken();
-		    url = Launcher.HOSTNAME + imageUrl + "?rc_uid=" + currentUser.getUserId() + "&rc_token=" + currentUser.getAuthToken();
-		}
-		else
-		{
-		    url = "file://" + imageUrl;
-		}*/
+		/*
+		 * String url; if (imageUrl.startsWith("/file-upload")) { //url =
+		 * Launcher.HOSTNAME + imageUrl + ".jpg?rc_uid=" + currentUser.getUserId() +
+		 * "&rc_token=" + currentUser.getAuthToken(); url = Launcher.HOSTNAME + imageUrl
+		 * + "?rc_uid=" + currentUser.getUserId() + "&rc_token=" +
+		 * currentUser.getAuthToken(); } else { url = "file://" + imageUrl; }
+		 */
 
 		loadImageThumb(holder, item, imageLabel);
 
@@ -398,32 +404,35 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1) {
-					imageCache.requestOriginalAsynchronously(item.getImageAttachment().getId(), item.getImageAttachment().getImageUrl(), new ImageCache.ImageCacheRequestListener() {
-						@Override
-						public void onSuccess(ImageIcon icon, String path) {
-							try {
-								//Desktop.getDesktop().open(new File(path));
-								ImageViewerFrame frame = new ImageViewerFrame(path);
-								frame.setVisible(true);
+					imageCache.requestOriginalAsynchronously(item.getImageAttachment().getId(),
+							item.getImageAttachment().getImageUrl(), new ImageCache.ImageCacheRequestListener() {
+								@Override
+								public void onSuccess(ImageIcon icon, String path) {
+									try {
+										// Desktop.getDesktop().open(new File(path));
+										ImageViewerFrame frame = new ImageViewerFrame(path);
+										frame.setVisible(true);
 
-								// 如果图片获取成功，则重新加载缩略图
-								ImageIcon thumbIcon = (ImageIcon) imageLabel.getIcon();
-								if (thumbIcon.getDescription().endsWith("image_error.png")) {
-									loadImageThumb(holder, item, imageLabel);
+										// 如果图片获取成功，则重新加载缩略图
+										ImageIcon thumbIcon = (ImageIcon) imageLabel.getIcon();
+										if (thumbIcon.getDescription().endsWith("image_error.png")) {
+											loadImageThumb(holder, item, imageLabel);
+										}
+									} catch (Exception e1) {
+										JOptionPane.showMessageDialog(null, "图像不存在", "图像不存在",
+												JOptionPane.ERROR_MESSAGE);
+										e1.printStackTrace();
+									}
 								}
-							} catch (Exception e1) {
-								JOptionPane.showMessageDialog(null, "图像不存在", "图像不存在", JOptionPane.ERROR_MESSAGE);
-								e1.printStackTrace();
-							}
-						}
 
-						@Override
-						public void onFailed(String why) {
-							// 图片不存在，显示错误图片
-							ImageViewerFrame frame = new ImageViewerFrame(getClass().getResource("/image/image_error.png").getPath());
-							frame.setVisible(true);
-						}
-					});
+								@Override
+								public void onFailed(String why) {
+									// 图片不存在，显示错误图片
+									ImageViewerFrame frame = new ImageViewerFrame(
+											getClass().getResource("/image/image_error.png").getPath());
+									frame.setVisible(true);
+								}
+							});
 				}
 				super.mouseClicked(e);
 			}
@@ -444,22 +453,23 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		if (imageIcon == null) {
 			imageLabel.setIcon(IconUtil.getIcon(this, "/image/image_loading.gif"));
 
-			imageCache.requestThumbAsynchronously(item.getImageAttachment().getId(), imageUrl, new ImageCache.ImageCacheRequestListener() {
-				@Override
-				public void onSuccess(ImageIcon icon, String path) {
-					preferredImageSize(icon);
-					imageLabel.setIcon(icon);
-					holder.revalidate();
-					holder.repaint();
-				}
+			imageCache.requestThumbAsynchronously(item.getImageAttachment().getId(), imageUrl,
+					new ImageCache.ImageCacheRequestListener() {
+						@Override
+						public void onSuccess(ImageIcon icon, String path) {
+							preferredImageSize(icon);
+							imageLabel.setIcon(icon);
+							holder.revalidate();
+							holder.repaint();
+						}
 
-				@Override
-				public void onFailed(String why) {
-					imageLabel.setIcon(IconUtil.getIcon(this, "/image/image_error.png", 64, 64));
-					holder.revalidate();
-					holder.repaint();
-				}
-			});
+						@Override
+						public void onFailed(String why) {
+							imageLabel.setIcon(IconUtil.getIcon(this, "/image/image_error.png", 64, 64));
+							holder.revalidate();
+							holder.repaint();
+						}
+					});
 		} else {
 			preferredImageSize(imageIcon);
 			imageLabel.setIcon(imageIcon);
@@ -501,14 +511,15 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 
 		holder.text.setTag(item.getId());
 
-		//holder.text.setCaretPosition(holder.text.getDocument().getLength());
-		//holder.text.insertIcon(IconUtil.getIcon(this, "/image/smile.png", 18,18));
+		// holder.text.setCaretPosition(holder.text.getDocument().getLength());
+		// holder.text.insertIcon(IconUtil.getIcon(this, "/image/smile.png", 18,18));
 
-		//processMessageContent(holder.messageText, item);
-		//registerMessageTextListener(holder.messageText, item);
+		// processMessageContent(holder.messageText, item);
+		// registerMessageTextListener(holder.messageText, item);
 
 		// 判断是否显示重发按钮
-		boolean needToUpdateResendStatus = !item.isNeedToResend() && item.getUpdatedAt() < 1 && System.currentTimeMillis() - item.getTimestamp() > 10 * 1000;
+		boolean needToUpdateResendStatus = !item.isNeedToResend() && item.getUpdatedAt() < 1
+				&& System.currentTimeMillis() - item.getTimestamp() > 10 * 1000;
 
 		if (item.isNeedToResend() || needToUpdateResendStatus) {
 			if (needToUpdateResendStatus) {
@@ -598,21 +609,22 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 
 		if (holder.avatar != null) {
 			ImageIcon icon = new ImageIcon();
-			Image image = AvatarUtil.createOrLoadUserAvatar(item.getSenderUsername()).getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+			Image image = AvatarUtil.createOrLoadUserAvatar(item.getSenderUsername()).getScaledInstance(40, 40,
+					Image.SCALE_SMOOTH);
 			icon.setImage(image);
 			holder.avatar.setIcon(icon);
 
-			if (item.getMessageType() == MessageItem.LEFT_ATTACHMENT
-					|| item.getMessageType() == MessageItem.LEFT_IMAGE
+			if (item.getMessageType() == MessageItem.LEFT_ATTACHMENT || item.getMessageType() == MessageItem.LEFT_IMAGE
 					|| item.getMessageType() == MessageItem.LEFT_TEXT) {
 				bindAvatarAction(holder.avatar, item.getSenderUsername());
 			}
 		}
 
 		/*
-		{
-		    holder.avatar.setImageBitmap(AvatarUtil.createOrLoadUserAvatar(this.activity, item.getSenderUsername()));
-		}*/
+		 * {
+		 * holder.avatar.setImageBitmap(AvatarUtil.createOrLoadUserAvatar(this.activity,
+		 * item.getSenderUsername())); }
+		 */
 	}
 
 	private void bindAvatarAction(JLabel avatarLabel, String username) {

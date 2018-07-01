@@ -1,14 +1,34 @@
 package cn.harry12800.vchat.frames;
 
-import cn.harry12800.vchat.components.*;
-import cn.harry12800.vchat.panels.*;
-import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCBorder;
+import cn.harry12800.vchat.components.RCButton;
+import cn.harry12800.vchat.components.VerticalFlowLayout;
+import cn.harry12800.vchat.panels.AboutPanel;
+import cn.harry12800.vchat.panels.ChangeAvatarPanel;
+import cn.harry12800.vchat.panels.ChangePasswordPanel;
+import cn.harry12800.vchat.panels.ClearCachePanel;
+import cn.harry12800.vchat.panels.MePanel;
+import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 07/06/2017.
@@ -17,7 +37,7 @@ import java.awt.event.MouseEvent;
 public class SystemConfigDialog extends JDialog {
 	private static SystemConfigDialog context;
 	private JPanel buttonPanel;
-	//private JButton cancelButton;
+	// private JButton cancelButton;
 	private JButton okButton;
 
 	private JPanel settingPanel;
@@ -78,8 +98,10 @@ public class SystemConfigDialog extends JDialog {
 		// 按钮组
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
-		/*cancelButton = new RCButton("取消");
-		cancelButton.setForeground(Colors.FONT_BLACK);*/
+		/*
+		 * cancelButton = new RCButton("取消");
+		 * cancelButton.setForeground(Colors.FONT_BLACK);
+		 */
 		okButton = new RCButton("关闭", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
 		okButton.setPreferredSize(new Dimension(75, 30));
 
@@ -130,7 +152,8 @@ public class SystemConfigDialog extends JDialog {
 	}
 
 	private void initView() {
-		//buttonPanel.add(cancelButton, new GBC(0, 0).setWeight(1, 1).setInsets(15, 0, 0, 0));
+		// buttonPanel.add(cancelButton, new GBC(0, 0).setWeight(1, 1).setInsets(15, 0,
+		// 0, 0));
 		buttonPanel.add(okButton, new GBC(1, 0).setWeight(1, 1));
 
 		settingPanel.setLayout(new GridBagLayout());

@@ -1,6 +1,7 @@
 package cn.harry12800.vchat.handler;
 
 import org.springframework.stereotype.Component;
+
 import cn.harry12800.common.core.annotion.SocketCommand;
 import cn.harry12800.common.core.annotion.SocketModule;
 import cn.harry12800.common.core.model.ResultCode;
@@ -14,6 +15,7 @@ import cn.harry12800.vchat.frames.MainFrame;
 
 /**
  * 玩家模块
+ * 
  * @author -harry12800-
  *
  */
@@ -25,8 +27,10 @@ public class UserLoginHandler {
 
 	/**
 	 * 创建并登录帐号
+	 * 
 	 * @param resultCode
-	 * @param data {@link null}
+	 * @param data
+	 *            {@link null}
 	 */
 	@SocketCommand(cmd = UserCmd.REGISTER_AND_LOGIN, desc = "创建并登录帐号")
 	public void registerAndLogin(int resultCode, byte[] data) {
@@ -39,8 +43,10 @@ public class UserLoginHandler {
 
 	/**
 	 * 登录帐号
+	 * 
 	 * @param resultCode
-	 * @param data {@link null}
+	 * @param data
+	 *            {@link null}
 	 */
 	@SocketCommand(cmd = UserCmd.LOGIN, desc = "登录帐号")
 	public void login(int resultCode, byte[] data) {
@@ -55,8 +61,10 @@ public class UserLoginHandler {
 
 	/**
 	 * 登录帐号
+	 * 
 	 * @param resultCode
-	 * @param data {@link null}
+	 * @param data
+	 *            {@link null}
 	 */
 	@SocketCommand(cmd = UserCmd.SHOW_ALL_USER, desc = "登录帐号")
 	public void login1(int resultCode, byte[] data) {

@@ -1,8 +1,8 @@
 package cn.harry12800.vchat.tasks;
 
-import cn.harry12800.vchat.utils.HttpUtil;
-
 import java.io.IOException;
+
+import cn.harry12800.vchat.utils.HttpUtil;
 
 /**
  * Created by harry12800 on 15/06/2017.

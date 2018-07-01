@@ -45,11 +45,7 @@ public class ContactsItem implements Comparable<ContactsItem> {
 
 	@Override
 	public String toString() {
-		return "ContactsItem{" +
-				"id='" + id + '\'' +
-				", name='" + name + '\'' +
-				", type='" + type + '\'' +
-				'}';
+		return "ContactsItem{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", type='" + type + '\'' + '}';
 	}
 
 	@Override

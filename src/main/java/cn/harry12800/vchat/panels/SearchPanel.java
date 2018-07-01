@@ -1,5 +1,15 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.GridBagLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import cn.harry12800.vchat.adapter.search.SearchResultItemsAdapter;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
@@ -15,15 +25,6 @@ import cn.harry12800.vchat.db.service.MessageService;
 import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.SearchResultItem;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -56,10 +57,7 @@ public class SearchPanel extends ParentAvailablePanel {
 	private void initView() {
 		setBackground(Colors.DARK);
 		this.setLayout(new GridBagLayout());
-		this.add(searchTextField, new GBC(0, 0)
-				.setFill(GBC.HORIZONTAL)
-				.setWeight(1, 1)
-				.setInsets(0, 15, 0, 15));
+		this.add(searchTextField, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1).setInsets(0, 15, 0, 15));
 	}
 
 	public static SearchPanel getContext() {
@@ -137,6 +135,7 @@ public class SearchPanel extends ParentAvailablePanel {
 
 	/**
 	 * 搜索用户或房间
+	 * 
 	 * @param key
 	 * @return
 	 */
@@ -146,7 +145,7 @@ public class SearchPanel extends ParentAvailablePanel {
 		list.add(new SearchResultItem("searchAndListMessage", "搜索 \"" + key + "\" 相关消息", "searchMessage"));
 		list.add(new SearchResultItem("searchFile", "搜索 \"" + key + "\" 相关文件", "searchFile"));
 
-		//搜索通讯录
+		// 搜索通讯录
 		list.addAll(searchContacts(key));
 
 		// 搜索房间
@@ -154,17 +153,18 @@ public class SearchPanel extends ParentAvailablePanel {
 
 		if (!setSearchMessageOrFileListener) {
 			// 查找消息、文件
-			SearchResultPanel.getContext().setSearchMessageOrFileListener(new SearchResultItemsAdapter.SearchMessageOrFileListener() {
-				@Override
-				public void onSearchMessage() {
-					searchAndListMessage(searchTextField.getText());
-				}
+			SearchResultPanel.getContext()
+					.setSearchMessageOrFileListener(new SearchResultItemsAdapter.SearchMessageOrFileListener() {
+						@Override
+						public void onSearchMessage() {
+							searchAndListMessage(searchTextField.getText());
+						}
 
-				@Override
-				public void onSearchFile() {
-					searchAndListFile(searchTextField.getText());
-				}
-			});
+						@Override
+						public void onSearchFile() {
+							searchAndListFile(searchTextField.getText());
+						}
+					});
 
 			setSearchMessageOrFileListener = true;
 		}
@@ -192,7 +192,7 @@ public class SearchPanel extends ParentAvailablePanel {
 				String content = msg.getMessageContent();
 				int startPos = content.toLowerCase().indexOf(key.toLowerCase());
 				int endPos = startPos + 10;
-				//endPos = endPos > content.length() ? content.length() : endPos;
+				// endPos = endPos > content.length() ? content.length() : endPos;
 				if (endPos > content.length()) {
 					endPos = content.length();
 					content = content.substring(startPos, endPos);
@@ -229,10 +229,10 @@ public class SearchPanel extends ParentAvailablePanel {
 			SearchResultItem item;
 			for (FileAttachment file : fileAttachments) {
 				String content = file.getTitle();
-				//content = content.length() > 10 ? content.substring(0, 10) : content;
+				// content = content.length() > 10 ? content.substring(0, 10) : content;
 
 				item = new SearchResultItem(file.getId(), content, "file");
-				//item.setTag(msg.getRoomId());
+				// item.setTag(msg.getRoomId());
 
 				searchResultItems.add(item);
 			}

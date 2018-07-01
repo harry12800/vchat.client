@@ -1,13 +1,14 @@
 package cn.harry12800.vchat.utils;
 
-import cn.harry12800.vchat.db.service.TableService;
+import java.io.IOException;
+import java.io.Reader;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import java.io.IOException;
-import java.io.Reader;
+import cn.harry12800.vchat.db.service.TableService;
 
 public class DbUtils {
 	private static SqlSession sqlSession = null;

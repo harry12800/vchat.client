@@ -176,28 +176,13 @@ public class Room extends BasicModel implements Comparable<Room> {
 
 	@Override
 	public String toString() {
-		return "Room{" +
-				"roomId='" + roomId + '\'' +
-				", type='" + type + '\'' +
-				", name='" + name + '\'' +
-				", topic='" + topic + '\'' +
-				", muted='" + muted + '\'' +
-				", member='" + member + '\'' +
-				", sysMes=" + sysMes +
-				", msgSum=" + msgSum +
-				", lastChatAt=" + lastChatAt +
-				", creatorName='" + creatorName + '\'' +
-				", creatorId='" + creatorId + '\'' +
-				", jitsiTimeout='" + jitsiTimeout + '\'' +
-				", readOnly=" + readOnly +
-				", archived=" + archived +
-				", defaultRoom=" + defaultRoom +
-				", createdAt='" + createdAt + '\'' +
-				", updatedAt='" + updatedAt + '\'' +
-				", unreadCount=" + unreadCount +
-				", totalReadCount=" + totalReadCount +
-				", lastMessage='" + lastMessage + '\'' +
-				'}';
+		return "Room{" + "roomId='" + roomId + '\'' + ", type='" + type + '\'' + ", name='" + name + '\'' + ", topic='"
+				+ topic + '\'' + ", muted='" + muted + '\'' + ", member='" + member + '\'' + ", sysMes=" + sysMes
+				+ ", msgSum=" + msgSum + ", lastChatAt=" + lastChatAt + ", creatorName='" + creatorName + '\''
+				+ ", creatorId='" + creatorId + '\'' + ", jitsiTimeout='" + jitsiTimeout + '\'' + ", readOnly="
+				+ readOnly + ", archived=" + archived + ", defaultRoom=" + defaultRoom + ", createdAt='" + createdAt
+				+ '\'' + ", updatedAt='" + updatedAt + '\'' + ", unreadCount=" + unreadCount + ", totalReadCount="
+				+ totalReadCount + ", lastMessage='" + lastMessage + '\'' + '}';
 	}
 
 	@Override

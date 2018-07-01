@@ -1,9 +1,9 @@
 package cn.harry12800.vchat.helper;
 
+import javax.swing.ImageIcon;
+
 import cn.harry12800.vchat.utils.IconUtil;
 import cn.harry12800.vchat.utils.MimeTypeUtil;
-
-import javax.swing.*;
 
 /**
  * Created by harry12800 on 17-6-4.
@@ -29,7 +29,7 @@ public class AttachmentIconHelper {
 					return unknownMimeIcon(width, height);
 
 				} else {
-					//return new ImageIcon(getClass().getResource("/image/" + mime + ".png"));
+					// return new ImageIcon(getClass().getResource("/image/" + mime + ".png"));
 					return IconUtil.getIcon(this, "/image/" + mime + ".png", width, height);
 
 				}

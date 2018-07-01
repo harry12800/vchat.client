@@ -1,5 +1,11 @@
 package cn.harry12800.vchat.adapter.message;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GradientProgressBarUI;
 import cn.harry12800.vchat.components.RCProgressBar;
@@ -8,10 +14,6 @@ import cn.harry12800.vchat.components.message.AttachmentPanel;
 import cn.harry12800.vchat.components.message.RCAttachmentMessageBubble;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by harry12800 on 16/06/2017.

@@ -1,18 +1,26 @@
 package cn.harry12800.vchat.adapter.message;
 
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 17-6-2.
  */
 @SuppressWarnings("serial")
 public class MessageSystemMessageViewHolder extends BaseMessageViewHolder {
-	//public JLabel size = new JLabel();
+	// public JLabel size = new JLabel();
 	public JLabel text = new JLabel();
 	private JPanel timePanel = new JPanel();
 	private JPanel textPanel;

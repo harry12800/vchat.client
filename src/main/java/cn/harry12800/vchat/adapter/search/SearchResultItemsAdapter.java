@@ -1,5 +1,20 @@
 package cn.harry12800.vchat.adapter.search;
 
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
@@ -12,27 +27,21 @@ import cn.harry12800.vchat.db.service.FileAttachmentService;
 import cn.harry12800.vchat.db.service.MessageService;
 import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.SearchResultItem;
+import cn.harry12800.vchat.helper.AttachmentIconHelper;
+import cn.harry12800.vchat.listener.AbstractMouseListener;
 import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.panels.ListPanel;
 import cn.harry12800.vchat.panels.SearchPanel;
-import cn.harry12800.vchat.helper.AttachmentIconHelper;
-import cn.harry12800.vchat.listener.AbstractMouseListener;
 import cn.harry12800.vchat.tasks.DownloadTask;
 import cn.harry12800.vchat.tasks.HttpResponseListener;
-import cn.harry12800.vchat.utils.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.List;
+import cn.harry12800.vchat.utils.AvatarUtil;
+import cn.harry12800.vchat.utils.FileCache;
+import cn.harry12800.vchat.utils.HttpUtil;
+import cn.harry12800.vchat.utils.IconUtil;
+import cn.harry12800.vchat.utils.TimeUtil;
 
 /**
- * 搜索结果适配器
- * Created by harry12800 on 17-5-30.
+ * 搜索结果适配器 Created by harry12800 on 17-5-30.
  */
 public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHolder> {
 	private List<SearchResultItem> searchResultItems;
@@ -52,7 +61,8 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 
 	private List<String> downloadingFiles = new ArrayList<>(); // 正在下载的文件
 
-	//private List<SearchResultFileItemViewHolder> fileItemViewHolders = new ArrayList<>();
+	// private List<SearchResultFileItemViewHolder> fileItemViewHolders = new
+	// ArrayList<>();
 	private Map<String, SearchResultFileItemViewHolder> fileItemViewHolders = new HashMap<>();
 
 	public SearchResultItemsAdapter(List<SearchResultItem> searchResultItems) {
@@ -68,7 +78,8 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 	public int getItemViewType(int position) {
 		// return super.getItemViewType(position);
 		String type = searchResultItems.get(position).getType();
-		if (type.equals("d") || type.equals("c") || type.equals("p") || type.equals("searchMessage") || type.equals("searchFile")) {
+		if (type.equals("d") || type.equals("c") || type.equals("p") || type.equals("searchMessage")
+				|| type.equals("searchFile")) {
 			return VIEW_TYPE_CONTACTS_ROOM;
 		} else if (type.equals("message")) {
 			return VIEW_TYPE_MESSAGE;
@@ -109,25 +120,26 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 			processFileResult(viewHolder, item);
 		}
 
-		//        if (!viewHolders.contains(viewHolder))
-		//        {
-		//            viewHolders.add(viewHolder);
-		//        }
+		// if (!viewHolders.contains(viewHolder))
+		// {
+		// viewHolders.add(viewHolder);
+		// }
 
-		//viewHolder.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		// viewHolder.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		//SearchResultItem item = searchResultItems.get(position);
+		// SearchResultItem item = searchResultItems.get(position);
 
 	}
 
 	/**
 	 * 处理文件搜索结果
+	 * 
 	 * @param viewHolder
 	 * @param item
 	 */
 	private void processFileResult(SearchResultItemViewHolder viewHolder, SearchResultItem item) {
 		SearchResultFileItemViewHolder holder = (SearchResultFileItemViewHolder) viewHolder;
-		//fileItemViewHolders.add(holder);
+		// fileItemViewHolders.add(holder);
 		fileItemViewHolders.put(item.getId(), holder);
 
 		ImageIcon attachmentTypeIcon = attachmentIconHelper.getImageIcon(item.getName());
@@ -274,18 +286,17 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 			icon.setImage(getRoomAvatar(type, item.getName(), null));
 		} else {
 			if (type.equals("searchMessage")) {
-				icon.setImage(IconUtil.getIcon(this, "/image/message.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+				icon.setImage(IconUtil.getIcon(this, "/image/message.png").getImage().getScaledInstance(25, 25,
+						Image.SCALE_SMOOTH));
 			} else if (type.equals("searchFile")) {
-				icon.setImage(IconUtil.getIcon(this, "/image/file_icon.png").getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH));
+				icon.setImage(IconUtil.getIcon(this, "/image/file_icon.png").getImage().getScaledInstance(25, 25,
+						Image.SCALE_SMOOTH));
 			}
-			/*else if (type.equals("message"))
-			{
-			    Room room = roomService.findById((String) ((Map) item.getTag()).get("roomId"));
-			    if (room != null)
-			    {
-			        icon.setImage(getRoomAvatar(room.getType(), room.getName()));
-			    }
-			}*/
+			/*
+			 * else if (type.equals("message")) { Room room = roomService.findById((String)
+			 * ((Map) item.getTag()).get("roomId")); if (room != null) {
+			 * icon.setImage(getRoomAvatar(room.getType(), room.getName())); } }
+			 */
 		}
 		holder.avatar.setIcon(icon);
 
@@ -299,24 +310,17 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 	 * @param name
 	 * @return
 	 */
-	/*private Image getRoomAvatar(String type, String name)
-	{
-	    if (type.equals("c"))
-	    {
-	        return AvatarUtil.createOrLoadGroupAvatar("##", name).getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-	    }
-	    else if (type.equals("p"))
-	    {
-	        return AvatarUtil.createOrLoadGroupAvatar("#", name).getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-	    }
-	    // 私聊头像
-	    else if (type.equals("d"))
-	    {
-	        return AvatarUtil.createOrLoadUserAvatar(name).getScaledInstance(35, 35, Image.SCALE_SMOOTH);
-	    }
-	
-	    return null;
-	}*/
+	/*
+	 * private Image getRoomAvatar(String type, String name) { if (type.equals("c"))
+	 * { return AvatarUtil.createOrLoadGroupAvatar("##", name).getScaledInstance(35,
+	 * 35, Image.SCALE_SMOOTH); } else if (type.equals("p")) { return
+	 * AvatarUtil.createOrLoadGroupAvatar("#", name).getScaledInstance(35, 35,
+	 * Image.SCALE_SMOOTH); } // 私聊头像 else if (type.equals("d")) { return
+	 * AvatarUtil.createOrLoadUserAvatar(name).getScaledInstance(35, 35,
+	 * Image.SCALE_SMOOTH); }
+	 * 
+	 * return null; }
+	 */
 
 	/**
 	 * 根据房间类型获取对应的头像
@@ -327,7 +331,8 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 	 */
 	private Image getRoomAvatar(String type, String name, String[] members) {
 		if (type.equals("c") || type.equals("p")) {
-			return AvatarUtil.createOrLoadGroupAvatar(name, members, type).getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+			return AvatarUtil.createOrLoadGroupAvatar(name, members, type).getScaledInstance(35, 35,
+					Image.SCALE_SMOOTH);
 		}
 		// 私聊头像
 		else if (type.equals("d")) {
@@ -339,6 +344,7 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 
 	/**
 	 * 设置item的背影色
+	 * 
 	 * @param holder
 	 * @param color
 	 */
@@ -402,11 +408,12 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 
 	/**
 	 * 下载文件
-	 *  @param fileAttachment
+	 * 
+	 * @param fileAttachment
 	 */
 	private void downloadFile(FileAttachment fileAttachment) {
 		downloadingFiles.add(fileAttachment.getId());
-		//holder.fileId = fileAttachment.getId();
+		// holder.fileId = fileAttachment.getId();
 
 		final DownloadTask task = new DownloadTask(new HttpUtil.ProgressListener() {
 			@Override
@@ -446,22 +453,22 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 					holder.size.setText(fileCache.fileSizeString(path));
 					downloadingFiles.remove(fileAttachment.getId());
 
-					/*for (SearchResultFileItemViewHolder h : fileItemViewHolders)
-					{
-					    if (h.fileId.equals(fileAttachment.getId()))
-					    {
-					        h.progressBar.setVisible(false);
-					        h.size.setVisible(true);
-					        h.size.setText(fileCache.fileSizeString(fileCache.tryGetFileCache(fileAttachment.getId(), fileAttachment.getTitle())));
-					        //break;
-					        //fileItemViewHolders.remove(h);
-					    }
-					}*/
+					/*
+					 * for (SearchResultFileItemViewHolder h : fileItemViewHolders) { if
+					 * (h.fileId.equals(fileAttachment.getId())) { h.progressBar.setVisible(false);
+					 * h.size.setVisible(true);
+					 * h.size.setText(fileCache.fileSizeString(fileCache.tryGetFileCache(
+					 * fileAttachment.getId(), fileAttachment.getTitle()))); //break;
+					 * //fileItemViewHolders.remove(h); } }
+					 */
 
-					/*SearchResultFileItemViewHolder h = fileItemViewHolders.get(fileAttachment.getId());
-					h.progressBar.setVisible(false);
-					h.size.setVisible(true);
-					h.size.setText(fileCache.fileSizeString(fileCache.tryGetFileCache(fileAttachment.getId(), fileAttachment.getTitle())));*/
+					/*
+					 * SearchResultFileItemViewHolder h =
+					 * fileItemViewHolders.get(fileAttachment.getId());
+					 * h.progressBar.setVisible(false); h.size.setVisible(true);
+					 * h.size.setText(fileCache.fileSizeString(fileCache.tryGetFileCache(
+					 * fileAttachment.getId(), fileAttachment.getTitle())));
+					 */
 				}
 			}
 
@@ -475,7 +482,8 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 		});
 
 		currentUser = currentUserService.findAll().get(0);
-		String url = Launcher.HOSTNAME + fileAttachment.getLink() + "?rc_uid=" + currentUser.getUserId() + "&rc_token=" + currentUser.getAuthToken();
+		String url = Launcher.HOSTNAME + fileAttachment.getLink() + "?rc_uid=" + currentUser.getUserId() + "&rc_token="
+				+ currentUser.getAuthToken();
 		task.execute(url);
 	}
 

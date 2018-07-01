@@ -1,10 +1,15 @@
 package cn.harry12800.vchat.utils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.ImageIcon;
 
 /**
  * 图像处理工具类

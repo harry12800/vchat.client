@@ -1,5 +1,14 @@
 package cn.harry12800.vchat.adapter.message;
 
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.message.MessageImageLabel;
@@ -7,17 +16,14 @@ import cn.harry12800.vchat.components.message.MessagePopupMenu;
 import cn.harry12800.vchat.components.message.RCRightImageMessageBubble;
 import cn.harry12800.vchat.utils.FontUtil;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * Created by harry12800 on 17-6-3.
  */
 @SuppressWarnings("serial")
 public class MessageRightImageViewHolder extends BaseMessageViewHolder {
 	public MessageImageLabel image = new MessageImageLabel();
-	//public JLabel avatar = new JLabel();
-	//public JLabel size = new JLabel();
+	// public JLabel avatar = new JLabel();
+	// public JLabel size = new JLabel();
 	public JLabel resend = new JLabel(); // 重发按钮
 	public JLabel sendingProgress = new JLabel(); // 正在发送
 
@@ -64,7 +70,8 @@ public class MessageRightImageViewHolder extends BaseMessageViewHolder {
 		resendImagePanel.add(imageBubble, BorderLayout.CENTER);
 
 		messageAvatarPanel.setLayout(new GridBagLayout());
-		messageAvatarPanel.add(resendImagePanel, new GBC(1, 0).setWeight(1000, 1).setAnchor(GBC.EAST).setInsets(0, 0, 5, 0));
+		messageAvatarPanel.add(resendImagePanel,
+				new GBC(1, 0).setWeight(1000, 1).setAnchor(GBC.EAST).setInsets(0, 0, 5, 0));
 		messageAvatarPanel.add(avatar, new GBC(2, 0).setWeight(1, 1).setAnchor(GBC.NORTH).setInsets(5, 0, 0, 10));
 
 		add(timePanel, BorderLayout.NORTH);

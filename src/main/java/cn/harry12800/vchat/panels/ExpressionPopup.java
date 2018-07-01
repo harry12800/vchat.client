@@ -1,13 +1,18 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.listener.ExpressionListener;
 import cn.harry12800.vchat.utils.IconUtil;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by harry12800 on 04/07/2017.

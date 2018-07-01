@@ -41,13 +41,14 @@ import sun.net.www.protocol.jar.JarURLConnection;
 
 /**
  * 图片资源装载器
+ * 
  * @author Yuexin
  *
  */
 public class ImageUtils {
 	public static Map<String, BufferedImage> map = Maps.newHashMap();
 	static {
-		//addImage(ImageUtils.class);
+		// addImage(ImageUtils.class);
 	}
 
 	public static synchronized void addImage(Class<?> clazz) {
@@ -57,9 +58,9 @@ public class ImageUtils {
 		URL resource = ImageUtils.class.getResource(name);
 		try {
 			URLConnection openConnection = resource.openConnection();
-			//			System.out.println(openConnection);
+			// System.out.println(openConnection);
 			if (openConnection instanceof sun.net.www.protocol.jar.JarURLConnection) {
-				//				URL jarFileURL = ((JarURLConnection) openConnection).getJarFileURL();
+				// URL jarFileURL = ((JarURLConnection) openConnection).getJarFileURL();
 				JarFile jarFile = ((JarURLConnection) openConnection).getJarFile();
 				Enumeration<JarEntry> entries = jarFile.entries();
 				while (entries.hasMoreElements()) {
@@ -97,7 +98,7 @@ public class ImageUtils {
 		if (pkgPath == null) {
 			return null;
 		}
-		// 接收 .class 文件 或 类文件夹  
+		// 接收 .class 文件 或 类文件夹
 		return new File(pkgPath).listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File file) {
@@ -163,7 +164,8 @@ public class ImageUtils {
 				System.out.println(matcher.group(1));
 			}
 		}
-		//DeveloperUtils.generateCodeSuffixPrefix(ImageUtils.class, "list.add(\"", "\");", 99, 114);
+		// DeveloperUtils.generateCodeSuffixPrefix(ImageUtils.class, "list.add(\"",
+		// "\");", 99, 114);
 	}
 
 	public static Icon getIcon(String name) {
@@ -172,8 +174,8 @@ public class ImageUtils {
 	}
 
 	public static ImageIcon getPicture(String name) {
-		//		ImageIcon icon = new ImageIcon(MyScrollBarUI.class.getClassLoader()
-		//				.getResource("image/"+name));
+		// ImageIcon icon = new ImageIcon(MyScrollBarUI.class.getClassLoader()
+		// .getResource("image/"+name));
 		ImageIcon icon = new ImageIcon(getByName(name));
 		return icon;
 	}

@@ -1,21 +1,30 @@
 package cn.harry12800.vchat.components;
 
+import static cn.harry12800.vchat.app.Launcher.contactsUserService;
+import static cn.harry12800.vchat.app.Launcher.roomService;
+
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.model.Room;
+import cn.harry12800.vchat.forms.ImageViewerFrame;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.panels.ContactsPanel;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import cn.harry12800.vchat.forms.ImageViewerFrame;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import static cn.harry12800.vchat.app.Launcher.contactsUserService;
-import static cn.harry12800.vchat.app.Launcher.roomService;
 
 /**
  * Created by harry12800 on 07/06/2017.
@@ -57,9 +66,10 @@ public class UserInfoPopup extends JPopupMenu {
 		usernameLabel = new JLabel();
 		usernameLabel.setText(username);
 
-		/*sendButton = new RCButton("发消息");
-		sendButton.setPreferredSize(new Dimension(180, 40));
-		sendButton.setForeground(Colors.FONT_BLACK);*/
+		/*
+		 * sendButton = new RCButton("发消息"); sendButton.setPreferredSize(new
+		 * Dimension(180, 40)); sendButton.setForeground(Colors.FONT_BLACK);
+		 */
 		sendButton = new RCButton("发消息", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
 		sendButton.setBackground(Colors.PROGRESS_BAR_START);
 		sendButton.setPreferredSize(new Dimension(180, 35));

@@ -1,10 +1,9 @@
 package cn.harry12800.vchat.db.service;
 
+import java.util.List;
+
 import cn.harry12800.vchat.db.dao.BasicDao;
 import cn.harry12800.vchat.db.model.BasicModel;
-import org.apache.ibatis.session.SqlSession;
-
-import java.util.List;
 
 /**
  * Created by harry12800 on 09/06/2017.

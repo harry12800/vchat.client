@@ -1,6 +1,6 @@
 package cn.harry12800.vchat.utils;
 
-import java.awt.*;
+import java.awt.Font;
 
 /**
  * Created by harry12800 on 17-5-29.
@@ -26,8 +26,8 @@ public class FontUtil {
 
 	public static Font getDefaultFont(int size, int style) {
 		return font.deriveFont(style, size);
-		//return new Font("YaHei Consolas Hybrid",  style, size);
-		//return new Font("微软雅黑", style, size);
+		// return new Font("YaHei Consolas Hybrid", style, size);
+		// return new Font("微软雅黑", style, size);
 	}
 
 }

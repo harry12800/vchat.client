@@ -9,13 +9,11 @@ public class MyTreeUI extends BasicTreeUI {
 
 	// 实现去除JTree的垂直线和水平线
 	@Override
-	protected void paintVerticalLine(Graphics g, JComponent c, int x, int top,
-			int bottom) {
+	protected void paintVerticalLine(Graphics g, JComponent c, int x, int top, int bottom) {
 	}
 
 	@Override
-	protected void paintHorizontalLine(Graphics g, JComponent c, int y,
-			int left, int right) {
+	protected void paintHorizontalLine(Graphics g, JComponent c, int y, int left, int right) {
 	}
 
 	// 实现父节点与子节点对齐

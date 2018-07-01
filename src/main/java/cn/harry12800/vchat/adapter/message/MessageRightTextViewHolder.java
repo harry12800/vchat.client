@@ -1,5 +1,14 @@
 package cn.harry12800.vchat.adapter.message;
 
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.SizeAutoAdjustTextArea;
@@ -7,20 +16,17 @@ import cn.harry12800.vchat.components.message.RCRightImageMessageBubble;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.FontUtil;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * Created by harry12800 on 17-6-2.
  */
 @SuppressWarnings("serial")
 public class MessageRightTextViewHolder extends BaseMessageViewHolder {
-	//public JLabel avatar = new JLabel();
-	//public JLabel size = new JLabel();
-	//public SizeAutoAdjustTextArea text;
+	// public JLabel avatar = new JLabel();
+	// public JLabel size = new JLabel();
+	// public SizeAutoAdjustTextArea text;
 	public SizeAutoAdjustTextArea text;
 	public RCRightImageMessageBubble messageBubble = new RCRightImageMessageBubble();
-	//public RCRightTextMessageBubble text = new RCRightTextMessageBubble();
+	// public RCRightTextMessageBubble text = new RCRightTextMessageBubble();
 	public JLabel resend = new JLabel(); // 重发按钮
 	public JLabel sendingProgress = new JLabel(); // 正在发送
 
@@ -72,7 +78,8 @@ public class MessageRightTextViewHolder extends BaseMessageViewHolder {
 		resendTextPanel.add(messageBubble, BorderLayout.CENTER);
 
 		messageAvatarPanel.setLayout(new GridBagLayout());
-		messageAvatarPanel.add(resendTextPanel, new GBC(1, 0).setWeight(1000, 1).setAnchor(GBC.EAST).setInsets(0, 0, 5, 0));
+		messageAvatarPanel.add(resendTextPanel,
+				new GBC(1, 0).setWeight(1000, 1).setAnchor(GBC.EAST).setInsets(0, 0, 5, 0));
 		messageAvatarPanel.add(avatar, new GBC(2, 0).setWeight(1, 1).setAnchor(GBC.NORTH).setInsets(5, 0, 0, 10));
 
 		add(timePanel, BorderLayout.NORTH);

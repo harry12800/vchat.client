@@ -40,11 +40,7 @@ public class FileAttachment extends BasicModel {
 
 	@Override
 	public String toString() {
-		return "FileAttachment{" +
-				"id='" + id + '\'' +
-				", title='" + title + '\'' +
-				", link='" + link + '\'' +
-				", description='" + description + '\'' +
-				'}';
+		return "FileAttachment{" + "id='" + id + '\'' + ", title='" + title + '\'' + ", link='" + link + '\''
+				+ ", description='" + description + '\'' + '}';
 	}
 }

@@ -1,5 +1,18 @@
 package cn.harry12800.vchat.panels;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
@@ -12,11 +25,6 @@ import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FontUtil;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by harry12800 on 2017/6/15.
@@ -44,7 +52,8 @@ public class UserInfoPanel extends ParentAvailablePanel {
 		contentPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.CENTER, 0, 20, true, false));
 
 		imageLabel = new JLabel();
-		ImageIcon icon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar("song").getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+		ImageIcon icon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar("song").getScaledInstance(100, 100, Image.SCALE_SMOOTH));
 		imageLabel.setIcon(icon);
 
 		nameLabel = new JLabel();
@@ -66,8 +75,10 @@ public class UserInfoPanel extends ParentAvailablePanel {
 		avatarNamePanel.add(imageLabel, BorderLayout.WEST);
 		avatarNamePanel.add(nameLabel, BorderLayout.CENTER);
 
-		//add(avatarNamePanel, new GBC(0,0).setAnchor(GBC.CENTER).setWeight(1,1).setInsets(0,0,0,0));
-		//add(button, new GBC(0,1).setAnchor(GBC.CENTER).setWeight(1,1).setInsets(0,0,0,0));
+		// add(avatarNamePanel, new
+		// GBC(0,0).setAnchor(GBC.CENTER).setWeight(1,1).setInsets(0,0,0,0));
+		// add(button, new
+		// GBC(0,1).setAnchor(GBC.CENTER).setWeight(1,1).setInsets(0,0,0,0));
 		contentPanel.add(avatarNamePanel);
 		contentPanel.add(button);
 
@@ -78,7 +89,8 @@ public class UserInfoPanel extends ParentAvailablePanel {
 		this.username = username;
 		nameLabel.setText(username);
 
-		ImageIcon icon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(username).getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+		ImageIcon icon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar(username).getScaledInstance(100, 100, Image.SCALE_SMOOTH));
 		imageLabel.setIcon(icon);
 	}
 

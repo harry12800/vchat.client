@@ -49,17 +49,20 @@ public class TimeUtil {
 			if (detail) {
 				ret = "昨天 " + daySimpleDateFormat.format(new Date(timestamp));
 			} else {
-				ret = "昨天"/* + daySimpleDateFormat.format(new Date(timestamp))*/;
+				ret = "昨天"/* + daySimpleDateFormat.format(new Date(timestamp)) */;
 			}
 		} else if (sameYear && diff < 8) {
 			if (detail) {
-				ret = "星期" + getWeekDay(calendar.get(Calendar.DAY_OF_WEEK)) + " " + daySimpleDateFormat.format(new Date(timestamp));
+				ret = "星期" + getWeekDay(calendar.get(Calendar.DAY_OF_WEEK)) + " "
+						+ daySimpleDateFormat.format(new Date(timestamp));
 			} else {
-				ret = "星期" + getWeekDay(calendar.get(Calendar.DAY_OF_WEEK))/* + " " + daySimpleDateFormat.format(new Date(timestamp))*/;
+				ret = "星期" + getWeekDay(calendar
+						.get(Calendar.DAY_OF_WEEK))/* + " " + daySimpleDateFormat.format(new Date(timestamp)) */;
 			}
 		} else if (sameYear && diff < 366) {
 			if (detail) {
-				ret = monthSimpleDateFormat.format(new Date(timestamp)) + " " + daySimpleDateFormat.format(new Date(timestamp));
+				ret = monthSimpleDateFormat.format(new Date(timestamp)) + " "
+						+ daySimpleDateFormat.format(new Date(timestamp));
 			} else {
 				ret = monthSimpleDateFormat.format(new Date(timestamp));
 			}

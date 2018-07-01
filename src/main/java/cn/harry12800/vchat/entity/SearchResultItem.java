@@ -1,8 +1,7 @@
 package cn.harry12800.vchat.entity;
 
 /**
- * 搜索结果条目
- * Created by harry12800 on 24/03/2017.
+ * 搜索结果条目 Created by harry12800 on 24/03/2017.
  */
 
 public class SearchResultItem implements Comparable<SearchResultItem> {
@@ -46,11 +45,7 @@ public class SearchResultItem implements Comparable<SearchResultItem> {
 
 	@Override
 	public String toString() {
-		return "SearchResultItem{" +
-				"id='" + id + '\'' +
-				", name='" + name + '\'' +
-				", type='" + type + '\'' +
-				'}';
+		return "SearchResultItem{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", type='" + type + '\'' + '}';
 	}
 
 	@Override

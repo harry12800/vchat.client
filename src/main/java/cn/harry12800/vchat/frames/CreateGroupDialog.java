@@ -1,21 +1,34 @@
 package cn.harry12800.vchat.frames;
 
-import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.*;
-import cn.harry12800.vchat.db.model.ContactsUser;
-import cn.harry12800.vchat.db.service.ContactsUserService;
-import cn.harry12800.vchat.entity.SelectUserData;
-import cn.harry12800.vchat.panels.SelectUserPanel;
-import cn.harry12800.vchat.utils.FontUtil;
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
+import static cn.harry12800.vchat.app.Launcher.roomService;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.harry12800.vchat.app.Launcher.roomService;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.RCButton;
+import cn.harry12800.vchat.components.RCTextField;
+import cn.harry12800.vchat.db.model.ContactsUser;
+import cn.harry12800.vchat.db.service.ContactsUserService;
+import cn.harry12800.vchat.entity.SelectUserData;
+import cn.harry12800.vchat.panels.SelectUserPanel;
+import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 07/06/2017.
@@ -52,10 +65,10 @@ public class CreateGroupDialog extends JDialog {
 	private void initData() {
 		List<ContactsUser> contactsUsers = contactsUserService.findAll();
 		for (ContactsUser con : contactsUsers) {
-			/*if (con.getUsername().equals("admin") || con.getUsername().equals("appStoreTest"))
-			{
-			    continue;
-			}*/
+			/*
+			 * if (con.getUsername().equals("admin") ||
+			 * con.getUsername().equals("appStoreTest")) { continue; }
+			 */
 			userList.add(new SelectUserData(con.getUsername(), false));
 		}
 
@@ -74,13 +87,11 @@ public class CreateGroupDialog extends JDialog {
 
 		getRootPane().setBorder(new LineBorder(Colors.DIALOG_BORDER));
 
-		/*if (OSUtil.getOsType() != OSUtil.Mac_OS)
-		{
-		    // 边框阴影，但是会导致字体失真
-		    AWTUtilities.setWindowOpaque(this, false);
-		    //getRootPane().setOpaque(false);
-		    getRootPane().setBorder(ShadowBorder.newInstance());
-		}*/
+		/*
+		 * if (OSUtil.getOsType() != OSUtil.Mac_OS) { // 边框阴影，但是会导致字体失真
+		 * AWTUtilities.setWindowOpaque(this, false); //getRootPane().setOpaque(false);
+		 * getRootPane().setBorder(ShadowBorder.newInstance()); }
+		 */
 
 		// 输入面板
 		editorPanel = new JPanel();

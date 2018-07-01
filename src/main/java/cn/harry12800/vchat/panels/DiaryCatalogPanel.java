@@ -20,6 +20,7 @@ import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -36,10 +37,11 @@ import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.model.diary.AricleNode;
-import cn.harry12800.vchat.model.diary.Aritcle;
 import cn.harry12800.vchat.model.diary.CategoryNode;
+import cn.harry12800.vchat.model.diary.Diary;
 import cn.harry12800.vchat.model.diary.MyJTreeTransferHandler;
 import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 import cn.harry12800.vchat.model.diary.MyTreeUI;
@@ -47,6 +49,7 @@ import cn.harry12800.vchat.model.diary.TreeNodeRenderer;
 
 /**
  * 日志的目录面板
+ * 
  * @author Yuexin
  * 
  */
@@ -80,11 +83,11 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public void selectDiary(File f) {
 		if (f.isFile()) {
-			Aritcle a;
+			Diary a;
 			try {
-				a = JsonUtil.string2Json(f, Aritcle.class);
-				DiaryPanel.getContext().areaTextPanel.setText(a.content);
-				DiaryPanel.getContext().searchInputText.setText(a.title);
+				a = JsonUtil.string2Json(f, Diary.class);
+				DiaryPanel.getContext().areaTextPanel.setText(a.getContent());
+				DiaryPanel.getContext().searchInputText.setText(a.getTitle());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -104,7 +107,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 			String clazz = System.getProperty("sun.java.command");
 			System.err.println("sun.java.command: " + clazz);
 			File file = new File(clazz);
-			//			MachineUtils.printSystemProperties();
+			// MachineUtils.printSystemProperties();
 			if (file.exists()) {
 				File file2 = new File(file.getAbsolutePath());
 				File parentFile = file2.getParentFile();
@@ -116,7 +119,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 			homePath = System.getProperty("user.dir");
 		}
 		dirPath = homePath + File.separator + "data" + File.separator + dirName;
-		if(!new File(dirPath).exists()){
+		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
 		}
 		root = new DefaultMutableTreeNode();
@@ -136,16 +139,16 @@ public class DiaryCatalogPanel extends JScrollPane {
 				root.add(node);
 				int i = 1;
 				for (File file2 : f.listFiles(filter)) {
-					Aritcle a = new Aritcle();
-					a.sort = i;
+					Diary a = new Diary();
+					a.setSort ( i);
 					i++;
 					AricleNode newChild = new AricleNode(file2, a);
 					node.add(newChild);
 				}
 			} else {
 				x++;
-				Aritcle a = new Aritcle();
-				a.sort = x;
+				Diary a = new Diary();
+				a.setSort(x);
 				AricleNode node = new AricleNode(f, a);
 				root.add(node);
 			}
@@ -161,15 +164,14 @@ public class DiaryCatalogPanel extends JScrollPane {
 		catalogTree.setUI(new MyTreeUI());
 		catalogTree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent evt) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) catalogTree
-						.getLastSelectedPathComponent(); // 返回最后选中的结点
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) catalogTree.getLastSelectedPathComponent(); // 返回最后选中的结点
 				if (node instanceof AricleNode) {
 					RightPanel.getContext().showPanel(RightPanel.DIARY);
 					TitlePanel.getContext().updateAppTitle("日记");
 					selectDiary(((AricleNode) node).getFile());
 					setCurrTree(catalogTree);
 					setCurrNode(node);
-					//					setCurrFile(((AricleNode) node).getFile());
+					// setCurrFile(((AricleNode) node).getFile());
 				}
 				if (node instanceof CategoryNode) {
 
@@ -193,17 +195,22 @@ public class DiaryCatalogPanel extends JScrollPane {
 						final Object object = path.getLastPathComponent();
 						if (object instanceof CategoryNode) {
 							JPopupMenu pm = new JPopupMenu();
-							pm.setBackground(Colors.DARK);
+							pm.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
+							pm.setBackground(Colors.FONT_WHITE);
 							pm.setBorder(LIGHT_GRAY_BORDER);
-							pm.setBorderPainted(false);
+//							pm.setBorderPainted(false);
 							JMenuItem mit3 = new JMenuItem("删除分组");
+							mit3.setUI(new RCMenuItemUI());
 							mit3.setFont(BASIC_FONT);
 							mit3.setBackground(Colors.DARK);
 							JMenuItem mit1 = new JMenuItem("更换名称");
+							mit1.setUI(new RCMenuItemUI());
 							mit1.setOpaque(false);
 							mit1.setFont(BASIC_FONT);
 							JMenuItem mit2 = new JMenuItem("添加文章");
 							JMenuItem mit0 = new JMenuItem("打开目录");
+							mit0.setUI(new RCMenuItemUI());
+							mit2.setUI(new RCMenuItemUI());
 							mit2.setOpaque(false);
 							mit0.setOpaque(false);
 							mit2.setFont(BASIC_FONT);
@@ -222,8 +229,8 @@ public class DiaryCatalogPanel extends JScrollPane {
 								public void actionPerformed(ActionEvent e) {
 									((CategoryNode) (object)).removeFromParent();
 									FileUtils.deleteDir(((CategoryNode) (object)).getFile());
-									//									catalogTree.setUI(new MyTreeUI());
-									//									catalogTree.revalidate();
+									// catalogTree.setUI(new MyTreeUI());
+									// catalogTree.revalidate();
 									model.nodeStructureChanged(root);
 								}
 							});
@@ -231,11 +238,13 @@ public class DiaryCatalogPanel extends JScrollPane {
 							mit1.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									File dirFile = ((CategoryNode) (object)).getFile();
-									new InputMessageDialog(MainFrame.getContext(),
-											"目录更名", dirFile.getName(), new Callback() {
+									new InputMessageDialog(MainFrame.getContext(), "目录更名", dirFile.getName(),
+											new Callback() {
 												public void callback(String string) {
-													String path = dirFile.getParentFile().getAbsolutePath() + File.separator + string;
+													String path = dirFile.getParentFile().getAbsolutePath()
+															+ File.separator + string;
 													dirFile.renameTo(new File(path));
+													((CategoryNode) (object)).setFile(new File(path));
 												}
 											});
 									model.nodeStructureChanged((CategoryNode) (object));
@@ -245,8 +254,9 @@ public class DiaryCatalogPanel extends JScrollPane {
 								public void actionPerformed(ActionEvent e) {
 									CategoryNode node = (CategoryNode) object;
 									File f = createAricle(node.getFile());
-									Aritcle aritcle = new Aritcle();
-									aritcle.sort = node.getFile().listFiles().length;
+									Diary aritcle = new Diary();
+									aritcle.setSort(node.getFile().listFiles().length);
+									JsonUtil.saveObj(aritcle, f.getAbsolutePath());
 									AricleNode newChild = new AricleNode(f, aritcle);
 
 									((CategoryNode) (object)).insert(newChild, 0);
@@ -269,9 +279,9 @@ public class DiaryCatalogPanel extends JScrollPane {
 							JMenuItem mit0 = new JMenuItem("更换名称");
 							JMenuItem mit1 = new JMenuItem("打开文件");
 							JMenuItem mit2 = new JMenuItem("删除文章");
-							//							mit0.setOpaque(false);
+							// mit0.setOpaque(false);
 							mit0.setFont(BASIC_FONT);
-							//							mit0.setFont(BASIC_FONT);
+							// mit0.setFont(BASIC_FONT);
 							mit2.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									TreeNode parent2 = ((AricleNode) (object)).getParent();
@@ -293,10 +303,11 @@ public class DiaryCatalogPanel extends JScrollPane {
 							mit0.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									final File aritcleFile = ((AricleNode) (object)).getFile();
-									new InputMessageDialog(MainFrame.getContext(),
-											"文章更名", aritcleFile.getName(), new Callback() {
+									new InputMessageDialog(MainFrame.getContext(), "文章更名", aritcleFile.getName(),
+											new Callback() {
 												public void callback(String string) {
-													String path = aritcleFile.getParentFile().getAbsolutePath() + File.separator + string + DiaryPanel.diarySuffix;
+													String path = aritcleFile.getParentFile().getAbsolutePath()
+															+ File.separator + string + DiaryPanel.diarySuffix;
 													aritcleFile.renameTo(new File(path));
 												}
 											});
@@ -318,7 +329,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 			public void mouseMoved(MouseEvent arg0) {
 				int x = (int) arg0.getPoint().getX();
 				int y = (int) arg0.getPoint().getY();
-				//                TreePath path = catalogTree.getPathForLocation(x, y);
+				// TreePath path = catalogTree.getPathForLocation(x, y);
 				catalogTree.getComponentAt(x, y).repaint();
 				TreeNodeRenderer.mouseRow = catalogTree.getRowForLocation(x, y);
 				catalogTree.repaint();
@@ -328,10 +339,10 @@ public class DiaryCatalogPanel extends JScrollPane {
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 		setViewportView(catalogTree);
 		getViewport().setOpaque(false);
-		//		jScrollPane.getViewport().setBackground( UI.backColor);
-		//		jScrollPane.setBackground(UI.backColor);
+		// jScrollPane.getViewport().setBackground( UI.backColor);
+		// jScrollPane.setBackground(UI.backColor);
 		getVerticalScrollBar().setBackground(UI.backColor);
-		//		jScrollPane.getVerticalScrollBar().setVisible(false);
+		// jScrollPane.getVerticalScrollBar().setVisible(false);
 		getVerticalScrollBar().setUI(new MyScrollBarUI());
 		// 屏蔽横向滚动条
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -355,7 +366,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 			model = new DefaultTreeModel(root);
 			catalogTree.setModel(model);
 		}
-		//		catalogTree.putClientProperty("JTree.lineStyle", "None");
+		// catalogTree.putClientProperty("JTree.lineStyle", "None");
 		catalogTree.setUI(new MyTreeUI());
 	}
 

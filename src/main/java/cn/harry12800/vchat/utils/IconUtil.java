@@ -1,10 +1,11 @@
 package cn.harry12800.vchat.utils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.ImageIcon;
 
 /**
  * Created by harry12800 on 2017/6/7.

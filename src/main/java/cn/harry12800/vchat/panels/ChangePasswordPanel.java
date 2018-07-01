@@ -1,15 +1,25 @@
 package cn.harry12800.vchat.panels;
 
-import cn.harry12800.vchat.components.*;
-import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.utils.FontUtil;
-import cn.harry12800.vchat.utils.IconUtil;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.RCButton;
+import cn.harry12800.vchat.components.RCPasswordField;
+import cn.harry12800.vchat.components.VerticalFlowLayout;
+import cn.harry12800.vchat.frames.MainFrame;
+import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * 修改头像面板
@@ -54,7 +64,7 @@ public class ChangePasswordPanel extends JPanel {
 
 		statusLabel = new JLabel();
 		statusLabel.setForeground(Colors.FONT_GRAY_DARKER);
-		//statusLabel.setVisible(false);
+		// statusLabel.setVisible(false);
 
 		contentPanel = new JPanel();
 	}
@@ -145,7 +155,8 @@ public class ChangePasswordPanel extends JPanel {
 
 	public void showErrorMessage(String message) {
 		statusLabel.setText(message);
-		statusLabel.setIcon(new ImageIcon(IconUtil.getIcon(this, "/image/fail.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+		statusLabel.setIcon(new ImageIcon(
+				IconUtil.getIcon(this, "/image/fail.png").getImage().getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 		statusLabel.setVisible(true);
 	}
 

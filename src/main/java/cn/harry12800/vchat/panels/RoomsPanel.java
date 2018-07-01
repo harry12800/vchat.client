@@ -25,8 +25,7 @@ import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.RoomItem;
 
 /**
- * 左侧聊天列表
- * Created by harry12800 on 17-5-30.
+ * 左侧聊天列表 Created by harry12800 on 17-5-30.
  */
 @SuppressWarnings("serial")
 public class RoomsPanel extends ParentAvailablePanel {
@@ -53,7 +52,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 		setLayout(new GridBagLayout());
 		roomItemsListView.setContentPanelBackground(Colors.DARK);
 		add(roomItemsListView, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
-		//add(scrollPane, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
+		// add(scrollPane, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
 	}
 
 	public void initData(ShowAllUserResponse userResponse) {
@@ -89,23 +88,23 @@ public class RoomsPanel extends ParentAvailablePanel {
 			Launcher.client.sendRequest(req);
 		} catch (Exception e) {
 			e.printStackTrace();
-			//			 MainFrame.("无法连接服务器");
+			// MainFrame.("无法连接服务器");
 		}
 
 		// TODO: 从数据库中加载房间列表
-		//		Room harry12800 = roomService.findRelativeRoomIdByUserId("song");
-		//		List<Room> rooms = roomService.findAll();
-		//		for (Room room : rooms) {
-		//			RoomItem item = new RoomItem();
-		//			item.setRoomId(room.getRoomId());
-		//			item.setTimestamp(room.getLastChatAt());
-		//			item.setTitle(room.getName());
-		//			item.setType(room.getType());
-		//			item.setLastMessage(room.getLastMessage());
-		//			item.setUnreadCount(room.getUnreadCount());
+		// Room harry12800 = roomService.findRelativeRoomIdByUserId("song");
+		// List<Room> rooms = roomService.findAll();
+		// for (Room room : rooms) {
+		// RoomItem item = new RoomItem();
+		// item.setRoomId(room.getRoomId());
+		// item.setTimestamp(room.getLastChatAt());
+		// item.setTitle(room.getName());
+		// item.setType(room.getType());
+		// item.setLastMessage(room.getLastMessage());
+		// item.setUnreadCount(room.getUnreadCount());
 		//
-		//			roomItemList.add(item);
-		//		}
+		// roomItemList.add(item);
+		// }
 	}
 
 	/**
@@ -117,9 +116,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 	}
 
 	/**
-	 * 更新房间列表
-	 * 当这条消息所在的房间在当前房间列表中排在第一位时，此时房间列表项目顺序不变，无需重新排列
-	 * 因此无需更新整个房间列表，只需更新第一个项目即可
+	 * 更新房间列表 当这条消息所在的房间在当前房间列表中排在第一位时，此时房间列表项目顺序不变，无需重新排列 因此无需更新整个房间列表，只需更新第一个项目即可
 	 *
 	 * @param msgRoomId
 	 */
@@ -144,6 +141,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 
 	/**
 	 * 更新指定位置的房间项目
+	 * 
 	 * @param roomId
 	 */
 	public void updateRoomItem(String roomId) {
@@ -169,6 +167,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 
 	/**
 	 * 激活指定的房间项目
+	 * 
 	 * @param position
 	 */
 	public void activeItem(int position) {
@@ -178,6 +177,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 
 	/**
 	 * 设置每个房间项目的背影色
+	 * 
 	 * @param holder
 	 * @param color
 	 */

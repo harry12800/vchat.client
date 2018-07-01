@@ -27,7 +27,7 @@ public abstract class BasicDao {
 	}
 
 	public List findAll() {
-		//return session.selectList(className + ".findAll");
+		// return session.selectList(className + ".findAll");
 		return _findAll(0);
 	}
 

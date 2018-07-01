@@ -1,20 +1,22 @@
 package cn.harry12800.vchat.adapter;
 
-import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.db.model.CurrentUser;
-import cn.harry12800.vchat.db.service.ContactsUserService;
-import cn.harry12800.vchat.db.service.CurrentUserService;
-import cn.harry12800.vchat.components.UserInfoPopup;
-import cn.harry12800.vchat.listener.AbstractMouseListener;
-import cn.harry12800.vchat.utils.AvatarUtil;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+
+import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.UserInfoPopup;
+import cn.harry12800.vchat.db.model.CurrentUser;
+import cn.harry12800.vchat.db.service.ContactsUserService;
+import cn.harry12800.vchat.db.service.CurrentUserService;
+import cn.harry12800.vchat.listener.AbstractMouseListener;
+import cn.harry12800.vchat.utils.AvatarUtil;
 
 /**
  * Created by harry12800 on 07/06/2017.
@@ -58,8 +60,8 @@ public class RoomMembersAdapter extends BaseAdapter<RoomMembersItemViewHolder> {
 			viewHolder.addMouseListener(new AbstractMouseListener() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					//System.out.println("添加/刪除用戶");
-					//selectAndAddRoomMember();
+					// System.out.println("添加/刪除用戶");
+					// selectAndAddRoomMember();
 					if (addMemberButtonMouseListener != null) {
 						addMemberButtonMouseListener.mouseClicked(e);
 					}
