@@ -3,11 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>vchat_client</groupId>
-	<artifactId>vchat_client</artifactId>
-	<packaging>pom</packaging>
+	<groupId>cn.harry12800</groupId>
+	<artifactId>vchat-client</artifactId>
 	<version>1.0</version>
-
+	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -111,10 +110,8 @@
 			<groupId>cn.harry12800</groupId>
 			<artifactId>LnkTool.core</artifactId>
 			<version>1.0</version>
-
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -128,8 +125,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<modules>
-		<module>CheckUpdate</module>
-		<module>ImageViewer</module>
-	</modules>
 </project>
