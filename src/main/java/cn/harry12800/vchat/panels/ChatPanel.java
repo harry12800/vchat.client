@@ -775,8 +775,8 @@ public class ChatPanel extends ParentAvailablePanel {
 	private void sendFileMessage(String path) {
 		// TODO: 通知服务器要开始上传文件
 
-		// TODO: 收到服务器响应，调用下面方法开始上传文件
 		notifyStartUploadFile(path, randomMessageId());
+		// TODO: 收到服务器响应，调用下面方法开始上传文件
 		// WebSocketClient.getContext().sendFileMessage(roomId, path);
 	}
 
@@ -980,7 +980,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 	private void sendDataPart(int partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
 		// TODO： 发送第 partIndex 个分块到服务器
-		// send(dataParts(partIndex))
+		 send(dataParts.get(partIndex));
 
 		new Thread(new Runnable() {
 			@Override
@@ -996,6 +996,10 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		}).start();
 
+	}
+
+	private void send(byte[] bs) {
+		
 	}
 
 	/**
@@ -1256,16 +1260,17 @@ public class ChatPanel extends ParentAvailablePanel {
 		}
 
 		messageService.insertOrUpdate(message);
-		room.setLastMessage(message.getMessageContent());
-		room.setUnreadCount(room.getUnreadCount() + 1);
-		roomService.insertOrUpdate(room);
-		MessageItem item = new MessageItem(message, room.getRoomId());
+		Room friendRoom = roomService.findById(msg.getFromId() + "");
+		friendRoom.setLastMessage(message.getMessageContent());
+		friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
+		roomService.insertOrUpdate(friendRoom);
+		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
-		if (currentTab.equals(ListPanel.CHAT) && room.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+		if (  friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			System.out.println(currentUser);
 			addMessageItemToEnd(item);
 		}
-		RoomsPanel.getContext().updateRoomItem(room.getRoomId());
+		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
 	}
 
 	public void showReceiveMsgFail(String tipContent) {
