@@ -2,8 +2,10 @@ package cn.harry12800.vchat.frames;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
@@ -17,8 +19,13 @@ import java.io.InputStream;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
+import com.melloware.jintellitype.JIntellitype;
+
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.j2se.dialog.MessageDialog;
+import cn.harry12800.j2se.popup.ListItem;
+import cn.harry12800.j2se.popup.PopupFrame;
+import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.panels.LeftPanel;
@@ -123,11 +130,149 @@ public class MainFrame extends JFrame {
 			PopupMenu menu = new PopupMenu();
 			trayIcon.setPopupMenu(menu);
 			systemTray.add(trayIcon);
+			trayIcon.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (e.getButton() == 1) {
+						MainFrame.getContext().setVisible(true);
+					}
+					if (e.getButton() == 3) {
+						Point point = e.getPoint();
+						showPopup(point);
+					}
+				}
+			});
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
 	}
+	static PopupFrame popupFrame = null;
+	protected synchronized static void showPopup(Point point) {
+		if (popupFrame == null) {
+			popupFrame = new PopupFrame();
+			ListItem font = new ListItem("选择字体", 188, 25);
+			PopupFrame fontPop = new PopupFrame();
+			font.addPop(fontPop);
+			ListItem font1 = new ListItem("微软雅黑", 188, 25);
+			ListItem font2 = new ListItem("萝莉体", 188, 25);
+			ListItem font3 = new ListItem("华文行楷", 188, 25);
+			ListItem font4 = new ListItem("汉仪舒同体简", 188, 25);
+			ListItem font5 = new ListItem("汉仪中圆繁", 188, 25);
+			ListItem font6 = new ListItem("汉仪小隶书简", 188, 25);
+			ListItem showItem = new ListItem("打开主面板", 188, 25);
+			fontPop.addItem(font1);
+			fontPop.addItem(font2);
+			fontPop.addItem(font3);
+			fontPop.addItem(font4);
+			fontPop.addItem(font5);
+			fontPop.addItem(font6);
+			font1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					J2seFont.setDefinedFont(J2seFont.微软雅黑);
+					MainFrame.getContext().repaint();
+				}
+			});
+			font2.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					J2seFont.setDefinedFont(J2seFont.萝莉体);
+					MainFrame.getContext().repaint();
+				}
+			});
+			font3.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					J2seFont.setDefinedFont(J2seFont.华文行楷);
+					MainFrame.getContext().repaint();
+				}
+			});
+			font4.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					J2seFont.setDefinedFont(J2seFont.汉仪舒同体简);
+					MainFrame.getContext().repaint();
+				}
+			});
+			font5.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					J2seFont.setDefinedFont(J2seFont.汉仪中圆繁);
+					MainFrame.getContext().repaint();
+				}
+			});
+			font6.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					J2seFont.setDefinedFont(J2seFont.汉仪小隶书简);
+					MainFrame.getContext().repaint();
+				}
+			});
+			ListItem styleItem = new ListItem("选择风格", 188, 25);
+			ListItem ssItem = new ListItem("默认风格", 188, 25);
+			ListItem blueItem = new ListItem("蓝色风格", 188, 25);
+			ListItem pinkItem = new ListItem("红色风格", 188, 25);
+			PopupFrame stylePop = new PopupFrame();
+			styleItem.addPop(stylePop);
+			stylePop.addItem(ssItem);
+			stylePop.addItem(blueItem);
+			stylePop.addItem(pinkItem);
 
+			ListItem updateItem = new ListItem("版本更新", 188, 25);
+			ListItem exitItem = new ListItem("退出", 188, 25);
+
+			showItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					MainFrame.getContext().setVisible(true);
+				}
+			});
+			exitItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					JIntellitype.getInstance().cleanUp();
+					System.exit(1);
+				}
+			});
+			blueItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					J2seColor.setBackgroudColor(Color.BLUE);
+					MainFrame.getContext().repaint();
+				}
+			});
+			ssItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					J2seColor.setBackgroudColor(new Color(153, 133, 245));
+					MainFrame.getContext().repaint();
+				}
+			});
+			pinkItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					J2seColor.setBackgroudColor(Color.PINK);
+					MainFrame.getContext().repaint();
+				}
+			});
+			updateItem.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+//					MainFrame.getContext().updateSystem();
+				}
+			});
+			popupFrame.addItem(font);
+			popupFrame.addItem(styleItem);
+			popupFrame.addSeparator();
+			popupFrame.addItem(showItem);
+			popupFrame.addItem(updateItem);
+			popupFrame.addSeparator();
+			popupFrame.addItem(exitItem);
+			popupFrame.show(point);
+		} else {
+			popupFrame.show(point);
+		}
+	}
 	/**
 	 * 清除剪切板缓存文件
 	 */
