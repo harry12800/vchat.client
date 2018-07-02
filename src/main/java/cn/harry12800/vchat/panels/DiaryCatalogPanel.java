@@ -273,12 +273,15 @@ public class DiaryCatalogPanel extends JScrollPane {
 						}
 						if (object instanceof AricleNode) {
 							JPopupMenu pm = new JPopupMenu();
-							pm.setBackground(Colors.DARK);
+							pm.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
+							pm.setBackground(Colors.FONT_WHITE);
 							pm.setBorder(LIGHT_GRAY_BORDER);
-							pm.setBorderPainted(false);
 							JMenuItem mit0 = new JMenuItem("更换名称");
 							JMenuItem mit1 = new JMenuItem("打开文件");
 							JMenuItem mit2 = new JMenuItem("删除文章");
+							mit0.setUI(new RCMenuItemUI());
+							mit1.setUI(new RCMenuItemUI());
+							mit2.setUI(new RCMenuItemUI());
 							// mit0.setOpaque(false);
 							mit0.setFont(BASIC_FONT);
 							// mit0.setFont(BASIC_FONT);

@@ -111,6 +111,14 @@
 			<artifactId>LnkTool.core</artifactId>
 			<version>1.0</version>
 		</dependency>
+		  <dependency>
+            <groupId>com.netease.npl</groupId>
+            <artifactId>npl</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/android.ninepatch.jar
+        </systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
