@@ -31,9 +31,9 @@ public class AricleNode extends DefaultMutableTreeNode {
 		setFile(file, aritcle);
 		builder = AricleItemPanel.createBuilder(this, UI.backColor);
 		builder.image = ImageUtils.getByName("image/arrow_left.png");
-		plainButton = new AricleItemPanel( 250, 30, builder);
+		plainButton = new AricleItemPanel(250, 30, builder);
 		this.date = this.aritcle.getUpdateTime();
-		if(this.date == null) {
+		if (this.date == null) {
 			date = new Date();
 		}
 		plainButton.updatedateL.setText(RelativeDateFormat.format(date));

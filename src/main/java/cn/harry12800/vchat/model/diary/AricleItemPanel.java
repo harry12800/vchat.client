@@ -73,7 +73,7 @@ public class AricleItemPanel extends JPanel {
 	 * @param hasCheck
 	 * @param checked
 	 */
-	public AricleItemPanel( int w, int h, final Builder builder) {
+	public AricleItemPanel(int w, int h, final Builder builder) {
 		this.w = w;
 		this.h = h;
 		this.builder = builder;

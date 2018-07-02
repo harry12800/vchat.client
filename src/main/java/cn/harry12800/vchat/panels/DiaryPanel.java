@@ -43,6 +43,7 @@ import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
+import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.model.diary.AreaTextPanel;
@@ -299,6 +300,8 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	private void initBtnListener() {
 		synchronousDiary.addMouseListener(new ClickAction(synchronousDiary) {
 			public void leftClick(MouseEvent e) {
+				if (!Launcher.currentUser.getUsername().equals("周国柱"))
+					return;
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

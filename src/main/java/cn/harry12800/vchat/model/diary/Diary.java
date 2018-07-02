@@ -50,7 +50,7 @@ public class Diary { // extends DataEntity<Diary> {
 	 */
 	@DbField(value = "null", type = 1, sort = 1, title = "null", exp = true, canAdd = true, canEdit = false, canSearch = false, dbFieldName = "hint")
 	private Integer hint = 1;
-	
+
 	/**
 	 * 
 	 */
@@ -195,5 +195,5 @@ public class Diary { // extends DataEntity<Diary> {
 		return "Diary [id=" + id + ", catalogId=" + catalogId + ", title=" + title + ", content=" + content + ", cipher=" + cipher + ", hint=" + hint + ", html=" + html + ", createTime=" + createTime
 				+ ", updateTime=" + updateTime + ", sort=" + sort + "]";
 	}
-	 
+
 }

@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.apache.ibatis.session.SqlSession;
-import org.json.JSONObject;
 
 import cn.harry12800.common.core.model.Request;
 import cn.harry12800.common.module.ModuleId;
@@ -40,7 +39,6 @@ import cn.harry12800.vchat.utils.DbUtils;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
 import cn.harry12800.vchat.utils.OSUtil;
-import cn.harry12800.vchat.utils.PasswordUtil;
 
 /**
  * Created by harry12800 on 08/06/2017.
@@ -301,33 +299,33 @@ public class LoginFrame extends JFrame {
 		}
 	}
 
-//	private void processLoginResult(JSONObject ret) {
-//		if (ret.get("status").equals("success")) {
-//			JSONObject data = ret.getJSONObject("data");
-//			String authToken = data.getString("authToken");
-//			String userId = data.getString("userId");
-//
-//			CurrentUser currentUser = new CurrentUser();
-//			currentUser.setUserId(userId);
-//			currentUser.setAuthToken(authToken);
-//			currentUser.setRawPassword(new String(passwordField.getPassword()));
-//			currentUser.setPassword(PasswordUtil.encryptPassword(currentUser.getRawPassword()));
-//			currentUser.setUsername(usernameField.getText());
-//			currentUserService.insertOrUpdate(currentUser);
-//
-//			this.dispose();
-//
-//			MainFrame frame = new MainFrame();
-//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			frame.setVisible(true);
-//		} else {
-//			showMessage("用户不存在或密码错误");
-//			loginButton.setEnabled(true);
-//			usernameField.setEditable(true);
-//			passwordField.setEditable(true);
-//		}
-//
-//	}
+	//	private void processLoginResult(JSONObject ret) {
+	//		if (ret.get("status").equals("success")) {
+	//			JSONObject data = ret.getJSONObject("data");
+	//			String authToken = data.getString("authToken");
+	//			String userId = data.getString("userId");
+	//
+	//			CurrentUser currentUser = new CurrentUser();
+	//			currentUser.setUserId(userId);
+	//			currentUser.setAuthToken(authToken);
+	//			currentUser.setRawPassword(new String(passwordField.getPassword()));
+	//			currentUser.setPassword(PasswordUtil.encryptPassword(currentUser.getRawPassword()));
+	//			currentUser.setUsername(usernameField.getText());
+	//			currentUserService.insertOrUpdate(currentUser);
+	//
+	//			this.dispose();
+	//
+	//			MainFrame frame = new MainFrame();
+	//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//			frame.setVisible(true);
+	//		} else {
+	//			showMessage("用户不存在或密码错误");
+	//			loginButton.setEnabled(true);
+	//			usernameField.setEditable(true);
+	//			passwordField.setEditable(true);
+	//		}
+	//
+	//	}
 
 	private void showMessage(String message) {
 		if (!statusLabel.isVisible()) {

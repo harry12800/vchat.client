@@ -140,7 +140,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 				int i = 1;
 				for (File file2 : f.listFiles(filter)) {
 					Diary a = new Diary();
-					a.setSort ( i);
+					a.setSort(i);
 					i++;
 					AricleNode newChild = new AricleNode(file2, a);
 					node.add(newChild);
@@ -198,7 +198,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 							pm.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
 							pm.setBackground(Colors.FONT_WHITE);
 							pm.setBorder(LIGHT_GRAY_BORDER);
-//							pm.setBorderPainted(false);
+							//							pm.setBorderPainted(false);
 							JMenuItem mit3 = new JMenuItem("删除分组");
 							mit3.setUI(new RCMenuItemUI());
 							mit3.setFont(BASIC_FONT);

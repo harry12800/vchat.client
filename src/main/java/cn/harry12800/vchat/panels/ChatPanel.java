@@ -16,9 +16,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +37,6 @@ import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import cn.harry12800.common.core.model.Request;
@@ -86,7 +82,6 @@ import cn.harry12800.vchat.utils.ClipboardUtil;
 import cn.harry12800.vchat.utils.FileCache;
 import cn.harry12800.vchat.utils.HttpUtil;
 import cn.harry12800.vchat.utils.MimeTypeUtil;
-import cn.harry12800.vchat.utils.UnicodeUtil;
 
 /**
  * 右侧聊天面板
@@ -677,7 +672,7 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		}
 
-//		content = StringEscapeUtils.escapeJava(content);
+		//		content = StringEscapeUtils.escapeJava(content);
 
 		// TODO: 发送消息到服务器
 		// 发送
@@ -1240,8 +1235,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
 		message.setRoomId(msg.getFromId() + "");
-		String string = new String(msg.getData() );
-//		string = StringEscapeUtils.unescapeJava(string);
+		String string = new String(msg.getData());
+		//		string = StringEscapeUtils.unescapeJava(string);
 		System.out.println(string);
 		message.setMessageContent(string);
 		message.setSenderId(msg.getFromId() + "");
@@ -1259,14 +1254,14 @@ public class ChatPanel extends ParentAvailablePanel {
 				break;
 			}
 		}
-		
+
 		messageService.insertOrUpdate(message);
 		room.setLastMessage(message.getMessageContent());
-		room.setUnreadCount(room.getUnreadCount()+1);
+		room.setUnreadCount(room.getUnreadCount() + 1);
 		roomService.insertOrUpdate(room);
 		MessageItem item = new MessageItem(message, room.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
-		if(currentTab.equals(ListPanel.CHAT)&&room.getType().equals("d")&&room.getName().equals(message.getSenderUsername())) {
+		if (currentTab.equals(ListPanel.CHAT) && room.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			System.out.println(currentUser);
 			addMessageItemToEnd(item);
 		}
