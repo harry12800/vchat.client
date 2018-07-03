@@ -19,7 +19,6 @@ import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.service.ContactsUserService;
-import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.entity.ContactsItem;
 import cn.harry12800.vchat.utils.AvatarUtil;
 
@@ -34,7 +33,6 @@ public class ContactsPanel extends ParentAvailablePanel {
 	private List<ContactsItem> contactsItemList = new ArrayList<>();
 	private ContactsUserService contactsUserService = Launcher.contactsUserService;
 	Logger logger = Logger.getLogger(this.getClass());
-	private CurrentUserService currentUserService = Launcher.currentUserService;
 	private String currentUsername;
 
 	public ContactsPanel(JPanel parent) {
@@ -101,7 +99,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 				}
 
 				// 自己的头像每次启动都去获取
-				currentUsername = currentUserService.findAll().get(0).getUsername();
+				currentUsername =Launcher.currentUser.getUsername();
 				getUserAvatar(currentUsername, true);
 			}
 		}).start();
@@ -129,7 +127,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 
 		if (hotRefresh) {
 			AvatarUtil.refreshUserAvatarCache(username);
-			if (username.equals(currentUsername)) {
+			if (username.equals(Launcher.currentUser.getUsername())) {
 				MyInfoPanel.getContext().reloadAvatar();
 			}
 		}

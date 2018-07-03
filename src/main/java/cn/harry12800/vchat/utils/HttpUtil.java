@@ -260,7 +260,7 @@ public class HttpUtil {
 
 		OkHttpClient.Builder builder = new OkHttpClient.Builder()
 				// .addInterceptor(interceptor)
-				.sslSocketFactory(sslContext.getSocketFactory()).hostnameVerifier(DO_NOT_VERIFY)
+				.sslSocketFactory(sslContext.getSocketFactory(),xtm).hostnameVerifier(DO_NOT_VERIFY)
 				.connectTimeout(10000, TimeUnit.MILLISECONDS);
 
 		return builder;

@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.adapter.HeaderViewHolder;
 import cn.harry12800.vchat.adapter.ViewHolder;
+import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -113,7 +114,7 @@ public class RCListView extends JScrollPane {
 		this.setViewportView(contentPanel);
 		this.setBorder(null);
 		this.getVerticalScrollBar().setUnitIncrement(25);
-		this.getVerticalScrollBar().setUI(new ScrollUI());
+		this.getVerticalScrollBar().setUI(new MyScrollBarUI());
 	}
 
 	private void setListeners() {

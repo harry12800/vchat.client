@@ -545,7 +545,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	/**
 	 * 更新列表中的未读消息及消息总数
 	 */
-	private void updateTotalAndUnreadCount(int totalAdded, int unread) {
+	public void updateTotalAndUnreadCount(int totalAdded, int unread) {
 		if (unread < 0) {
 			System.out.println(unread);
 		}
@@ -1035,11 +1035,9 @@ public class ChatPanel extends ParentAvailablePanel {
 		int blockCount;
 		blockCount = (int) (size % partSize == 0 ? size / partSize : size / partSize + 1);
 		List<byte[]> dataParts = new ArrayList<>(blockCount);
-		try {
+		try (FileInputStream inputStream = new FileInputStream(file)){
 			byte[] buffer = new byte[partSize];
 			int len;
-			FileInputStream inputStream = new FileInputStream(file);
-
 			while ((len = inputStream.read(buffer)) > -1) {
 				byte[] dataPart = Arrays.copyOf(buffer, len);
 				dataParts.add(dataPart);
@@ -1235,7 +1233,6 @@ public class ChatPanel extends ParentAvailablePanel {
 	public void showReceiveMsg(MsgResponse msg) {
 		if (currentUser.getUserId().equals(msg.getFromId() + ""))
 			return;
-		String currentTab = ListPanel.getContext().getCurrentTab();
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
 		message.setRoomId(msg.getFromId() + "");
@@ -1266,8 +1263,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		roomService.insertOrUpdate(friendRoom);
 		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
-		if (  friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
-			System.out.println(currentUser);
+		if (friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			addMessageItemToEnd(item);
 		}
 		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());

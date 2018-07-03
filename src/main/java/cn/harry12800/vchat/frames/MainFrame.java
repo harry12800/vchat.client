@@ -16,8 +16,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.InputStream;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import com.melloware.jintellitype.JIntellitype;
 
@@ -27,7 +32,9 @@ import cn.harry12800.j2se.popup.ListItem;
 import cn.harry12800.j2se.popup.PopupFrame;
 import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.lnk.core.util.ImageUtils;
+import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -45,6 +52,7 @@ import sun.audio.AudioStream;
 public class MainFrame extends JFrame {
 	public static int DEFAULT_WIDTH = 900;
 	public static int DEFAULT_HEIGHT = 650;
+	public static Border LIGHT_GRAY_BORDER = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
 
 	public int currentWindowWidth = DEFAULT_WIDTH;
 	public int currentWindowHeight = DEFAULT_HEIGHT;
@@ -96,7 +104,7 @@ public class MainFrame extends JFrame {
 	 * 初始化系统托盘图标
 	 */
 	private void initTray() {
-		String tip = "Nickname：harry12800\r\nQQ:804151219\r\n开发者常用功能";
+		String tip = "账号："+Launcher.currentUser.getUsername()+"\r\nAuthor：harry12800\r\nQQ:804151219\r\n开发者常用功能";
 		SystemTray systemTray = SystemTray.getSystemTray();// 获取系统托盘
 		try {
 			if (OSUtil.getOsType() == OSUtil.Mac_OS) {
@@ -127,7 +135,7 @@ public class MainFrame extends JFrame {
 				}
 			});
 
-			PopupMenu menu = new PopupMenu();
+			JPopupMenu menu = new JPopupMenu();
 			trayIcon.setPopupMenu(menu);
 			systemTray.add(trayIcon);
 			trayIcon.addMouseListener(new MouseAdapter() {
@@ -138,13 +146,31 @@ public class MainFrame extends JFrame {
 					}
 					if (e.getButton() == 3) {
 						Point point = e.getPoint();
-						showPopup(point);
+						showPopup1(menu,trayIcon,point);
 					}
 				}
+
 			});
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void showPopup1(PopupMenu menu, TrayIcon trayIcon2, Point point) {
+		menu.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
+		menu.setBackground(Colors.FONT_WHITE);
+		menu.setBorder(LIGHT_GRAY_BORDER);
+		JMenuItem mit0 = new JMenuItem("打开主界面");
+		JMenuItem mit1 = new JMenuItem("版本更新");
+		JMenuItem mit2 = new JMenuItem("退出");
+		menu.add(mit0);
+		menu.add(mit1);
+		menu.addSeparator();
+		menu.add(mit2);
+		mit0.setUI(new RCMenuItemUI());
+		mit1.setUI(new RCMenuItemUI());
+		mit2.setUI(new RCMenuItemUI());
+		pm.setVisible(true);
 	}
 	static PopupFrame popupFrame = null;
 	protected synchronized static void showPopup(Point point) {
