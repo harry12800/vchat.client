@@ -38,10 +38,10 @@ import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
+import cn.harry12800.vchat.entity.Diary;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.model.diary.AricleNode;
 import cn.harry12800.vchat.model.diary.CategoryNode;
-import cn.harry12800.vchat.model.diary.Diary;
 import cn.harry12800.vchat.model.diary.MyJTreeTransferHandler;
 import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 import cn.harry12800.vchat.model.diary.MyTreeUI;
@@ -363,14 +363,14 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public void addNode(File file) {
 		CategoryNode node = new CategoryNode(file);
-		System.out.println("-:" + root.getChildCount());
+//		System.out.println("-:" + root.getChildCount());
 		root.insert(node, root.getChildCount());
 		if (root.getChildCount() == 1) {
 			model = new DefaultTreeModel(root);
 			catalogTree.setModel(model);
 		}
+		model.reload();
 		// catalogTree.putClientProperty("JTree.lineStyle", "None");
-		catalogTree.setUI(new MyTreeUI());
 	}
 
 	/**

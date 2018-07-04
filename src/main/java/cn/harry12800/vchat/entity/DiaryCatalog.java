@@ -1,4 +1,4 @@
-package cn.harry12800.vchat.panels;
+package cn.harry12800.vchat.entity;
 
 public class DiaryCatalog {
 
@@ -6,6 +6,7 @@ public class DiaryCatalog {
 	private String parentId;
 	private String name;
 	private Integer sort;
+	private String userId;
 	private java.util.Date createTime;
 	private java.util.Date updateTime;
 
@@ -57,10 +58,18 @@ public class DiaryCatalog {
 		this.updateTime = updateTime;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
-		return "DiaryCatalog [id=" + id + ", parentId=" + parentId + ", name=" + name + ", sort=" + sort
-				+ ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+		return "DiaryCatalog [id=" + id + ", parentId=" + parentId + ", name=" + name + ", sort=" + sort + ", userId=" + userId + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
 	}
+
 
 }

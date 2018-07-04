@@ -19,7 +19,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import cn.harry12800.lnk.core.util.JsonUtil;
-import cn.harry12800.vchat.model.diary.Diary;
+import cn.harry12800.vchat.entity.Diary;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

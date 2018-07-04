@@ -19,6 +19,7 @@ import cn.harry12800.j2se.action.DragListener;
 import cn.harry12800.j2se.tab.Tab;
 import cn.harry12800.j2se.tab.TabRootPane;
 import cn.harry12800.tools.Lists;
+import cn.harry12800.vchat.entity.Diary;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.panels.DiaryPanel;
 

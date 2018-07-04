@@ -4,17 +4,23 @@ import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -134,8 +140,25 @@ public class MainFrame extends JFrame {
 					super.mouseClicked(e);
 				}
 			});
-
-			JPopupMenu menu = new JPopupMenu();
+			PopupMenu menu = new PopupMenu(); 
+			MenuItem mit0 = null;
+			try {
+				mit0 = new  MenuItem(new String("打开主界面".getBytes("GB2312")));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+ 			 MenuItem mit1 = new  MenuItem("版本更新");
+			 MenuItem mit2 = new  MenuItem("退出");
+			menu.add(mit0);
+			menu.add(mit1);
+			menu.addSeparator();
+			menu.add(mit2);
+			mit2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);
+				}
+			});
 			trayIcon.setPopupMenu(menu);
 			systemTray.add(trayIcon);
 			trayIcon.addMouseListener(new MouseAdapter() {
@@ -146,7 +169,7 @@ public class MainFrame extends JFrame {
 					}
 					if (e.getButton() == 3) {
 						Point point = e.getPoint();
-						showPopup1(menu,trayIcon,point);
+//						showPopup1(menu,trayIcon,point);
 					}
 				}
 
@@ -157,20 +180,33 @@ public class MainFrame extends JFrame {
 	}
 
 	private void showPopup1(PopupMenu menu, TrayIcon trayIcon2, Point point) {
-		menu.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
-		menu.setBackground(Colors.FONT_WHITE);
-		menu.setBorder(LIGHT_GRAY_BORDER);
-		JMenuItem mit0 = new JMenuItem("打开主界面");
-		JMenuItem mit1 = new JMenuItem("版本更新");
-		JMenuItem mit2 = new JMenuItem("退出");
+//		menu.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
+//		menu.setBackground(Colors.FONT_WHITE);
+//		menu.setBorder(LIGHT_GRAY_BORDER);
+		 MenuItem mit0 = new  MenuItem("打开主界面");
+		 MenuItem mit1 = new  MenuItem("版本更新");
+		 MenuItem mit2 = new  MenuItem("退出");
 		menu.add(mit0);
 		menu.add(mit1);
 		menu.addSeparator();
 		menu.add(mit2);
-		mit0.setUI(new RCMenuItemUI());
-		mit1.setUI(new RCMenuItemUI());
-		mit2.setUI(new RCMenuItemUI());
-		pm.setVisible(true);
+		int defaultWidth = 150;
+		int h = 79;
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = point.x;
+		int y = point.y;
+		if (x < 0) {
+			x = 0;
+		}
+		if (x > size.width - defaultWidth) {
+			x = point.x - defaultWidth;
+		}
+		if (y > size.height - h) {
+			y -= h;
+		}
+//		menu.show(origin, x, y);
+		setVisible(true);
+		requestFocus();
 	}
 	static PopupFrame popupFrame = null;
 	protected synchronized static void showPopup(Point point) {

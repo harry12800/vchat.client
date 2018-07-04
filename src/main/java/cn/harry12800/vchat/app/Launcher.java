@@ -91,8 +91,12 @@ public class Launcher {
 
 	private void config() {
 		userHome = System.getProperty("user.home");
+		appFilesBasePath = userHome + System.getProperty("file.separator") + "vchat";
+		File dir = new File(appFilesBasePath);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
 
-		appFilesBasePath = userHome + System.getProperty("file.separator") + "wechat";
 	}
 
 	/**

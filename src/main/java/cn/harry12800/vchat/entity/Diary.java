@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2015-2020 <a href=" ">harry12800</a> All rights reserved.
  */
-package cn.harry12800.vchat.model.diary;
+package cn.harry12800.vchat.entity;
 
 import cn.harry12800.tools.DbField;
 import cn.harry12800.tools.DbInitSentence;
