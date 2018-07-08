@@ -30,16 +30,21 @@ import javax.swing.tree.TreePath;
 
 import cn.harry12800.j2se.dialog.InputMessageDialog;
 import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
+import cn.harry12800.j2se.dialog.MessageDialog;
+import cn.harry12800.j2se.dialog.YesNoDialog;
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
+import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.entity.Diary;
+import cn.harry12800.vchat.entity.DiaryCatalog;
 import cn.harry12800.vchat.frames.MainFrame;
+import cn.harry12800.vchat.frames.components.HttpUtil;
 import cn.harry12800.vchat.model.diary.AricleNode;
 import cn.harry12800.vchat.model.diary.CategoryNode;
 import cn.harry12800.vchat.model.diary.MyJTreeTransferHandler;
@@ -198,7 +203,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 							pm.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
 							pm.setBackground(Colors.FONT_WHITE);
 							pm.setBorder(LIGHT_GRAY_BORDER);
-							//							pm.setBorderPainted(false);
+							// pm.setBorderPainted(false);
 							JMenuItem mit3 = new JMenuItem("删除分组");
 							mit3.setUI(new RCMenuItemUI());
 							mit3.setFont(BASIC_FONT);
@@ -227,12 +232,20 @@ public class DiaryCatalogPanel extends JScrollPane {
 							// 删除分组
 							mit3.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									((CategoryNode) (object)).removeFromParent();
-									FileUtils.deleteDir(((CategoryNode) (object)).getFile());
-									// catalogTree.setUI(new MyTreeUI());
-									// catalogTree.revalidate();
-									model.nodeStructureChanged(root);
+									new YesNoDialog(MainFrame.getContext(), "确定删除此目录？", new YesNoDialog.Callback() {
+										@Override
+										public void callback(boolean arg0) {
+											// TODO Auto-generated method stub
+											if (!arg0)
+												return;
+											((CategoryNode) (object)).removeFromParent();
+											deleteDir(object);
+											model.nodeStructureChanged(root);
+										}
+
+									});
 								}
+
 							});
 							// 更换名称
 							mit1.addActionListener(new ActionListener() {
@@ -287,10 +300,20 @@ public class DiaryCatalogPanel extends JScrollPane {
 							// mit0.setFont(BASIC_FONT);
 							mit2.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									TreeNode parent2 = ((AricleNode) (object)).getParent();
-									((AricleNode) (object)).removeFromParent();
-									delAricle(((AricleNode) (object)).getFile());
-									model.nodeStructureChanged(parent2);
+									new YesNoDialog(MainFrame.getContext(), "确定删除此文章？", new YesNoDialog.Callback() {
+										@Override
+										public void callback(boolean arg0) {
+											// TODO Auto-generated method stub
+											if (!arg0)
+												return;
+											TreeNode parent2 = ((AricleNode) (object)).getParent();
+											((AricleNode) (object)).removeFromParent();
+											delAricle(((AricleNode) (object)).getFile());
+											model.nodeStructureChanged(parent2);
+										}
+
+									});
+
 								}
 							});
 							mit1.addActionListener(new ActionListener() {
@@ -351,6 +374,30 @@ public class DiaryCatalogPanel extends JScrollPane {
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 
+	private void deleteDir(Object object) {
+		File file = ((CategoryNode) (object)).getFile();
+		File[] listFiles = file.listFiles(new FileFilter() {
+
+			@Override
+			public boolean accept(File file) {
+				return file.getName().endsWith("dir");
+			}
+		});
+		if (listFiles != null&&listFiles.length==1) {
+			try {
+				DiaryCatalog dc = JsonUtil.string2Json(listFiles[0], DiaryCatalog.class);
+				String path = Contants.getPath(Contants.diaryCatalogDelUrl);
+				String string = HttpUtil.get(path + "?id=" + dc.getId());
+				System.out.println(string);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		FileUtils.deleteDir(file);
+
+	}
+
 	// 微软雅黑
 	public static Font BASIC_FONT = new Font("微软雅黑", Font.PLAIN, 12);
 	public static Font BASIC_FONT2 = new Font("微软雅黑", Font.TYPE1_FONT, 12);
@@ -363,7 +410,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public void addNode(File file) {
 		CategoryNode node = new CategoryNode(file);
-//		System.out.println("-:" + root.getChildCount());
+		// System.out.println("-:" + root.getChildCount());
 		root.insert(node, root.getChildCount());
 		if (root.getChildCount() == 1) {
 			model = new DefaultTreeModel(root);
@@ -386,8 +433,21 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public void delAricle(File file) {
 		if (catalogTree != null) {
+			deleteFromServer(file);
 			file.delete();
 		}
+	}
+
+	private void deleteFromServer(File file) {
+		try {
+			Diary d = JsonUtil.string2Json(file, Diary.class);
+			String path = Contants.getPath(Contants.diaryDelUrl);
+			String string = HttpUtil.get(path + "?id=" + d.getId());
+			System.out.println(string);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void setCurrNode(DefaultMutableTreeNode node) {
