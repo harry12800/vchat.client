@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	private static final long serialVersionUID = 1L;
 	public static final String diarySuffix = ".properties";
 	public MButton synchronousDiary = new MButton("同步", 80, 25);
-	public MButton see = new MButton("预览", 80, 25);
+	public MButton see = new MButton("网页预览", 80, 25);
 	public MButton reader = new MButton("朗读", 80, 25);
 	public MButton stopReader = new MButton("停止朗读", 80, 25);
 	public MButton newA = new MButton("新建目录", 80, 25);
@@ -379,6 +380,12 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 
 		see.addMouseListener(new ClickAction(see) {
 			public void leftClick(MouseEvent e) {
+				try {
+					URI uri = new URI(Contants.getPath("?userId="+Launcher.currentUser.getUserId()));
+					java.awt.Desktop.getDesktop().browse(uri);
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
 				File selectFile = new File(DiaryCatalogPanel.getContext().currPath);
 				if (selectFile.exists()) {
 					try {
