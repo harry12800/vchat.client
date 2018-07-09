@@ -4,7 +4,6 @@ import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.Point;
@@ -19,17 +18,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
+import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
@@ -40,7 +35,6 @@ import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -90,7 +84,7 @@ public class MainFrame extends JFrame {
 				initTray();
 			}
 		}).start();
-
+		registerHotKey();
 	}
 
 	/**
@@ -110,7 +104,7 @@ public class MainFrame extends JFrame {
 	 * 初始化系统托盘图标
 	 */
 	private void initTray() {
-		String tip = "账号："+Launcher.currentUser.getUsername()+"\r\nAuthor：harry12800\r\nQQ:804151219\r\n开发者常用功能";
+		String tip = "账号：" + Launcher.currentUser.getUsername() + "\r\nAuthor：harry12800\r\nQQ:804151219\r\n开发者常用功能";
 		SystemTray systemTray = SystemTray.getSystemTray();// 获取系统托盘
 		try {
 			if (OSUtil.getOsType() == OSUtil.Mac_OS) {
@@ -140,25 +134,29 @@ public class MainFrame extends JFrame {
 					super.mouseClicked(e);
 				}
 			});
-			PopupMenu menu = new PopupMenu(); 
-			MenuItem mit0 = null;
-			try {
-				mit0 = new  MenuItem(new String("打开主界面".getBytes("GB2312")));
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
- 			 MenuItem mit1 = new  MenuItem("版本更新");
-			 MenuItem mit2 = new  MenuItem("退出");
+			PopupMenu menu = new PopupMenu();
+			MenuItem mit0 = new MenuItem("打开主界面");
+			MenuItem mit1 = new MenuItem("版本更新");
+			MenuItem mit2 = new MenuItem("退出");
 			menu.add(mit0);
 			menu.add(mit1);
 			menu.addSeparator();
 			menu.add(mit2);
+
+			mit0.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MainFrame.this.setVisible(true);
+				}
+			});
 			mit2.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.exit(0);
 				}
 			});
+
 			trayIcon.setPopupMenu(menu);
 			systemTray.add(trayIcon);
 			trayIcon.addMouseListener(new MouseAdapter() {
@@ -168,8 +166,8 @@ public class MainFrame extends JFrame {
 						MainFrame.getContext().setVisible(true);
 					}
 					if (e.getButton() == 3) {
-						Point point = e.getPoint();
-//						showPopup1(menu,trayIcon,point);
+						//						Point point = e.getPoint();
+						//						showPopup1(menu,trayIcon,point);
 					}
 				}
 
@@ -179,13 +177,31 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-	private void showPopup1(PopupMenu menu, TrayIcon trayIcon2, Point point) {
-//		menu.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
-//		menu.setBackground(Colors.FONT_WHITE);
-//		menu.setBorder(LIGHT_GRAY_BORDER);
-		 MenuItem mit0 = new  MenuItem("打开主界面");
-		 MenuItem mit1 = new  MenuItem("版本更新");
-		 MenuItem mit2 = new  MenuItem("退出");
+	private void registerHotKey() {
+		int SCREEN_SHOT_CODE = 10001;
+		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
+				JIntellitype.MOD_ALT, 'V');
+		JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
+			@Override
+			public void onHotKey(int markCode) {
+				if (markCode == SCREEN_SHOT_CODE) {
+					if(MainFrame.this.isVisible()) {
+						MainFrame.this.setVisible(false);
+					}else{
+						MainFrame.this.setVisible(true);
+					}
+				}
+			}
+		});
+	}
+
+	public void showPopup1(PopupMenu menu, TrayIcon trayIcon2, Point point) {
+		//		menu.setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
+		//		menu.setBackground(Colors.FONT_WHITE);
+		//		menu.setBorder(LIGHT_GRAY_BORDER);
+		MenuItem mit0 = new MenuItem("打开主界面");
+		MenuItem mit1 = new MenuItem("版本更新");
+		MenuItem mit2 = new MenuItem("退出");
 		menu.add(mit0);
 		menu.add(mit1);
 		menu.addSeparator();
@@ -204,11 +220,13 @@ public class MainFrame extends JFrame {
 		if (y > size.height - h) {
 			y -= h;
 		}
-//		menu.show(origin, x, y);
+		//		menu.show(origin, x, y);
 		setVisible(true);
 		requestFocus();
 	}
+
 	static PopupFrame popupFrame = null;
+
 	protected synchronized static void showPopup(Point point) {
 		if (popupFrame == null) {
 			popupFrame = new PopupFrame();
@@ -231,42 +249,42 @@ public class MainFrame extends JFrame {
 			font1.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					J2seFont.setDefinedFont(J2seFont.微软雅黑);
+					//					J2seFont.setDefinedFont(J2seFont.微软雅黑);
 					MainFrame.getContext().repaint();
 				}
 			});
 			font2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					J2seFont.setDefinedFont(J2seFont.萝莉体);
+					//					J2seFont.setDefinedFont(J2seFont.萝莉体);
 					MainFrame.getContext().repaint();
 				}
 			});
 			font3.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					J2seFont.setDefinedFont(J2seFont.华文行楷);
+					//					J2seFont.setDefinedFont(J2seFont.华文行楷);
 					MainFrame.getContext().repaint();
 				}
 			});
 			font4.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					J2seFont.setDefinedFont(J2seFont.汉仪舒同体简);
+					//					J2seFont.setDefinedFont(J2seFont.汉仪舒同体简);
 					MainFrame.getContext().repaint();
 				}
 			});
 			font5.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					J2seFont.setDefinedFont(J2seFont.汉仪中圆繁);
+					//					J2seFont.setDefinedFont(J2seFont.汉仪中圆繁);
 					MainFrame.getContext().repaint();
 				}
 			});
 			font6.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					J2seFont.setDefinedFont(J2seFont.汉仪小隶书简);
+					//					J2seFont.setDefinedFont(J2seFont.汉仪小隶书简);
 					MainFrame.getContext().repaint();
 				}
 			});
@@ -320,7 +338,7 @@ public class MainFrame extends JFrame {
 			updateItem.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-//					MainFrame.getContext().updateSystem();
+					//					MainFrame.getContext().updateSystem();
 				}
 			});
 			popupFrame.addItem(font);
@@ -335,6 +353,7 @@ public class MainFrame extends JFrame {
 			popupFrame.show(point);
 		}
 	}
+
 	/**
 	 * 清除剪切板缓存文件
 	 */

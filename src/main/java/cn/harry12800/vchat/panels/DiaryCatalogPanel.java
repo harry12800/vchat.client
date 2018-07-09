@@ -30,7 +30,6 @@ import javax.swing.tree.TreePath;
 
 import cn.harry12800.j2se.dialog.InputMessageDialog;
 import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
-import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.j2se.dialog.YesNoDialog;
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.utils.Clip;
@@ -232,10 +231,10 @@ public class DiaryCatalogPanel extends JScrollPane {
 							// 删除分组
 							mit3.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									new YesNoDialog(MainFrame.getContext(), "确定删除此目录？", new YesNoDialog.Callback() {
+									File file = ((CategoryNode) (object)).getFile();
+									new YesNoDialog(MainFrame.getContext(), "确定删除此目录（" + file.getName() + "）？", new YesNoDialog.Callback() {
 										@Override
 										public void callback(boolean arg0) {
-											// TODO Auto-generated method stub
 											if (!arg0)
 												return;
 											((CategoryNode) (object)).removeFromParent();
@@ -300,7 +299,8 @@ public class DiaryCatalogPanel extends JScrollPane {
 							// mit0.setFont(BASIC_FONT);
 							mit2.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									new YesNoDialog(MainFrame.getContext(), "确定删除此文章？", new YesNoDialog.Callback() {
+									String title = ((AricleNode) (object)).aritcle.getTitle();
+									new YesNoDialog(MainFrame.getContext(), "确定删除此文章？----" + title, new YesNoDialog.Callback() {
 										@Override
 										public void callback(boolean arg0) {
 											// TODO Auto-generated method stub
@@ -376,25 +376,30 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	private void deleteDir(Object object) {
 		File file = ((CategoryNode) (object)).getFile();
-		File[] listFiles = file.listFiles(new FileFilter() {
-
+		new Thread(new Runnable() {
 			@Override
-			public boolean accept(File file) {
-				return file.getName().endsWith("dir");
-			}
-		});
-		if (listFiles != null&&listFiles.length==1) {
-			try {
-				DiaryCatalog dc = JsonUtil.string2Json(listFiles[0], DiaryCatalog.class);
-				String path = Contants.getPath(Contants.diaryCatalogDelUrl);
-				String string = HttpUtil.get(path + "?id=" + dc.getId());
-				System.out.println(string);
+			public void run() {
+				File[] listFiles = file.listFiles(new FileFilter() {
 
-			} catch (Exception e) {
-				e.printStackTrace();
+					@Override
+					public boolean accept(File file) {
+						return file.getName().endsWith("dir");
+					}
+				});
+				if (listFiles != null && listFiles.length == 1) {
+					try {
+						DiaryCatalog dc = JsonUtil.string2Json(listFiles[0], DiaryCatalog.class);
+						String path = Contants.getPath(Contants.diaryCatalogDelUrl);
+						String string = HttpUtil.get(path + "?id=" + dc.getId());
+						System.out.println(string);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				FileUtils.deleteDir(file);
 			}
-		}
-		FileUtils.deleteDir(file);
+		}).start();
+
 
 	}
 
@@ -433,7 +438,13 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public void delAricle(File file) {
 		if (catalogTree != null) {
-			deleteFromServer(file);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					deleteFromServer(file);
+				}
+			}).start();
+
 			file.delete();
 		}
 	}
