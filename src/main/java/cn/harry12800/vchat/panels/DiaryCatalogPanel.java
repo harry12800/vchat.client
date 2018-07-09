@@ -105,23 +105,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public DiaryCatalogPanel(JPanel parent) {
 		context = this;
-		boolean byClass = MachineUtils.getByClass(DiaryCatalogPanel.class);
-		String homePath = "";
-		if (byClass) {
-			String clazz = System.getProperty("sun.java.command");
-			System.err.println("sun.java.command: " + clazz);
-			File file = new File(clazz);
-			// MachineUtils.printSystemProperties();
-			if (file.exists()) {
-				File file2 = new File(file.getAbsolutePath());
-				File parentFile = file2.getParentFile();
-				homePath = parentFile.getAbsolutePath();
-			} else {
-				homePath = System.getProperty("user.dir");
-			}
-		} else {
-			homePath = System.getProperty("user.dir");
-		}
+		String homePath = getHomePath();
 		dirPath = homePath + File.separator + "data" + File.separator + dirName;
 		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
@@ -129,34 +113,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 		root = new DefaultMutableTreeNode();
 		model = new DefaultTreeModel(root);
 		setOpaque(false);
-		File file = new File(dirPath);
-		File[] listFiles = file.listFiles(filter);
-		int x = 0;
-		if (Objects.isNull(listFiles) || listFiles.length == 0) {
-			String test = dirPath + File.separator + "Test";
-			new File(test).mkdirs();
-		}
-		listFiles = file.listFiles(filter);
-		for (final File f : listFiles) {
-			if (f.isDirectory()) {
-				CategoryNode node = new CategoryNode(f);
-				root.add(node);
-				int i = 1;
-				for (File file2 : f.listFiles(filter)) {
-					Diary a = new Diary();
-					a.setSort(i);
-					i++;
-					AricleNode newChild = new AricleNode(file2, a);
-					node.add(newChild);
-				}
-			} else {
-				x++;
-				Diary a = new Diary();
-				a.setSort(x);
-				AricleNode node = new AricleNode(f, a);
-				root.add(node);
-			}
-		}
+		loadNode();
 		catalogTree = new JTree(model);
 		catalogTree.setToggleClickCount(1);// 点击次数
 		catalogTree.setOpaque(false);
@@ -374,6 +331,58 @@ public class DiaryCatalogPanel extends JScrollPane {
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 
+	private void loadNode() {
+		File file = new File(dirPath);
+		File[] listFiles = file.listFiles(filter);
+		int x = 0;
+		if (Objects.isNull(listFiles) || listFiles.length == 0) {
+			String test = dirPath + File.separator + "Test";
+			new File(test).mkdirs();
+		}
+		listFiles = file.listFiles(filter);
+		for (final File f : listFiles) {
+			if (f.isDirectory()) {
+				CategoryNode node = new CategoryNode(f);
+				root.add(node);
+				int i = 1;
+				for (File file2 : f.listFiles(filter)) {
+					Diary a = new Diary();
+					a.setSort(i);
+					i++;
+					AricleNode newChild = new AricleNode(file2, a);
+					node.add(newChild);
+				}
+			} else {
+				x++;
+				Diary a = new Diary();
+				a.setSort(x);
+				AricleNode node = new AricleNode(f, a);
+				root.add(node);
+			}
+		}
+	}
+
+	private String getHomePath() {
+		boolean byClass = MachineUtils.getByClass(DiaryCatalogPanel.class);
+		String homePath = "";
+		if (byClass) {
+			String clazz = System.getProperty("sun.java.command");
+			System.err.println("sun.java.command: " + clazz);
+			File file = new File(clazz);
+			// MachineUtils.printSystemProperties();
+			if (file.exists()) {
+				File file2 = new File(file.getAbsolutePath());
+				File parentFile = file2.getParentFile();
+				homePath = parentFile.getAbsolutePath();
+			} else {
+				homePath = System.getProperty("user.dir");
+			}
+		} else {
+			homePath = System.getProperty("user.dir");
+		}
+		return homePath;
+	}
+
 	private void deleteDir(Object object) {
 		File file = ((CategoryNode) (object)).getFile();
 		new Thread(new Runnable() {
@@ -399,7 +408,6 @@ public class DiaryCatalogPanel extends JScrollPane {
 				FileUtils.deleteDir(file);
 			}
 		}).start();
-
 
 	}
 
@@ -499,4 +507,11 @@ public class DiaryCatalogPanel extends JScrollPane {
 		return currNode;
 	}
 
+	public void reload() {
+		root.removeAllChildren();
+		model = new DefaultTreeModel(root);
+		catalogTree.setModel(model);
+		loadNode();
+		model.reload();
+	}
 }

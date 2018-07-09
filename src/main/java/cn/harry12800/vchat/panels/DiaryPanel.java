@@ -368,6 +368,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 								JsonUtil.saveObj(diary, tempPath + File.separator + diary.getId() + ".properties");
 							}
 							MainFrame.getContext().alert("同步完成！");
+							DiaryCatalogPanel.getContext().reload();
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						} finally {
@@ -430,11 +431,11 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		cmd.addMouseListener(new ClickAction(cmd) {
 			public void leftClick(MouseEvent e) {
 				if (DiaryCatalogPanel.getContext().getCatalogTree() != null) {
-					File file = ((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).getFile();
-					final String srcByFilePath = FileUtils.getSrcByFilePath(file, "utf-8");
+//					File file = ((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).getFile();
+//					final String srcByFilePath = FileUtils.getSrcByFilePath(file, "utf-8");
 					try {
-						String[] runtimeOutErr = MachineUtils.runtimeOutErr(srcByFilePath);
-						areaTextPanel.setText(srcByFilePath + "\r\n" + runtimeOutErr[0] + "\r\n" + runtimeOutErr[1]);
+						String[] runtimeOutErr = MachineUtils.runtimeCmd(areaTextPanel.getText());
+						areaTextPanel.setText(areaTextPanel.getText() + "\r\n" + runtimeOutErr[0] + "\r\n" + runtimeOutErr[1]);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
