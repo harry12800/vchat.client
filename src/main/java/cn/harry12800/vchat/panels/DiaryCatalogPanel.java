@@ -37,6 +37,7 @@ import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
+import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
@@ -106,7 +107,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 	public DiaryCatalogPanel(JPanel parent) {
 		context = this;
 		String homePath = getHomePath();
-		dirPath = homePath + File.separator + "data" + File.separator + dirName;
+		dirPath = homePath + File.separator + "data" + File.separator + dirName+ File.separator + Launcher.currentUser.getUserId();
 		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
 		}
