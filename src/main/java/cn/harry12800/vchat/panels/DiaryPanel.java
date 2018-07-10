@@ -66,6 +66,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	public MButton see = new MButton("网页预览", 80, 25);
 	public MButton reader = new MButton("朗读", 80, 25);
 	public MButton stopReader = new MButton("停止朗读", 80, 25);
+	public MButton reboot = new MButton("重启", 80, 25);
 	public MButton newA = new MButton("新建目录", 80, 25);
 	public MButton cmd = new MButton("cmd执行", 80, 25);
 	public AreaTextPanel areaTextPanel = new AreaTextPanel();
@@ -103,6 +104,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		jPanel.add(cmd);
 		jPanel.add(reader);
 		jPanel.add(stopReader);
+		jPanel.add(reboot);
 		jPanel.setBackground(UI.foreColor);
 		searchInputText.setCtrlSAction(new CtrlSAction() {
 			public void ctrlS() {
@@ -336,6 +338,12 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	}
 
 	private void initBtnListener() {
+		reboot.addMouseListener(new ClickAction(reboot) {
+			public void leftClick(MouseEvent e) {
+				MachineUtils.reStart();
+				System.exit(1);
+			}
+		});
 		synchronousDiary.addMouseListener(new ClickAction(synchronousDiary) {
 			public void leftClick(MouseEvent e) {
 				new Thread(new Runnable() {
