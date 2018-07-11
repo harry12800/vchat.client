@@ -224,10 +224,10 @@ public class DiaryCatalogPanel extends JScrollPane {
 								public void actionPerformed(ActionEvent e) {
 									CategoryNode node = (CategoryNode) object;
 									File f = createAricle(node.getFile());
-									Diary aritcle = new Diary();
-									aritcle.setSort(node.getFile().listFiles().length);
-									JsonUtil.saveObj(aritcle, f.getAbsolutePath());
-									AricleNode newChild = new AricleNode(f, aritcle);
+									Diary diary = new Diary();
+									diary.setSort(node.getFile().listFiles().length);
+									JsonUtil.saveObj(diary, f.getAbsolutePath());
+									AricleNode newChild = new AricleNode(f, diary);
 
 									((CategoryNode) (object)).insert(newChild, 0);
 									model.nodeStructureChanged(node);

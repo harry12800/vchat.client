@@ -231,9 +231,11 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	}
 
 	private synchronized void saveToServer(Diary a, String path) {
+		if(StringUtils.isEmpty(a.getId())){
+			a.setId(StringUtils.moveSuffix(new File(path).getName()));
+		}
 		Map<String, String> headers = new HashMap<>(0);
 		try {
-			String dirPath = DiaryCatalogPanel.getContext().dirPath;
 			String path2 = Contants.getPath(Contants.userDiaryCatalogUrl + "?userId=" + Launcher.currentUser.getUserId());
 			String catalogString2Json = HttpUtil.get(path2);
 			ResultCatalogAll catalogObj = JsonUtil.string2Json(catalogString2Json,
@@ -360,6 +362,12 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 							Map<String, DiaryCatalog> catalogMaps = new HashMap<>();
 							for (DiaryCatalog diaryCatalog : catalogList) {
 								catalogMaps.put(diaryCatalog.getId(), diaryCatalog);
+								String catalogName = diaryCatalog.getName();
+								String tempPath = dirPath + File.separator + catalogName;
+								if (!new File(tempPath).exists()) {
+									new File(tempPath).mkdir();
+									JsonUtil.saveObj(diaryCatalog, dirPath + File.separator + catalogName + File.separator + diaryCatalog.getId() + ".dir");
+								}
 							}
 							String path2 = Contants.getPath(Contants.userDiaryUrl + "?userId=" + Launcher.currentUser.getUserId());
 							String diaryString2Json = HttpUtil.get(path2);
@@ -369,10 +377,6 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 								DiaryCatalog diaryCatalog = catalogMaps.get(diary.getCatalogId());
 								String catalogName = diaryCatalog.getName();
 								String tempPath = dirPath + File.separator + catalogName;
-								if (!new File(tempPath).exists()) {
-									new File(tempPath).mkdir();
-									JsonUtil.saveObj(diaryCatalog, dirPath + File.separator + catalogName + File.separator + diaryCatalog.getId() + ".dir");
-								}
 								JsonUtil.saveObj(diary, tempPath + File.separator + diary.getId() + ".properties");
 							}
 							MainFrame.getContext().alert("同步完成！");
@@ -395,20 +399,20 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
-				File selectFile = new File(DiaryCatalogPanel.getContext().currPath);
-				if (selectFile.exists()) {
-					try {
-						Diary d = JsonUtil.string2Json(selectFile, Diary.class);
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
-					// dialog = new NativeDiaryScanDialog(DiaryPanel.this, aritcles);
-					// DiaryScanDialog dialog = new DiaryScanDialog(DiaryPanel2.this, aritcles,
-					// currIndex);
-					// dialog.setVisible(true);
-				} else {
-					MainFrame.getContext().alert("没有可预览的文章！");
-				}
+//				File selectFile = new File(DiaryCatalogPanel.getContext().currPath);
+//				if (selectFile.exists()) {
+//					try {
+//						Diary d = JsonUtil.string2Json(selectFile, Diary.class);
+//					} catch (Exception e1) {
+//						e1.printStackTrace();
+//					}
+//					// dialog = new NativeDiaryScanDialog(DiaryPanel.this, aritcles);
+//					// DiaryScanDialog dialog = new DiaryScanDialog(DiaryPanel2.this, aritcles,
+//					// currIndex);
+//					// dialog.setVisible(true);
+//				} else {
+//					MainFrame.getContext().alert("没有可预览的文章！");
+//				}
 			}
 		});
 

@@ -121,13 +121,14 @@
         </dependency>
 	</dependencies>
 	<build>
+	<!-- <finalName>vchat-client</finalName> -->
 		<plugins>
 		 <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <descriptorRefs>
+                   <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    </descriptorRefs> 
                     <archive>
                         <manifest>
                             <mainClass>cn.harry12800.vchat.app.App</mainClass>
