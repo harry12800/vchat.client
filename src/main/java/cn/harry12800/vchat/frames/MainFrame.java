@@ -4,6 +4,7 @@ import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.Point;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
@@ -35,6 +37,9 @@ import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.RCProgressBar;
+import cn.harry12800.vchat.frames.components.GBC;
+import cn.harry12800.vchat.frames.components.GradientProgressBarUI;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -185,9 +190,9 @@ public class MainFrame extends JFrame {
 			@Override
 			public void onHotKey(int markCode) {
 				if (markCode == SCREEN_SHOT_CODE) {
-					if(MainFrame.this.isVisible()) {
+					if (MainFrame.this.isVisible()) {
 						MainFrame.this.setVisible(false);
-					}else{
+					} else {
 						MainFrame.this.setVisible(true);
 					}
 				}
@@ -435,7 +440,18 @@ public class MainFrame extends JFrame {
 
 		add(leftPanel, BorderLayout.WEST);
 		add(rightPanel, BorderLayout.CENTER);
-
+//		south.setVisible(false);
+		JPanel panel = new JPanel();
+		RCProgressBar progressBar = new RCProgressBar();
+		progressBar.setMaximum(100);
+		progressBar.setMinimum(0);
+		progressBar.setValue(50);
+		progressBar.setUI(new GradientProgressBarUI());
+		panel.setLayout(new GridBagLayout());
+		panel.setPreferredSize(new Dimension(currentWindowWidth, 5));
+		panel.add(progressBar, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
+//		progressBarPanel.add(panel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
+		add(panel, BorderLayout.SOUTH);
 		centerScreen();
 	}
 

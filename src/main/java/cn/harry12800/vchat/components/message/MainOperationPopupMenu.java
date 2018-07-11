@@ -64,7 +64,8 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item3.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 MachineUtils.reStart();
+				MachineUtils.reStart();
+				System.exit(1);
 			}
 		});
 		ImageIcon icon3 = new ImageIcon(getClass().getResource("/image/setting.png"));
