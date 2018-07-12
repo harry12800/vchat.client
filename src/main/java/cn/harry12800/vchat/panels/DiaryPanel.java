@@ -270,6 +270,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			TitlePanel.getContext().showStatusLabel("网络保存失败！");
 		}
 
 	}

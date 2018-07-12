@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -282,9 +284,26 @@ public class TitlePanel extends ParentAvailablePanel {
 	 * 
 	 * @param text
 	 */
-	public void showStatusLabel(String text) {
+	Timer timer = new Timer();
+	public synchronized void showStatusLabel(String text) {
 		this.statusLabel.setText(text);
 		this.statusLabel.setVisible(true);
+		if (timer != null) {
+			timer.cancel();
+		}
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				statusLabel.setVisible(false);
+			}
+		}, 10000);
 	}
 
 	/**
