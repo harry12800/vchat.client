@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+import cn.harry12800.j2se.utils.Config;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.MachineUtils;
+import cn.harry12800.tools.StringUtils;
 
 public class Contants {
 	public final static String userDiaryCatalogUrl = "/v1/diaryCatalog/getAllByUserId";
@@ -21,6 +23,9 @@ public class Contants {
 	}
 
 	private static String config() {
+		String prop = Config.getProp("webHost");
+		if(!StringUtils.isEmpty(prop))
+			return prop;
 		Properties p = new Properties();
 		boolean byClass = MachineUtils.getByClass(Contants.class);
 		String homePath = "";
