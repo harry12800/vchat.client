@@ -18,10 +18,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -38,8 +41,12 @@ import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCProgressBar;
+import cn.harry12800.vchat.frames.components.DownloadTask;
 import cn.harry12800.vchat.frames.components.GBC;
 import cn.harry12800.vchat.frames.components.GradientProgressBarUI;
+import cn.harry12800.vchat.frames.components.HttpResponseListener;
+import cn.harry12800.vchat.frames.components.HttpUtil;
+import cn.harry12800.vchat.frames.upgrade.PlatUpdate;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -64,13 +71,14 @@ public class MainFrame extends JFrame {
 
 	private LeftPanel leftPanel;
 	private RightPanel rightPanel;
-
+	RCProgressBar progressBar = new RCProgressBar();
 	private static MainFrame context;
 	private Image normalTrayIcon; // 正常时的任务栏图标
 	private Image emptyTrayIcon; // 闪动时的任务栏图标
 	private TrayIcon trayIcon;
 	private boolean trayFlashing = false;
 	private AudioStream messageSound; // 消息到来时候的提示间
+	private JPanel southPanel = new JPanel();
 
 	public MainFrame() {
 		context = this;
@@ -104,7 +112,6 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
 	/**
 	 * 初始化系统托盘图标
 	 */
@@ -159,6 +166,18 @@ public class MainFrame extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					System.exit(0);
+				}
+			});
+			mit1.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+//					download();
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							PlatUpdate.sureUpdate();
+						}
+					}).start();
 				}
 			});
 
@@ -359,6 +378,70 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	public static final String updateServerPath = "http://120.78.177.24:8000/download?path=";
+
+	public void download() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				DownloadTask task = new DownloadTask(new HttpUtil.ProgressListener() {
+					@Override
+					public void onProgress(int progress) {
+						progressBar.setValue(progress);
+					}
+				});
+
+				task.setListener(new HttpResponseListener<byte[]>() {
+					@Override
+					public void onResult(byte[] ret) {
+						saveFile(ret);
+					}
+				});
+
+				task.execute(updateServerPath);
+			}
+		}).start();
+	}
+
+	private UpdateResultListener updateResultListener;
+
+	/**
+	 * 保存下载文件
+	 *
+	 * @param ret
+	 */
+	private void saveFile(byte[] ret) {
+		if (ret == null) {
+			updateResultListener.onFailed();
+			return;
+		}
+
+		File oldFile = new File("wechat.jar");
+		if (oldFile.exists()) {
+			oldFile.renameTo(new File("wechat_old.jar"));
+		}
+
+		File file = new File("wechat.jar");
+		try (FileOutputStream outputStream = new FileOutputStream(file);) {
+			outputStream.write(ret);
+			System.out.println("文件保存在：" + file.getAbsolutePath());
+
+			if (updateResultListener != null) {
+				updateResultListener.onSuccess();
+			}
+		} catch (Exception e) {
+			File oFile = new File("wechat_old.jar");
+			oFile.renameTo(new File("wechat.jar"));
+
+			JOptionPane.showMessageDialog(null, "更新失败，正在还原...", "更新失败", JOptionPane.ERROR_MESSAGE);
+			if (updateResultListener != null) {
+				updateResultListener.onFailed();
+			}
+
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * 清除剪切板缓存文件
 	 */
@@ -440,18 +523,16 @@ public class MainFrame extends JFrame {
 
 		add(leftPanel, BorderLayout.WEST);
 		add(rightPanel, BorderLayout.CENTER);
-//		south.setVisible(false);
-		JPanel panel = new JPanel();
-		RCProgressBar progressBar = new RCProgressBar();
+		//		south.setVisible(false);
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
 		progressBar.setValue(50);
 		progressBar.setUI(new GradientProgressBarUI());
-		panel.setLayout(new GridBagLayout());
-		panel.setPreferredSize(new Dimension(currentWindowWidth, 5));
-		panel.add(progressBar, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
-//		progressBarPanel.add(panel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
-		add(panel, BorderLayout.SOUTH);
+		southPanel.setLayout(new GridBagLayout());
+		southPanel.setPreferredSize(new Dimension(currentWindowWidth, 10));
+		southPanel.add(progressBar, new GBC(0, 0).setFill(GBC.BOTH).setWeight(1, 1));
+		//		progressBarPanel.add(panel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
+		add(southPanel, BorderLayout.SOUTH);
 		centerScreen();
 	}
 
@@ -489,4 +570,8 @@ public class MainFrame extends JFrame {
 		new MessageDialog(MainFrame.getContext(), "温馨提示", info);
 	}
 
+	public void showProssbar(boolean visible) {
+		southPanel
+				.setVisible(visible);
+	}
 }
