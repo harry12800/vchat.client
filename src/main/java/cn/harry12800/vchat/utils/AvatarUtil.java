@@ -18,8 +18,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.Colors;
 
 /**
  * Created by harry12800 on 15/03/2017.

@@ -32,6 +32,7 @@ import cn.harry12800.j2se.dialog.InputMessageDialog;
 import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
 import cn.harry12800.j2se.dialog.YesNoDialog;
 import cn.harry12800.j2se.style.UI;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
@@ -39,7 +40,6 @@ import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.app.config.Contants;
-import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.entity.Diary;
 import cn.harry12800.vchat.entity.DiaryCatalog;
@@ -47,7 +47,6 @@ import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.model.diary.AricleNode;
 import cn.harry12800.vchat.model.diary.CategoryNode;
 import cn.harry12800.vchat.model.diary.MyJTreeTransferHandler;
-import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 import cn.harry12800.vchat.model.diary.MyTreeUI;
 import cn.harry12800.vchat.model.diary.TreeNodeRenderer;
 import cn.harry12800.vchat.utils.HttpUtil;
@@ -327,7 +326,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 		// jScrollPane.setBackground(UI.backColor);
 		getVerticalScrollBar().setBackground(UI.backColor);
 		// jScrollPane.getVerticalScrollBar().setVisible(false);
-		getVerticalScrollBar().setUI(new MyScrollBarUI());
+		getVerticalScrollBar().setUI(new cn.harry12800.j2se.style.ui.MyScrollBarUI());
 		// 屏蔽横向滚动条
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	}

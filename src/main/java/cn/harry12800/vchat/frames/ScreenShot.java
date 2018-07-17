@@ -34,7 +34,7 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.panels.ChatPanel;
 import cn.harry12800.vchat.utils.ClipboardUtil;
 import cn.harry12800.vchat.utils.IconUtil;

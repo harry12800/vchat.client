@@ -5,7 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 
 /**
  * Created by harry12800 on 17-5-30.

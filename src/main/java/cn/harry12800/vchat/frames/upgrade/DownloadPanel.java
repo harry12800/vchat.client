@@ -23,8 +23,7 @@ import cn.harry12800.j2se.component.panel.TitlePanel.Builder;
 import cn.harry12800.j2se.component.panel.TitlePanel.TitleHeight;
 import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.j2se.style.UI;
-import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.model.diary.MyScrollBarUI;
+import cn.harry12800.j2se.style.ui.Colors;
 
 public class DownloadPanel extends JPanel {
 	/**
@@ -81,7 +80,7 @@ public class DownloadPanel extends JPanel {
 		// jScrollPane.setBackground(UI.backColor);
 		scroll.getVerticalScrollBar().setBackground(UI.backColor);
 		// jScrollPane.getVerticalScrollBar().setVisible(false);
-		scroll.getVerticalScrollBar().setUI(new MyScrollBarUI());
+		scroll.getVerticalScrollBar().setUI(new cn.harry12800.j2se.style.ui.MyScrollBarUI());
 		// 屏蔽横向滚动条
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setBackground(Colors.DARK);

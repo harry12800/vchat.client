@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.components.message.MessageImageLabel;

@@ -9,8 +9,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.UserInfoPopup;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.service.ContactsUserService;

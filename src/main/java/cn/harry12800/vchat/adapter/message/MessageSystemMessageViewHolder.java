@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.utils.FontUtil;
 

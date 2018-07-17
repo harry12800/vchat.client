@@ -16,10 +16,11 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.style.ui.MyScrollBarUI;
 import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.adapter.HeaderViewHolder;
 import cn.harry12800.vchat.adapter.ViewHolder;
-import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 
 /**
  * Created by harry12800 on 17-5-30.

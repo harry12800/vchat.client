@@ -29,7 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.codec.binary.Base64;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.db.model.CurrentUser;

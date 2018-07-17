@@ -4,7 +4,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.GBC;
 
 /**

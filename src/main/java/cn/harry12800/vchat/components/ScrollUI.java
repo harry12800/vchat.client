@@ -14,6 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+import cn.harry12800.j2se.style.ui.Colors;
+
 /**
  * 自定义滚动条UI
  */

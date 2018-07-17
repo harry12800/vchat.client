@@ -14,7 +14,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.entity.ContactsItem;
 import cn.harry12800.vchat.listener.AbstractMouseListener;

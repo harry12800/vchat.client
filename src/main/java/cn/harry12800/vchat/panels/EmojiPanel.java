@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.listener.ExpressionListener;
 import cn.harry12800.vchat.utils.IconUtil;
 

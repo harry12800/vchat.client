@@ -6,7 +6,7 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 
 /**
  * Created by harry12800 on 17-5-29.

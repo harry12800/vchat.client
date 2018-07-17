@@ -8,9 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
 import cn.harry12800.vchat.components.GBC;
-import cn.harry12800.vchat.components.GradientProgressBarUI;
 import cn.harry12800.vchat.components.HighLightLabel;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.RCProgressBar;

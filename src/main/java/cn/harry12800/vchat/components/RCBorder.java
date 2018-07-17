@@ -7,6 +7,8 @@ import java.awt.Insets;
 
 import javax.swing.border.Border;
 
+import cn.harry12800.j2se.style.ui.Colors;
+
 /**
  * Created by harry12800 on 17-5-29.
  */

@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
 
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.components.SizeAutoAdjustTextArea;
 import cn.harry12800.vchat.db.model.FileAttachment;

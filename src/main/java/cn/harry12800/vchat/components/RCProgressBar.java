@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import javax.swing.JProgressBar;
 import javax.swing.border.LineBorder;
 
+import cn.harry12800.j2se.style.ui.Colors;
+
 /**
  * Created by harry12800 on 17-6-4.
  */

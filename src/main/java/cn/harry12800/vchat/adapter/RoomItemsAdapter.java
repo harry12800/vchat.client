@@ -8,8 +8,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.db.model.Room;
 import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.RoomItem;

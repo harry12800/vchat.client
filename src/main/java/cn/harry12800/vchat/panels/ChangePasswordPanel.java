@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.RCPasswordField;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
