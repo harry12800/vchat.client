@@ -86,7 +86,7 @@
 			<artifactId>ImageViewer</artifactId>
 			<version>1.0</version>
 		</dependency>
-		 
+
 		<dependency>
 			<groupId>cn.harry12800</groupId>
 			<artifactId>harry12800.common</artifactId>
@@ -104,43 +104,49 @@
 		</dependency>
 		<dependency>
 			<groupId>cn.harry12800</groupId>
+			<artifactId>harry12800.upgrade</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.harry12800</groupId>
 			<artifactId>LnkTool.core</artifactId>
 			<version>1.0</version>
 		</dependency>
-		  <dependency>
-            <groupId>com.netease.npl</groupId>
-            <artifactId>npl</artifactId>
-            <version>0.0.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/android.ninepatch.jar
+		<dependency>
+			<groupId>com.netease.npl</groupId>
+			<artifactId>npl</artifactId>
+			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/libs/android.ninepatch.jar
         </systemPath>
-        </dependency>
+		</dependency>
 	</dependencies>
 	<build>
-	<!-- <finalName>vchat-client</finalName> -->
+		<!-- <finalName>vchat-client</finalName> -->
 		<plugins>
-		 <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                   <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs> 
-                    <archive>
-                        <manifest>
-                            <mainClass>cn.harry12800.vchat.app.App</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>cn.harry12800.vchat.app.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>

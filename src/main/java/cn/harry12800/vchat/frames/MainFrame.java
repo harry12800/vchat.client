@@ -37,10 +37,10 @@ import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
 import cn.harry12800.lnk.core.util.ImageUtils;
+import cn.harry12800.upgrade.PlatUpdate;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCProgressBar;
-import cn.harry12800.vchat.frames.upgrade.PlatUpdate;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
@@ -54,8 +54,12 @@ import sun.audio.AudioStream;
 /**
  * Created by harry12800 on 17-5-28.
  */
-@SuppressWarnings("serial")
+@SuppressWarnings("restriction")
 public class MainFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5594533338258527370L;
 	public static int DEFAULT_WIDTH = 900;
 	public static int DEFAULT_HEIGHT = 650;
 	public static Border LIGHT_GRAY_BORDER = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
@@ -71,6 +75,7 @@ public class MainFrame extends JFrame {
 	private Image emptyTrayIcon; // 闪动时的任务栏图标
 	private TrayIcon trayIcon;
 	private boolean trayFlashing = false;
+
 	private AudioStream messageSound; // 消息到来时候的提示间
 	private JPanel southPanel = new JPanel();
 
@@ -165,13 +170,7 @@ public class MainFrame extends JFrame {
 			mit1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-//					download();
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							PlatUpdate.sureUpdate();
-						}
-					}).start();
+					updateSystem();
 				}
 			});
 
@@ -194,7 +193,13 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
+	protected void updateSystem() {
+		new Thread() {
+			public void run() {
+				platUpdate.updateSystem();
+			};
+		}.start();
+	}
 	private void registerHotKey() {
 		int SCREEN_SHOT_CODE = 10001;
 		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
@@ -528,6 +533,11 @@ public class MainFrame extends JFrame {
 		//		progressBarPanel.add(panel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
 		add(southPanel, BorderLayout.SOUTH);
 		centerScreen();
+		startPlatUpdate();
+	}
+	PlatUpdate platUpdate = PlatUpdate.getInstance();
+	private void startPlatUpdate() {
+		platUpdate.startPlatUpdate();
 	}
 
 	/**
