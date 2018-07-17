@@ -115,6 +115,7 @@ public class PlatUpdate {
 //			}.start();
 			FileUtils.deleteDir(tmpPath);
 			MachineUtils.reStart();
+			System.exit(1);
 		} catch (Exception e) {
 			if (e instanceof ConnectException) {
 				NotifyWindow.error(e.getMessage());

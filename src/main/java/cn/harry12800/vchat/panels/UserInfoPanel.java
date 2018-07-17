@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -25,6 +26,7 @@ import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.vchat.utils.HttpUtil;
 
 /**
  * Created by harry12800 on 2017/6/15.
@@ -117,7 +119,7 @@ public class UserInfoPanel extends ParentAvailablePanel {
 			createDirectChat(user.getName());
 		}
 	}
-
+	
 	/**
 	 * 创建直接聊天
 	 *
@@ -127,4 +129,8 @@ public class UserInfoPanel extends ParentAvailablePanel {
 		JOptionPane.showMessageDialog(MainFrame.getContext(), "发起聊天", "发起聊天", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	public static void main(String[] args) throws IOException {
+		String string = HttpUtil.get("http://10.3.10.110/net-auth/v2/hello");
+		System.out.println(string);
+	}
 }

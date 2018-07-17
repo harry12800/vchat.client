@@ -18,13 +18,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -40,12 +37,9 @@ import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
+import cn.harry12800.vchat.components.GBC;
+import cn.harry12800.vchat.components.GradientProgressBarUI;
 import cn.harry12800.vchat.components.RCProgressBar;
-import cn.harry12800.vchat.frames.components.DownloadTask;
-import cn.harry12800.vchat.frames.components.GBC;
-import cn.harry12800.vchat.frames.components.GradientProgressBarUI;
-import cn.harry12800.vchat.frames.components.HttpResponseListener;
-import cn.harry12800.vchat.frames.components.HttpUtil;
 import cn.harry12800.vchat.frames.upgrade.PlatUpdate;
 import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
@@ -380,67 +374,67 @@ public class MainFrame extends JFrame {
 
 	public static final String updateServerPath = "http://120.78.177.24:8000/download?path=";
 
-	public void download() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				DownloadTask task = new DownloadTask(new HttpUtil.ProgressListener() {
-					@Override
-					public void onProgress(int progress) {
-						progressBar.setValue(progress);
-					}
-				});
+//	public void download() {
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				DownloadTask task = new DownloadTask(new HttpUtil.ProgressListener() {
+//					@Override
+//					public void onProgress(int progress) {
+//						progressBar.setValue(progress);
+//					}
+//				});
+//
+//				task.setListener(new HttpResponseListener<byte[]>() {
+//					@Override
+//					public void onResult(byte[] ret) {
+//						saveFile(ret);
+//					}
+//				});
+//
+//				task.execute(updateServerPath);
+//			}
+//		}).start();
+//	}
 
-				task.setListener(new HttpResponseListener<byte[]>() {
-					@Override
-					public void onResult(byte[] ret) {
-						saveFile(ret);
-					}
-				});
-
-				task.execute(updateServerPath);
-			}
-		}).start();
-	}
-
-	private UpdateResultListener updateResultListener;
+//	private UpdateResultListener updateResultListener;
 
 	/**
 	 * 保存下载文件
 	 *
 	 * @param ret
 	 */
-	private void saveFile(byte[] ret) {
-		if (ret == null) {
-			updateResultListener.onFailed();
-			return;
-		}
-
-		File oldFile = new File("wechat.jar");
-		if (oldFile.exists()) {
-			oldFile.renameTo(new File("wechat_old.jar"));
-		}
-
-		File file = new File("wechat.jar");
-		try (FileOutputStream outputStream = new FileOutputStream(file);) {
-			outputStream.write(ret);
-			System.out.println("文件保存在：" + file.getAbsolutePath());
-
-			if (updateResultListener != null) {
-				updateResultListener.onSuccess();
-			}
-		} catch (Exception e) {
-			File oFile = new File("wechat_old.jar");
-			oFile.renameTo(new File("wechat.jar"));
-
-			JOptionPane.showMessageDialog(null, "更新失败，正在还原...", "更新失败", JOptionPane.ERROR_MESSAGE);
-			if (updateResultListener != null) {
-				updateResultListener.onFailed();
-			}
-
-			e.printStackTrace();
-		}
-	}
+//	private void saveFile(byte[] ret) {
+//		if (ret == null) {
+//			updateResultListener.onFailed();
+//			return;
+//		}
+//
+//		File oldFile = new File("wechat.jar");
+//		if (oldFile.exists()) {
+//			oldFile.renameTo(new File("wechat_old.jar"));
+//		}
+//
+//		File file = new File("wechat.jar");
+//		try (FileOutputStream outputStream = new FileOutputStream(file);) {
+//			outputStream.write(ret);
+//			System.out.println("文件保存在：" + file.getAbsolutePath());
+//
+//			if (updateResultListener != null) {
+//				updateResultListener.onSuccess();
+//			}
+//		} catch (Exception e) {
+//			File oFile = new File("wechat_old.jar");
+//			oFile.renameTo(new File("wechat.jar"));
+//
+//			JOptionPane.showMessageDialog(null, "更新失败，正在还原...", "更新失败", JOptionPane.ERROR_MESSAGE);
+//			if (updateResultListener != null) {
+//				updateResultListener.onFailed();
+//			}
+//
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * 清除剪切板缓存文件

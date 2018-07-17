@@ -2,18 +2,14 @@ package cn.harry12800.vchat.frames.upgrade;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,16 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import cn.harry12800.j2se.component.Progressar;
 import cn.harry12800.j2se.component.panel.TitlePanel;
 import cn.harry12800.j2se.component.panel.TitlePanel.Builder;
 import cn.harry12800.j2se.component.panel.TitlePanel.TitleHeight;
 import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.j2se.style.UI;
-import cn.harry12800.tools.Lists;
 import cn.harry12800.vchat.components.Colors;
-import cn.harry12800.vchat.components.GBC;
-import cn.harry12800.vchat.components.RCProgressBar;
 import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 
 public class DownloadPanel extends JPanel {

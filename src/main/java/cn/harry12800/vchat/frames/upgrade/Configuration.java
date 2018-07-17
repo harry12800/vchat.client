@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cn.harry12800.j2se.utils.Config;
 import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.XmlUtils;
 

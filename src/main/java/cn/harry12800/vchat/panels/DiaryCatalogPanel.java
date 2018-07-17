@@ -44,13 +44,13 @@ import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.entity.Diary;
 import cn.harry12800.vchat.entity.DiaryCatalog;
 import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.frames.components.HttpUtil;
 import cn.harry12800.vchat.model.diary.AricleNode;
 import cn.harry12800.vchat.model.diary.CategoryNode;
 import cn.harry12800.vchat.model.diary.MyJTreeTransferHandler;
 import cn.harry12800.vchat.model.diary.MyScrollBarUI;
 import cn.harry12800.vchat.model.diary.MyTreeUI;
 import cn.harry12800.vchat.model.diary.TreeNodeRenderer;
+import cn.harry12800.vchat.utils.HttpUtil;
 
 /**
  * 日志的目录面板

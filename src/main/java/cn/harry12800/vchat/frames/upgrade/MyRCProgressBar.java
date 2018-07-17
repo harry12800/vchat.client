@@ -1,7 +1,7 @@
 package cn.harry12800.vchat.frames.upgrade;
 
+import cn.harry12800.vchat.components.GradientProgressBarUI;
 import cn.harry12800.vchat.components.RCProgressBar;
-import cn.harry12800.vchat.frames.components.GradientProgressBarUI;
 
 public class MyRCProgressBar extends RCProgressBar {
 

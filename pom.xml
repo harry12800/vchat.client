@@ -86,11 +86,7 @@
 			<artifactId>ImageViewer</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
-			<groupId>cn.harry12800</groupId>
-			<artifactId>CheckUpdate</artifactId>
-			<version>1.0</version>
-		</dependency>
+		 
 		<dependency>
 			<groupId>cn.harry12800</groupId>
 			<artifactId>harry12800.common</artifactId>

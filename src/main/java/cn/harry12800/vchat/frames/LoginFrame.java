@@ -25,6 +25,7 @@ import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.UserCmd;
 import cn.harry12800.common.module.user.dto.LoginRequest;
 import cn.harry12800.common.module.user.dto.UserResponse;
+import cn.harry12800.j2se.utils.Config;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.Colors;
 import cn.harry12800.vchat.components.GBC;
@@ -74,6 +75,24 @@ public class LoginFrame extends JFrame {
 		initView();
 		centerScreen();
 		setListeners();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+				autoLogin();
+			}
+		}).start();
+	}
+
+	private void autoLogin() {
+		if("true".equals(Config.getProp("autoLogin"))||
+				Config.getProp("autoLogin")==null){
+			doLogin();
+		}
 	}
 
 	public LoginFrame(String username) {
@@ -117,7 +136,7 @@ public class LoginFrame extends JFrame {
 		usernameField.setFont(FontUtil.getDefaultFont(14));
 		usernameField.setForeground(Colors.FONT_BLACK);
 		usernameField.setMargin(new Insets(0, 15, 0, 0));
-		usernameField.setText("周国柱");
+		usernameField.setText(Config.getProp("username"));
 
 		passwordField = new RCPasswordField();
 		passwordField.setPreferredSize(textFieldDimension);
@@ -345,6 +364,7 @@ public class LoginFrame extends JFrame {
 		currentUser.setUsername(userResponse.getUserName());
 		currentUserService.insertOrUpdate(currentUser);
 		Launcher.currentUser = currentUser;
+		Config.setProp("username", userResponse.getUserName());
 		MainFrame frame = new MainFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
