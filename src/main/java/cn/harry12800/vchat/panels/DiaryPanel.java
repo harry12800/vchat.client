@@ -268,9 +268,10 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 				JsonUtil.saveObj(a, path);
 				System.out.println("ads:" + JsonUtil.object2String(diaryCatalog));
 			}
+			TitlePanel.getContext().showStatusLabel("yes！");
 		} catch (IOException e) {
 			e.printStackTrace();
-			TitlePanel.getContext().showStatusLabel("网络保存失败！");
+			TitlePanel.getContext().showStatusLabel("no！");
 		}
 
 	}
