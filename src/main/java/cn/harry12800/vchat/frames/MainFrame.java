@@ -536,7 +536,7 @@ public class MainFrame extends JFrame {
 		startPlatUpdate();
 	}
 	PlatUpdate platUpdate = PlatUpdate.getInstance();
-	private void startPlatUpdate() {
+	public void startPlatUpdate() {
 		platUpdate.startPlatUpdate();
 	}
 

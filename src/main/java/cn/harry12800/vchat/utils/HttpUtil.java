@@ -33,7 +33,11 @@ public class HttpUtil {
 
 	static {
 		try {
-			client = initClientBuilder().build();
+			client = initClientBuilder()
+					.connectTimeout(10, TimeUnit.SECONDS)
+					.writeTimeout(10, TimeUnit.SECONDS)
+					.readTimeout(30, TimeUnit.SECONDS)
+					.build();
 		} catch (KeyManagementException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
@@ -82,7 +86,6 @@ public class HttpUtil {
 				reqBuilder.addHeader(key, headers.get(key));
 			}
 		}
-
 		Request request = reqBuilder.build();
 		Response response = client.newCall(request).execute();
 		if (response.isSuccessful()) {
@@ -260,7 +263,7 @@ public class HttpUtil {
 
 		OkHttpClient.Builder builder = new OkHttpClient.Builder()
 				// .addInterceptor(interceptor)
-				.sslSocketFactory(sslContext.getSocketFactory(),xtm).hostnameVerifier(DO_NOT_VERIFY)
+				.sslSocketFactory(sslContext.getSocketFactory(), xtm).hostnameVerifier(DO_NOT_VERIFY)
 				.connectTimeout(10000, TimeUnit.MILLISECONDS);
 
 		return builder;
