@@ -345,12 +345,31 @@ public class DiaryCatalogPanel extends JScrollPane {
 				CategoryNode node = new CategoryNode(f);
 				root.add(node);
 				int i = 1;
-				for (File file2 : f.listFiles(filter)) {
+				File[] listFiles2 = f.listFiles(filter);
+				
+				for (File file2 : listFiles2) {
 					Diary a = new Diary();
 					a.setSort(i);
-					i++;
 					AricleNode newChild = new AricleNode(file2, a);
-					node.add(newChild);
+					boolean mark =true;
+					if(i>1){
+						String title2 = newChild.aritcle.getTitle();
+						AricleNode child = (AricleNode) node.getFirstChild();
+						int index=0;
+						while(mark&&child!=null){
+							String title = child.aritcle.getTitle();
+							if(title.compareTo(title2)<0)
+							{
+								node.insert(newChild,index);
+								mark=false;
+							}
+							index++;
+							child =(AricleNode) node.getChildAfter(child);
+						}
+					}
+					if(mark)
+						node.add(newChild);
+					i++;
 				}
 			} else {
 				x++;
