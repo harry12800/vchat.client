@@ -9,9 +9,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
@@ -36,6 +40,7 @@ import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
+import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.app.Launcher;
@@ -106,7 +111,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 	public DiaryCatalogPanel(JPanel parent) {
 		context = this;
 		String homePath = getHomePath();
-		dirPath = homePath + File.separator + "data" + File.separator + dirName+ File.separator + Launcher.currentUser.getUserId();
+		dirPath = homePath + File.separator + "data" + File.separator + dirName + File.separator + Launcher.currentUser.getUserId();
 		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
 		}
@@ -170,11 +175,15 @@ public class DiaryCatalogPanel extends JScrollPane {
 							mit1.setFont(BASIC_FONT);
 							JMenuItem mit2 = new JMenuItem("添加文章");
 							JMenuItem mit0 = new JMenuItem("打开目录");
+							JMenuItem mit4 = new JMenuItem("导出数据");
 							mit0.setUI(new RCMenuItemUI());
 							mit2.setUI(new RCMenuItemUI());
 							mit2.setOpaque(false);
 							mit0.setOpaque(false);
-							mit2.setFont(BASIC_FONT);
+							mit3.setFont(BASIC_FONT);
+							mit4.setFont(BASIC_FONT);
+							mit4.setUI(new RCMenuItemUI());
+							mit4.setOpaque(false);
 							mit0.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									File f = ((CategoryNode) (object)).getFile();
@@ -233,11 +242,50 @@ public class DiaryCatalogPanel extends JScrollPane {
 									catalogTree.expandPath(path);
 								}
 							});
+							mit4.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									CategoryNode node = (CategoryNode) object;
+									int childCount = node.getChildCount();
+									List<AricleNode> lists = Lists.newArrayList();
+									for (int i = 0; i < childCount; i++) {
+										AricleNode childAt = (AricleNode) node.getChildAt(i);
+										lists.add(childAt);
+									}
+									Collections.sort(lists,  new Comparator<AricleNode>() {
+										@Override
+										public int compare(AricleNode o1, AricleNode o2) {
+											return o1.aritcle.getTitle().compareToIgnoreCase(o2.aritcle.getTitle());
+										}
+									} );
+									StringBuilder sb = new StringBuilder();
+									for (AricleNode aricleNode : lists) {
+										sb.append(aricleNode.aritcle.getTitle()).append("\r\n");
+										sb.append(aricleNode.aritcle.getContent()).append("\r\n");
+										sb.append("--------------");
+									}
+									JFileChooser fileChooser = new JFileChooser();
+									fileChooser.setDialogTitle("请选择保存位置");
+									fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
+									fileChooser.showDialog(MainFrame.getContext(), "保存");
+									File selectedFile = fileChooser.getCurrentDirectory();
+									if (selectedFile != null) {
+										String path = selectedFile.getAbsolutePath();
+										String filePath = path+File.separator+node.getFile().getName()+".txt";
+										FileUtils.writeContent(filePath, sb.toString());
+										try {
+											Clip.openFile(path);
+										} catch (Exception e1) {
+											e1.printStackTrace();
+										}
+									}
+								}
+							});
 							pm.add(mit0);
 							pm.add(mit1);
 							pm.add(mit2);
 							pm.add(mit3);
-
+							pm.add(mit4);
 							pm.show(catalogTree, e.getX(), e.getY());
 						}
 						if (object instanceof AricleNode) {
@@ -346,28 +394,27 @@ public class DiaryCatalogPanel extends JScrollPane {
 				root.add(node);
 				int i = 1;
 				File[] listFiles2 = f.listFiles(filter);
-				
+
 				for (File file2 : listFiles2) {
 					Diary a = new Diary();
 					a.setSort(i);
 					AricleNode newChild = new AricleNode(file2, a);
-					boolean mark =true;
-					if(i>1){
+					boolean mark = true;
+					if (i > 1) {
 						String title2 = newChild.aritcle.getTitle();
 						AricleNode child = (AricleNode) node.getFirstChild();
-						int index=0;
-						while(mark&&child!=null){
+						int index = 0;
+						while (mark && child != null) {
 							String title = child.aritcle.getTitle();
-							if(title.compareTo(title2)<0)
-							{
-								node.insert(newChild,index);
-								mark=false;
+							if (title.compareTo(title2) < 0) {
+								node.insert(newChild, index);
+								mark = false;
 							}
 							index++;
-							child =(AricleNode) node.getChildAfter(child);
+							child = (AricleNode) node.getChildAfter(child);
 						}
 					}
-					if(mark)
+					if (mark)
 						node.add(newChild);
 					i++;
 				}
