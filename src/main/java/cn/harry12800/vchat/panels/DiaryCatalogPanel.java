@@ -41,8 +41,8 @@ import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
-import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.tools.StringUtils;
+import cn.harry12800.vchat.app.App;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.components.RCMenuItemUI;
@@ -110,7 +110,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 
 	public DiaryCatalogPanel(JPanel parent) {
 		context = this;
-		String homePath = getHomePath();
+		String homePath = App.basePath;
 		dirPath = homePath + File.separator + "data" + File.separator + dirName + File.separator + Launcher.currentUser.getUserId();
 		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
@@ -428,27 +428,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 		}
 	}
 
-	private String getHomePath() {
-		boolean byClass = MachineUtils.getByClass(DiaryCatalogPanel.class);
-		String homePath = "";
-		if (byClass) {
-			String clazz = System.getProperty("sun.java.command");
-			System.err.println("sun.java.command: " + clazz);
-			File file = new File(clazz);
-			// MachineUtils.printSystemProperties();
-			if (file.exists()) {
-				File file2 = new File(file.getAbsolutePath());
-				File parentFile = file2.getParentFile();
-				homePath = parentFile.getAbsolutePath();
-			} else {
-				homePath = System.getProperty("user.dir");
-			}
-		} else {
-			homePath = System.getProperty("user.dir");
-		}
-		return homePath;
-	}
-
+	
 	private void deleteDir(Object object) {
 		File file = ((CategoryNode) (object)).getFile();
 		new Thread(new Runnable() {

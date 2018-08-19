@@ -26,7 +26,7 @@ public class RightPanel extends JPanel {
 
 	private CardLayout cardLayout;
 
-	public static final String MESSAGE = "MESSAGE";
+	public static final String CHAT = "CHAT";
 	public static final String TIP = "TIP";
 	public static final String USER_INFO = "USER_INFO";
 	public static final String DIARY = "DIARY";
@@ -56,7 +56,7 @@ public class RightPanel extends JPanel {
 	private void initView() {
 		contentPanel.add(tipPanel, TIP);
 		contentPanel.add(userInfoPanel, USER_INFO);
-		contentPanel.add(chatPanel, MESSAGE);
+		contentPanel.add(chatPanel, CHAT);
 		contentPanel.add(diaryPanel, DIARY);
 
 		this.setBackground(Colors.FONT_WHITE);

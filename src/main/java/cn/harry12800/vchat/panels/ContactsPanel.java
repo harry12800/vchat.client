@@ -2,7 +2,6 @@ package cn.harry12800.vchat.panels;
 
 import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.adapter.ContactsItemsAdapter;
@@ -114,14 +114,16 @@ public class ContactsPanel extends ParentAvailablePanel {
 	 * @param hotRefresh
 	 *            是否热更新，hotRefresh = true， 将刷新该用户的头像缓存
 	 */
+	@Autowired
 	public void getUserAvatar(String username, boolean hotRefresh) {
-
 		// TODO: 服务器获取头像，这里从资源文件夹中获取
 		try {
-			URL url = getClass().getResource("/avatar/" + username + ".png");
+			String name ="/avatar/" + username + ".png";
+//			System.out.println(name);
+			URL url = getClass().getResource(name);
 			BufferedImage image = ImageIO.read(url);
 			processAvatarData(image, username);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// e.printStackTrace();
 		}
 

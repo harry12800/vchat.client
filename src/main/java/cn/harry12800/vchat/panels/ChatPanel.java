@@ -42,15 +42,18 @@ import org.apache.log4j.Logger;
 import cn.harry12800.common.core.model.Request;
 import cn.harry12800.common.module.ChatCmd;
 import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.chat.dto.FileChatRequest;
 import cn.harry12800.common.module.chat.dto.MsgResponse;
 import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.adapter.message.BaseMessageViewHolder;
 import cn.harry12800.vchat.adapter.message.MessageAdapter;
 import cn.harry12800.vchat.adapter.message.MessageAttachmentViewHolder;
 import cn.harry12800.vchat.adapter.message.MessageRightAttachmentViewHolder;
 import cn.harry12800.vchat.adapter.message.MessageRightImageViewHolder;
+import cn.harry12800.vchat.app.App;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
@@ -529,7 +532,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	 *
 	 * @param count
 	 */
-	private void updateUnreadCount(int count) {
+	public void updateUnreadCount(int count) {
 		room = roomService.findById(roomId);
 		if (count < 0) {
 			System.out.println(count);
@@ -905,7 +908,8 @@ public class ChatPanel extends ParentAvailablePanel {
 			final int[] index = { 1 };
 
 			// TODO：向服务器上传文件
-			final int[] uploadedBlockCount = { 1 };
+			final short[] uploadedBlockCount = { 1 };
+			final long[] len = { 0 };
 
 			UploadTaskCallback callback = new UploadTaskCallback() {
 				@Override
@@ -913,7 +917,8 @@ public class ChatPanel extends ParentAvailablePanel {
 					// 当收到上一个分块的响应后，才能开始上传下一个分块，否则容易造成分块接收顺序错乱
 					uploadedBlockCount[0]++;
 					if (uploadedBlockCount[0] <= dataParts.size()) {
-						sendDataPart(uploadedBlockCount[0], dataParts, this);
+						len[0]=len[0]+dataParts.get(uploadedBlockCount[0]).length;
+						sendDataPart(file.getName(),len[0],messageId,uploadedBlockCount[0], dataParts, this);
 					}
 
 					int progress = (int) ((index[0] * 1.0f / dataParts.size()) * 100);
@@ -974,20 +979,28 @@ public class ChatPanel extends ParentAvailablePanel {
 				}
 			};
 
-			sendDataPart(0, dataParts, callback);
+			sendDataPart(file.getName(),len[0],messageId,(short)0, dataParts, callback);
 		}
 	}
 
-	private void sendDataPart(int partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
+	private void sendDataPart(String name,long position,String messageId,short partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
 		// TODO： 发送第 partIndex 个分块到服务器
-		 send(dataParts.get(partIndex));
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				System.out.println("发送第" + partIndex + "个分块，共" + dataParts.size() + "个分块");
 				try {
-					Thread.sleep(500);
+					FileChatRequest request = new FileChatRequest();
+					request.setData(dataParts.get(partIndex));
+					request.setSenderUserId(Long.valueOf(currentUser.getUserId()));
+					request.setIndex(partIndex);
+					request.setMessageId(messageId);
+					request.setPosition(position);
+					request.setTargetUserId(Long.valueOf(roomId));
+					request.setTotal((short)dataParts.size());
+					request.setName(name);
+					Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.FILE_CHAT, request.getBytes());
+					Launcher.client.sendRequest(req);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -996,10 +1009,6 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		}).start();
 
-	}
-
-	private void send(byte[] bs) {
-		
 	}
 
 	/**
@@ -1233,6 +1242,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	public void showReceiveMsg(MsgResponse msg) {
 		if (currentUser.getUserId().equals(msg.getFromId() + ""))
 			return;
+		System.out.println("收到消息");
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
 		message.setRoomId(msg.getFromId() + "");
@@ -1263,7 +1273,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		roomService.insertOrUpdate(friendRoom);
 		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
-		if (friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+		System.out.println(room+":null");
+		if (room!=null&&friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			addMessageItemToEnd(item);
 		}
 		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
@@ -1272,5 +1283,57 @@ public class ChatPanel extends ParentAvailablePanel {
 	public void showReceiveMsgFail(String tipContent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void showReceiveFileMsg(FileChatRequest msg) {
+		String homePath = App.basePath;
+		String dirPath = homePath + File.separator + "data" + File.separator + "chat" 
+		+ File.separator + currentUser.getUserId()+ File.separator +msg.getSenderUserId();
+		if (!new File(dirPath).exists()) {
+			new File(dirPath).mkdirs();
+		}
+		File file = new File(dirPath,msg.getName());
+		FileUtils.writeFile(file, msg.getPosition(), msg.getData());
+		/**
+		 * 判断是否是最后一条
+		 */
+		if(msg.getIndex() +1!=msg.getTotal())return ;
+		Message message = new Message();
+		message.setId(StringUtils.getUUID());
+		message.setRoomId(msg.getSenderUserId()+"");
+		message.setFileAttachmentId(msg.getMessageId());
+		message.setMessageContent(msg.getName());
+		//		string = StringEscapeUtils.unescapeJava(string);
+		message.setSenderId(msg.getSenderUserId()+"");
+		message.setTimestamp(new Date().getTime());
+		List<CurrentUser> users = currentUserService.findAll();
+		for (CurrentUser currentUser : users) {
+			if (currentUser.getUserId().equals(msg.getSenderUserId() + "")) {
+				message.setSenderUsername(currentUser.getUsername());
+			}
+		}
+		List<ContactsUser> findAll = contactsUserService.findAll();
+		for (ContactsUser contactsUser : findAll) {
+			if (contactsUser.getUserId().equals(msg.getSenderUserId() + "")) {
+				message.setSenderUsername(contactsUser.getUsername());
+				break;
+			}
+		}
+		messageService.insertOrUpdate(message);
+		Room friendRoom = roomService.findById(msg.getSenderUserId() + "");
+		friendRoom.setLastMessage(message.getMessageContent());
+		friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
+		roomService.insertOrUpdate(friendRoom);
+		FileAttachment attachment = new FileAttachment();
+		attachment.setId(msg.getMessageId());
+		attachment.setTitle(msg.getName());
+		attachment.setLink(file.getAbsolutePath());
+		fileAttachmentService.insertOrUpdate(attachment );
+		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
+		item.setMessageType(MessageItem.LEFT_ATTACHMENT);
+		if (friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+			addMessageItemToEnd(item);
+		}
+		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
 	}
 }

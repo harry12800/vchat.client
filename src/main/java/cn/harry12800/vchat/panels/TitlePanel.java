@@ -267,7 +267,7 @@ public class TitlePanel extends ParentAvailablePanel {
 
 		roomInfoButton.setVisible(true);
 		RightPanel parent = (RightPanel) getParent();
-		parent.showPanel(RightPanel.MESSAGE);
+		parent.showPanel(RightPanel.CHAT);
 	}
 
 	public void showAppTitle() {

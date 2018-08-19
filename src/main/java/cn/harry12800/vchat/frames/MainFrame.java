@@ -29,6 +29,11 @@ import javax.swing.border.Border;
 import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 
+import cn.harry12800.common.core.model.Request;
+import cn.harry12800.common.module.ChatCmd;
+import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.UserCmd;
+import cn.harry12800.common.module.user.dto.PullMsgRequest;
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.j2se.popup.ListItem;
@@ -534,8 +539,23 @@ public class MainFrame extends JFrame {
 		add(southPanel, BorderLayout.SOUTH);
 		centerScreen();
 		startPlatUpdate();
+		startPullMsg();
 	}
+	private void startPullMsg() {
+		try {
+			PullMsgRequest request = new PullMsgRequest();
+			request.setUserid(Long.valueOf( Launcher.currentUser.getUserId()));
+			// 构建请求
+			Request req = Request.valueOf(ModuleId.USER, UserCmd.PULL_MSG, request.getBytes());
+			Launcher.client.sendRequest(req);
+		} catch (Exception e) {
+
+		} 
+	}
+
 	PlatUpdate platUpdate = PlatUpdate.getInstance();
+	
+	
 	public void startPlatUpdate() {
 		platUpdate.startPlatUpdate();
 	}

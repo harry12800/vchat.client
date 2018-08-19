@@ -58,6 +58,10 @@ public class MimeTypeUtil {
 		MimeMap.put(".msg", "application/vnd.ms-outlook");
 		MimeMap.put(".ogg", "audio/ogg");
 		MimeMap.put(".pdf", "application/pdf");
+		MimeMap.put(".vsdx", "application/vsdx");
+		MimeMap.put(".sql", "text/plain");
+		MimeMap.put(".bat", "text/plain");
+		MimeMap.put(".properties", "text/plain");
 		MimeMap.put(".png", "image/png");
 		MimeMap.put(".pps", "application/vnd.ms-powerpoint");
 		MimeMap.put(".ppt", "application/vnd.ms-powerpoint");

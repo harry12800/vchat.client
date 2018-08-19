@@ -62,6 +62,7 @@ public class ListPanel extends ParentAvailablePanel {
 			currentTab = who;
 		}
 		cardLayout.show(this, who);
+		RightPanel.getContext().showPanel(who);
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package cn.harry12800.vchat.handler;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import cn.harry12800.common.core.annotion.SocketCommand;
@@ -7,11 +9,14 @@ import cn.harry12800.common.core.annotion.SocketModule;
 import cn.harry12800.common.core.model.ResultCode;
 import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.UserCmd;
+import cn.harry12800.common.module.chat.dto.MsgResponse;
+import cn.harry12800.common.module.chat.dto.PrivateChatResponse;
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.common.module.user.dto.UserResponse;
 import cn.harry12800.lnk.client.ResultCodeMap;
 import cn.harry12800.vchat.frames.LoginFrame;
 import cn.harry12800.vchat.frames.MainFrame;
+import cn.harry12800.vchat.panels.ChatPanel;
 
 /**
  * 玩家模块
@@ -77,4 +82,17 @@ public class UserLoginHandler {
 		}
 	}
 
+	@SocketCommand(cmd = UserCmd.PULL_MSG, desc = "收到推送聊天信息")
+	public void receieveMessage(int resultCode, byte[] data) {
+		if (resultCode == ResultCode.SUCCESS) {
+			PrivateChatResponse msg = new PrivateChatResponse();
+			msg.readFromBytes(data);
+			List<MsgResponse> msgs = msg.getMsgs();
+			for (MsgResponse msgResponse : msgs) {
+				ChatPanel.getContext().showReceiveMsg(msgResponse);
+			}
+		} else {
+			ChatPanel.getContext().showReceiveMsgFail(resultCodeTip.getTipContent(resultCode));
+		}
+	}
 }
