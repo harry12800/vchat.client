@@ -229,7 +229,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 	}
 
 	private synchronized void saveToServer(Diary a, String path) {
-		if(StringUtils.isEmpty(a.getId())){
+		if (StringUtils.isEmpty(a.getId())) {
 			a.setId(StringUtils.moveSuffix(new File(path).getName()));
 		}
 		Map<String, String> headers = new HashMap<>(0);
@@ -388,25 +388,25 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		see.addMouseListener(new ClickAction(see) {
 			public void leftClick(MouseEvent e) {
 				try {
-					URI uri = new URI(Contants.getPath("?userId="+Launcher.currentUser.getUserId()));
+					URI uri = new URI(Contants.getPath("?userId=" + Launcher.currentUser.getUserId()));
 					java.awt.Desktop.getDesktop().browse(uri);
 				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
-//				File selectFile = new File(DiaryCatalogPanel.getContext().currPath);
-//				if (selectFile.exists()) {
-//					try {
-//						Diary d = JsonUtil.string2Json(selectFile, Diary.class);
-//					} catch (Exception e1) {
-//						e1.printStackTrace();
-//					}
-//					// dialog = new NativeDiaryScanDialog(DiaryPanel.this, aritcles);
-//					// DiaryScanDialog dialog = new DiaryScanDialog(DiaryPanel2.this, aritcles,
-//					// currIndex);
-//					// dialog.setVisible(true);
-//				} else {
-//					MainFrame.getContext().alert("没有可预览的文章！");
-//				}
+				//				File selectFile = new File(DiaryCatalogPanel.getContext().currPath);
+				//				if (selectFile.exists()) {
+				//					try {
+				//						Diary d = JsonUtil.string2Json(selectFile, Diary.class);
+				//					} catch (Exception e1) {
+				//						e1.printStackTrace();
+				//					}
+				//					// dialog = new NativeDiaryScanDialog(DiaryPanel.this, aritcles);
+				//					// DiaryScanDialog dialog = new DiaryScanDialog(DiaryPanel2.this, aritcles,
+				//					// currIndex);
+				//					// dialog.setVisible(true);
+				//				} else {
+				//					MainFrame.getContext().alert("没有可预览的文章！");
+				//				}
 			}
 		});
 
@@ -437,8 +437,8 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		cmd.addMouseListener(new ClickAction(cmd) {
 			public void leftClick(MouseEvent e) {
 				if (DiaryCatalogPanel.getContext().getCatalogTree() != null) {
-//					File file = ((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).getFile();
-//					final String srcByFilePath = FileUtils.getSrcByFilePath(file, "utf-8");
+					//					File file = ((AricleNode) DiaryCatalogPanel.getContext().getCurrNode()).getFile();
+					//					final String srcByFilePath = FileUtils.getSrcByFilePath(file, "utf-8");
 					try {
 						String[] runtimeOutErr = MachineUtils.runtimeCmd(areaTextPanel.getText());
 						areaTextPanel.setText(areaTextPanel.getText() + "\r\n" + runtimeOutErr[0] + "\r\n" + runtimeOutErr[1]);

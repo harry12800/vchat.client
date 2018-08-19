@@ -77,7 +77,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					URI uri = new URI(Contants.getPath("?userId="+Launcher.currentUser.getUserId()));
+					URI uri = new URI(Contants.getPath("?userId=" + Launcher.currentUser.getUserId()));
 					java.awt.Desktop.getDesktop().browse(uri);
 				} catch (Exception e2) {
 					e2.printStackTrace();

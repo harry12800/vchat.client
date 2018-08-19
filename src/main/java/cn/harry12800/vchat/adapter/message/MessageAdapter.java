@@ -192,7 +192,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		listView.setScrollHiddenOnMouseLeave(holder.attachmentTitle);
 
 		// 绑定右键菜单
-		attachPopupMenu(viewHolder, MessageItem.LEFT_ATTACHMENT,item.getId());
+		attachPopupMenu(viewHolder, MessageItem.LEFT_ATTACHMENT, item.getId());
 	}
 
 	private void processRightAttachmentMessage(ViewHolder viewHolder, MessageItem item) {
@@ -262,7 +262,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		}
 
 		// 绑定右键菜单
-		attachPopupMenu(viewHolder, MessageItem.RIGHT_ATTACHMENT,item.getId());
+		attachPopupMenu(viewHolder, MessageItem.RIGHT_ATTACHMENT, item.getId());
 
 		listView.setScrollHiddenOnMouseLeave(holder.attachmentPanel);
 		listView.setScrollHiddenOnMouseLeave(holder.messageBubble);
@@ -323,7 +323,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		listView.setScrollHiddenOnMouseLeave(holder.imageBubble);
 
 		// 绑定右键菜单
-		attachPopupMenu(viewHolder, MessageItem.LEFT_IMAGE,item.getId());
+		attachPopupMenu(viewHolder, MessageItem.LEFT_IMAGE, item.getId());
 	}
 
 	/**
@@ -382,7 +382,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		});
 
 		// 绑定右键菜单
-		attachPopupMenu(viewHolder, MessageItem.RIGHT_IMAGE,item.getId());
+		attachPopupMenu(viewHolder, MessageItem.RIGHT_IMAGE, item.getId());
 
 		listView.setScrollHiddenOnMouseLeave(holder.image);
 		listView.setScrollHiddenOnMouseLeave(holder.imageBubble);
@@ -561,7 +561,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		});
 
 		// 绑定右键菜单
-		attachPopupMenu(viewHolder, MessageItem.RIGHT_TEXT,"");
+		attachPopupMenu(viewHolder, MessageItem.RIGHT_TEXT, "");
 
 		listView.setScrollHiddenOnMouseLeave(holder.messageBubble);
 		listView.setScrollHiddenOnMouseLeave(holder.text);
@@ -583,7 +583,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 
 		listView.setScrollHiddenOnMouseLeave(holder.messageBubble);
 		listView.setScrollHiddenOnMouseLeave(holder.text);
-		attachPopupMenu(viewHolder, MessageItem.LEFT_TEXT,"");
+		attachPopupMenu(viewHolder, MessageItem.LEFT_TEXT, "");
 	}
 
 	/**
@@ -645,7 +645,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 		return messageItems.size();
 	}
 
-	private void attachPopupMenu(ViewHolder viewHolder, int messageType,final String attachId) {
+	private void attachPopupMenu(ViewHolder viewHolder, int messageType, final String attachId) {
 		JComponent contentComponent = null;
 		RCMessageBubble messageBubble = null;
 		switch (messageType) {
@@ -684,7 +684,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 				public void mouseReleased(MouseEvent e) {
 					if (e.getButton() == MouseEvent.BUTTON3) {
 						// 通过holder.attachmentPane.getTag()可以获取文件附件信息
-						popupMenu.show(holder.attachmentPanel, e.getX(), e.getY(), MessageItem.RIGHT_ATTACHMENT,attachId);
+						popupMenu.show(holder.attachmentPanel, e.getX(), e.getY(), MessageItem.RIGHT_ATTACHMENT, attachId);
 					}
 				}
 			});
@@ -699,7 +699,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					if (e.getButton() == MouseEvent.BUTTON3) {
-						popupMenu.show(holder.attachmentPanel, e.getX(), e.getY(), MessageItem.LEFT_ATTACHMENT,attachId);
+						popupMenu.show(holder.attachmentPanel, e.getX(), e.getY(), MessageItem.LEFT_ATTACHMENT, attachId);
 					}
 				}
 			});
@@ -728,7 +728,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON3) {
-					popupMenu.show((Component) e.getSource(), e.getX(), e.getY(), messageType,"");
+					popupMenu.show((Component) e.getSource(), e.getX(), e.getY(), messageType, "");
 				}
 
 				super.mouseReleased(e);
@@ -739,7 +739,7 @@ public class MessageAdapter extends BaseAdapter<BaseMessageViewHolder> {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON3) {
-					popupMenu.show(finalContentComponent, e.getX(), e.getY(), messageType,"");
+					popupMenu.show(finalContentComponent, e.getX(), e.getY(), messageType, "");
 				}
 			}
 		});

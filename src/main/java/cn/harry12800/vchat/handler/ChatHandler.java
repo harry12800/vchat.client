@@ -47,6 +47,7 @@ public class ChatHandler {
 			ChatPanel.getContext().showReceiveMsgFail(resultCodeTip.getTipContent(resultCode));
 		}
 	}
+
 	@SocketCommand(cmd = ChatCmd.FILE_CHAT, desc = "收到文件信息")
 	public void receieveFileMessage(int resultCode, byte[] data) {
 		if (resultCode == ResultCode.SUCCESS) {
@@ -58,13 +59,14 @@ public class ChatHandler {
 			ChatPanel.getContext().showReceiveMsgFail(resultCodeTip.getTipContent(resultCode));
 		}
 	}
+
 	@SocketCommand(cmd = ChatCmd.FILE_CHAT_RESULT, desc = "收到发送文件回执信息")
 	public void receieveFileResultMessage(int resultCode, byte[] data) {
 		if (resultCode == ResultCode.SUCCESS) {
 			FileChatResponse msg = new FileChatResponse();
 			msg.readFromBytes(data);
 			System.err.println(msg);
-//			ChatPanel.getContext().showReceiveMsg(msg);
+			//			ChatPanel.getContext().showReceiveMsg(msg);
 		} else {
 			ChatPanel.getContext().showReceiveMsgFail(resultCodeTip.getTipContent(resultCode));
 		}

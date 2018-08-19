@@ -251,12 +251,12 @@ public class DiaryCatalogPanel extends JScrollPane {
 										AricleNode childAt = (AricleNode) node.getChildAt(i);
 										lists.add(childAt);
 									}
-									Collections.sort(lists,  new Comparator<AricleNode>() {
+									Collections.sort(lists, new Comparator<AricleNode>() {
 										@Override
 										public int compare(AricleNode o1, AricleNode o2) {
 											return o1.aritcle.getTitle().compareToIgnoreCase(o2.aritcle.getTitle());
 										}
-									} );
+									});
 									StringBuilder sb = new StringBuilder();
 									for (AricleNode aricleNode : lists) {
 										sb.append(aricleNode.aritcle.getTitle()).append("\r\n");
@@ -271,7 +271,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 									File selectedFile = fileChooser.getCurrentDirectory();
 									if (selectedFile != null) {
 										String path = selectedFile.getAbsolutePath();
-										String filePath = path+File.separator+node.getFile().getName()+".txt";
+										String filePath = path + File.separator + node.getFile().getName() + ".txt";
 										FileUtils.writeContent(filePath, sb.toString());
 										try {
 											Clip.openFile(path);
@@ -428,7 +428,6 @@ public class DiaryCatalogPanel extends JScrollPane {
 		}
 	}
 
-	
 	private void deleteDir(Object object) {
 		File file = ((CategoryNode) (object)).getFile();
 		new Thread(new Runnable() {

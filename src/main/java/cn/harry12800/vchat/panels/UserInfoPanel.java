@@ -119,7 +119,7 @@ public class UserInfoPanel extends ParentAvailablePanel {
 			createDirectChat(user.getName());
 		}
 	}
-	
+
 	/**
 	 * 创建直接聊天
 	 *

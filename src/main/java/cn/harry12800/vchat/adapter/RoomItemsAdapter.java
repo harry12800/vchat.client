@@ -117,7 +117,7 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 
 						// setBackground(viewHolder, Colors.ITEM_SELECTED);
 						selectedViewHolder = viewHolder;
-					}else {
+					} else {
 						ChatPanel.getContext().updateUnreadCount(0);
 					}
 				}

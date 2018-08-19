@@ -917,8 +917,8 @@ public class ChatPanel extends ParentAvailablePanel {
 					// 当收到上一个分块的响应后，才能开始上传下一个分块，否则容易造成分块接收顺序错乱
 					uploadedBlockCount[0]++;
 					if (uploadedBlockCount[0] <= dataParts.size()) {
-						len[0]=len[0]+dataParts.get(uploadedBlockCount[0]).length;
-						sendDataPart(file.getName(),len[0],messageId,uploadedBlockCount[0], dataParts, this);
+						len[0] = len[0] + dataParts.get(uploadedBlockCount[0]).length;
+						sendDataPart(file.getName(), len[0], messageId, uploadedBlockCount[0], dataParts, this);
 					}
 
 					int progress = (int) ((index[0] * 1.0f / dataParts.size()) * 100);
@@ -979,11 +979,11 @@ public class ChatPanel extends ParentAvailablePanel {
 				}
 			};
 
-			sendDataPart(file.getName(),len[0],messageId,(short)0, dataParts, callback);
+			sendDataPart(file.getName(), len[0], messageId, (short) 0, dataParts, callback);
 		}
 	}
 
-	private void sendDataPart(String name,long position,String messageId,short partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
+	private void sendDataPart(String name, long position, String messageId, short partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
 		// TODO： 发送第 partIndex 个分块到服务器
 		new Thread(new Runnable() {
 			@Override
@@ -997,7 +997,7 @@ public class ChatPanel extends ParentAvailablePanel {
 					request.setMessageId(messageId);
 					request.setPosition(position);
 					request.setTargetUserId(Long.valueOf(roomId));
-					request.setTotal((short)dataParts.size());
+					request.setTotal((short) dataParts.size());
 					request.setName(name);
 					Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.FILE_CHAT, request.getBytes());
 					Launcher.client.sendRequest(req);
@@ -1044,7 +1044,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		int blockCount;
 		blockCount = (int) (size % partSize == 0 ? size / partSize : size / partSize + 1);
 		List<byte[]> dataParts = new ArrayList<>(blockCount);
-		try (FileInputStream inputStream = new FileInputStream(file)){
+		try (FileInputStream inputStream = new FileInputStream(file)) {
 			byte[] buffer = new byte[partSize];
 			int len;
 			while ((len = inputStream.read(buffer)) > -1) {
@@ -1272,8 +1272,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		roomService.insertOrUpdate(friendRoom);
 		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);
-		System.out.println(room+":null");
-		if (room!=null&&friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+		System.out.println(room + ":null");
+		if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			addMessageItemToEnd(item);
 		}
 		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
@@ -1286,24 +1286,25 @@ public class ChatPanel extends ParentAvailablePanel {
 
 	public void showReceiveFileMsg(FileChatRequest msg) {
 		String homePath = App.basePath;
-		String dirPath = homePath + File.separator + "data" + File.separator + "chat" 
-		+ File.separator + currentUser.getUsername()+ File.separator +Launcher.getUserNameByUserId(msg.getSenderUserId());
+		String dirPath = homePath + File.separator + "data" + File.separator + "chat"
+				+ File.separator + currentUser.getUsername() + File.separator + Launcher.getUserNameByUserId(msg.getSenderUserId());
 		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
 		}
-		File file = new File(dirPath,msg.getName());
+		File file = new File(dirPath, msg.getName());
 		FileUtils.writeFile(file, msg.getPosition(), msg.getData());
 		/**
 		 * 判断是否是最后一条
 		 */
-		if(msg.getIndex() +1!=msg.getTotal())return ;
+		if (msg.getIndex() + 1 != msg.getTotal())
+			return;
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
-		message.setRoomId(msg.getSenderUserId()+"");
+		message.setRoomId(msg.getSenderUserId() + "");
 		message.setFileAttachmentId(msg.getMessageId());
 		message.setMessageContent(msg.getName());
 		//		string = StringEscapeUtils.unescapeJava(string);
-		message.setSenderId(msg.getSenderUserId()+"");
+		message.setSenderId(msg.getSenderUserId() + "");
 		message.setTimestamp(new Date().getTime());
 		List<CurrentUser> users = currentUserService.findAll();
 		for (CurrentUser currentUser : users) {
@@ -1327,10 +1328,10 @@ public class ChatPanel extends ParentAvailablePanel {
 		attachment.setId(msg.getMessageId());
 		attachment.setTitle(msg.getName());
 		attachment.setLink(file.getAbsolutePath());
-		fileAttachmentService.insertOrUpdate(attachment );
+		fileAttachmentService.insertOrUpdate(attachment);
 		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_ATTACHMENT);
-		if (room!=null&&friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+		if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			addMessageItemToEnd(item);
 		}
 		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());

@@ -71,5 +71,4 @@ public class DiaryCatalog {
 		return "DiaryCatalog [id=" + id + ", parentId=" + parentId + ", name=" + name + ", sort=" + sort + ", userId=" + userId + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
 	}
 
-
 }

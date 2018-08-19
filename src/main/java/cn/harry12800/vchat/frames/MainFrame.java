@@ -115,6 +115,7 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 初始化系统托盘图标
 	 */
@@ -197,6 +198,7 @@ public class MainFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
+
 	protected void updateSystem() {
 		new Thread() {
 			public void run() {
@@ -204,6 +206,7 @@ public class MainFrame extends JFrame {
 			};
 		}.start();
 	}
+
 	private void registerHotKey() {
 		int SCREEN_SHOT_CODE = 10001;
 		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
@@ -383,67 +386,67 @@ public class MainFrame extends JFrame {
 
 	public static final String updateServerPath = "http://120.78.177.24:8000/download?path=";
 
-//	public void download() {
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				DownloadTask task = new DownloadTask(new HttpUtil.ProgressListener() {
-//					@Override
-//					public void onProgress(int progress) {
-//						progressBar.setValue(progress);
-//					}
-//				});
-//
-//				task.setListener(new HttpResponseListener<byte[]>() {
-//					@Override
-//					public void onResult(byte[] ret) {
-//						saveFile(ret);
-//					}
-//				});
-//
-//				task.execute(updateServerPath);
-//			}
-//		}).start();
-//	}
+	//	public void download() {
+	//		new Thread(new Runnable() {
+	//			@Override
+	//			public void run() {
+	//				DownloadTask task = new DownloadTask(new HttpUtil.ProgressListener() {
+	//					@Override
+	//					public void onProgress(int progress) {
+	//						progressBar.setValue(progress);
+	//					}
+	//				});
+	//
+	//				task.setListener(new HttpResponseListener<byte[]>() {
+	//					@Override
+	//					public void onResult(byte[] ret) {
+	//						saveFile(ret);
+	//					}
+	//				});
+	//
+	//				task.execute(updateServerPath);
+	//			}
+	//		}).start();
+	//	}
 
-//	private UpdateResultListener updateResultListener;
+	//	private UpdateResultListener updateResultListener;
 
 	/**
 	 * 保存下载文件
 	 *
 	 * @param ret
 	 */
-//	private void saveFile(byte[] ret) {
-//		if (ret == null) {
-//			updateResultListener.onFailed();
-//			return;
-//		}
-//
-//		File oldFile = new File("wechat.jar");
-//		if (oldFile.exists()) {
-//			oldFile.renameTo(new File("wechat_old.jar"));
-//		}
-//
-//		File file = new File("wechat.jar");
-//		try (FileOutputStream outputStream = new FileOutputStream(file);) {
-//			outputStream.write(ret);
-//			System.out.println("文件保存在：" + file.getAbsolutePath());
-//
-//			if (updateResultListener != null) {
-//				updateResultListener.onSuccess();
-//			}
-//		} catch (Exception e) {
-//			File oFile = new File("wechat_old.jar");
-//			oFile.renameTo(new File("wechat.jar"));
-//
-//			JOptionPane.showMessageDialog(null, "更新失败，正在还原...", "更新失败", JOptionPane.ERROR_MESSAGE);
-//			if (updateResultListener != null) {
-//				updateResultListener.onFailed();
-//			}
-//
-//			e.printStackTrace();
-//		}
-//	}
+	//	private void saveFile(byte[] ret) {
+	//		if (ret == null) {
+	//			updateResultListener.onFailed();
+	//			return;
+	//		}
+	//
+	//		File oldFile = new File("wechat.jar");
+	//		if (oldFile.exists()) {
+	//			oldFile.renameTo(new File("wechat_old.jar"));
+	//		}
+	//
+	//		File file = new File("wechat.jar");
+	//		try (FileOutputStream outputStream = new FileOutputStream(file);) {
+	//			outputStream.write(ret);
+	//			System.out.println("文件保存在：" + file.getAbsolutePath());
+	//
+	//			if (updateResultListener != null) {
+	//				updateResultListener.onSuccess();
+	//			}
+	//		} catch (Exception e) {
+	//			File oFile = new File("wechat_old.jar");
+	//			oFile.renameTo(new File("wechat.jar"));
+	//
+	//			JOptionPane.showMessageDialog(null, "更新失败，正在还原...", "更新失败", JOptionPane.ERROR_MESSAGE);
+	//			if (updateResultListener != null) {
+	//				updateResultListener.onFailed();
+	//			}
+	//
+	//			e.printStackTrace();
+	//		}
+	//	}
 
 	/**
 	 * 清除剪切板缓存文件
@@ -540,21 +543,21 @@ public class MainFrame extends JFrame {
 		startPlatUpdate();
 		startPullMsg();
 	}
+
 	private void startPullMsg() {
 		try {
 			PullMsgRequest request = new PullMsgRequest();
-			request.setUserid(Long.valueOf( Launcher.currentUser.getUserId()));
+			request.setUserid(Long.valueOf(Launcher.currentUser.getUserId()));
 			// 构建请求
 			Request req = Request.valueOf(ModuleId.USER, UserCmd.PULL_MSG, request.getBytes());
 			Launcher.client.sendRequest(req);
 		} catch (Exception e) {
 
-		} 
+		}
 	}
 
 	PlatUpdate platUpdate = PlatUpdate.getInstance();
-	
-	
+
 	public void startPlatUpdate() {
 		platUpdate.startPlatUpdate();
 	}

@@ -11,11 +11,13 @@ import cn.harry12800.vchat.panels.DiaryCatalogPanel;
  */
 public class App {
 	public static String basePath = getHomePath();
+
 	public static void main(String[] args) throws Exception {
 		Scaner.getInvoker();
 		Launcher launcher = new Launcher();
 		launcher.launch();
 	}
+
 	public static String getHomePath() {
 		boolean byClass = MachineUtils.getByClass(DiaryCatalogPanel.class);
 		String homePath = "";

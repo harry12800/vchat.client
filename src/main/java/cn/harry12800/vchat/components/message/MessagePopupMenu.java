@@ -76,13 +76,13 @@ public class MessagePopupMenu extends JPopupMenu {
 								if (path != null && !path.isEmpty()) {
 									ClipboardUtil.copyImage(path);
 								} else {
-									new MessageDialog(MainFrame.getContext(),"温馨提示","图片不存在，复制失败");
+									new MessageDialog(MainFrame.getContext(), "温馨提示", "图片不存在，复制失败");
 								}
 							}
 
 							@Override
 							public void onFailed(String why) {
-								new MessageDialog(MainFrame.getContext(),"温馨提示","图片不存在，复制失败");
+								new MessageDialog(MainFrame.getContext(), "温馨提示", "图片不存在，复制失败");
 							}
 						});
 					}
@@ -185,7 +185,7 @@ public class MessagePopupMenu extends JPopupMenu {
 		item4.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String dirPath = App.basePath + File.separator + "data" + File.separator + "chat" 
+				String dirPath = App.basePath + File.separator + "data" + File.separator + "chat"
 						+ File.separator + Launcher.currentUser.getUsername();
 				try {
 					Clip.openFile(dirPath);

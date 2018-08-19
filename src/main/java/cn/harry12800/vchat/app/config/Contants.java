@@ -24,7 +24,7 @@ public class Contants {
 
 	private static String config() {
 		String prop = Config.getProp("webHost");
-		if(!StringUtils.isEmpty(prop))
+		if (!StringUtils.isEmpty(prop))
 			return prop;
 		Properties p = new Properties();
 		boolean byClass = MachineUtils.getByClass(Contants.class);

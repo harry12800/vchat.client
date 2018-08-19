@@ -78,19 +78,19 @@ public class LoginFrame extends JFrame {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				autoLogin();
 			}
 		}).start();
 	}
 
 	private void autoLogin() {
-		if("true".equals(Config.getProp("autoLogin"))||
-				Config.getProp("autoLogin")==null){
+		if ("true".equals(Config.getProp("autoLogin")) ||
+				Config.getProp("autoLogin") == null) {
 			doLogin();
 		}
 	}

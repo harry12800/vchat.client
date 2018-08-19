@@ -99,7 +99,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 				}
 
 				// 自己的头像每次启动都去获取
-				currentUsername =Launcher.currentUser.getUsername();
+				currentUsername = Launcher.currentUser.getUsername();
 				getUserAvatar(currentUsername, true);
 			}
 		}).start();
@@ -118,8 +118,8 @@ public class ContactsPanel extends ParentAvailablePanel {
 	public void getUserAvatar(String username, boolean hotRefresh) {
 		// TODO: 服务器获取头像，这里从资源文件夹中获取
 		try {
-			String name ="/avatar/" + username + ".png";
-//			System.out.println(name);
+			String name = "/avatar/" + username + ".png";
+			//			System.out.println(name);
 			URL url = getClass().getResource(name);
 			BufferedImage image = ImageIO.read(url);
 			processAvatarData(image, username);

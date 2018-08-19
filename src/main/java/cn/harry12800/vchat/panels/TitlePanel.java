@@ -285,6 +285,7 @@ public class TitlePanel extends ParentAvailablePanel {
 	 * @param text
 	 */
 	Timer timer = new Timer();
+
 	public synchronized void showStatusLabel(String text) {
 		this.statusLabel.setText(text);
 		this.statusLabel.setVisible(true);
