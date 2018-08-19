@@ -6,13 +6,17 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
 import org.apache.ibatis.session.SqlSession;
 
+import cn.harry12800.common.module.user.dto.UserResponse;
 import cn.harry12800.lnk.client.Client;
 import cn.harry12800.lnk.client.OfflineListenter;
+import cn.harry12800.tools.Maps;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.db.service.CurrentUserService;
@@ -60,7 +64,7 @@ public class Launcher {
 	static OfflineListenter listener = new MyOfflineListenter();
 	static {
 		client = new Client();
-		client.init(listener );
+		client.init(listener);
 	}
 	private JFrame currentFrame;
 
@@ -160,4 +164,15 @@ public class Launcher {
 		return context;
 	}
 
+	public static Map<String, UserResponse> userMaps = Maps.newHashMap();
+
+	public static void loadUser(List<UserResponse> users) {
+		for (UserResponse user : users) {
+			userMaps.put(user.getId() + "", user);
+		}
+	}
+
+	public static String getUserNameByUserId(long id) {
+		return userMaps.get(id)==null?"":userMaps.get(id).getUserName();
+	}
 }

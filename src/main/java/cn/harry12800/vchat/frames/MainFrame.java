@@ -30,7 +30,6 @@ import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
 
 import cn.harry12800.common.core.model.Request;
-import cn.harry12800.common.module.ChatCmd;
 import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.UserCmd;
 import cn.harry12800.common.module.user.dto.PullMsgRequest;

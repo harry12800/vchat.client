@@ -12,7 +12,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
 
+import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.Clip;
+import cn.harry12800.vchat.app.App;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.RCMenuItemUI;
 import cn.harry12800.vchat.components.SizeAutoAdjustTextArea;
@@ -34,15 +37,16 @@ public class MessagePopupMenu extends JPopupMenu {
 	private ImageCache imageCache = new ImageCache();
 	private FileCache fileCache = new FileCache();
 	private FileAttachmentService fileAttachmentService = Launcher.fileAttachmentService;
+	JMenuItem item1 = new JMenuItem("复制");
+	JMenuItem item2 = new JMenuItem("删除");
+	JMenuItem item4 = new JMenuItem("打开目录");
+	JMenuItem item3 = new JMenuItem("转发");
 
 	public MessagePopupMenu() {
 		initMenuItem();
 	}
 
 	private void initMenuItem() {
-		JMenuItem item1 = new JMenuItem("复制");
-		JMenuItem item2 = new JMenuItem("删除");
-		JMenuItem item3 = new JMenuItem("转发");
 
 		item1.setUI(new RCMenuItemUI());
 		item1.addActionListener(new AbstractAction() {
@@ -72,13 +76,13 @@ public class MessagePopupMenu extends JPopupMenu {
 								if (path != null && !path.isEmpty()) {
 									ClipboardUtil.copyImage(path);
 								} else {
-									System.out.println("图片不存在，复制失败");
+									new MessageDialog(MainFrame.getContext(),"温馨提示","图片不存在，复制失败");
 								}
 							}
 
 							@Override
 							public void onFailed(String why) {
-								System.out.println("图片不存在，复制失败");
+								new MessageDialog(MainFrame.getContext(),"温馨提示","图片不存在，复制失败");
 							}
 						});
 					}
@@ -172,13 +176,24 @@ public class MessagePopupMenu extends JPopupMenu {
 		item3.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				new MessageDialog(MainFrame.getContext(), "温馨提示", "转发功能待开发！");
 				System.out.println("转发");
 			}
 		});
 
-		this.add(item1);
-		this.add(item2);
-		// this.add(item3);
+		item4.setUI(new RCMenuItemUI());
+		item4.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String dirPath = App.basePath + File.separator + "data" + File.separator + "chat" 
+						+ File.separator + Launcher.currentUser.getUsername();
+				try {
+					Clip.openFile(dirPath);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
 		setBackground(Colors.FONT_WHITE);
@@ -190,8 +205,20 @@ public class MessagePopupMenu extends JPopupMenu {
 		// super.show(invoker, x, y);
 	}
 
-	public void show(Component invoker, int x, int y, int messageType) {
+	public void show(Component invoker, int x, int y, int messageType, String id) {
+		System.out.println(id);
 		this.messageType = messageType;
+		if (MessageItem.LEFT_ATTACHMENT == messageType ||
+				MessageItem.RIGHT_ATTACHMENT == messageType
+				|| messageType == MessageItem.RIGHT_IMAGE ||
+				messageType == MessageItem.LEFT_IMAGE) {
+			this.add(item4);
+		} else {
+			this.remove(item4);
+		}
+		this.add(item1);
+		this.add(item2);
+		this.add(item3);
 		super.show(invoker, x, y);
 	}
 }

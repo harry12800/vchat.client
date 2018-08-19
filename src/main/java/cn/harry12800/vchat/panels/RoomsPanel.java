@@ -77,6 +77,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 			roomService.insertOrUpdate(room);
 			roomItemList.add(item);
 		}
+		Launcher.loadUser(users);
 		roomItemsListView.notifyDataSetChanged(true);
 	}
 

@@ -1064,7 +1064,6 @@ public class ChatPanel extends ParentAvailablePanel {
 		if (position < 0) {
 			return null;
 		}
-
 		try {
 			return (BaseMessageViewHolder) messagePanel.getMessageListView().getItem(position);
 		} catch (Exception e) {
@@ -1288,7 +1287,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	public void showReceiveFileMsg(FileChatRequest msg) {
 		String homePath = App.basePath;
 		String dirPath = homePath + File.separator + "data" + File.separator + "chat" 
-		+ File.separator + currentUser.getUserId()+ File.separator +msg.getSenderUserId();
+		+ File.separator + currentUser.getUsername()+ File.separator +Launcher.getUserNameByUserId(msg.getSenderUserId());
 		if (!new File(dirPath).exists()) {
 			new File(dirPath).mkdirs();
 		}
@@ -1331,7 +1330,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		fileAttachmentService.insertOrUpdate(attachment );
 		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_ATTACHMENT);
-		if (friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+		if (room!=null&&friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			addMessageItemToEnd(item);
 		}
 		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
