@@ -85,11 +85,11 @@ public class Launcher {
 	private void openFrame() {
 		// 原来登录过
 		if (checkLoginInfo()) {
-			currentFrame = new MainFrame();
+			currentFrame =  MainFrame.getContext();
 		}
 		// 从未登录过
 		else {
-			currentFrame = new LoginFrame();
+			currentFrame =  LoginFrame.getContext();
 			currentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		currentFrame.setVisible(true);

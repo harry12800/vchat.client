@@ -10,6 +10,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
 
+import cn.harry12800.common.core.model.Request;
+import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.UserCmd;
+import cn.harry12800.common.module.user.dto.LoginRequest;
+import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.vchat.app.Launcher;
@@ -31,7 +36,10 @@ public class MainOperationPopupMenu extends JPopupMenu {
 	private void initMenuItem() {
 		JMenuItem item1 = new JMenuItem("创建群聊");
 		JMenuItem item2 = new JMenuItem("设置");
-
+		JMenuItem item3 = new JMenuItem("重启");
+		JMenuItem item4 = new JMenuItem("访问主页");
+		JMenuItem item5 = new JMenuItem("重新连接");
+		
 		item1.setUI(new RCMainOperationMenuItemUI());
 		item1.addActionListener(new AbstractAction() {
 			@Override
@@ -58,8 +66,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item2.setIcon(icon2);
 		item2.setIconTextGap(5);
 
-		JMenuItem item3 = new JMenuItem("重启");
-		JMenuItem item4 = new JMenuItem("访问主页");
+	
 		item3.setUI(new RCMainOperationMenuItemUI());
 		item3.addActionListener(new AbstractAction() {
 			@Override
@@ -72,6 +79,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		icon3.setImage(icon3.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		item3.setIcon(icon3);
 		item3.setIconTextGap(5);
+		
 		item4.setUI(new RCMainOperationMenuItemUI());
 		item4.addActionListener(new AbstractAction() {
 			@Override
@@ -88,10 +96,33 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		icon4.setImage(icon4.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		item4.setIcon(icon4);
 		item4.setIconTextGap(5);
+		
+
+		item5.setUI(new RCMainOperationMenuItemUI());
+		item5.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					LoginRequest loginRequest = new LoginRequest();
+					loginRequest.setPlayerName(Launcher.currentUser.getUsername());
+					loginRequest.setPassward(Launcher.currentUser.getPassword());
+					Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
+					Launcher.client.sendRequest(request);
+				} catch (Exception e1) {
+					new MessageDialog(MainFrame.getContext(),"提示","无法连接服务器");
+				}
+			}
+		});
+		ImageIcon icon5 = new ImageIcon(getClass().getResource("/image/setting.png"));
+		icon5.setImage(icon5.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		item5.setIcon(icon5);
+		item5.setIconTextGap(5);
+		
 		this.add(item1);
 		this.add(item2);
 		this.add(item3);
 		this.add(item4);
+		this.add(item5);
 		setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
 		setBackground(Colors.FONT_WHITE);
 	}

@@ -83,7 +83,7 @@ public class MainFrame extends JFrame {
 	private AudioStream messageSound; // 消息到来时候的提示间
 	private JPanel southPanel = new JPanel();
 
-	public MainFrame() {
+	private MainFrame() {
 		context = this;
 		initComponents();
 		initView();
@@ -485,6 +485,9 @@ public class MainFrame extends JFrame {
 	}
 
 	public static MainFrame getContext() {
+		if(context == null){
+			context =	new MainFrame();
+		}
 		return context;
 	}
 

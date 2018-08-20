@@ -65,10 +65,13 @@ public class LoginFrame extends JFrame {
 	private static LoginFrame context;
 
 	public static LoginFrame getContext() {
+		if(context == null){
+			context = new LoginFrame();
+		}
 		return context;
 	}
 
-	public LoginFrame() {
+	private LoginFrame() {
 		context = this;
 		initService();
 		initComponents();
@@ -358,14 +361,16 @@ public class LoginFrame extends JFrame {
 
 	public void loginSuccess(UserResponse userResponse) {
 		this.dispose();
+		context = null;
 		System.out.println(userResponse);
 		CurrentUser currentUser = new CurrentUser();
 		currentUser.setUserId(userResponse.getId() + "");
 		currentUser.setUsername(userResponse.getUserName());
+		currentUser.setPassword( new String(passwordField.getPassword()));
 		currentUserService.insertOrUpdate(currentUser);
 		Launcher.currentUser = currentUser;
 		Config.setProp("username", userResponse.getUserName());
-		MainFrame frame = new MainFrame();
+		MainFrame frame = MainFrame.getContext();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
