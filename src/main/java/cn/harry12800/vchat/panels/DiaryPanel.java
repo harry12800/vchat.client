@@ -18,9 +18,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,7 @@ import cn.harry12800.j2se.component.PlainButton;
 import cn.harry12800.j2se.dialog.InputMessageDialog;
 import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
 import cn.harry12800.j2se.style.UI;
+import cn.harry12800.j2se.utils.Config;
 import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
@@ -228,6 +231,11 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		}).start();
 	}
 
+	/**
+	 * 保存到服务器
+	 * @param a 文章
+	 * @param path
+	 */
 	private synchronized void saveToServer(Diary a, String path) {
 		if (StringUtils.isEmpty(a.getId())) {
 			a.setId(StringUtils.moveSuffix(new File(path).getName()));
@@ -268,12 +276,109 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 				JsonUtil.saveObj(a, path);
 				System.out.println("ads:" + JsonUtil.object2String(diaryCatalog));
 			}
+			synchronizedDiary2Could();
 			TitlePanel.getContext().showStatusLabel("yes！");
 		} catch (IOException e) {
 			e.printStackTrace();
 			TitlePanel.getContext().showStatusLabel("no！");
 		}
-
+	}
+	private synchronized boolean quietSaveToServer(Diary a, String path, Date lastTime) {
+		if(a.getUpdateTime().getTime()<=lastTime.getTime()) return true;
+		if (StringUtils.isEmpty(a.getId())) {
+			a.setId(StringUtils.moveSuffix(new File(path).getName()));
+		}
+		Map<String, String> headers = new HashMap<>(0);
+		try {
+			String path2 = Contants.getPath(Contants.userDiaryCatalogUrl + "?userId=" + Launcher.currentUser.getUserId());
+			String catalogString2Json = HttpUtil.get(path2);
+			ResultCatalogAll catalogObj = JsonUtil.string2Json(catalogString2Json,
+					ResultCatalogAll.class);
+			List<DiaryCatalog> catalogList = catalogObj.content;
+			Map<String, DiaryCatalog> catalogMaps = new HashMap<>();
+			for (DiaryCatalog diaryCatalog : catalogList) {
+				catalogMaps.put(diaryCatalog.getName(), diaryCatalog);
+				System.out.println("diaryCatalog.getName()" + diaryCatalog.getName());
+			}
+			String name2 = new File(path).getParentFile().getName();
+			DiaryCatalog diaryCatalog = catalogMaps.get(name2);
+			if (diaryCatalog != null) {
+				a.setCatalogId(diaryCatalog.getId());
+				String path3 = Contants.getPath(Contants.userDiarySaveUrl + "?userId=" + Launcher.currentUser.getUserId());
+				String post = HttpUtil.postJson(path3, headers, JsonUtil.object2String(a));
+				System.out.println(post);
+				Result diary = JsonUtil.string2Json(post, Result.class);
+				a.setId(diary.content.getId());
+				JsonUtil.saveObj(a, path);
+			} else {
+				diaryCatalog = new DiaryCatalog();
+				diaryCatalog.setName(name2);
+				diaryCatalog.setUserId(Launcher.currentUser.getUserId());
+				addCatalogServer(diaryCatalog);
+				a.setCatalogId(diaryCatalog.getId());
+				String path3 = Contants.getPath(Contants.userDiarySaveUrl + "?userId=" + Launcher.currentUser.getUserId());
+				String post = HttpUtil.postJson(path3, headers, JsonUtil.object2String(a));
+				System.out.println(post);
+				Result diary = JsonUtil.string2Json(post, Result.class);
+				a.setId(diary.content.getId());
+				JsonUtil.saveObj(a, path);
+				System.out.println("ads:" + JsonUtil.object2String(diaryCatalog));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	private void synchronizedDiary2Could() {
+		String prop = Config.getPropForce(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId());
+		Date lastTime = null;
+		if (prop != null) {
+			Long valueOf = Long.valueOf(prop);
+			Long x = System.currentTimeMillis() - valueOf;
+			if (x < 2 * 60 * 60 * 1000) // 两个小时
+			{
+				return;
+			}
+			lastTime = new Date();
+			lastTime.setTime(valueOf);
+		}else{
+			Config.setProp(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId(), Calendar.getInstance().getTime() + "");
+			lastTime =  Calendar.getInstance().getTime();
+		}
+		FileFilter filter = new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				if (file.isDirectory()) {
+					char charAt = file.getName().charAt(0);
+					boolean mark = true;
+					if (charAt <= 'z' && charAt >= 'a') {
+						mark = false;
+					}
+					return mark;
+				}
+				return file.getName().endsWith(".properties");
+			}
+		};
+		String dirPath = DiaryCatalogPanel.getContext().dirPath;
+		File file = new File(dirPath);
+		File[] listFiles = file.listFiles(filter);
+		for (final File f : listFiles) {
+			if (f.isDirectory()) {
+				File[] listFile = f.listFiles(filter);
+				for (File file2 : listFile) {
+					Diary a;
+					try {
+						a = JsonUtil.string2Json(file2, Diary.class);
+						boolean quietSaveToServer = quietSaveToServer(a, file2.getAbsolutePath(),lastTime);
+						if(!quietSaveToServer) return ;
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		Config.setProp(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId(), new Date().getTime() + "");
 	}
 
 	static class Result {
