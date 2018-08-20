@@ -908,7 +908,7 @@ public class ChatPanel extends ParentAvailablePanel {
 			final int[] index = { 1 };
 
 			// TODO：向服务器上传文件
-			final short[] uploadedBlockCount = { 1 };
+			final short[] uploadedBlockCount = { 0 };
 			final long[] len = { 0 };
 
 			UploadTaskCallback callback = new UploadTaskCallback() {
@@ -916,7 +916,7 @@ public class ChatPanel extends ParentAvailablePanel {
 				public void onTaskSuccess() {
 					// 当收到上一个分块的响应后，才能开始上传下一个分块，否则容易造成分块接收顺序错乱
 					uploadedBlockCount[0]++;
-					if (uploadedBlockCount[0] <= dataParts.size()) {
+					if (uploadedBlockCount[0] < dataParts.size()) {
 						len[0] = len[0] + dataParts.get(uploadedBlockCount[0]).length;
 						sendDataPart(file.getName(), len[0], messageId, uploadedBlockCount[0], dataParts, this);
 					}
@@ -983,6 +983,15 @@ public class ChatPanel extends ParentAvailablePanel {
 		}
 	}
 
+	/**
+	 * 发送块数据
+	 * @param name  文件的名字
+	 * @param position 文件块的起始位置
+	 * @param messageId  消息id
+	 * @param partIndex  第几部分
+	 * @param dataParts 字节块数据
+	 * @param callback  回调
+	 */
 	private void sendDataPart(String name, long position, String messageId, short partIndex, List<byte[]> dataParts, UploadTaskCallback callback) {
 		// TODO： 发送第 partIndex 个分块到服务器
 		new Thread(new Runnable() {
@@ -1293,6 +1302,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		}
 		File file = new File(dirPath, msg.getName());
 		FileUtils.writeFile(file, msg.getPosition(), msg.getData());
+		System.out.println("index:"+msg.getIndex()+"   total:"+msg.getTotal()+"   len:"+msg.getData().length);
 		/**
 		 * 判断是否是最后一条
 		 */
