@@ -917,7 +917,7 @@ public class ChatPanel extends ParentAvailablePanel {
 					// 当收到上一个分块的响应后，才能开始上传下一个分块，否则容易造成分块接收顺序错乱
 					uploadedBlockCount[0]++;
 					if (uploadedBlockCount[0] < dataParts.size()) {
-						len[0] = len[0] + dataParts.get(uploadedBlockCount[0]).length;
+						len[0] = len[0] + dataParts.get(uploadedBlockCount[0]-1).length;
 						sendDataPart(file.getName(), len[0], messageId, uploadedBlockCount[0], dataParts, this);
 					}
 
@@ -1301,6 +1301,7 @@ public class ChatPanel extends ParentAvailablePanel {
 			new File(dirPath).mkdirs();
 		}
 		File file = new File(dirPath, msg.getName());
+		System.out.println(msg.getPosition());
 		FileUtils.writeFile(file, msg.getPosition(), msg.getData());
 		System.out.println("index:"+msg.getIndex()+"   total:"+msg.getTotal()+"   len:"+msg.getData().length);
 		/**
@@ -1344,6 +1345,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
 			addMessageItemToEnd(item);
 		}
+		System.out.println("加进来了2");
 		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
 	}
 }
