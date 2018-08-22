@@ -22,6 +22,8 @@ import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
+import java.text.ParseException;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,6 +44,7 @@ import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.utils.Config;
 import cn.harry12800.lnk.core.util.JsonUtil;
+import cn.harry12800.tools.DateUtils;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.MachineUtils;
@@ -284,10 +287,16 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		}
 	}
 	private synchronized boolean quietSaveToServer(Diary a, String path, Date lastTime) {
+		System.out.println("进入网络保存验证");
+		String currTime = DateUtils.getCurrTime(a.getUpdateTime());
+		String currTime2 = DateUtils.getCurrTime(lastTime);
+		System.out.println(currTime);
+		System.out.println(currTime2);
 		if(a.getUpdateTime().getTime()<=lastTime.getTime()) return true;
 		if (StringUtils.isEmpty(a.getId())) {
 			a.setId(StringUtils.moveSuffix(new File(path).getName()));
 		}
+		System.out.println("进入网络保存");
 		Map<String, String> headers = new HashMap<>(0);
 		try {
 			String path2 = Contants.getPath(Contants.userDiaryCatalogUrl + "?userId=" + Launcher.currentUser.getUserId());
@@ -303,14 +312,15 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			String name2 = new File(path).getParentFile().getName();
 			DiaryCatalog diaryCatalog = catalogMaps.get(name2);
 			if (diaryCatalog != null) {
+				System.out.println("目录中保存");
 				a.setCatalogId(diaryCatalog.getId());
 				String path3 = Contants.getPath(Contants.userDiarySaveUrl + "?userId=" + Launcher.currentUser.getUserId());
 				String post = HttpUtil.postJson(path3, headers, JsonUtil.object2String(a));
-				System.out.println(post);
 				Result diary = JsonUtil.string2Json(post, Result.class);
 				a.setId(diary.content.getId());
 				JsonUtil.saveObj(a, path);
 			} else {
+				System.out.println("创建目录中保存");
 				diaryCatalog = new DiaryCatalog();
 				diaryCatalog.setName(name2);
 				diaryCatalog.setUserId(Launcher.currentUser.getUserId());
@@ -344,7 +354,11 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			lastTime.setTime(valueOf);
 		}else{
 			Config.setProp(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId(), Calendar.getInstance().getTime() + "");
-			lastTime =  Calendar.getInstance().getTime();
+			try {
+				lastTime = DateUtils.getDateByFormat("1970-01-01", "yyyy-MM-dd");
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		FileFilter filter = new FileFilter() {
 			@Override
@@ -360,6 +374,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 				return file.getName().endsWith(".properties");
 			}
 		};
+		int x = 1;
 		String dirPath = DiaryCatalogPanel.getContext().dirPath;
 		File file = new File(dirPath);
 		File[] listFiles = file.listFiles(filter);
@@ -372,6 +387,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 						a = JsonUtil.string2Json(file2, Diary.class);
 						boolean quietSaveToServer = quietSaveToServer(a, file2.getAbsolutePath(),lastTime);
 						if(!quietSaveToServer) return ;
+						System.out.println("同步上传第"+x+++"条完成！--"+a.getId());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -379,6 +395,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			}
 		}
 		Config.setProp(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId(), new Date().getTime() + "");
+		System.out.println("上传同步完成！");
 	}
 
 	static class Result {
@@ -431,19 +448,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 
 	}
 
-	public static void main(String[] args) throws IOException {
-		String url = "http://10.3.9.152:8080/xdata-proxy/v1/db/visitor/auth/online";
-		//		 String url="http://192.168.43.106:8089/xdata-proxy/v1/db/visitor/auth/online";
-		//		 String url="http://172.16.6.218:8089/xdata-proxy/v1/db/visitor/auth/online";
-		Map<String, String> headers = Maps.newHashMap();
-		Map<String, String> params = Maps.newHashMap();
-		params.put("userid", "ll130385");
-		params.put("password", "000000");
-		headers.put("Content-Type", "application/x-www-form-urlencoded");
-		String post = HttpUtil.post(url, headers, params);
-		System.out.println(post);
-	}
-
+	
 	private void initBtnListener() {
 		synchronousDiary.addMouseListener(new ClickAction(synchronousDiary) {
 			public void leftClick(MouseEvent e) {
@@ -676,5 +681,19 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		if (DiaryCatalogPanel.getContext().getCatalogTree() != null) {
 			file.delete();
 		}
+	}
+	public static void main(String[] args) throws IOException {
+		String url = "http://10.3.9.152:8080/xdata-proxy/v1/db/visitor/auth/online";
+		//		 String url="http://192.168.43.106:8089/xdata-proxy/v1/db/visitor/auth/online";
+		//		 String url="http://172.16.6.218:8089/xdata-proxy/v1/db/visitor/auth/online";
+		Map<String, String> headers = Maps.newHashMap();
+		Map<String, String> params = Maps.newHashMap();
+		params.put("userid", "ll130385");
+		params.put("password", "000000");
+		headers.put("Content-Type", "application/x-www-form-urlencoded");
+//		String post = HttpUtil.post(url, headers, params);
+//		System.out.println(post);
+		System.out.println(DateUtils.getwholeCurrTime(DateUtils.getInitTime()));
+		
 	}
 }
