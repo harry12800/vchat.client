@@ -35,7 +35,7 @@ public class ImageCache {
 		try {
 			// IMAGE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() +
 			// "/image";
-			IMAGE_CACHE_ROOT_PATH = App.basePath + "/cache/image";
+			IMAGE_CACHE_ROOT_PATH = App.basePath + "/vchat/cache/image";
 
 			File file = new File(IMAGE_CACHE_ROOT_PATH);
 			if (!file.exists()) {
