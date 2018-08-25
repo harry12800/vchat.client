@@ -86,7 +86,7 @@ public class SearchResultPanel extends ParentAvailablePanel {
 	 * @param holder
 	 * @param color
 	 */
-	private void setItemBackground(RoomItemViewHolder holder, Color color) {
+	public void setItemBackground(RoomItemViewHolder holder, Color color) {
 		holder.setBackground(color);
 		holder.nameBrief.setBackground(color);
 		holder.timeUnread.setBackground(color);

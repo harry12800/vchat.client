@@ -225,6 +225,10 @@ public class ChangeAvatarPanel extends JPanel {
 }
 
 class ImageAdjustLabel extends JLabel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 	private BufferedImage scaledImage;
 	private int imageMaxWidth;

@@ -47,7 +47,6 @@ import cn.harry12800.tools.DateUtils;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.MachineUtils;
-import cn.harry12800.tools.Maps;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.app.config.Contants;
@@ -683,20 +682,5 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		if (DiaryCatalogPanel.getContext().getCatalogTree() != null) {
 			file.delete();
 		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		String url = "http://10.3.9.152:8080/xdata-proxy/v1/db/visitor/auth/online";
-		//		 String url="http://192.168.43.106:8089/xdata-proxy/v1/db/visitor/auth/online";
-		//		 String url="http://172.16.6.218:8089/xdata-proxy/v1/db/visitor/auth/online";
-		Map<String, String> headers = Maps.newHashMap();
-		Map<String, String> params = Maps.newHashMap();
-		params.put("userid", "ll130385");
-		params.put("password", "000000");
-		headers.put("Content-Type", "application/x-www-form-urlencoded");
-		//		String post = HttpUtil.post(url, headers, params);
-		//		System.out.println(post);
-		System.out.println(DateUtils.getwholeCurrTime(DateUtils.getInitTime()));
-
 	}
 }

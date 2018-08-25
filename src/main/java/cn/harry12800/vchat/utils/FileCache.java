@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 
 import org.apache.log4j.Logger;
 
-import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.app.App;
 
 /**
  * Created by harry12800 on 2017/6/11.
@@ -22,7 +22,7 @@ public class FileCache {
 	public FileCache() {
 		try {
 			// FILE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() + "/file";
-			FILE_CACHE_ROOT_PATH = Launcher.appFilesBasePath + "/cache/file";
+			FILE_CACHE_ROOT_PATH =  App.basePath + "/vchat/cache/file";
 			File file = new File(FILE_CACHE_ROOT_PATH);
 			if (!file.exists()) {
 				file.mkdirs();

@@ -91,7 +91,7 @@ public class CharacterParser {
 			"zang", "zao", "ze", "zei", "zen", "zeng", "zha", "zhai", "zhan", "zhang", "zhao", "zhe", "zhen", "zheng",
 			"zhi", "zhong", "zhou", "zhu", "zhua", "zhuai", "zhuan", "zhuang", "zhui", "zhun", "zhuo", "zi", "zong",
 			"zou", "zu", "zuan", "zui", "zun", "zuo" };
-	private StringBuilder buffer;
+//	private StringBuilder buffer;
 	private String resource;
 	private static CharacterParser characterParser = new CharacterParser();
 
@@ -172,6 +172,6 @@ public class CharacterParser {
 	}
 
 	public String getSpelling() {
-		return this.getSelling(this.getResource());
+		return CharacterParser.getSelling(this.getResource());
 	}
 }

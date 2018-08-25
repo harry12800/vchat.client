@@ -77,7 +77,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 	}
 
 	private void registerHotKey() {
-		int SCREEN_SHOT_CODE = 10001;
+//		int SCREEN_SHOT_CODE = 10001;
 		// JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
 		// JIntellitype.MOD_ALT, 'S');
 		//

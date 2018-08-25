@@ -17,7 +17,7 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.app.App;
 
 /**
  * Created by harry12800 on 20/06/2017.
@@ -27,7 +27,7 @@ public class ClipboardUtil {
 	public static final String CLIPBOARD_TEMP_DIR;
 
 	static {
-		CLIPBOARD_TEMP_DIR = Launcher.appFilesBasePath + System.getProperty("file.separator") + "clipboard_temp";
+		CLIPBOARD_TEMP_DIR =  App.basePath + System.getProperty("file.separator") + "clipboard_temp";
 		File file = new File(CLIPBOARD_TEMP_DIR);
 		if (!file.exists()) {
 			System.out.println("创建剪切板临时文件缓存目录：" + file.getAbsolutePath());
@@ -93,6 +93,7 @@ public class ClipboardUtil {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static Object paste() {
 		Transferable transferable = clipboard.getContents(null);
 		if (transferable != null) {

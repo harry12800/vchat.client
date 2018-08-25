@@ -1,11 +1,5 @@
 package cn.harry12800.vchat.app;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +41,6 @@ public class Launcher {
 
 	public static final String APP_VERSION = "1.0.0";
 
-	public static String userHome;
-	public static String appFilesBasePath;
 
 	public static CurrentUser currentUser;
 	static {
@@ -75,7 +67,6 @@ public class Launcher {
 	}
 
 	public void launch() {
-		config();
 		openFrame();
 		// if (!isApplicationRunning()) {
 		// openFrame();
@@ -97,16 +88,6 @@ public class Launcher {
 		currentFrame.setVisible(true);
 	}
 
-	private void config() {
-		userHome = System.getProperty("user.home");
-		appFilesBasePath = userHome + System.getProperty("file.separator") + "vchat";
-		File dir = new File(appFilesBasePath);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-
-	}
-
 	/**
 	 * 检查是否有登录信息
 	 * 
@@ -122,36 +103,36 @@ public class Launcher {
 	 *
 	 * @return 如果正在运行返回true，否则返回false
 	 */
-	public static boolean isApplicationRunning() {
-		boolean rv = false;
-		try {
-			String path = appFilesBasePath + System.getProperty("file.separator") + "appLock";
-			File dir = new File(path);
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
-
-			File lockFile = new File(path + System.getProperty("file.separator") + "appLaunch.lock");
-			if (!lockFile.exists()) {
-				lockFile.createNewFile();
-			}
-
-			// 程序名称
-			@SuppressWarnings("resource")
-			RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(), "rw");
-			FileChannel fileChannel = fis.getChannel();
-			FileLock fileLock = fileChannel.tryLock();
-			if (fileLock == null) {
-				System.out.println("程序已在运行.");
-				rv = true;
-			}
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return rv;
-	}
+//	public static boolean isApplicationRunning() {
+//		boolean rv = false;
+//		try {
+//			String path = appFilesBasePath + System.getProperty("file.separator") + "appLock";
+//			File dir = new File(path);
+//			if (!dir.exists()) {
+//				dir.mkdirs();
+//			}
+//
+//			File lockFile = new File(path + System.getProperty("file.separator") + "appLaunch.lock");
+//			if (!lockFile.exists()) {
+//				lockFile.createNewFile();
+//			}
+//
+//			// 程序名称
+//			@SuppressWarnings("resource")
+//			RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(), "rw");
+//			FileChannel fileChannel = fis.getChannel();
+//			FileLock fileLock = fileChannel.tryLock();
+//			if (fileLock == null) {
+//				System.out.println("程序已在运行.");
+//				rv = true;
+//			}
+//		} catch (FileNotFoundException e1) {
+//			e1.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return rv;
+//	}
 
 	public void reLogin(String username) {
 		MainFrame.getContext().setVisible(false);

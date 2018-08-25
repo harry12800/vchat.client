@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.tools.ImageUtils;
-import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.app.App;
 
 /**
  * Created by harry12800 on 15/03/2017.
@@ -45,7 +45,7 @@ public class AvatarUtil {
 	private static Map<String, Image> avatarCache = new HashMap<>();
 
 	static {
-		AVATAR_CACHE_ROOT = Launcher.appFilesBasePath + "/cache/avatar";
+		AVATAR_CACHE_ROOT = App.basePath + "/vchat/cache/avatar";
 
 		File file = new File(AVATAR_CACHE_ROOT);
 		if (!file.exists()) {
