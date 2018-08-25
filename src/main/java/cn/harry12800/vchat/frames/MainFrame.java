@@ -1,11 +1,9 @@
 package cn.harry12800.vchat.frames;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.PopupMenu;
@@ -34,13 +32,15 @@ import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.UserCmd;
 import cn.harry12800.common.module.user.dto.PullMsgRequest;
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
+import cn.harry12800.j2se.component.utils.ImageUtils;
 import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.j2se.popup.ListItem;
 import cn.harry12800.j2se.popup.PopupFrame;
 import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
-import cn.harry12800.lnk.core.util.ImageUtils;
+import cn.harry12800.j2se.utils.OSUtil;
+import cn.harry12800.j2se.utils.TrayUtil;
 import cn.harry12800.upgrade.PlatUpdate;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
@@ -51,7 +51,6 @@ import cn.harry12800.vchat.panels.RoomsPanel;
 import cn.harry12800.vchat.utils.ClipboardUtil;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
-import cn.harry12800.vchat.utils.OSUtil;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -75,10 +74,6 @@ public class MainFrame extends JFrame {
 	private RightPanel rightPanel;
 	RCProgressBar progressBar = new RCProgressBar();
 	private static MainFrame context;
-	private Image normalTrayIcon; // 正常时的任务栏图标
-	private Image emptyTrayIcon; // 闪动时的任务栏图标
-	private TrayIcon trayIcon;
-	private boolean trayFlashing = false;
 
 	private AudioStream messageSound; // 消息到来时候的提示间
 	private JPanel southPanel = new JPanel();
@@ -87,19 +82,9 @@ public class MainFrame extends JFrame {
 		context = this;
 		initComponents();
 		initView();
-		initResource();
 		ImageUtils.addImage(MainFrame.class);
 		// 连接WebSocket
 		// startWebSocket();
-	}
-
-	private void initResource() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				initTray();
-			}
-		}).start();
 		registerHotKey();
 	}
 
@@ -112,89 +97,6 @@ public class MainFrame extends JFrame {
 			messageSound = new AudioStream(inputStream);
 			AudioPlayer.player.start(messageSound);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 初始化系统托盘图标
-	 */
-	private void initTray() {
-		String tip = "账号：" + Launcher.currentUser.getUsername() + "\r\nAuthor：harry12800\r\nQQ:804151219\r\n开发者常用功能";
-		SystemTray systemTray = SystemTray.getSystemTray();// 获取系统托盘
-		try {
-			if (OSUtil.getOsType() == OSUtil.Mac_OS) {
-				normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_dark.png", 20, 20).getImage();
-			} else {
-				normalTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher.png", 20, 20).getImage();
-			}
-
-			emptyTrayIcon = IconUtil.getIcon(this, "/image/ic_launcher_empty.png", 20, 20).getImage();
-			trayIcon = new TrayIcon(ImageUtils.getByName("image/system.png"), tip);
-			// trayIcon = new TrayIcon(normalTrayIcon,
-			// "Author：harry12800\nQQ:804151219\n开发者常用功能");
-			// trayIcon.setImageAutoSize(true);
-			trayIcon.addMouseListener(new MouseAdapter() {
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// 显示主窗口
-					setVisible(true);
-
-					// 任务栏图标停止闪动
-					if (trayFlashing) {
-						trayFlashing = false;
-						trayIcon.setImage(normalTrayIcon);
-					}
-
-					super.mouseClicked(e);
-				}
-			});
-			PopupMenu menu = new PopupMenu();
-			MenuItem mit0 = new MenuItem("打开主界面");
-			MenuItem mit1 = new MenuItem("版本更新");
-			MenuItem mit2 = new MenuItem("退出");
-			menu.add(mit0);
-			menu.add(mit1);
-			menu.addSeparator();
-			menu.add(mit2);
-
-			mit0.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					MainFrame.this.setVisible(true);
-				}
-			});
-			mit2.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-				}
-			});
-			mit1.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					updateSystem();
-				}
-			});
-
-			trayIcon.setPopupMenu(menu);
-			systemTray.add(trayIcon);
-			trayIcon.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if (e.getButton() == 1) {
-						MainFrame.getContext().setVisible(true);
-					}
-					if (e.getButton() == 3) {
-						//						Point point = e.getPoint();
-						//						showPopup1(menu,trayIcon,point);
-					}
-				}
-
-			});
-		} catch (AWTException e) {
 			e.printStackTrace();
 		}
 	}
@@ -455,38 +357,9 @@ public class MainFrame extends JFrame {
 		ClipboardUtil.clearCache();
 	}
 
-	/**
-	 * 设置任务栏图标闪动
-	 */
-	public void setTrayFlashing() {
-		trayFlashing = true;
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (trayFlashing) {
-					try {
-						trayIcon.setImage(emptyTrayIcon);
-						Thread.sleep(800);
-
-						trayIcon.setImage(normalTrayIcon);
-						Thread.sleep(800);
-
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-
-			}
-		}).start();
-	}
-
-	public boolean isTrayFlashing() {
-		return trayFlashing;
-	}
-
 	public static MainFrame getContext() {
-		if(context == null){
-			context =	new MainFrame();
+		if (context == null) {
+			context = new MainFrame();
 		}
 		return context;
 	}
@@ -494,6 +367,7 @@ public class MainFrame extends JFrame {
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
+		setTitle("聊天笔记");
 		// 任务栏图标
 		if (OSUtil.getOsType() != OSUtil.Mac_OS) {
 			setIconImage(IconUtil.getIcon(this, "/image/ic_launcher.png").getImage());
@@ -510,6 +384,16 @@ public class MainFrame extends JFrame {
 		leftPanel.setPreferredSize(new Dimension(260, currentWindowHeight));
 
 		rightPanel = new RightPanel();
+		String tip = "账号：" + Launcher.currentUser.getUsername() + "\r\nAuthor：harry12800\r\nQQ:804151219\r\n开发者常用功能";
+		TrayUtil.getTray().setTip(tip);
+		MenuItem mit1 = new MenuItem("版本更新");
+		mit1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.getContext().updateSystem();
+			}
+		});
+		TrayUtil.getTray().addMenuItem(mit1);
 	}
 
 	private void initView() {
@@ -587,7 +471,7 @@ public class MainFrame extends JFrame {
 	@Override
 	public void dispose() {
 		// 移除托盘图标
-		SystemTray.getSystemTray().remove(trayIcon);
+		SystemTray.getSystemTray().remove(TrayUtil.getTray().trayIcon);
 		super.dispose();
 	}
 

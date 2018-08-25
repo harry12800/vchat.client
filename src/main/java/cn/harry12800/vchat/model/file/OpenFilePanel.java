@@ -30,20 +30,19 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import cn.harry12800.lnk.core.Context;
-import cn.harry12800.lnk.core.CorePanel;
-import cn.harry12800.lnk.core.FunctionPanelConfig;
-import cn.harry12800.lnk.core.FunctionPanelModel;
 import cn.harry12800.j2se.dialog.InputMessageDialog;
 import cn.harry12800.j2se.dialog.InputMessageDialog.Callback;
 import cn.harry12800.j2se.style.MyScrollBarUI;
 import cn.harry12800.j2se.style.MyTreeUI;
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.utils.Clip;
+import cn.harry12800.lnk.core.Context;
+import cn.harry12800.lnk.core.CorePanel;
+import cn.harry12800.lnk.core.FunctionPanelConfig;
+import cn.harry12800.lnk.core.FunctionPanelModel;
 import cn.harry12800.tools.Lists;
 
-@FunctionPanelModel(configPath = "file", height = 400, 
-width = 200, backgroundImage = "file_back.jpg", desc = "文件快捷方式\r\n打开工具", headerImage = "IOS.png")
+@FunctionPanelModel(configPath = "file", height = 400, width = 200, backgroundImage = "file_back.jpg", desc = "文件快捷方式\r\n打开工具", headerImage = "IOS.png")
 @FunctionPanelConfig(filename = "filelist.json")
 public class OpenFilePanel extends CorePanel<FileJsonConfig> implements DropTargetListener {
 	/**
@@ -66,7 +65,7 @@ public class OpenFilePanel extends CorePanel<FileJsonConfig> implements DropTarg
 	public static Border LIGHT_GRAY_BORDER = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
 
 	public static void main(String[] args) throws Exception {
-//		Main.main(args);
+		//		Main.main(args);
 	}
 
 	public OpenFilePanel(Context context) {
@@ -145,9 +144,9 @@ public class OpenFilePanel extends CorePanel<FileJsonConfig> implements DropTarg
 							mit1.setBorderPainted(false);
 							JMenuItem mit0 = new JMenuItem("  删除  ");
 							mit0.setBorderPainted(false);
-//							mit0.setOpaque(false);
+							//							mit0.setOpaque(false);
 							mit0.setFont(BASIC_FONT);
-//							mit1.setOpaque(false);
+							//							mit1.setOpaque(false);
 							mit1.setFont(BASIC_FONT);
 							mit1.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
@@ -349,6 +348,6 @@ public class OpenFilePanel extends CorePanel<FileJsonConfig> implements DropTarg
 	@Override
 	public void initLoadData() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

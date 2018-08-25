@@ -17,7 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import cn.harry12800.common.core.model.Request;
+import cn.harry12800.common.module.ChatCmd;
+import cn.harry12800.common.module.ModuleId;
+import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.OSUtil;
+import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.RCTextEditor;
@@ -27,7 +33,6 @@ import cn.harry12800.vchat.frames.ScreenShot;
 import cn.harry12800.vchat.listener.ExpressionListener;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
-import cn.harry12800.vchat.utils.OSUtil;
 
 /**
  * Created by harry12800 on 17-5-30.
@@ -38,6 +43,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 	private JLabel fileLabel;
 	private JLabel expressionLabel;
 	private JLabel cutLabel;
+	private JLabel doudongLabel;
 	private JScrollPane textScrollPane;
 	private RCTextEditor textEditor;
 	private JPanel sendPanel;
@@ -52,6 +58,9 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 
 	private ImageIcon cutNormalIcon;
 	private ImageIcon cutActiveIcon;
+
+	private ImageIcon doudongIcon;
+	private ImageIcon doudongActiveIcon;
 
 	private ExpressionPopup expressionPopup;
 
@@ -93,6 +102,13 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		fileLabel.setIcon(fileNormalIcon);
 		fileLabel.setCursor(handCursor);
 		fileLabel.setToolTipText("发送文件/图片");
+
+		doudongLabel = new JLabel();
+		doudongIcon = IconUtil.getIcon(this, "/image/doudong.png");
+		doudongActiveIcon = IconUtil.getIcon(this, "/image/doudong.png");
+		doudongLabel.setIcon(doudongIcon);
+		doudongLabel.setCursor(handCursor);
+		doudongLabel.setToolTipText("发送抖动");
 
 		expressionLabel = new JLabel();
 		emotionNormalIcon = IconUtil.getIcon(this, "/image/emotion.png");
@@ -143,6 +159,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		controlLabel.add(expressionLabel);
 		controlLabel.add(fileLabel);
 		controlLabel.add(cutLabel);
+		controlLabel.add(doudongLabel);
 
 		add(controlLabel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
 		add(textScrollPane, new GBC(0, 1).setFill(GBC.BOTH).setWeight(1, 15));
@@ -150,6 +167,26 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 	}
 
 	private void setListeners() {
+		doudongLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				doudongLabel.setIcon(doudongActiveIcon);
+				super.mouseEntered(e);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				doudongLabel.setIcon(doudongIcon);
+				super.mouseExited(e);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				senddoudong();
+				super.mouseClicked(e);
+			}
+		});
+
 		fileLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -213,6 +250,19 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 				super.mouseClicked(e);
 			}
 		});
+	}
+
+	protected void senddoudong() {
+		try {
+			PrivateChatRequest request = new PrivateChatRequest();
+			request.setContext("抖动");
+			request.setTargetPlayerId(Long.valueOf(ChatPanel.getContext().roomId));
+			// 构建请求
+			Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
+			Launcher.client.sendRequest(req);
+		} catch (Exception e) {
+
+		}
 	}
 
 	private void screenShot() {

@@ -39,7 +39,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		JMenuItem item3 = new JMenuItem("重启");
 		JMenuItem item4 = new JMenuItem("访问主页");
 		JMenuItem item5 = new JMenuItem("重新连接");
-		
+
 		item1.setUI(new RCMainOperationMenuItemUI());
 		item1.addActionListener(new AbstractAction() {
 			@Override
@@ -66,7 +66,6 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item2.setIcon(icon2);
 		item2.setIconTextGap(5);
 
-	
 		item3.setUI(new RCMainOperationMenuItemUI());
 		item3.addActionListener(new AbstractAction() {
 			@Override
@@ -79,7 +78,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		icon3.setImage(icon3.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		item3.setIcon(icon3);
 		item3.setIconTextGap(5);
-		
+
 		item4.setUI(new RCMainOperationMenuItemUI());
 		item4.addActionListener(new AbstractAction() {
 			@Override
@@ -96,7 +95,6 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		icon4.setImage(icon4.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		item4.setIcon(icon4);
 		item4.setIconTextGap(5);
-		
 
 		item5.setUI(new RCMainOperationMenuItemUI());
 		item5.addActionListener(new AbstractAction() {
@@ -109,7 +107,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 					Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
 					Launcher.client.sendRequest(request);
 				} catch (Exception e1) {
-					new MessageDialog(MainFrame.getContext(),"提示","无法连接服务器");
+					new MessageDialog(MainFrame.getContext(), "提示", "无法连接服务器");
 				}
 			}
 		});
@@ -117,7 +115,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		icon5.setImage(icon5.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 		item5.setIcon(icon5);
 		item5.setIconTextGap(5);
-		
+
 		this.add(item1);
 		this.add(item2);
 		this.add(item3);

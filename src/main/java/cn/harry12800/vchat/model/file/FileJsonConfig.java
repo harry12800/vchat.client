@@ -5,7 +5,7 @@ import java.util.List;
 import cn.harry12800.tools.Lists;
 
 public class FileJsonConfig {
- 
+
 	private List<OpenFileType> list = Lists.newArrayList();
 
 	/**
@@ -23,5 +23,5 @@ public class FileJsonConfig {
 	public void setList(List<OpenFileType> list) {
 		this.list = list;
 	}
-	
+
 }

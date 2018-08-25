@@ -27,5 +27,5 @@ public class OpenFileType {
 	public String toString() {
 		return "OpenFileType [name=" + name + ", path=" + path + "]";
 	}
-	
+
 }

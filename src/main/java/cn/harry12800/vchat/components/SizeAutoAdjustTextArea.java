@@ -23,10 +23,10 @@ import javax.swing.text.StyledDocument;
 
 import com.vdurmont.emoji.EmojiParser;
 
+import cn.harry12800.j2se.utils.OSUtil;
 import cn.harry12800.vchat.components.message.JIMSendTextPane;
 import cn.harry12800.vchat.utils.EmojiUtil;
 import cn.harry12800.vchat.utils.FontUtil;
-import cn.harry12800.vchat.utils.OSUtil;
 
 /**
  * Created by harry12800 on 17-6-4.

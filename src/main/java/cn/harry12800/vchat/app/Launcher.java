@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import org.apache.ibatis.session.SqlSession;
 
 import cn.harry12800.common.module.user.dto.UserResponse;
+import cn.harry12800.j2se.component.utils.ImageUtils;
 import cn.harry12800.lnk.client.Client;
 import cn.harry12800.lnk.client.OfflineListenter;
 import cn.harry12800.tools.Maps;
@@ -70,6 +71,7 @@ public class Launcher {
 
 	public Launcher() {
 		context = this;
+		ImageUtils.addImage(Launcher.class);
 	}
 
 	public void launch() {
@@ -85,11 +87,11 @@ public class Launcher {
 	private void openFrame() {
 		// 原来登录过
 		if (checkLoginInfo()) {
-			currentFrame =  MainFrame.getContext();
+			currentFrame = MainFrame.getContext();
 		}
 		// 从未登录过
 		else {
-			currentFrame =  LoginFrame.getContext();
+			currentFrame = LoginFrame.getContext();
 			currentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 		currentFrame.setVisible(true);

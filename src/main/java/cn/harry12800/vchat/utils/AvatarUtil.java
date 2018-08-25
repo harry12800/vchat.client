@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.tools.ImageUtils;
 import cn.harry12800.vchat.app.Launcher;
 
 /**
@@ -152,7 +153,7 @@ public class AvatarUtil {
 
 			g2d.drawString(drawString, x, strHeight);
 
-			BufferedImage roundImage = ImageUtil.setRadius(image, width, height, 35);
+			BufferedImage roundImage = ImageUtils.setRadius(image, width, height, 35);
 
 			g2d.dispose();
 			File file = new File(AVATAR_CACHE_ROOT + "/" + sign + ".png");
@@ -189,7 +190,7 @@ public class AvatarUtil {
 
 		try {
 			if (image != null) {
-				BufferedImage bufferedImage = ImageUtil.setRadius(image, image.getWidth(), image.getHeight(), 35);
+				BufferedImage bufferedImage = ImageUtils.setRadius(image, image.getWidth(), image.getHeight(), 35);
 				ImageIO.write(bufferedImage, "png", avatarPath);
 			} else {
 				throw new RuntimeException("头像保存失败，数据为空");

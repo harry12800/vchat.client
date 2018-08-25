@@ -23,7 +23,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -286,13 +285,15 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			TitlePanel.getContext().showStatusLabel("no！");
 		}
 	}
+
 	private synchronized boolean quietSaveToServer(Diary a, String path, Date lastTime) {
 		System.out.println("进入网络保存验证");
 		String currTime = DateUtils.getCurrTime(a.getUpdateTime());
 		String currTime2 = DateUtils.getCurrTime(lastTime);
 		System.out.println(currTime);
 		System.out.println(currTime2);
-		if(a.getUpdateTime().getTime()<=lastTime.getTime()) return true;
+		if (a.getUpdateTime().getTime() <= lastTime.getTime())
+			return true;
 		if (StringUtils.isEmpty(a.getId())) {
 			a.setId(StringUtils.moveSuffix(new File(path).getName()));
 		}
@@ -340,8 +341,9 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		}
 		return true;
 	}
+
 	private void synchronizedDiary2Could() {
-		String prop = Config.getPropForce(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId());
+		String prop = Config.getPropForce(DiaryPanel.class, "diary-synchronized-time" + Launcher.currentUser.getUserId());
 		Date lastTime = null;
 		if (prop != null) {
 			Long valueOf = Long.valueOf(prop);
@@ -352,8 +354,8 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			}
 			lastTime = new Date();
 			lastTime.setTime(valueOf);
-		}else{
-			Config.setProp(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId(), Calendar.getInstance().getTime() + "");
+		} else {
+			Config.setProp(DiaryPanel.class, "diary-synchronized-time" + Launcher.currentUser.getUserId(), Calendar.getInstance().getTime() + "");
 			try {
 				lastTime = DateUtils.getDateByFormat("1970-01-01", "yyyy-MM-dd");
 			} catch (ParseException e) {
@@ -385,16 +387,17 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 					Diary a;
 					try {
 						a = JsonUtil.string2Json(file2, Diary.class);
-						boolean quietSaveToServer = quietSaveToServer(a, file2.getAbsolutePath(),lastTime);
-						if(!quietSaveToServer) return ;
-						System.out.println("同步上传第"+x+++"条完成！--"+a.getId());
+						boolean quietSaveToServer = quietSaveToServer(a, file2.getAbsolutePath(), lastTime);
+						if (!quietSaveToServer)
+							return;
+						System.out.println("同步上传第" + x++ + "条完成！--" + a.getId());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		}
-		Config.setProp(DiaryPanel.class, "diary-synchronized-time"+Launcher.currentUser.getUserId(), new Date().getTime() + "");
+		Config.setProp(DiaryPanel.class, "diary-synchronized-time" + Launcher.currentUser.getUserId(), new Date().getTime() + "");
 		System.out.println("上传同步完成！");
 	}
 
@@ -448,7 +451,6 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 
 	}
 
-	
 	private void initBtnListener() {
 		synchronousDiary.addMouseListener(new ClickAction(synchronousDiary) {
 			public void leftClick(MouseEvent e) {
@@ -682,6 +684,7 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 			file.delete();
 		}
 	}
+
 	public static void main(String[] args) throws IOException {
 		String url = "http://10.3.9.152:8080/xdata-proxy/v1/db/visitor/auth/online";
 		//		 String url="http://192.168.43.106:8089/xdata-proxy/v1/db/visitor/auth/online";
@@ -691,9 +694,9 @@ public class DiaryPanel extends JPanel implements DropTargetListener {
 		params.put("userid", "ll130385");
 		params.put("password", "000000");
 		headers.put("Content-Type", "application/x-www-form-urlencoded");
-//		String post = HttpUtil.post(url, headers, params);
-//		System.out.println(post);
+		//		String post = HttpUtil.post(url, headers, params);
+		//		System.out.println(post);
 		System.out.println(DateUtils.getwholeCurrTime(DateUtils.getInitTime()));
-		
+
 	}
 }

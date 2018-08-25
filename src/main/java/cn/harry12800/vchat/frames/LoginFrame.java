@@ -5,8 +5,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.MenuItem;
 import java.awt.Point;
+import java.awt.PopupMenu;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -27,6 +31,8 @@ import cn.harry12800.common.module.user.dto.LoginRequest;
 import cn.harry12800.common.module.user.dto.UserResponse;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Config;
+import cn.harry12800.j2se.utils.OSUtil;
+import cn.harry12800.j2se.utils.TrayUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCButton;
@@ -39,7 +45,6 @@ import cn.harry12800.vchat.listener.AbstractMouseListener;
 import cn.harry12800.vchat.utils.DbUtils;
 import cn.harry12800.vchat.utils.FontUtil;
 import cn.harry12800.vchat.utils.IconUtil;
-import cn.harry12800.vchat.utils.OSUtil;
 
 /**
  * Created by harry12800 on 08/06/2017.
@@ -65,7 +70,7 @@ public class LoginFrame extends JFrame {
 	private static LoginFrame context;
 
 	public static LoginFrame getContext() {
-		if(context == null){
+		if (context == null) {
 			context = new LoginFrame();
 		}
 		return context;
@@ -78,6 +83,7 @@ public class LoginFrame extends JFrame {
 		initView();
 		centerScreen();
 		setListeners();
+		initResource();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -87,6 +93,36 @@ public class LoginFrame extends JFrame {
 					e.printStackTrace();
 				}
 				autoLogin();
+			}
+		}).start();
+	}
+
+	private void initResource() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				PopupMenu menu = new PopupMenu();
+				MenuItem mit0 = new MenuItem("打开主界面");
+				MenuItem mit2 = new MenuItem("退出");
+				menu.add(mit0);
+				menu.addSeparator();
+				menu.add(mit2);
+
+				mit0.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						TrayUtil.getTray().getFrame().setVisible(true);
+					}
+				});
+				mit2.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+					}
+				});
+
+				TrayUtil.getTray().setMenu(menu);
+				TrayUtil.getTray().setFrame(context);
 			}
 		}).start();
 	}
@@ -111,10 +147,11 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void initComponents() {
+		setTitle("聊天笔记登录……");
 		Dimension windowSize = new Dimension(windowWidth, windowHeight);
 		setMinimumSize(windowSize);
 		setMaximumSize(windowSize);
-
+		setIconImage(IconUtil.getIcon(this, "/image/ic_launcher.png").getImage());
 		controlPanel = new JPanel();
 		controlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
 		// controlPanel.setBounds(0,5, windowWidth, 30);
@@ -366,11 +403,12 @@ public class LoginFrame extends JFrame {
 		CurrentUser currentUser = new CurrentUser();
 		currentUser.setUserId(userResponse.getId() + "");
 		currentUser.setUsername(userResponse.getUserName());
-		currentUser.setPassword( new String(passwordField.getPassword()));
+		currentUser.setPassword(new String(passwordField.getPassword()));
 		currentUserService.insertOrUpdate(currentUser);
 		Launcher.currentUser = currentUser;
 		Config.setProp("username", userResponse.getUserName());
 		MainFrame frame = MainFrame.getContext();
+		TrayUtil.getTray().setFrame(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}

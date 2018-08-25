@@ -29,7 +29,7 @@ public class DragSlideListener {
 
 	private ContentPane panel;
 	private List<JComponent> list = Lists.newArrayList();
-//	private JComponent component;
+	//	private JComponent component;
 
 	public DragSlideListener(ContentPane contentPane) {
 		this.panel = contentPane;
@@ -37,7 +37,7 @@ public class DragSlideListener {
 
 	public void addCom(final JComponent com) {
 		list.add(com);
-//		new DragListener(com);
+		//		new DragListener(com);
 		DropTarget dt = new DropTarget(com, new DropTargetListener() {
 
 			@Override
@@ -87,16 +87,16 @@ public class DragSlideListener {
 				DnDConstants.ACTION_COPY_OR_MOVE, new DragGestureListener() {
 					public void dragGestureRecognized(DragGestureEvent event) { // 将JLabel里的文本信息包装成Transferable对象
 						String txt = "ad";
-						Transferable transferable = new StringSelection(txt); 
+						Transferable transferable = new StringSelection(txt);
 						// 继续拖放操作,拖放过程中使用手状光标
-						Image createImage = com.createImage(com.getWidth(),com.getHeight());
-						Toolkit tk = Toolkit.getDefaultToolkit(); 
-//						Image image = new ImageIcon(url).getImage();
-						Cursor cursor = tk.createCustomCursor(createImage,new Point(0, 0), "cursor"); 
-						 
+						Image createImage = com.createImage(com.getWidth(), com.getHeight());
+						Toolkit tk = Toolkit.getDefaultToolkit();
+						//						Image image = new ImageIcon(url).getImage();
+						Cursor cursor = tk.createCustomCursor(createImage, new Point(0, 0), "cursor");
+
 						panel.setCursor(cursor); //panel 也可以是其他组件
-						event.startDrag( cursor, transferable);
-				 	} 
+						event.startDrag(cursor, transferable);
+					}
 				});
 		com.addMouseListener(new MouseAdapter() {
 			@Override
@@ -104,6 +104,7 @@ public class DragSlideListener {
 				panel.drag = false;
 				com.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); //panel 也可以是其他组件
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 			}
@@ -116,12 +117,12 @@ public class DragSlideListener {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				panel.drag = true;
-//				System.out.println("aa");
-//				Image createImage = com.createImage(com.getWidth(),com.getHeight());
-//				Toolkit tk = Toolkit.getDefaultToolkit(); 
-////				Image image = new ImageIcon(url).getImage();
-//				Cursor cursor = tk.createCustomCursor(createImage, new Point(10, 10), "norm"); 
-//				panel.setCursor(cursor); //panel 也可以是其他组件
+				//				System.out.println("aa");
+				//				Image createImage = com.createImage(com.getWidth(),com.getHeight());
+				//				Toolkit tk = Toolkit.getDefaultToolkit(); 
+				////				Image image = new ImageIcon(url).getImage();
+				//				Cursor cursor = tk.createCustomCursor(createImage, new Point(10, 10), "norm"); 
+				//				panel.setCursor(cursor); //panel 也可以是其他组件
 			}
 		});
 	}

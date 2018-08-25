@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.utils.Clip;
+
 /**
  * 两种形态。
  * @author Yuexin
@@ -31,8 +32,8 @@ public class FileRowItem extends JPanel {
 
 	static class Builder {
 		public boolean isDir = false;
-		public Image image= null;
-		public int borderRadius= 0;
+		public Image image = null;
+		public int borderRadius = 0;
 		public String url;
 		public JLabel icon = new JLabel();
 		public JLabel text = new JLabel();
@@ -47,16 +48,16 @@ public class FileRowItem extends JPanel {
 		setSize(w, h);
 		setBorder(new EmptyBorder(0, 0, 0, 0));
 		setLayout(null);
-		setMinimumSize(new Dimension(w, h) );
-		setMaximumSize( new Dimension(w, h) );
+		setMinimumSize(new Dimension(w, h));
+		setMaximumSize(new Dimension(w, h));
 		builder.text.setForeground(Color.WHITE);
 		builder.icon.setOpaque(false);
-//		builder.icon.setIcon(builder.image);
+		//		builder.icon.setIcon(builder.image);
 		builder.text.setOpaque(false);
 		builder.icon.setBounds(3, 3, 14, 14);
-		builder.text.setBounds(h, 0, w-21, h);
+		builder.text.setBounds(h, 0, w - 21, h);
 		builder.text.setFont(UI.微软雅黑Font);
-		
+
 		add(builder.icon);
 		add(builder.text);
 		setOpaque(false);
@@ -84,6 +85,7 @@ public class FileRowItem extends JPanel {
 			}
 		});
 	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -91,18 +93,18 @@ public class FileRowItem extends JPanel {
 		builder.text.setForeground(Color.WHITE);
 		if (isSelect) {
 			g2d.setColor(UI.foreColor);
-			g2d.fillRoundRect(0, 0, w , h, 0, 0);
-		}else if(hover){
+			g2d.fillRoundRect(0, 0, w, h, 0, 0);
+		} else if (hover) {
 			g2d.setColor(UI.hoverColor);
-			g2d.fillRoundRect(0, 0, w , h, 0, 0);
+			g2d.fillRoundRect(0, 0, w, h, 0, 0);
 			builder.text.setForeground(Color.BLACK);
 		} else {
-			if(builder.file.exists())
+			if (builder.file.exists())
 				g2d.setColor(UI.backColor);
 			else {
 				g2d.setColor(UI.voidColor);
 			}
-//			g2d.fillRoundRect(0, 0, w , h, 0, 0);
+			//			g2d.fillRoundRect(0, 0, w , h, 0, 0);
 		}
 		g2d.drawImage(builder.image, 3, 3, h - 6, h - 6, null);
 		g2d.dispose();
@@ -117,14 +119,14 @@ public class FileRowItem extends JPanel {
 		builder.file = file;
 		if (bigIcon != null) {
 			builder.image = bigIcon.getImage();
-//			BufferedImage sBufferedImage = (BufferedImage) bigIcon.getImage();
-//			try {
-//				FileUtils.createDirectory("c://a");
-//				ImageIO.write(sBufferedImage, "png",
-//						new File("c:\\a\\" + Math.random() * 100 + ".png"));
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+			//			BufferedImage sBufferedImage = (BufferedImage) bigIcon.getImage();
+			//			try {
+			//				FileUtils.createDirectory("c://a");
+			//				ImageIO.write(sBufferedImage, "png",
+			//						new File("c:\\a\\" + Math.random() * 100 + ".png"));
+			//			} catch (IOException e) {
+			//				e.printStackTrace();
+			//			}
 		}
 		return builder;
 	}

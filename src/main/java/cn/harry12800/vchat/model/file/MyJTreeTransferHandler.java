@@ -25,8 +25,8 @@ public class MyJTreeTransferHandler extends TransferHandler {
 	private static final long serialVersionUID = 1L;
 	private OpenFilePanel openFilePanel;
 
-	public MyJTreeTransferHandler(OpenFilePanel openFilePanel){
-		this.openFilePanel= openFilePanel;
+	public MyJTreeTransferHandler(OpenFilePanel openFilePanel) {
+		this.openFilePanel = openFilePanel;
 	}
 
 	public int getSourceActions(JComponent c) {
@@ -73,16 +73,16 @@ public class MyJTreeTransferHandler extends TransferHandler {
 				MutableTreeNode parent = (MutableTreeNode) newParent.getParent();
 				int index = parent.getIndex(newParent);
 				model.removeNodeFromParent(node);
-				model.insertNodeInto(node, parent,index);
-				((FileNode)node).panel.drag(((FileNode)node).file,index);
-				
+				model.insertNodeInto(node, parent, index);
+				((FileNode) node).panel.drag(((FileNode) node).file, index);
+
 			}
-		}  catch (Exception e) {
-//			e.printStackTrace();
+		} catch (Exception e) {
+			//			e.printStackTrace();
 			transfer = support.getTransferable();
 			List<File> list;
-			boolean dataFlavorSupported = transfer.isDataFlavorSupported( DataFlavor.javaFileListFlavor);
-			if(dataFlavorSupported){
+			boolean dataFlavorSupported = transfer.isDataFlavorSupported(DataFlavor.javaFileListFlavor);
+			if (dataFlavorSupported) {
 				try {
 					list = (List<File>) (transfer
 							.getTransferData(DataFlavor.javaFileListFlavor));
@@ -90,11 +90,11 @@ public class MyJTreeTransferHandler extends TransferHandler {
 						System.out.println(file);
 					}
 					openFilePanel.addSave(list);
-				}catch (Exception e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-			}else{
-				 
+			} else {
+
 			}
 			return false;
 		}

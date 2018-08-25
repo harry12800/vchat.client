@@ -9,7 +9,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import cn.harry12800.vchat.model.file.FileRowItem.Builder;
 
-
 public class FileNode extends DefaultMutableTreeNode {
 	/**
 	 * 
@@ -28,9 +27,10 @@ public class FileNode extends DefaultMutableTreeNode {
 		panel = httpUrlNewPanel;
 		builder = FileRowItem.createFileBuilder(new File(of.getPath()));
 		builder.text.setText(of.getName());
-		panelItem = new FileRowItem( 200, 30, this.builder);
+		panelItem = new FileRowItem(200, 30, this.builder);
 		panelItem.setBounds(0, 0, 200, 30);
 	}
+
 	public Component getView() {
 		return panelItem;
 	}
@@ -43,12 +43,13 @@ public class FileNode extends DefaultMutableTreeNode {
 		panelItem.builder.icon.setIcon(icon);
 		this.icon = icon;
 	}
-	 
+
 	public Component setSelect(boolean selected, boolean mouseEnter) {
-		panelItem.isSelect =selected;
+		panelItem.isSelect = selected;
 		panelItem.hover = mouseEnter;
 		return panelItem;
 	}
+
 	public Component getView(boolean mouseEnter) {
 		panelItem.hover = mouseEnter;
 		return panelItem;

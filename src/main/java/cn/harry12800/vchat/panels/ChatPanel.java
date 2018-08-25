@@ -46,6 +46,7 @@ import cn.harry12800.common.module.chat.dto.FileChatRequest;
 import cn.harry12800.common.module.chat.dto.MsgResponse;
 import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.adapter.message.BaseMessageViewHolder;
@@ -123,7 +124,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	// 每次加载的消息条数
 	private static final int PAGE_LENGTH = 10;
 
-	private String roomId;
+	String roomId;
 
 	private Logger logger = Logger.getLogger(this.getClass());
 
@@ -917,7 +918,7 @@ public class ChatPanel extends ParentAvailablePanel {
 					// 当收到上一个分块的响应后，才能开始上传下一个分块，否则容易造成分块接收顺序错乱
 					uploadedBlockCount[0]++;
 					if (uploadedBlockCount[0] < dataParts.size()) {
-						len[0] = len[0] + dataParts.get(uploadedBlockCount[0]-1).length;
+						len[0] = len[0] + dataParts.get(uploadedBlockCount[0] - 1).length;
 						sendDataPart(file.getName(), len[0], messageId, uploadedBlockCount[0], dataParts, this);
 					}
 
@@ -1257,6 +1258,9 @@ public class ChatPanel extends ParentAvailablePanel {
 		String string = new String(msg.getData());
 		//		string = StringEscapeUtils.unescapeJava(string);
 		System.out.println(string);
+		if ("抖动".equals(string)) {
+			Clip.shakeFrame(MainFrame.getContext(), 8);
+		}
 		message.setMessageContent(string);
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());
@@ -1303,7 +1307,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		File file = new File(dirPath, msg.getName());
 		System.out.println(msg.getPosition());
 		FileUtils.writeFile(file, msg.getPosition(), msg.getData());
-		System.out.println("index:"+msg.getIndex()+"   total:"+msg.getTotal()+"   len:"+msg.getData().length);
+		System.out.println("index:" + msg.getIndex() + "   total:" + msg.getTotal() + "   len:" + msg.getData().length);
 		/**
 		 * 判断是否是最后一条
 		 */

@@ -7,8 +7,8 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import cn.harry12800.j2se.component.utils.ImageUtils;
 import cn.harry12800.j2se.style.UI;
-import cn.harry12800.lnk.core.util.ImageUtils;
 import cn.harry12800.vchat.model.diary.CatalogItemPanel.Builder;
 
 public class CategoryNode extends DefaultMutableTreeNode {

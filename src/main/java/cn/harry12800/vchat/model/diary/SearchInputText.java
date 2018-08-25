@@ -12,7 +12,7 @@ import javax.swing.JButton;
 
 import cn.harry12800.j2se.action.EnterAction;
 import cn.harry12800.j2se.component.InputText;
-import cn.harry12800.lnk.core.util.ImageUtils;
+import cn.harry12800.j2se.component.utils.ImageUtils;
 
 public class SearchInputText extends InputText {
 
