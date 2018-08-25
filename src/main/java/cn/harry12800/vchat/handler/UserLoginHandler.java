@@ -13,16 +13,16 @@ import cn.harry12800.common.module.chat.dto.MsgResponse;
 import cn.harry12800.common.module.chat.dto.PrivateChatResponse;
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.common.module.user.dto.UserResponse;
+import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.lnk.client.ResultCodeMap;
+import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.frames.LoginFrame;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.panels.ChatPanel;
 
 /**
- * 玩家模块
- * 
+ * 用户模块
  * @author -harry12800-
- *
  */
 @Component
 @SocketModule(module = ModuleId.USER)
@@ -58,9 +58,17 @@ public class UserLoginHandler {
 		if (resultCode == ResultCode.SUCCESS) {
 			UserResponse userResponse = new UserResponse();
 			userResponse.readFromBytes(data);
-			LoginFrame.getContext().loginSuccess(userResponse);
+			if(Launcher.currentUser==null) {
+				LoginFrame.getContext().loginSuccess(userResponse);
+			} else {
+				
+			}
 		} else {
-			LoginFrame.getContext().loginFail(resultCodeTip.getTipContent(resultCode));
+			if(Launcher.currentUser==null) {
+				LoginFrame.getContext().loginFail(resultCodeTip.getTipContent(resultCode));
+			}else {
+				new MessageDialog(MainFrame.getContext(),"提示",resultCodeTip.getTipContent(resultCode)); 
+			}
 		}
 	}
 

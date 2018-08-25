@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
+import cn.harry12800.vchat.app.App;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.db.model.CurrentUser;
 
@@ -34,7 +35,7 @@ public class ImageCache {
 		try {
 			// IMAGE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() +
 			// "/image";
-			IMAGE_CACHE_ROOT_PATH = Launcher.appFilesBasePath + "/cache/image";
+			IMAGE_CACHE_ROOT_PATH = App.basePath + "/cache/image";
 
 			File file = new File(IMAGE_CACHE_ROOT_PATH);
 			if (!file.exists()) {
@@ -96,6 +97,7 @@ public class ImageCache {
 		String finalSuffix = suffix;
 
 		new Thread(new Runnable() {
+			@SuppressWarnings("resource")
 			@Override
 			public void run() {
 				File cacheFile;
@@ -112,7 +114,6 @@ public class ImageCache {
 				} else {
 					try {
 						byte[] data;
-
 						String reqUrl = buildRemoteImageUrl(url);
 
 						// 本地上传的文件，则从原上传路径复制一份到缓存目录
@@ -127,26 +128,19 @@ public class ImageCache {
 							System.out.println("服务器获取图片：" + reqUrl);
 							data = HttpUtil.download(reqUrl);
 						}
-
 						if (data == null) {
 							logger.debug("图像获取失败");
 						}
-
 						Image image = ImageIO.read(new ByteArrayInputStream(data));
 
 						// 生成缩略图并缓存
 						createThumb(image, identify);
-
 						if (requestType == THUMB) {
 							ImageIcon icon = new ImageIcon(cacheFile.getAbsolutePath());
 							listener.onSuccess(icon, cacheFile.getAbsolutePath());
 						}
-
 						// 缓存原图
-						FileOutputStream fileOutputStream = new FileOutputStream(
-								new File(IMAGE_CACHE_ROOT_PATH + "/" + identify + finalSuffix));
-						fileOutputStream.write(data);
-
+						new FileOutputStream(new File(IMAGE_CACHE_ROOT_PATH + "/" + identify + finalSuffix)).write(data);
 						if (requestType == ORIGINAL) {
 							ImageIcon icon = new ImageIcon(cacheFile.getAbsolutePath());
 							listener.onSuccess(icon, cacheFile.getAbsolutePath());
@@ -196,12 +190,9 @@ public class ImageCache {
 				destHeight = 200;
 				destWidth = (int) (destHeight * scale);
 			}
-
 			// 开始读取文件并进行压缩
 			BufferedImage tag = new BufferedImage(destWidth, destHeight, BufferedImage.TYPE_INT_RGB);
-
 			tag.getGraphics().drawImage(image.getScaledInstance(destWidth, destHeight, Image.SCALE_SMOOTH), 0, 0, null);
-
 			File cacheFile = new File(IMAGE_CACHE_ROOT_PATH + "/" + identify + "_thumb");
 			FileOutputStream out = new FileOutputStream(cacheFile);
 			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);

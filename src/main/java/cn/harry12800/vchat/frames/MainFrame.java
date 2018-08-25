@@ -34,13 +34,13 @@ import cn.harry12800.common.module.user.dto.PullMsgRequest;
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.j2se.component.utils.ImageUtils;
 import cn.harry12800.j2se.dialog.MessageDialog;
+import cn.harry12800.j2se.module.tray.TrayUtil;
 import cn.harry12800.j2se.popup.ListItem;
 import cn.harry12800.j2se.popup.PopupFrame;
 import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
 import cn.harry12800.j2se.utils.OSUtil;
-import cn.harry12800.j2se.utils.TrayUtil;
 import cn.harry12800.upgrade.PlatUpdate;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
@@ -85,6 +85,7 @@ public class MainFrame extends JFrame {
 		ImageUtils.addImage(MainFrame.class);
 		// 连接WebSocket
 		// startWebSocket();
+		TrayUtil.getTray().setFrame(context);
 		registerHotKey();
 	}
 

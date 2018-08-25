@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,6 +46,9 @@ import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.chat.dto.FileChatRequest;
 import cn.harry12800.common.module.chat.dto.MsgResponse;
 import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
+import cn.harry12800.j2se.module.tray.TrayInfo;
+import cn.harry12800.j2se.module.tray.TrayListener;
+import cn.harry12800.j2se.module.tray.TrayUtil;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Clip;
 import cn.harry12800.tools.FileUtils;
@@ -82,6 +86,7 @@ import cn.harry12800.vchat.listener.ExpressionListener;
 import cn.harry12800.vchat.tasks.DownloadTask;
 import cn.harry12800.vchat.tasks.HttpResponseListener;
 import cn.harry12800.vchat.tasks.UploadTaskCallback;
+import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.ClipboardUtil;
 import cn.harry12800.vchat.utils.FileCache;
 import cn.harry12800.vchat.utils.HttpUtil;
@@ -1261,6 +1266,20 @@ public class ChatPanel extends ParentAvailablePanel {
 		if ("抖动".equals(string)) {
 			Clip.shakeFrame(MainFrame.getContext(), 8);
 		}
+		TrayInfo trayInfo = new TrayInfo();
+		trayInfo.e = new TrayListener() {
+			public void exe(TrayInfo e) {
+				MainFrame.getContext().setVisible(true);
+				
+			}
+		};
+		trayInfo.id = msg.getFromId() + "";
+		trayInfo.type = "chat";
+		System.out.println("用户："+Launcher.getUserNameByUserId(msg.getFromId()));
+		trayInfo.icon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId())).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
+		TrayUtil.getTray().pushTrayInfo(trayInfo );
 		message.setMessageContent(string);
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());

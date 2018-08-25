@@ -29,10 +29,10 @@ import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.UserCmd;
 import cn.harry12800.common.module.user.dto.LoginRequest;
 import cn.harry12800.common.module.user.dto.UserResponse;
+import cn.harry12800.j2se.module.tray.TrayUtil;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Config;
 import cn.harry12800.j2se.utils.OSUtil;
-import cn.harry12800.j2se.utils.TrayUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCButton;
@@ -71,6 +71,7 @@ public class LoginFrame extends JFrame {
 
 	public static LoginFrame getContext() {
 		if (context == null) {
+			System.out.println("new LoginFrame");
 			context = new LoginFrame();
 		}
 		return context;
@@ -98,33 +99,29 @@ public class LoginFrame extends JFrame {
 	}
 
 	private void initResource() {
-		new Thread(new Runnable() {
+
+		PopupMenu menu = new PopupMenu();
+		MenuItem mit0 = new MenuItem("打开主界面");
+		MenuItem mit2 = new MenuItem("退出");
+		menu.add(mit0);
+		menu.addSeparator();
+		menu.add(mit2);
+
+		mit0.addActionListener(new ActionListener() {
 			@Override
-			public void run() {
-				PopupMenu menu = new PopupMenu();
-				MenuItem mit0 = new MenuItem("打开主界面");
-				MenuItem mit2 = new MenuItem("退出");
-				menu.add(mit0);
-				menu.addSeparator();
-				menu.add(mit2);
-
-				mit0.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						TrayUtil.getTray().getFrame().setVisible(true);
-					}
-				});
-				mit2.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.exit(0);
-					}
-				});
-
-				TrayUtil.getTray().setMenu(menu);
-				TrayUtil.getTray().setFrame(context);
+			public void actionPerformed(ActionEvent e) {
+				TrayUtil.getTray().getFrame().setVisible(true);
 			}
-		}).start();
+		});
+		mit2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+
+		TrayUtil.getTray().setMenu(menu);
+		TrayUtil.getTray().setFrame(context);
 	}
 
 	private void autoLogin() {
@@ -333,58 +330,8 @@ public class LoginFrame extends JFrame {
 				usernameField.setEditable(true);
 				passwordField.setEditable(true);
 			}
-			// HttpPostTask task = new HttpPostTask();
-			// task.setListener(new HttpResponseListener<JSONObject>()
-			// {
-			// @Override
-			// public void onSuccess(JSONObject ret)
-			// {
-			// processLoginResult(ret);
-			// }
-			//
-			// @Override
-			// public void onFailed()
-			// {
-			// showMessage("登录失败，请检查网络设置");
-			// loginButton.setEnabled(true);
-			// usernameField.setEditable(true);
-			// passwordField.setEditable(true);
-			// }
-			// });
-			//
-			// task.addRequestParam("username", usernameField.getText());
-			// task.addRequestParam("password", new String(passwordField.getPassword()));
-			// task.execute(Launcher.HOSTNAME + "/api/v1/login");
 		}
 	}
-
-	//	private void processLoginResult(JSONObject ret) {
-	//		if (ret.get("status").equals("success")) {
-	//			JSONObject data = ret.getJSONObject("data");
-	//			String authToken = data.getString("authToken");
-	//			String userId = data.getString("userId");
-	//
-	//			CurrentUser currentUser = new CurrentUser();
-	//			currentUser.setUserId(userId);
-	//			currentUser.setAuthToken(authToken);
-	//			currentUser.setRawPassword(new String(passwordField.getPassword()));
-	//			currentUser.setPassword(PasswordUtil.encryptPassword(currentUser.getRawPassword()));
-	//			currentUser.setUsername(usernameField.getText());
-	//			currentUserService.insertOrUpdate(currentUser);
-	//
-	//			this.dispose();
-	//
-	//			MainFrame frame = new MainFrame();
-	//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	//			frame.setVisible(true);
-	//		} else {
-	//			showMessage("用户不存在或密码错误");
-	//			loginButton.setEnabled(true);
-	//			usernameField.setEditable(true);
-	//			passwordField.setEditable(true);
-	//		}
-	//
-	//	}
 
 	private void showMessage(String message) {
 		if (!statusLabel.isVisible()) {

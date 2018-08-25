@@ -175,6 +175,6 @@ public class Launcher {
 	}
 
 	public static String getUserNameByUserId(long id) {
-		return userMaps.get(id) == null ? "" : userMaps.get(id).getUserName();
+		return userMaps.get(id+"") == null ? "" : userMaps.get(id+"").getUserName();
 	}
 }
