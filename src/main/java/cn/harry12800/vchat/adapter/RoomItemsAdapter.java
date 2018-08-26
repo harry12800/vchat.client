@@ -3,6 +3,7 @@ package cn.harry12800.vchat.adapter;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,44 +100,45 @@ public class RoomItemsAdapter extends BaseAdapter<RoomItemViewHolder> {
 		}
 		// viewHolder.unreadCount.setVisible(true);
 		// viewHolder.unreadCount.setText(item.getUnreadCount() + "1");
-
-		viewHolder.addMouseListener(new AbstractMouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON1) {
-
-					if (selectedViewHolder != viewHolder) {
-						// 进入房间
-						enterRoom(item.getRoomId());
-
-						for (RoomItemViewHolder holder : viewHolders) {
-							if (holder != viewHolder) {
-								setBackground(holder, Colors.DARK);
+		MouseListener[] mouseListeners = viewHolder.getMouseListeners();
+		System.out.println(mouseListeners);
+		System.out.println(mouseListeners.length);
+		if (mouseListeners.length == 0)
+			viewHolder.addMouseListener(new AbstractMouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if (e.getButton() == MouseEvent.BUTTON1) {
+						if (selectedViewHolder != viewHolder) {
+							// 进入房间
+							enterRoom(item.getRoomId());
+							for (RoomItemViewHolder holder : viewHolders) {
+								if (holder != viewHolder) {
+									setBackground(holder, Colors.DARK);
+								}
 							}
-						}
 
-						// setBackground(viewHolder, Colors.ITEM_SELECTED);
-						selectedViewHolder = viewHolder;
-					} else {
-						ChatPanel.getContext().updateUnreadCount(0);
+							// setBackground(viewHolder, Colors.ITEM_SELECTED);
+							selectedViewHolder = viewHolder;
+						} else {
+							ChatPanel.getContext().updateUnreadCount(0);
+						}
 					}
 				}
-			}
 
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				if (selectedViewHolder != viewHolder) {
-					setBackground(viewHolder, Colors.ITEM_SELECTED_DARK);
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if (selectedViewHolder != viewHolder) {
+						setBackground(viewHolder, Colors.ITEM_SELECTED_DARK);
+					}
 				}
-			}
 
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if (selectedViewHolder != viewHolder) {
-					setBackground(viewHolder, Colors.DARK);
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if (selectedViewHolder != viewHolder) {
+						setBackground(viewHolder, Colors.DARK);
+					}
 				}
-			}
-		});
+			});
 	}
 
 	private String[] getRoomMembers(String roomId) {

@@ -35,6 +35,8 @@ public class RoomsPanel extends ParentAvailablePanel {
 	private List<RoomItem> roomItemList = new ArrayList<>();
 	private RoomService roomService = Launcher.roomService;
 
+	private boolean isActive = false;
+
 	public RoomsPanel(JPanel parent) {
 		super(parent);
 		context = this;
@@ -172,8 +174,12 @@ public class RoomsPanel extends ParentAvailablePanel {
 	 * @param position
 	 */
 	public void activeItem(int position) {
+		if (isActive)
+			return;
+		isActive = true;
 		RoomItemViewHolder holder = (RoomItemViewHolder) roomItemsListView.getItem(position);
 		setItemBackground(holder, Colors.ITEM_SELECTED);
+		isActive = false;
 	}
 
 	/**

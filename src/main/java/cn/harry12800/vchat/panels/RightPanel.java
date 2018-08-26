@@ -30,6 +30,7 @@ public class RightPanel extends JPanel {
 	public static final String TIP = "TIP";
 	public static final String USER_INFO = "USER_INFO";
 	public static final String DIARY = "DIARY";
+	public static String current = "";
 
 	public RightPanel() {
 		context = this;
@@ -70,6 +71,9 @@ public class RightPanel extends JPanel {
 	}
 
 	public void showPanel(String who) {
+		if (current.equals(who))
+			return;
+		current = who;
 		cardLayout.show(contentPanel, who);
 	}
 

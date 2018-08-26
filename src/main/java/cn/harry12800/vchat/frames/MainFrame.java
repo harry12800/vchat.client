@@ -371,7 +371,7 @@ public class MainFrame extends JFrame {
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-		setTitle("聊天笔记");
+		setTitle(Launcher.currentUser.getUsername() + "-聊天笔记");
 		// 任务栏图标
 		if (OSUtil.getOsType() != OSUtil.Mac_OS) {
 			setIconImage(IconUtil.getIcon(this, "/image/ic_launcher.png").getImage());

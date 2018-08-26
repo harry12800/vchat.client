@@ -444,7 +444,6 @@ public class ChatPanel extends ParentAvailablePanel {
 		if (roomId == null || roomId.isEmpty()) {
 			return;
 		}
-
 		this.firstMessageTimestamp = firstMessageTimestamp;
 
 		this.roomId = roomId;
@@ -453,14 +452,11 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		// 更新消息列表
 		this.notifyDataSetChanged();
-
 		// 更新房间标题，尤其是成员数
 		updateRoomTitle();
-
-		RoomMembersPanel.getContext().setRoomId(roomId);
+		//		RoomMembersPanel.getContext().setRoomId(roomId);
 
 		messageEditorPanel.getEditor().setText("");
-
 		updateUnreadCount(0);
 	}
 
@@ -1269,15 +1265,15 @@ public class ChatPanel extends ParentAvailablePanel {
 		TrayInfo trayInfo = new TrayInfo();
 		trayInfo.e = new TrayListener() {
 			public void exe(TrayInfo e) {
+				TabOperationPanel.getContext().showChatPanel();
 				MainFrame.getContext().setVisible(true);
-
 			}
 		};
 		trayInfo.id = msg.getFromId() + "";
 		trayInfo.type = "chat";
 		System.out.println("用户：" + Launcher.getUserNameByUserId(msg.getFromId()));
 		trayInfo.icon = new ImageIcon(
-				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId())).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId())).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 		//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
 		TrayUtil.getTray().pushTrayInfo(trayInfo);
 		message.setMessageContent(string);
@@ -1312,7 +1308,6 @@ public class ChatPanel extends ParentAvailablePanel {
 	}
 
 	public void showReceiveMsgFail(String tipContent) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -1332,6 +1327,20 @@ public class ChatPanel extends ParentAvailablePanel {
 		 */
 		if (msg.getIndex() + 1 != msg.getTotal())
 			return;
+		TrayInfo trayInfo = new TrayInfo();
+		trayInfo.e = new TrayListener() {
+			public void exe(TrayInfo e) {
+				TabOperationPanel.getContext().showChatPanel();
+				MainFrame.getContext().setVisible(true);
+			}
+		};
+		trayInfo.id = msg.getSenderUserId() + "";
+		trayInfo.type = "chat";
+		System.out.println("用户：" + Launcher.getUserNameByUserId(msg.getSenderUserId()));
+		trayInfo.icon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getSenderUserId())).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+		//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
+		TrayUtil.getTray().pushTrayInfo(trayInfo);
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
 		message.setRoomId(msg.getSenderUserId() + "");

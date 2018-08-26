@@ -33,11 +33,17 @@ public class TabOperationPanel extends ParentAvailablePanel {
 
 	private LeftPanel parent;
 
+	private static TabOperationPanel context;
+
 	public TabOperationPanel(JPanel parent) {
 		super(parent);
-
+		context = this;
 		initComponents();
 		initView();
+	}
+
+	public static TabOperationPanel getContext() {
+		return context;
 	}
 
 	private void initComponents() {
@@ -153,5 +159,13 @@ public class TabOperationPanel extends ParentAvailablePanel {
 		public void mouseExited(MouseEvent e) {
 
 		}
+	}
+
+	public void showChatPanel() {
+		chatLabel.setIcon(chatIconActive);
+		contactsLabel.setIcon(contactIconNormal);
+		meLabel.setIcon(meIconNormal);
+		diaryLabel.setIcon(meIconNormal);
+		parent.getListPanel().showPanel(ListPanel.CHAT);
 	}
 }
