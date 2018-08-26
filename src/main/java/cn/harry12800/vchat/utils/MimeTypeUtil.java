@@ -83,7 +83,7 @@ public class MimeTypeUtil {
 		MimeMap.put(".rar", "application/x-compress");
 		MimeMap.put(".7z", "application/x-compress");
 		MimeMap.put(".zip", "application/x-zip-compressed");
-		// MimeMap.put("", "*/*");
+		MimeMap.put("", "*/*");
 	}
 
 	public static String getMime(String suffix) {

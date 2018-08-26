@@ -22,7 +22,7 @@ public class FileCache {
 	public FileCache() {
 		try {
 			// FILE_CACHE_ROOT_PATH = getClass().getResource("/cache").getPath() + "/file";
-			FILE_CACHE_ROOT_PATH =  App.basePath + "/vchat/cache/file";
+			FILE_CACHE_ROOT_PATH = App.basePath + "/vchat/cache/file";
 			File file = new File(FILE_CACHE_ROOT_PATH);
 			if (!file.exists()) {
 				file.mkdirs();

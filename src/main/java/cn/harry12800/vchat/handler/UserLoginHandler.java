@@ -58,16 +58,16 @@ public class UserLoginHandler {
 		if (resultCode == ResultCode.SUCCESS) {
 			UserResponse userResponse = new UserResponse();
 			userResponse.readFromBytes(data);
-			if(Launcher.currentUser==null) {
+			if (Launcher.currentUser == null) {
 				LoginFrame.getContext().loginSuccess(userResponse);
 			} else {
-				
+
 			}
 		} else {
-			if(Launcher.currentUser==null) {
+			if (Launcher.currentUser == null) {
 				LoginFrame.getContext().loginFail(resultCodeTip.getTipContent(resultCode));
-			}else {
-				new MessageDialog(MainFrame.getContext(),"提示",resultCodeTip.getTipContent(resultCode)); 
+			} else {
+				new MessageDialog(MainFrame.getContext(), "提示", resultCodeTip.getTipContent(resultCode));
 			}
 		}
 	}

@@ -1270,16 +1270,16 @@ public class ChatPanel extends ParentAvailablePanel {
 		trayInfo.e = new TrayListener() {
 			public void exe(TrayInfo e) {
 				MainFrame.getContext().setVisible(true);
-				
+
 			}
 		};
 		trayInfo.id = msg.getFromId() + "";
 		trayInfo.type = "chat";
-		System.out.println("用户："+Launcher.getUserNameByUserId(msg.getFromId()));
+		System.out.println("用户：" + Launcher.getUserNameByUserId(msg.getFromId()));
 		trayInfo.icon = new ImageIcon(
 				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId())).getScaledInstance(20, 20, Image.SCALE_SMOOTH));
-//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
-		TrayUtil.getTray().pushTrayInfo(trayInfo );
+		//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
+		TrayUtil.getTray().pushTrayInfo(trayInfo);
 		message.setMessageContent(string);
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());
@@ -1335,7 +1335,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
 		message.setRoomId(msg.getSenderUserId() + "");
-		message.setFileAttachmentId(msg.getMessageId());
+
 		message.setMessageContent(msg.getName());
 		//		string = StringEscapeUtils.unescapeJava(string);
 		message.setSenderId(msg.getSenderUserId() + "");
@@ -1353,22 +1353,46 @@ public class ChatPanel extends ParentAvailablePanel {
 				break;
 			}
 		}
-		messageService.insertOrUpdate(message);
-		Room friendRoom = roomService.findById(msg.getSenderUserId() + "");
-		friendRoom.setLastMessage(message.getMessageContent());
-		friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
-		roomService.insertOrUpdate(friendRoom);
-		FileAttachment attachment = new FileAttachment();
-		attachment.setId(msg.getMessageId());
-		attachment.setTitle(msg.getName());
-		attachment.setLink(file.getAbsolutePath());
-		fileAttachmentService.insertOrUpdate(attachment);
-		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
-		item.setMessageType(MessageItem.LEFT_ATTACHMENT);
-		if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
-			addMessageItemToEnd(item);
+		String suffix = StringUtils.getSuffix(msg.getName());
+		String mime = MimeTypeUtil.getMime(suffix);
+		if (mime.startsWith("image")) {
+			message.setImageAttachmentId(msg.getMessageId());
+			messageService.insertOrUpdate(message);
+			Room friendRoom = roomService.findById(msg.getSenderUserId() + "");
+			friendRoom.setLastMessage(message.getMessageContent());
+			friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
+			roomService.insertOrUpdate(friendRoom);
+			ImageAttachment attachment = new ImageAttachment();
+			attachment.setId(msg.getMessageId());
+			attachment.setTitle(msg.getName());
+			attachment.setImageUrl(file.getAbsolutePath());
+			imageAttachmentService.insertOrUpdate(attachment);
+			MessageItem item = new MessageItem(message, friendRoom.getRoomId());
+			item.setMessageType(MessageItem.LEFT_IMAGE);
+			if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+				addMessageItemToEnd(item);
+			}
+			RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
+		} else {
+			message.setFileAttachmentId(msg.getMessageId());
+			messageService.insertOrUpdate(message);
+			Room friendRoom = roomService.findById(msg.getSenderUserId() + "");
+			friendRoom.setLastMessage(message.getMessageContent());
+			friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
+			roomService.insertOrUpdate(friendRoom);
+			FileAttachment attachment = new FileAttachment();
+			attachment.setId(msg.getMessageId());
+			attachment.setTitle(msg.getName());
+			attachment.setLink(file.getAbsolutePath());
+			fileAttachmentService.insertOrUpdate(attachment);
+			MessageItem item = new MessageItem(message, friendRoom.getRoomId());
+			item.setMessageType(MessageItem.LEFT_ATTACHMENT);
+			if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+				addMessageItemToEnd(item);
+			}
+			RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
 		}
 		System.out.println("加进来了2");
-		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
+
 	}
 }

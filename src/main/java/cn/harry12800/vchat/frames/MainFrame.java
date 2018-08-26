@@ -112,20 +112,23 @@ public class MainFrame extends JFrame {
 
 	private void registerHotKey() {
 		int SCREEN_SHOT_CODE = 10001;
-		JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
-				JIntellitype.MOD_ALT, 'V');
-		JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
-			@Override
-			public void onHotKey(int markCode) {
-				if (markCode == SCREEN_SHOT_CODE) {
-					if (MainFrame.this.isVisible()) {
-						MainFrame.this.setVisible(false);
-					} else {
-						MainFrame.this.setVisible(true);
+		try {
+			JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE, JIntellitype.MOD_ALT, 'V');
+			JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
+				@Override
+				public void onHotKey(int markCode) {
+					if (markCode == SCREEN_SHOT_CODE) {
+						if (MainFrame.this.isVisible()) {
+							MainFrame.this.setVisible(false);
+						} else {
+							MainFrame.this.setVisible(true);
+						}
 					}
 				}
-			}
-		});
+			});
+		} catch (Exception e) {
+			System.err.println("热键已经被注册！");
+		}
 	}
 
 	public void showPopup1(PopupMenu menu, TrayIcon trayIcon2, Point point) {

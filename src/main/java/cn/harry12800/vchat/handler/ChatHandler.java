@@ -26,7 +26,6 @@ public class ChatHandler {
 	}
 
 	@SocketCommand(cmd = ChatCmd.PRIVATE_CHAT, desc = "发送私人消息回包")
-
 	public void privateChat(int resultCode, byte[] data) {
 		if (resultCode == ResultCode.SUCCESS) {
 			MsgResponse msg = new MsgResponse();

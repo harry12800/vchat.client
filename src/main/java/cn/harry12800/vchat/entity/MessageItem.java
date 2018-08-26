@@ -63,13 +63,11 @@ public class MessageItem implements Comparable<MessageItem> {
 
 		if (message.getFileAttachmentId() != null) {
 			isFileAttachment = true;
-
 			FileAttachment fa = Launcher.fileAttachmentService.findById(message.getFileAttachmentId());
 			this.fileAttachment = new FileAttachmentItem(fa);
 		}
 		if (message.getImageAttachmentId() != null) {
 			isImageAttachment = true;
-
 			ImageAttachment ia = Launcher.imageAttachmentService.findById(message.getImageAttachmentId());
 			this.imageAttachment = new ImageAttachmentItem(ia);
 		}
