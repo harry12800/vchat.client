@@ -28,6 +28,7 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -1265,6 +1266,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		TrayInfo trayInfo = new TrayInfo();
 		trayInfo.e = new TrayListener() {
 			public void exe(TrayInfo e) {
+				MainFrame.getContext().setExtendedState(JFrame.NORMAL);
+				MainFrame.getContext().toFront();
 				TabOperationPanel.getContext().showChatPanel();
 				MainFrame.getContext().setVisible(true);
 			}
@@ -1330,6 +1333,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		TrayInfo trayInfo = new TrayInfo();
 		trayInfo.e = new TrayListener() {
 			public void exe(TrayInfo e) {
+				MainFrame.getContext().setExtendedState(JFrame.NORMAL);
+				MainFrame.getContext().toFront();
 				TabOperationPanel.getContext().showChatPanel();
 				MainFrame.getContext().setVisible(true);
 			}

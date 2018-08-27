@@ -36,9 +36,10 @@ public class MainOperationPopupMenu extends JPopupMenu {
 	private void initMenuItem() {
 		JMenuItem item1 = new JMenuItem("创建群聊");
 		JMenuItem item2 = new JMenuItem("设置");
-		JMenuItem item3 = new JMenuItem("重启");
 		JMenuItem item4 = new JMenuItem("访问主页");
 		JMenuItem item5 = new JMenuItem("重新连接");
+		JMenuItem item3 = new JMenuItem("重启");
+		JMenuItem item6 = new JMenuItem("退出");
 
 		item1.setUI(new RCMainOperationMenuItemUI());
 		item1.addActionListener(new AbstractAction() {
@@ -70,8 +71,20 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item3.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							Thread.sleep(3000);
+							System.exit(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+					}
+				}).start();
 				MachineUtils.reStart();
-				System.exit(1);
 			}
 		});
 		ImageIcon icon3 = new ImageIcon(getClass().getResource("/image/setting.png"));
@@ -116,11 +129,25 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item5.setIcon(icon5);
 		item5.setIconTextGap(5);
 
+		
+		
+		item6.setUI(new RCMainOperationMenuItemUI());
+		item6.addActionListener(new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 System.exit(1);
+			}
+		});
+		ImageIcon icon6 = new ImageIcon(getClass().getResource("/image/setting.png"));
+		icon6.setImage(icon6.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH));
+		item6.setIcon(icon6);
+		item6.setIconTextGap(5);
 		this.add(item1);
 		this.add(item2);
 		this.add(item3);
 		this.add(item4);
 		this.add(item5);
+		this.add(item6);
 		setBorder(new LineBorder(Colors.SCROLL_BAR_TRACK_LIGHT));
 		setBackground(Colors.FONT_WHITE);
 	}
