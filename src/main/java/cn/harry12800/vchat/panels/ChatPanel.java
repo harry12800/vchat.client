@@ -47,6 +47,7 @@ import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.chat.dto.FileChatRequest;
 import cn.harry12800.common.module.chat.dto.MsgResponse;
 import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
+import cn.harry12800.j2se.module.tray.ETrayType;
 import cn.harry12800.j2se.module.tray.TrayInfo;
 import cn.harry12800.j2se.module.tray.TrayListener;
 import cn.harry12800.j2se.module.tray.TrayUtil;
@@ -66,14 +67,11 @@ import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.components.message.FileEditorThumbnail;
 import cn.harry12800.vchat.components.message.RemindUserPopup;
-import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.model.FileAttachment;
 import cn.harry12800.vchat.db.model.ImageAttachment;
 import cn.harry12800.vchat.db.model.Message;
 import cn.harry12800.vchat.db.model.Room;
-import cn.harry12800.vchat.db.service.ContactsUserService;
-import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.db.service.FileAttachmentService;
 import cn.harry12800.vchat.db.service.ImageAttachmentService;
 import cn.harry12800.vchat.db.service.MessageService;
@@ -119,11 +117,9 @@ public class ChatPanel extends ParentAvailablePanel {
 	public List<String> roomMembers = new ArrayList<>();
 
 	private MessageService messageService = Launcher.messageService;
-	private CurrentUserService currentUserService = Launcher.currentUserService;
 	private RoomService roomService = Launcher.roomService;
 	private ImageAttachmentService imageAttachmentService = Launcher.imageAttachmentService;
 	private FileAttachmentService fileAttachmentService = Launcher.fileAttachmentService;
-	private ContactsUserService contactsUserService = Launcher.contactsUserService;
 	public static List<String> uploadingOrDownloadingFiles = new ArrayList<>();
 	private FileCache fileCache;
 
@@ -446,7 +442,6 @@ public class ChatPanel extends ParentAvailablePanel {
 			return;
 		}
 		this.firstMessageTimestamp = firstMessageTimestamp;
-
 		this.roomId = roomId;
 		CHAT_ROOM_OPEN_ID = roomId;
 		this.room = roomService.findById(roomId);
@@ -459,6 +454,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		messageEditorPanel.getEditor().setText("");
 		updateUnreadCount(0);
+		
 	}
 
 	/**
@@ -539,6 +535,8 @@ public class ChatPanel extends ParentAvailablePanel {
 		room = roomService.findById(roomId);
 		if (count < 0) {
 			System.out.println(count);
+		}else if(count ==0){
+			TrayUtil.getTray().popTrayInfo(roomId, ETrayType.CHAT);
 		}
 		room.setUnreadCount(count);
 		room.setTotalReadCount(room.getMsgSum());
@@ -1273,29 +1271,17 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		};
 		trayInfo.id = msg.getFromId() + "";
-		trayInfo.type = "chat";
-		System.out.println("用户：" + Launcher.getUserNameByUserId(msg.getFromId()));
+		trayInfo.type = ETrayType.CHAT;
+		String senderUserName = Launcher.getUserNameByUserId(msg.getFromId());
+		System.out.println("用户：" + senderUserName);
 		trayInfo.icon = new ImageIcon(
-				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId())).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+				AvatarUtil.createOrLoadUserAvatar(senderUserName).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 		//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
 		TrayUtil.getTray().pushTrayInfo(trayInfo);
 		message.setMessageContent(string);
 		message.setSenderId(msg.getFromId() + "");
 		message.setTimestamp(new Date().getTime());
-		List<CurrentUser> users = currentUserService.findAll();
-		for (CurrentUser currentUser : users) {
-			if (currentUser.getUserId().equals(msg.getFromId() + "")) {
-				message.setSenderUsername(currentUser.getUsername());
-			}
-		}
-		List<ContactsUser> findAll = contactsUserService.findAll();
-		for (ContactsUser contactsUser : findAll) {
-			if (contactsUser.getUserId().equals(msg.getFromId() + "")) {
-				message.setSenderUsername(contactsUser.getUsername());
-				break;
-			}
-		}
-
+		message.setSenderUsername(senderUserName);
 		messageService.insertOrUpdate(message);
 		Room friendRoom = roomService.findById(msg.getFromId() + "");
 		friendRoom.setLastMessage(message.getMessageContent());
@@ -1340,33 +1326,21 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		};
 		trayInfo.id = msg.getSenderUserId() + "";
-		trayInfo.type = "chat";
-		System.out.println("用户：" + Launcher.getUserNameByUserId(msg.getSenderUserId()));
+		trayInfo.type =  ETrayType.CHAT;
+		String senderUserName = Launcher.getUserNameByUserId(msg.getSenderUserId());
+		System.out.println("用户：" + senderUserName);
 		trayInfo.icon = new ImageIcon(
-				AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getSenderUserId())).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+				AvatarUtil.createOrLoadUserAvatar(senderUserName).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 		//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
 		TrayUtil.getTray().pushTrayInfo(trayInfo);
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
 		message.setRoomId(msg.getSenderUserId() + "");
-
+		message.setSenderUsername(senderUserName);
 		message.setMessageContent(msg.getName());
 		//		string = StringEscapeUtils.unescapeJava(string);
 		message.setSenderId(msg.getSenderUserId() + "");
 		message.setTimestamp(new Date().getTime());
-		List<CurrentUser> users = currentUserService.findAll();
-		for (CurrentUser currentUser : users) {
-			if (currentUser.getUserId().equals(msg.getSenderUserId() + "")) {
-				message.setSenderUsername(currentUser.getUsername());
-			}
-		}
-		List<ContactsUser> findAll = contactsUserService.findAll();
-		for (ContactsUser contactsUser : findAll) {
-			if (contactsUser.getUserId().equals(msg.getSenderUserId() + "")) {
-				message.setSenderUsername(contactsUser.getUsername());
-				break;
-			}
-		}
 		String suffix = StringUtils.getSuffix(msg.getName());
 		String mime = MimeTypeUtil.getMime(suffix);
 		if (mime.startsWith("image")) {

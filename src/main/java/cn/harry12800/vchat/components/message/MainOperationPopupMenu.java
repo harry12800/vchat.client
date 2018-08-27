@@ -72,7 +72,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						try {
@@ -81,7 +81,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						
+
 					}
 				}).start();
 				MachineUtils.reStart();
@@ -129,13 +129,11 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item5.setIcon(icon5);
 		item5.setIconTextGap(5);
 
-		
-		
 		item6.setUI(new RCMainOperationMenuItemUI());
 		item6.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 System.exit(1);
+				System.exit(1);
 			}
 		});
 		ImageIcon icon6 = new ImageIcon(getClass().getResource("/image/setting.png"));
