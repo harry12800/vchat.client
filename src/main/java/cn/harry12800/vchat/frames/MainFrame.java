@@ -121,6 +121,8 @@ public class MainFrame extends JFrame {
 						if (MainFrame.this.isVisible()) {
 							MainFrame.this.setVisible(false);
 						} else {
+							MainFrame.this.setExtendedState(JFrame.NORMAL);
+							MainFrame.this.toFront();
 							MainFrame.this.setVisible(true);
 						}
 					}
