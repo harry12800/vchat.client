@@ -454,7 +454,7 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		messageEditorPanel.getEditor().setText("");
 		updateUnreadCount(0);
-		
+
 	}
 
 	/**
@@ -535,7 +535,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		room = roomService.findById(roomId);
 		if (count < 0) {
 			System.out.println(count);
-		}else if(count ==0){
+		} else if (count == 0) {
 			TrayUtil.getTray().popTrayInfo(roomId, ETrayType.CHAT);
 		}
 		room.setUnreadCount(count);
@@ -1326,7 +1326,7 @@ public class ChatPanel extends ParentAvailablePanel {
 			}
 		};
 		trayInfo.id = msg.getSenderUserId() + "";
-		trayInfo.type =  ETrayType.CHAT;
+		trayInfo.type = ETrayType.CHAT;
 		String senderUserName = Launcher.getUserNameByUserId(msg.getSenderUserId());
 		System.out.println("用户：" + senderUserName);
 		trayInfo.icon = new ImageIcon(

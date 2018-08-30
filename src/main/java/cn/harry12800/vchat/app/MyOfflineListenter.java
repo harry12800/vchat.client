@@ -13,9 +13,10 @@ public class MyOfflineListenter extends OfflineListenter {
 		if (Launcher.currentUser == null) {
 			new MessageDialog(LoginFrame.getContext(), "提示", "网络断开重连！");
 		} else {
-			new MessageDialog(MainFrame.getContext(), "提示", "请求重连！");
+			MainFrame.getContext().reLogin();
+			//new MessageDialog(MainFrame.getContext(), "提示", "请求重连！");
 		}
-		Launcher.client.init(this);
+		//		Launcher.client.init(this);
 	}
 
 }

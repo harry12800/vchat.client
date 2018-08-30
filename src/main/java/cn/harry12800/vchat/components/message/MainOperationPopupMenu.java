@@ -10,11 +10,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.border.LineBorder;
 
-import cn.harry12800.common.core.model.Request;
-import cn.harry12800.common.module.ModuleId;
-import cn.harry12800.common.module.UserCmd;
-import cn.harry12800.common.module.user.dto.LoginRequest;
-import cn.harry12800.j2se.dialog.MessageDialog;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.tools.MachineUtils;
 import cn.harry12800.vchat.app.Launcher;
@@ -113,15 +108,7 @@ public class MainOperationPopupMenu extends JPopupMenu {
 		item5.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					LoginRequest loginRequest = new LoginRequest();
-					loginRequest.setPlayerName(Launcher.currentUser.getUsername());
-					loginRequest.setPassward(Launcher.currentUser.getPassword());
-					Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
-					Launcher.client.sendRequest(request);
-				} catch (Exception e1) {
-					new MessageDialog(MainFrame.getContext(), "提示", "无法连接服务器");
-				}
+				MainFrame.getContext().reLogin();
 			}
 		});
 		ImageIcon icon5 = new ImageIcon(getClass().getResource("/image/setting.png"));

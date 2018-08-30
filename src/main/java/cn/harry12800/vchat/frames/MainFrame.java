@@ -30,6 +30,7 @@ import com.melloware.jintellitype.JIntellitype;
 import cn.harry12800.common.core.model.Request;
 import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.UserCmd;
+import cn.harry12800.common.module.user.dto.LoginRequest;
 import cn.harry12800.common.module.user.dto.PullMsgRequest;
 import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.j2se.component.utils.ImageUtils;
@@ -492,5 +493,17 @@ public class MainFrame extends JFrame {
 	public void showProssbar(boolean visible) {
 		southPanel
 				.setVisible(visible);
+	}
+
+	public void reLogin() {
+		try {
+			LoginRequest loginRequest = new LoginRequest();
+			loginRequest.setPlayerName(Launcher.currentUser.getUsername());
+			loginRequest.setPassward(Launcher.currentUser.getPassword());
+			Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
+			Launcher.client.sendRequest(request);
+		} catch (Exception e1) {
+			new MessageDialog(MainFrame.getContext(), "提示", "无法连接服务器");
+		}
 	}
 }
