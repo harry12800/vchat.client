@@ -110,6 +110,8 @@ public class LoginFrame extends JFrame {
 		mit0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				TrayUtil.getTray().getFrame().setExtendedState(JFrame.NORMAL);
+				TrayUtil.getTray().getFrame().toFront();
 				TrayUtil.getTray().getFrame().setVisible(true);
 			}
 		});

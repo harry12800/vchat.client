@@ -17,6 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import com.melloware.jintellitype.HotkeyListener;
+import com.melloware.jintellitype.JIntellitype;
+
 import cn.harry12800.common.core.model.Request;
 import cn.harry12800.common.module.ChatCmd;
 import cn.harry12800.common.module.ModuleId;
@@ -76,20 +79,6 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		}
 	}
 
-	private void registerHotKey() {
-		//		int SCREEN_SHOT_CODE = 10001;
-		// JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE,
-		// JIntellitype.MOD_ALT, 'S');
-		//
-		// JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
-		// @Override
-		// public void onHotKey(int markCode) {
-		// if (markCode == SCREEN_SHOT_CODE) {
-		// screenShot();
-		// }
-		// }
-		// });
-	}
 
 	private void initComponents() {
 		Cursor handCursor = new Cursor(Cursor.HAND_CURSOR);
@@ -164,6 +153,22 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		add(controlLabel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
 		add(textScrollPane, new GBC(0, 1).setFill(GBC.BOTH).setWeight(1, 15));
 		add(sendPanel, new GBC(0, 2).setFill(GBC.BOTH).setWeight(1, 1).setInsets(0, 0, 10, 10));
+	}
+	private void registerHotKey() {
+		int SCREEN_SHOT_CODE = 10004;
+		try {
+			JIntellitype.getInstance().registerHotKey(SCREEN_SHOT_CODE, JIntellitype.MOD_ALT, 'S');
+			JIntellitype.getInstance().addHotKeyListener(new HotkeyListener() {
+				@Override
+				public void onHotKey(int markCode) {
+					if (markCode == SCREEN_SHOT_CODE) {
+						screenShot();
+					}
+				}
+			});
+		} catch (Exception e) {
+			System.err.println("截图热键已经被注册！");
+		}
 	}
 
 	private void setListeners() {

@@ -1242,6 +1242,9 @@ public class ChatPanel extends ParentAvailablePanel {
 	public void paste() {
 		messageEditorPanel.getEditor().paste();
 		messageEditorPanel.getEditor().requestFocus();
+		MainFrame.getContext().setExtendedState(JFrame.NORMAL);
+		MainFrame.getContext().toFront();
+		MainFrame.getContext().setVisible(true);
 	}
 
 	public void restoreRemoteHistoryLoadedRooms() {
