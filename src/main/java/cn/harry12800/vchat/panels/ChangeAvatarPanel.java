@@ -1,7 +1,5 @@
 package cn.harry12800.vchat.panels;
 
-import static cn.harry12800.vchat.app.Launcher.currentUserService;
-
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -30,6 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.codec.binary.Base64;
 
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.db.model.CurrentUser;
@@ -57,7 +56,6 @@ public class ChangeAvatarPanel extends JPanel {
 
 	public ChangeAvatarPanel() {
 		context = this;
-
 		initComponents();
 		initView();
 		setListener();
@@ -84,7 +82,7 @@ public class ChangeAvatarPanel extends JPanel {
 	}
 
 	private void initComponents() {
-		CurrentUser currentUser = currentUserService.findAll().get(0);
+		CurrentUser currentUser = Launcher.currentUser;
 		Image avatar = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername()).getScaledInstance(200,
 				200, Image.SCALE_SMOOTH)).getImage();
 		imageLabel = new ImageAdjustLabel(imageMaxWidth, imageMaxHeight, avatar);
@@ -155,12 +153,17 @@ public class ChangeAvatarPanel extends JPanel {
 						restoreOKButton();
 					} else {
 						// TODO: 上传头像，图片数据为selectedImage
-						JOptionPane.showMessageDialog(MainFrame.getContext(), "更改头像", "更改头像",
-								JOptionPane.INFORMATION_MESSAGE);
+//						JOptionPane.showMessageDialog(MainFrame.getContext(), "更改头像", "更改头像",
+//								JOptionPane.INFORMATION_MESSAGE);
+//						File file = new File("");
+						AvatarUtil.saveAvatar(selectedImage,  Launcher.currentUser.getUsername());
+//						try(FileOutputStream out = new FileOutputStream(file );){
+//							ImageIO.write(selectedImage,"png",out);
+//						}catch (Exception e2) {
+//							e2.printStackTrace();
+//						}
 					}
-
 				}
-
 				super.mouseClicked(e);
 			}
 		});

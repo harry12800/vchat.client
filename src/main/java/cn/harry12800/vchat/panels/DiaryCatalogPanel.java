@@ -165,25 +165,31 @@ public class DiaryCatalogPanel extends JScrollPane {
 							pm.setBackground(Colors.FONT_WHITE);
 							pm.setBorder(LIGHT_GRAY_BORDER);
 							// pm.setBorderPainted(false);
-							JMenuItem mit3 = new JMenuItem("删除分组");
-							mit3.setUI(new RCMenuItemUI());
-							mit3.setFont(BASIC_FONT);
-							mit3.setBackground(Colors.DARK);
-							JMenuItem mit1 = new JMenuItem("更换名称");
-							mit1.setUI(new RCMenuItemUI());
-							mit1.setOpaque(false);
-							mit1.setFont(BASIC_FONT);
-							JMenuItem mit2 = new JMenuItem("添加文章");
 							JMenuItem mit0 = new JMenuItem("打开目录");
+							JMenuItem mit1 = new JMenuItem("更换名称");
+							JMenuItem mit2 = new JMenuItem("添加文章");
+							JMenuItem mit3 = new JMenuItem("删除分组");
 							JMenuItem mit4 = new JMenuItem("导出数据");
+							JMenuItem mit5 = new JMenuItem("建子目录");
+//							mit3.setBackground(Colors.DARK);
 							mit0.setUI(new RCMenuItemUI());
+							mit1.setUI(new RCMenuItemUI());
 							mit2.setUI(new RCMenuItemUI());
-							mit2.setOpaque(false);
+							mit3.setUI(new RCMenuItemUI());
+							mit4.setUI(new RCMenuItemUI());
+							mit5.setUI(new RCMenuItemUI());
 							mit0.setOpaque(false);
+							mit1.setOpaque(false);
+							mit2.setOpaque(false);
+							mit3.setOpaque(false);
+							mit4.setOpaque(false);
+							mit5.setOpaque(false);
+							mit0.setFont(BASIC_FONT);
+							mit1.setFont(BASIC_FONT);
+							mit2.setFont(BASIC_FONT);
 							mit3.setFont(BASIC_FONT);
 							mit4.setFont(BASIC_FONT);
-							mit4.setUI(new RCMenuItemUI());
-							mit4.setOpaque(false);
+							mit5.setFont(BASIC_FONT);
 							mit0.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
 									File f = ((CategoryNode) (object)).getFile();
@@ -281,11 +287,35 @@ public class DiaryCatalogPanel extends JScrollPane {
 									}
 								}
 							});
+							mit5.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									CategoryNode node = (CategoryNode) object;
+									new InputMessageDialog(MainFrame.getContext(), "建立子目录", "",
+											new Callback() {
+												public void callback(String string) {
+													String path = node.getFile().getAbsolutePath() + File.separator + string;
+													if (!new File(path).exists()) {
+														FileUtils.createDirectory(path);
+														DiaryCatalogPanel.getContext().addNode(node,new File(path));
+														DiaryCatalog diaryCatalog = new DiaryCatalog();
+														diaryCatalog.setName(string);
+														diaryCatalog.setUserId(Launcher.currentUser.getUserId());
+//														addCatalogServer(diaryCatalog);
+													} else {
+														MainFrame.getContext().alert("已存在该目录！");
+													}
+												}
+											});
+									model.nodeStructureChanged((CategoryNode) (object));
+									catalogTree.expandPath(path);
+								}
+							});
 							pm.add(mit0);
 							pm.add(mit1);
 							pm.add(mit2);
 							pm.add(mit3);
 							pm.add(mit4);
+							pm.add(mit5);
 							pm.show(catalogTree, e.getX(), e.getY());
 						}
 						if (object instanceof AricleNode) {
@@ -477,7 +507,17 @@ public class DiaryCatalogPanel extends JScrollPane {
 		model.reload();
 		// catalogTree.putClientProperty("JTree.lineStyle", "None");
 	}
-
+	public void addNode(CategoryNode node,File file) {
+		CategoryNode child = new CategoryNode(file);
+		// System.out.println("-:" + root.getChildCount());
+		node.insert(child, 0);
+		if (root.getChildCount() == 1) {
+			model = new DefaultTreeModel(root);
+			catalogTree.setModel(model);
+		}
+		model.reload();
+		// catalogTree.putClientProperty("JTree.lineStyle", "None");
+	}
 	/**
 	 * 
 	 * @param file

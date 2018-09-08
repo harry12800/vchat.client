@@ -18,8 +18,6 @@ import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
-import cn.harry12800.vchat.db.model.CurrentUser;
-import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FontUtil;
@@ -33,11 +31,8 @@ public class MePanel extends JPanel {
 	private JLabel imageLabel;
 	private JLabel nameLabel;
 	private RCButton button;
-	private CurrentUserService currentUserService = Launcher.currentUserService;
-	private CurrentUser currentUser;
 
 	public MePanel() {
-		currentUser = currentUserService.findAll().get(0);
 		initComponents();
 		initView();
 		setListeners();
@@ -48,12 +43,12 @@ public class MePanel extends JPanel {
 		contentPanel.setLayout(new VerticalFlowLayout(VerticalFlowLayout.CENTER, 0, 20, true, false));
 
 		imageLabel = new JLabel();
-		ImageIcon icon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(currentUser.getUsername())
+		ImageIcon icon = new ImageIcon(AvatarUtil.createOrLoadUserAvatar(Launcher.currentUser.getUsername())
 				.getScaledInstance(100, 100, Image.SCALE_SMOOTH));
 		imageLabel.setIcon(icon);
 
 		nameLabel = new JLabel();
-		nameLabel.setText(currentUser.getUsername());
+		nameLabel.setText(Launcher.currentUser.getUsername());
 		nameLabel.setFont(FontUtil.getDefaultFont(20));
 
 		button = new RCButton("退出登录", Colors.MAIN_COLOR, Colors.MAIN_COLOR_DARKER, Colors.MAIN_COLOR_DARKER);
