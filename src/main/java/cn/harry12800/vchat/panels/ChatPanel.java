@@ -700,6 +700,7 @@ public class ChatPanel extends ParentAvailablePanel {
 			room.setTotalReadCount(room.getMsgSum());
 			roomService.update(room);
 			RoomsPanel.getContext().updateRoomItem(dbMessage.getRoomId());
+			updateUnreadCount(0);
 		}
 
 		// 10秒后如果发送不成功，则显示重发按钮

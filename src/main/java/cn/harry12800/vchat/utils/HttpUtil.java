@@ -1,6 +1,7 @@
 package cn.harry12800.vchat.utils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyManagementException;
@@ -8,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -18,10 +18,10 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import cn.harry12800.lnk.core.util.JsonUtil;
-import cn.harry12800.vchat.entity.Diary;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -114,28 +114,6 @@ public class HttpUtil {
 		return response.body().string();
 	}
 
-	public static void main(String[] args) {
-		String url = "http://127.0.0.1/v1/diary/saveOrUpdate";
-		Map<String, String> headers = new HashMap<>(0);
-		Map<String, String> params = new HashMap<>(0);
-		params.put("content", "asdfas");
-		params.put("catalogId", "3");
-		params.put("cipher", "0");
-		params.put("title", "dsaf 二十几");
-		Diary d = new Diary();
-		d.setContent("dsaf 二十几");
-		d.setTitle("asdfasfd");
-		d.setCatalogId("3");
-		d.setCipher(0);
-		try {
-			String post = HttpUtil.postJson(url, headers, JsonUtil.object2String(d));
-			System.out.println(post);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	public static String postJson(String url, Map<String, String> headers, String json) throws IOException {
 		RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
 
@@ -149,17 +127,6 @@ public class HttpUtil {
 
 		Response response = client.newCall(requestPost).execute();
 		return response.body().string();
-	}
-
-	public static boolean upload(String url, String type, byte[] part) throws IOException {
-		Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse(type), part)).build();
-
-		Response response = client.newCall(request).execute();
-		if (response.isSuccessful()) {
-			return true;
-		}
-
-		return false;
 	}
 
 	public static byte[] download(String url) throws IOException {
@@ -271,5 +238,65 @@ public class HttpUtil {
 
 	public interface ProgressListener {
 		void onProgress(int process);
+	}
+
+	public static boolean upload(String url, String type, byte[] part) throws IOException {
+		Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse(type), part)).build();
+		Response response = client.newCall(request).execute();
+		if (response.isSuccessful()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * 上传文件到服务器，服务器已经指定了文件路径。
+	 * @param url http路径
+	 * @param path  本地文件路径
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean uploadFile(String url, String path) throws IOException {
+		File file = new File(path);
+		MediaType type = MediaType.parse("application/octet-stream");
+		RequestBody fileBody = RequestBody.create(type, file);
+		//三种：混合参数和文件请求
+		RequestBody multipartBody = new MultipartBody.Builder()
+				.setType(MultipartBody.ALTERNATIVE)
+				//一样的效果
+				.addPart(Headers.of(
+						"Content-Disposition",
+						"form-data; name=\"file\"; filename=\"" + file.getName() + "\""), fileBody)
+				//一样的效果
+				/*.addFormDataPart("id",currentPlan.getPlanId()+"")
+				.addFormDataPart("name",currentPlan.getName())
+				.addFormDataPart("volume",currentPlan.getVolume())
+				.addFormDataPart("type",currentPlan.getType()+"")
+				.addFormDataPart("mode",currentPlan.getMode()+"")
+				.addFormDataPart("params","plans.xml",fileBody)*/
+				.build();
+
+		Request request = new Request.Builder().url(url)
+				.addHeader("User-Agent", "android")
+				.header("Content-Type", "text/html; charset=utf-8;")
+				.post(multipartBody)//传参数、文件或者混合，改一下就行请求体就行
+				.build();
+		Response response = client.newCall(request).execute();
+
+		System.out.println(response.body().string());
+		if (response.isSuccessful()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static void main(String[] args) {
+		String url = "http://127.0.0.1/v1/user/uploadAvatar";
+		try {
+			HttpUtil.uploadFile(url, "C:/Users/harry12800/Desktop/2018-04.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

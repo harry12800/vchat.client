@@ -29,11 +29,13 @@ import org.apache.commons.codec.binary.Base64;
 
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.components.RCButton;
 import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
+import cn.harry12800.vchat.utils.HttpUtil;
 import cn.harry12800.vchat.utils.IconUtil;
 
 /**
@@ -51,8 +53,8 @@ public class ChangeAvatarPanel extends JPanel {
 	private File selectedFile;
 	private JLabel statusLabel;
 
-	private int imageMaxWidth = 350;
-	private int imageMaxHeight = 200;
+	private int imageMaxWidth = 300;
+	private int imageMaxHeight = 300;
 
 	public ChangeAvatarPanel() {
 		context = this;
@@ -87,7 +89,7 @@ public class ChangeAvatarPanel extends JPanel {
 				200, Image.SCALE_SMOOTH)).getImage();
 		imageLabel = new ImageAdjustLabel(imageMaxWidth, imageMaxHeight, avatar);
 		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		imageLabel.setPreferredSize(new Dimension(360, 200));
+		imageLabel.setPreferredSize(new Dimension(300, 300));
 		// imageLabel.setBorder(new LineBorder(Colors.ITEM_SELECTED_LIGHT));
 
 		// imageLabel.setIcon(new
@@ -157,6 +159,12 @@ public class ChangeAvatarPanel extends JPanel {
 //								JOptionPane.INFORMATION_MESSAGE);
 //						File file = new File("");
 						AvatarUtil.saveAvatar(selectedImage,  Launcher.currentUser.getUsername());
+						String path = AvatarUtil.CUSTOM_AVATAR_CACHE_ROOT+"/"+Launcher.currentUser.getUsername()+".png";
+						try {
+							HttpUtil.uploadFile(Contants.getPath(Contants.uploadAvatarPath), path);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 //						try(FileOutputStream out = new FileOutputStream(file );){
 //							ImageIO.write(selectedImage,"png",out);
 //						}catch (Exception e2) {
