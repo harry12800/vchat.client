@@ -46,7 +46,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 	private JLabel fileLabel;
 	private JLabel expressionLabel;
 	private JLabel cutLabel;
-	private JLabel doudongLabel;
+	private JLabel shakeLabel;
 	private JScrollPane textScrollPane;
 	private RCTextEditor textEditor;
 	private JPanel sendPanel;
@@ -62,8 +62,8 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 	private ImageIcon cutNormalIcon;
 	private ImageIcon cutActiveIcon;
 
-	private ImageIcon doudongIcon;
-	private ImageIcon doudongActiveIcon;
+	private ImageIcon shakeIcon;
+	private ImageIcon shakeActiveIcon;
 
 	private ExpressionPopup expressionPopup;
 
@@ -92,12 +92,12 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		fileLabel.setCursor(handCursor);
 		fileLabel.setToolTipText("发送文件/图片");
 
-		doudongLabel = new JLabel();
-		doudongIcon = IconUtil.getIcon(this, "/image/doudong.png");
-		doudongActiveIcon = IconUtil.getIcon(this, "/image/doudong.png");
-		doudongLabel.setIcon(doudongIcon);
-		doudongLabel.setCursor(handCursor);
-		doudongLabel.setToolTipText("发送抖动");
+		shakeLabel = new JLabel();
+		shakeIcon = IconUtil.getIcon(this, "/image/shake.png");
+		shakeActiveIcon = IconUtil.getIcon(this, "/image/shake_active.png");
+		shakeLabel.setIcon(shakeIcon);
+		shakeLabel.setCursor(handCursor);
+		shakeLabel.setToolTipText("发送抖动");
 
 		expressionLabel = new JLabel();
 		emotionNormalIcon = IconUtil.getIcon(this, "/image/emotion.png");
@@ -148,7 +148,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		controlLabel.add(expressionLabel);
 		controlLabel.add(fileLabel);
 		controlLabel.add(cutLabel);
-		controlLabel.add(doudongLabel);
+		controlLabel.add(shakeLabel);
 
 		add(controlLabel, new GBC(0, 0).setFill(GBC.HORIZONTAL).setWeight(1, 1));
 		add(textScrollPane, new GBC(0, 1).setFill(GBC.BOTH).setWeight(1, 15));
@@ -172,22 +172,22 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 	}
 
 	private void setListeners() {
-		doudongLabel.addMouseListener(new MouseAdapter() {
+		shakeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				doudongLabel.setIcon(doudongActiveIcon);
+				shakeLabel.setIcon(shakeActiveIcon);
 				super.mouseEntered(e);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				doudongLabel.setIcon(doudongIcon);
+				shakeLabel.setIcon(shakeIcon);
 				super.mouseExited(e);
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				senddoudong();
+				sendShake();
 				super.mouseClicked(e);
 			}
 		});
@@ -257,7 +257,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		});
 	}
 
-	protected void senddoudong() {
+	protected void sendShake() {
 		try {
 			PrivateChatRequest request = new PrivateChatRequest();
 			request.setContext("抖动");
