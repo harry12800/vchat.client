@@ -1,8 +1,11 @@
 package cn.harry12800.vchat.components;
 
 import java.awt.Image;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.TooManyListenersException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -17,6 +20,10 @@ import cn.harry12800.vchat.utils.ClipboardUtil;
  */
 @SuppressWarnings("serial")
 public class RCTextEditor extends JTextPane {
+	public RCTextEditor() {
+		initDragArea();
+	}
+
 	@Override
 	public void paste() {
 		Object data = ClipboardUtil.paste();
@@ -39,6 +46,18 @@ public class RCTextEditor extends JTextPane {
 					this.insertComponent(thumbnail);
 				}
 			}
+		}
+	}
+
+	private void initDragArea() {
+		DropTarget dt = new DropTarget();
+		FileDropTargetAdapter fileDropTargetAdapter = new FileDropTargetAdapter(this);
+		dt.setComponent(this);
+		dt.setDefaultActions(DnDConstants.ACTION_COPY_OR_MOVE);
+		try {
+			dt.addDropTargetListener(fileDropTargetAdapter);
+		} catch (TooManyListenersException e) {
+			e.printStackTrace();
 		}
 	}
 

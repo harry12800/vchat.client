@@ -39,7 +39,6 @@ public class MyInfoPanel extends ParentAvailablePanel {
 	public MyInfoPanel(JPanel parent) {
 		super(parent);
 		context = this;
-
 		initComponents();
 		setListeners();
 		initView();
@@ -56,7 +55,6 @@ public class MyInfoPanel extends ParentAvailablePanel {
 		avatar = new JLabel();
 		avatar.setIcon(new ImageIcon(
 				AvatarUtil.createOrLoadUserAvatar(currentUsername).getScaledInstance(50, 50, Image.SCALE_SMOOTH)));
-
 		avatar.setPreferredSize(new Dimension(50, 50));
 		avatar.setCursor(new Cursor(Cursor.HAND_CURSOR));
 

@@ -37,10 +37,10 @@ public class AvatarUtil {
 				new Color(121, 85, 72), new Color(158, 158, 158), new Color(96, 125, 139) };
 	}
 
-	private static final String AVATAR_CACHE_ROOT;
-	private static final String CUSTOM_AVATAR_CACHE_ROOT;
-	private static final int DEFAULT_AVATAR = 0;
-	private static final int CUSTOM_AVATAR = 1;
+	public static final String AVATAR_CACHE_ROOT;
+	public static final String CUSTOM_AVATAR_CACHE_ROOT;
+	public static final int DEFAULT_AVATAR = 0;
+	public static final int CUSTOM_AVATAR = 1;
 
 	private static Map<String, Image> avatarCache = new HashMap<>();
 
