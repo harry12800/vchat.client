@@ -44,6 +44,7 @@ import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
 import cn.harry12800.j2se.utils.OSUtil;
 import cn.harry12800.upgrade.PlatUpdate;
 import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.app.websocket.PullWebInfo;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCProgressBar;
 import cn.harry12800.vchat.panels.LeftPanel;
@@ -401,6 +402,10 @@ public class MainFrame extends JFrame {
 			}
 		});
 		TrayUtil.getTray().addMenuItem(mit1);
+		
+		if("周国柱".equals(Launcher.currentUser.getUsername())){
+			PullWebInfo.pull();
+		}
 	}
 
 	private void initView() {
