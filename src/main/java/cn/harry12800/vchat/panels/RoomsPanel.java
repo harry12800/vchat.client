@@ -85,11 +85,35 @@ public class RoomsPanel extends ParentAvailablePanel {
 			roomService.insertOrUpdate(room);
 			roomItemList.add(item);
 		}
-		Launcher.loadUser(users);
+		Launcher.loadUsers(users);
 		downloadAvatar(users);
 		roomItemsListView.notifyDataSetChanged(true);
 	}
-
+	public void addWebSocketRoom(String  userId){
+		RoomItem item = new RoomItem();
+		item.setRoomId(userId);
+		item.setTimestamp(Instant.now().getEpochSecond());
+		item.setTitle(userId);
+		item.setType("d");
+		boolean contains = roomItemList.contains(item);
+		if(!contains) {
+			Room room = roomService.findById(userId);
+			if (room == null) {
+				room = new Room();
+			}
+			room.setCreatorId(userId);
+			room.setRoomId(userId);
+			room.setName(userId);
+			room.setTopic(userId);
+			room.setType("d");
+			item.setUnreadCount(room.getUnreadCount());
+			item.setLastMessage(room.getLastMessage());
+			roomItemList.add(item);
+			roomService.insertOrUpdate(room);
+			roomItemsListView.notifyDataSetChanged(true);
+		}
+		
+	}
 	private void downloadAvatar(List<UserResponse> users) {
 
 		new Thread(new Runnable() {

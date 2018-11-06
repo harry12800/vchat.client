@@ -21,7 +21,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.UUID;
 
@@ -53,6 +55,7 @@ import cn.harry12800.j2se.module.tray.TrayListener;
 import cn.harry12800.j2se.module.tray.TrayUtil;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Clip;
+import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.adapter.message.BaseMessageViewHolder;
@@ -62,6 +65,8 @@ import cn.harry12800.vchat.adapter.message.MessageRightAttachmentViewHolder;
 import cn.harry12800.vchat.adapter.message.MessageRightImageViewHolder;
 import cn.harry12800.vchat.app.App;
 import cn.harry12800.vchat.app.Launcher;
+import cn.harry12800.vchat.app.config.Contants;
+import cn.harry12800.vchat.app.websocket.PullWebInfo.Letter;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.RCListView;
@@ -680,8 +685,12 @@ public class ChatPanel extends ParentAvailablePanel {
 
 		// TODO: 发送消息到服务器
 		// 发送
-		sendToServer(content);
-
+		if(roomId.length()!=32) {
+			sendToServer(content);
+		}else {
+			sendToWebSocketServer(content);
+		}
+		
 		// TODO：完善发送消息回调：
 		boolean sentSuccess = true;
 		if (sentSuccess) {
@@ -723,6 +732,23 @@ public class ChatPanel extends ParentAvailablePanel {
 		 * RoomsPanel.getContext().updateRoomItem(msg.getRoomId()); } } });
 		 * task.execute(messageId);
 		 */
+	}
+
+	private void sendToWebSocketServer(String content) {
+		String path2 = Contants.getPath(Contants.sendTextWebsocketPath);
+		Letter letter = new Letter();
+		letter.from = "harry12800";
+		letter.to = roomId;
+		letter.time = new Date();
+		letter.data = content;
+		Map<String, String> headers = new HashMap<>(0);
+		try {
+			String post = HttpUtil.postJson(path2, headers, JsonUtil.object2String(letter));
+			System.out.println(post);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void sendToServer(String content) {
@@ -1252,6 +1278,51 @@ public class ChatPanel extends ParentAvailablePanel {
 		remoteHistoryLoadedRooms.clear();
 	}
 
+	public void showWebSocketMsg(Letter letter) {
+		if (currentUser.getUserId().equals(letter.from))
+			return;
+		System.out.println("收到消息");
+		Message message = new Message();
+		message.setId(StringUtils.getUUID());
+		message.setRoomId(letter.from);
+		if ("抖动".equals(letter.data)) {
+			Clip.shakeFrame(MainFrame.getContext(), 8);
+		}
+		TrayInfo trayInfo = new TrayInfo();
+		trayInfo.e = new TrayListener() {
+			public void exe(TrayInfo e) {
+				MainFrame.getContext().setExtendedState(JFrame.NORMAL);
+				MainFrame.getContext().toFront();
+				TabOperationPanel.getContext().showChatPanel();
+				MainFrame.getContext().setVisible(true);
+			}
+		};
+		trayInfo.id = letter.from;
+		trayInfo.type = ETrayType.CHAT;
+		String senderUserName = letter.from;
+		System.out.println("用户：" + senderUserName);
+		trayInfo.icon = new ImageIcon(
+				AvatarUtil.createOrLoadUserAvatar(senderUserName).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+		//		AvatarUtil.createOrLoadUserAvatar(Launcher.getUserNameByUserId(msg.getFromId()));
+		TrayUtil.getTray().pushTrayInfo(trayInfo);
+		message.setMessageContent(letter.data);
+		message.setSenderId(letter.from);
+		message.setTimestamp(new Date().getTime());
+		message.setSenderUsername(senderUserName);
+		messageService.insertOrUpdate(message);
+		Room friendRoom = roomService.findById(letter.from);
+		friendRoom.setLastMessage(message.getMessageContent());
+		friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
+		roomService.insertOrUpdate(friendRoom);
+		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
+		item.setMessageType(MessageItem.LEFT_TEXT);
+		System.out.println(room + ":null");
+		if (room != null && friendRoom.getType().equals("d") && room.getName().equals(message.getSenderUsername())) {
+			addMessageItemToEnd(item);
+		}
+		RoomsPanel.getContext().updateRoomItem(friendRoom.getRoomId());
+	}
+	
 	public void showReceiveMsg(MsgResponse msg) {
 		if (currentUser.getUserId().equals(msg.getFromId() + ""))
 			return;

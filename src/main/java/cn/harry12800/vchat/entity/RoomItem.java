@@ -85,4 +85,30 @@ public class RoomItem implements Comparable<RoomItem> {
 		long ret = o.getTimestamp() - this.getTimestamp();
 		return ret > 0 ? 1 : -1;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((roomId == null) ? 0 : roomId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RoomItem other = (RoomItem) obj;
+		if (roomId == null) {
+			if (other.roomId != null)
+				return false;
+		} else if (!roomId.equals(other.roomId))
+			return false;
+		return true;
+	}
+	
 }

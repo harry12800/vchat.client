@@ -12,6 +12,9 @@ public class Contants {
 	public final static String diaryCatalogDelUrl = "/v1/diaryCatalog/del";
 	public final static String uploadAvatarPath = "/v1/user/uploadAvatar";
 	public static final String downloadPath = "/download";
+	public static final String websocketPath = "/v1/websocket/getByUserName";
+	public static final String pullAllWebsocketPath = "/v1/websocket/pullByUserName";
+	public static final String sendTextWebsocketPath = "/v1/websocket/sendText";
 
 	public static String getPath(String path) {
 		return config() + path;

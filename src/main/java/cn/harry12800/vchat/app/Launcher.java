@@ -148,12 +148,14 @@ public class Launcher {
 
 	public static Map<String, UserResponse> userMaps = Maps.newHashMap();
 
-	public static void loadUser(List<UserResponse> users) {
+	public static void loadUsers(List<UserResponse> users) {
 		for (UserResponse user : users) {
 			userMaps.put(user.getId() + "", user);
 		}
 	}
-
+	public static void loadUser(UserResponse user) {
+			userMaps.put(user.getId() + "", user);
+	}
 	public static String getUserNameByUserId(long id) {
 		return userMaps.get(id + "") == null ? "" : userMaps.get(id + "").getUserName();
 	}
