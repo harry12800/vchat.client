@@ -81,12 +81,12 @@
 			<artifactId>jintellitype</artifactId>
 			<version>1.3.9</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>cn.harry12800</groupId>
 			<artifactId>ImageViewer</artifactId>
 			<version>1.0</version>
 		</dependency>
-
+ -->
 		<dependency>
 			<groupId>cn.harry12800</groupId>
 			<artifactId>harry12800.common</artifactId>

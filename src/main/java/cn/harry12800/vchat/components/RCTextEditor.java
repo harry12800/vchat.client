@@ -11,8 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 
+import cn.harry12800.j2se.component.imageview.ImageViewerFrame;
 import cn.harry12800.vchat.components.message.FileEditorThumbnail;
-import cn.harry12800.vchat.forms.ImageViewerFrame;
 import cn.harry12800.vchat.utils.ClipboardUtil;
 
 /**

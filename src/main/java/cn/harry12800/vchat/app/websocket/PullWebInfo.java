@@ -53,7 +53,7 @@ public class PullWebInfo {
 						}
 					}
 				}catch (Exception e) {
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 			}
 		}, 5000, 2000);

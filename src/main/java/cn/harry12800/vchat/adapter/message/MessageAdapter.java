@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
+import cn.harry12800.j2se.component.imageview.ImageViewerFrame;
 import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.adapter.ViewHolder;
 import cn.harry12800.vchat.app.Launcher;
@@ -28,7 +29,7 @@ import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.db.service.MessageService;
 import cn.harry12800.vchat.entity.FileAttachmentItem;
 import cn.harry12800.vchat.entity.MessageItem;
-import cn.harry12800.vchat.forms.ImageViewerFrame;
+//import cn.harry12800.vchat.forms.ImageViewerFrame;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.helper.AttachmentIconHelper;
 import cn.harry12800.vchat.helper.MessageViewHolderCacheHelper;
