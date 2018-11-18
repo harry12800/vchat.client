@@ -503,7 +503,7 @@ public class MainFrame extends JFrame {
 	public void reLogin() {
 		try {
 			LoginRequest loginRequest = new LoginRequest();
-			loginRequest.setPlayerName(Launcher.currentUser.getUsername());
+			loginRequest.setUserName(Launcher.currentUser.getUsername());
 			loginRequest.setPassward(Launcher.currentUser.getPassword());
 			Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
 			Launcher.client.sendRequest(request);

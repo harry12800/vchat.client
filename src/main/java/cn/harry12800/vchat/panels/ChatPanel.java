@@ -755,7 +755,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		try {
 			PrivateChatRequest request = new PrivateChatRequest();
 			request.setContext(content);
-			request.setTargetPlayerId(Long.valueOf(roomId));
+			request.setTargetUserId(Long.valueOf(roomId));
 			// 构建请求
 			Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
 			Launcher.client.sendRequest(req);

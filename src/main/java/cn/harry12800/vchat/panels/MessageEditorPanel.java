@@ -261,7 +261,7 @@ public class MessageEditorPanel extends ParentAvailablePanel {
 		try {
 			PrivateChatRequest request = new PrivateChatRequest();
 			request.setContext("抖动");
-			request.setTargetPlayerId(Long.valueOf(ChatPanel.getContext().roomId));
+			request.setTargetUserId(Long.valueOf(ChatPanel.getContext().roomId));
 			// 构建请求
 			Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
 			Launcher.client.sendRequest(req);

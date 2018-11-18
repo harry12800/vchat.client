@@ -322,7 +322,7 @@ public class LoginFrame extends JFrame {
 			passwordField.setEditable(false);
 			try {
 				LoginRequest loginRequest = new LoginRequest();
-				loginRequest.setPlayerName(name);
+				loginRequest.setUserName(name);
 				loginRequest.setPassward(pwd);
 				Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
 				Launcher.client.sendRequest(request);

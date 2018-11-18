@@ -40,8 +40,8 @@ public class UserLoginHandler {
 	@SocketCommand(cmd = UserCmd.REGISTER_AND_LOGIN, desc = "创建并登录帐号")
 	public void registerAndLogin(int resultCode, byte[] data) {
 		if (resultCode == ResultCode.SUCCESS) {
-			UserResponse playerResponse = new UserResponse();
-			playerResponse.readFromBytes(data);
+			UserResponse userResponse = new UserResponse();
+			userResponse.readFromBytes(data);
 		} else {
 		}
 	}
