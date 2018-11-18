@@ -17,13 +17,13 @@ public class RoomDao extends BasicDao {
 	}
 
 	public Room findRelativeRoomIdByUserId(String userId) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", "'%" + userId + "%'");
 		return (Room) session.selectOne("findRelativeRoomIdByUserId", map);
 	}
 
 	public List<Room> searchByName(String name) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", "'%" + name + "%'");
 		return session.selectList("searchByName", map);
 	}

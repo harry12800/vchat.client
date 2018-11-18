@@ -30,7 +30,7 @@ public class MessageDao extends BasicDao {
 
 	public List<Message> findByPage(String roomId, int page, int pageLength) {
 		page = page < 1 ? 1 : page;
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("roomId", "'" + roomId + "'");
 		map.put("offset", (page - 1) * pageLength);
 		map.put("pageLength", pageLength);
@@ -49,7 +49,7 @@ public class MessageDao extends BasicDao {
 	}
 
 	public List<Message> findBetween(String roomId, long start, long end) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("roomId", "'" + roomId + "'");
 		map.put("start", start);
 		map.put("end", end);
@@ -62,7 +62,7 @@ public class MessageDao extends BasicDao {
 	}
 
 	public List<Message> findOffset(String roomId, int offset, int pageLength) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("roomId", "'" + roomId + "'");
 		map.put("offset", offset);
 		map.put("pageLength", pageLength);
@@ -70,21 +70,21 @@ public class MessageDao extends BasicDao {
 	}
 
 	public int updateNeedToResend(String id, boolean status) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", "'" + id + "'");
 		map.put("status", "'" + status + "'");
 		return session.update("updateNeedToResend", map);
 	}
 
 	public int updateProgress(String id, int progress) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", "'" + id + "'");
 		map.put("progress", progress);
 		return session.update("updateProgress", map);
 	}
 
 	public List<Message> search(String key) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", "'%" + key + "%'");
 		return session.selectList(MessageDao.class.getName() + ".search", map);
 	}

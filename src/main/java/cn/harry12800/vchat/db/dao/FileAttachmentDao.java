@@ -17,7 +17,7 @@ public class FileAttachmentDao extends BasicDao {
 	}
 
 	public List<FileAttachment> search(String key) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", "'%" + key + "%'");
 		return session.selectList(FileAttachmentDao.class.getName() + ".search", map);
 	}

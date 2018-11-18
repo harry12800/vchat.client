@@ -21,7 +21,7 @@ public class ContactsUserDao extends BasicDao {
 	}
 
 	public List<ContactsUser> searchByUsernameOrName(String username, String name) {
-		Map map = new HashMap();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("usernameCondition", "'%" + username + "%'");
 		map.put("nameCondition", "'%" + name + "%'");
 		return session.selectList("searchByUsernameOrName", map);

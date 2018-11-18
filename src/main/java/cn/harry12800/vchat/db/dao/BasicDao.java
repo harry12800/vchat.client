@@ -65,7 +65,7 @@ public abstract class BasicDao {
 	}
 
 	public List find(String field, Object val) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("field", field);
 
 		if (val instanceof String) {
@@ -94,7 +94,7 @@ public abstract class BasicDao {
 	}
 
 	public List updateField(String field, Object val) {
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("field", field);
 
 		if (val instanceof String || val instanceof Boolean) {
