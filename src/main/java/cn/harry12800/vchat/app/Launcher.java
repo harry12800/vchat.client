@@ -102,36 +102,39 @@ public class Launcher {
 	 *
 	 * @return 如果正在运行返回true，否则返回false
 	 */
-	//	public static boolean isApplicationRunning() {
-	//		boolean rv = false;
-	//		try {
-	//			String path = appFilesBasePath + System.getProperty("file.separator") + "appLock";
-	//			File dir = new File(path);
-	//			if (!dir.exists()) {
-	//				dir.mkdirs();
-	//			}
+	// public static boolean isApplicationRunning() {
+	// boolean rv = false;
+	// try {
+	// String path = appFilesBasePath + System.getProperty("file.separator") +
+	// "appLock";
+	// File dir = new File(path);
+	// if (!dir.exists()) {
+	// dir.mkdirs();
+	// }
 	//
-	//			File lockFile = new File(path + System.getProperty("file.separator") + "appLaunch.lock");
-	//			if (!lockFile.exists()) {
-	//				lockFile.createNewFile();
-	//			}
+	// File lockFile = new File(path + System.getProperty("file.separator") +
+	// "appLaunch.lock");
+	// if (!lockFile.exists()) {
+	// lockFile.createNewFile();
+	// }
 	//
-	//			// 程序名称
-	//			@SuppressWarnings("resource")
-	//			RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(), "rw");
-	//			FileChannel fileChannel = fis.getChannel();
-	//			FileLock fileLock = fileChannel.tryLock();
-	//			if (fileLock == null) {
-	//				System.out.println("程序已在运行.");
-	//				rv = true;
-	//			}
-	//		} catch (FileNotFoundException e1) {
-	//			e1.printStackTrace();
-	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//		}
-	//		return rv;
-	//	}
+	// // 程序名称
+	// @SuppressWarnings("resource")
+	// RandomAccessFile fis = new RandomAccessFile(lockFile.getAbsolutePath(),
+	// "rw");
+	// FileChannel fileChannel = fis.getChannel();
+	// FileLock fileLock = fileChannel.tryLock();
+	// if (fileLock == null) {
+	// System.out.println("程序已在运行.");
+	// rv = true;
+	// }
+	// } catch (FileNotFoundException e1) {
+	// e1.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// return rv;
+	// }
 
 	public void reLogin(String username) {
 		MainFrame.getContext().setVisible(false);
@@ -153,9 +156,11 @@ public class Launcher {
 			userMaps.put(user.getId() + "", user);
 		}
 	}
+
 	public static void loadUser(UserResponse user) {
-			userMaps.put(user.getId() + "", user);
+		userMaps.put(user.getId() + "", user);
 	}
+
 	public static String getUserNameByUserId(long id) {
 		return userMaps.get(id + "") == null ? "" : userMaps.get(id + "").getUserName();
 	}
