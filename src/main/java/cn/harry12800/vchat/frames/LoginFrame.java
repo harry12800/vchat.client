@@ -350,12 +350,12 @@ public class LoginFrame extends JFrame {
 		context = null;
 		System.out.println(userResponse);
 		CurrentUser currentUser = new CurrentUser();
-		currentUser.setUserId(userResponse.getId() + "");
-		currentUser.setUsername(userResponse.getUserName());
+		currentUser.setUserId(userResponse.getUserId());
+		currentUser.setUsername(userResponse.getNickName());
 		currentUser.setPassword(new String(passwordField.getPassword()));
 		currentUserService.insertOrUpdate(currentUser);
 		Launcher.currentUser = currentUser;
-		Config.setProp("username", userResponse.getUserName());
+		Config.setProp("username", userResponse.getUserId());
 		MainFrame frame = MainFrame.getContext();
 		TrayUtil.getTray().setFrame(frame);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

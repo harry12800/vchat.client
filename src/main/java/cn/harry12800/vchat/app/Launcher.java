@@ -153,15 +153,15 @@ public class Launcher {
 
 	public static void loadUsers(List<UserResponse> users) {
 		for (UserResponse user : users) {
-			userMaps.put(user.getId() + "", user);
+			userMaps.put(user.getUserId(), user);
 		}
 	}
 
 	public static void loadUser(UserResponse user) {
-		userMaps.put(user.getId() + "", user);
+		userMaps.put(user.getUserId(), user);
 	}
 
-	public static String getUserNameByUserId(long id) {
-		return userMaps.get(id + "") == null ? "" : userMaps.get(id + "").getUserName();
+	public static String getUserNameByUserId(String id) {
+		return userMaps.get(id) == null ? "" : userMaps.get(id).getNickName();
 	}
 }

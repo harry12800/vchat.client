@@ -1029,11 +1029,11 @@ public class ChatPanel extends ParentAvailablePanel {
 				try {
 					FileChatRequest request = new FileChatRequest();
 					request.setData(dataParts.get(partIndex));
-					request.setSenderUserId(Long.valueOf(currentUser.getUserId()));
+					request.setSenderUserId(currentUser.getUserId());
 					request.setIndex(partIndex);
 					request.setMessageId(messageId);
 					request.setPosition(position);
-					request.setTargetUserId(Long.valueOf(roomId));
+					request.setTargetUserId(roomId);
 					request.setTotal((short) dataParts.size());
 					request.setName(name);
 					Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.FILE_CHAT, request.getBytes());
@@ -1324,7 +1324,7 @@ public class ChatPanel extends ParentAvailablePanel {
 	}
 	
 	public void showReceiveMsg(MsgResponse msg) {
-		if (currentUser.getUserId().equals(msg.getFromId() + ""))
+		if (currentUser.getUserId().equals(msg.getFromId()))
 			return;
 		System.out.println("收到消息");
 		Message message = new Message();

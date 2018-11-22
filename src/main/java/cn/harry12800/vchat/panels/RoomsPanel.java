@@ -69,16 +69,16 @@ public class RoomsPanel extends ParentAvailablePanel {
 			RoomItem item = new RoomItem();
 			item.setRoomId(user.getId() + "");
 			item.setTimestamp(Instant.now().getEpochSecond());
-			item.setTitle(user.getUserName());
+			item.setTitle(user.getNickName());
 			item.setType("d");
-			Room room = roomService.findById(user.getId() + "");
+			Room room = roomService.findById(user.getUserId());
 			if (room == null) {
 				room = new Room();
 			}
 			room.setCreatorId(user.getId() + "");
 			room.setRoomId(user.getId() + "");
-			room.setName(user.getUserName());
-			room.setTopic(user.getUserName());
+			room.setName(user.getNickName());
+			room.setTopic(user.getNickName());
 			room.setType("d");
 			item.setUnreadCount(room.getUnreadCount());
 			item.setLastMessage(room.getLastMessage());
@@ -120,7 +120,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 			@Override
 			public void run() {
 				for (UserResponse userResponse : users) {
-					String userName = userResponse.getUserName();
+					String userName = userResponse.getNickName();
 					String path = Contants.getPath(Contants.downloadPath);
 					try {
 						byte[] download = HttpUtil.download(path + "?path=/root/avatar/" + userName + ".png");
