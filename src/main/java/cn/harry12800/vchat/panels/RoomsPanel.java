@@ -67,7 +67,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 		List<UserResponse> users = userResponse.getUsers();
 		for (UserResponse user : users) {
 			RoomItem item = new RoomItem();
-			item.setRoomId(user.getId() + "");
+			item.setRoomId(user.getUserId());
 			item.setTimestamp(Instant.now().getEpochSecond());
 			item.setTitle(user.getNickName());
 			item.setType("d");
@@ -75,8 +75,8 @@ public class RoomsPanel extends ParentAvailablePanel {
 			if (room == null) {
 				room = new Room();
 			}
-			room.setCreatorId(user.getId() + "");
-			room.setRoomId(user.getId() + "");
+			room.setCreatorId(user.getUserId());
+			room.setRoomId(user.getUserId());
 			room.setName(user.getNickName());
 			room.setTopic(user.getNickName());
 			room.setType("d");
@@ -129,7 +129,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 							FileUtils.writeBytes2File(download, file);
 						}
 					} catch (IOException e) {
-						e.printStackTrace();
+//						e.printStackTrace();
 					}
 				}
 			}

@@ -28,9 +28,9 @@ public class PullWebInfo {
 					try {
 						string = HttpUtil.get(path2);
 					} catch (IOException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 					}
-					System.out.println(string);
+//					System.out.println(string);
 					MyResponse string2Json = JsonUtil.string2Json(string, MyResponse.class);
 					List<String> content = string2Json.content;
 					Map<String,List<Letter>> maps = new LinkedHashMap<>();
