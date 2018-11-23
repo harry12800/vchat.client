@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -18,6 +20,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import cn.harry12800.lnk.core.util.JsonUtil;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.MediaType;
@@ -29,20 +32,37 @@ import okhttp3.Response;
 
 public class HttpUtil {
 
+	public static abstract class HttpBaseCallBack<T> {
+		public Type mType;
+		static Type getSuperClassTypeParameter(Class<?> subClass) {
+			Type superClass = subClass.getGenericSuperclass();
+			if (superClass instanceof Class) {
+				throw new RuntimeException("Misssing Type parameter.");
+			}
+			ParameterizedType parameterizedType = (ParameterizedType) superClass;
+			return parameterizedType.getActualTypeArguments()[0];
+		}
+
+		public HttpBaseCallBack() {
+			mType = getSuperClassTypeParameter(getClass());
+		}
+	}
+
 	public static OkHttpClient client = new OkHttpClient();
 
 	static {
 		try {
-			client = initClientBuilder()
-					.connectTimeout(10, TimeUnit.SECONDS)
-					.writeTimeout(10, TimeUnit.SECONDS)
-					.readTimeout(30, TimeUnit.SECONDS)
-					.build();
+			client = initClientBuilder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS)
+					.readTimeout(30, TimeUnit.SECONDS).build();
 		} catch (KeyManagementException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static <T> T get(String url, Class<T> clazz) throws IOException {
+		return get(url, null, null, clazz);
 	}
 
 	public static String get(String url) throws IOException {
@@ -68,6 +88,34 @@ public class HttpUtil {
 		}
 	}
 
+	public static <T> T get(String url, Map<String, String> headers, Map<String, String> params,
+			 Class<T> clazz) throws IOException {
+		if (params != null && params.size() > 0) {
+			StringBuffer buffer = new StringBuffer(url);
+			buffer.append("?");
+			for (String key : params.keySet()) {
+				buffer.append(key + "=");
+				buffer.append(params.get(key) + "&");
+			}
+			url = buffer.toString();
+		}
+
+		Request.Builder reqBuilder = new Request.Builder().url(url);
+		if (headers != null && headers.size() > 0) {
+			for (String key : headers.keySet()) {
+				reqBuilder.addHeader(key, headers.get(key));
+			}
+		}
+		Request request = reqBuilder.build();
+		Response response = client.newCall(request).execute();
+		if (response.isSuccessful()) {
+			return  JsonUtil.string2Json(response.body().string(), clazz);
+		} else {
+			throw new IOException("Unexpected code " + response);
+		}
+	}
+
+ 
 	private static Response _get(String url, Map<String, String> headers, Map<String, String> params)
 			throws IOException {
 		if (params != null && params.size() > 0) {
@@ -109,14 +157,12 @@ public class HttpUtil {
 			}
 		}
 		Request requestPost = reqBuilder.post(requestBodyPost).build();
-
 		Response response = client.newCall(requestPost).execute();
 		return response.body().string();
 	}
 
 	public static String postJson(String url, Map<String, String> headers, String json) throws IOException {
 		RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), json);
-
 		Request.Builder reqBuilder = new Request.Builder().url(url);
 		if (headers != null && headers.size() > 0) {
 			for (String key : headers.keySet()) {
@@ -124,11 +170,25 @@ public class HttpUtil {
 			}
 		}
 		Request requestPost = reqBuilder.post(body).build();
-
 		Response response = client.newCall(requestPost).execute();
 		return response.body().string();
 	}
-
+	@SuppressWarnings("unchecked")
+	public static <T> T postJson(String url, Map<String, String> headers, Object json,Class<T> returnClazz) throws IOException {
+		RequestBody body = FormBody.create(MediaType.parse("application/json; charset=utf-8"), JsonUtil.object2String(json));
+		Request.Builder reqBuilder = new Request.Builder().url(url);
+		if (headers != null && headers.size() > 0) {
+			for (String key : headers.keySet()) {
+				reqBuilder.addHeader(key, headers.get(key));
+			}
+		}
+		Request requestPost = reqBuilder.post(body).build();
+		Response response = client.newCall(requestPost).execute();
+		if(returnClazz == String.class) {
+			return (T) response.body().string();
+		}
+		return JsonUtil.string2Json(response.body().string(), returnClazz);
+	}
 	public static byte[] download(String url) throws IOException {
 		return download(url, null, null, null);
 	}
@@ -252,8 +312,11 @@ public class HttpUtil {
 
 	/**
 	 * 上传文件到服务器，服务器已经指定了文件路径。
-	 * @param url http路径
-	 * @param path  本地文件路径
+	 * 
+	 * @param url
+	 *            http路径
+	 * @param path
+	 *            本地文件路径
 	 * @return
 	 * @throws IOException
 	 */
@@ -261,26 +324,24 @@ public class HttpUtil {
 		File file = new File(path);
 		MediaType type = MediaType.parse("application/octet-stream");
 		RequestBody fileBody = RequestBody.create(type, file);
-		//三种：混合参数和文件请求
-		RequestBody multipartBody = new MultipartBody.Builder()
-				.setType(MultipartBody.ALTERNATIVE)
-				//一样的效果
-				.addPart(Headers.of(
-						"Content-Disposition",
+		// 三种：混合参数和文件请求
+		RequestBody multipartBody = new MultipartBody.Builder().setType(MultipartBody.ALTERNATIVE)
+				// 一样的效果
+				.addPart(Headers.of("Content-Disposition",
 						"form-data; name=\"file\"; filename=\"" + file.getName() + "\""), fileBody)
-				//一样的效果
-				/*.addFormDataPart("id",currentPlan.getPlanId()+"")
-				.addFormDataPart("name",currentPlan.getName())
-				.addFormDataPart("volume",currentPlan.getVolume())
-				.addFormDataPart("type",currentPlan.getType()+"")
-				.addFormDataPart("mode",currentPlan.getMode()+"")
-				.addFormDataPart("params","plans.xml",fileBody)*/
+				// 一样的效果
+				/*
+				 * .addFormDataPart("id",currentPlan.getPlanId()+"")
+				 * .addFormDataPart("name",currentPlan.getName())
+				 * .addFormDataPart("volume",currentPlan.getVolume())
+				 * .addFormDataPart("type",currentPlan.getType()+"")
+				 * .addFormDataPart("mode",currentPlan.getMode()+"")
+				 * .addFormDataPart("params","plans.xml",fileBody)
+				 */
 				.build();
 
-		Request request = new Request.Builder().url(url)
-				.addHeader("User-Agent", "android")
-				.header("Content-Type", "text/html; charset=utf-8;")
-				.post(multipartBody)//传参数、文件或者混合，改一下就行请求体就行
+		Request request = new Request.Builder().url(url).addHeader("User-Agent", "android")
+				.header("Content-Type", "text/html; charset=utf-8;").post(multipartBody)// 传参数、文件或者混合，改一下就行请求体就行
 				.build();
 		Response response = client.newCall(request).execute();
 
