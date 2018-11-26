@@ -355,6 +355,7 @@ public class LoginFrame extends JFrame {
 		currentUser.setPassword(new String(passwordField.getPassword()));
 		currentUserService.insertOrUpdate(currentUser);
 		Launcher.currentUser = currentUser;
+		Launcher.iduserIdMaps.put(userResponse.getId(), userResponse.getUserId());
 		Config.setProp("username", userResponse.getUserId());
 		MainFrame frame = MainFrame.getContext();
 		TrayUtil.getTray().setFrame(frame);
