@@ -150,10 +150,11 @@ public class Launcher {
 	}
 
 	public static Map<String, UserResponse> userMaps = Maps.newHashMap();
-
+	public static Map<Long, String> iduserIdMaps = Maps.newHashMap();
 	public static void loadUsers(List<UserResponse> users) {
 		for (UserResponse user : users) {
 			userMaps.put(user.getUserId(), user);
+			iduserIdMaps.put(user.getId(), user.getUserId());
 		}
 	}
 
@@ -163,5 +164,11 @@ public class Launcher {
 
 	public static String getUserNameByUserId(String id) {
 		return userMaps.get(id) == null ? "" : userMaps.get(id).getNickName();
+	}
+	public static long getIdByUserId(String id) {
+		return userMaps.get(id) == null ? -1L : userMaps.get(id).getId();
+	}
+	public static String getUserIdById(long id) {
+		return iduserIdMaps.get(id) == null ? "" : iduserIdMaps.get(id);
 	}
 }

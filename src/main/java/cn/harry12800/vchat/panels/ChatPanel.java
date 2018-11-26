@@ -755,7 +755,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		try {
 			PrivateChatRequest request = new PrivateChatRequest();
 			request.setContext(content);
-			request.setTargetUserId(Long.valueOf(roomId));
+			request.setTargetUserId(Launcher.getIdByUserId(roomId));
 			// 构建请求
 			Request req = Request.valueOf(ModuleId.CHAT, ChatCmd.PRIVATE_CHAT, request.getBytes());
 			Launcher.client.sendRequest(req);
@@ -1324,12 +1324,16 @@ public class ChatPanel extends ParentAvailablePanel {
 	}
 	
 	public void showReceiveMsg(MsgResponse msg) {
-		if (currentUser.getUserId().equals(msg.getFromId()))
+		String userId = Launcher.getUserIdById(msg.getFromId());
+
+		System.err.println(userId);
+		System.err.println(currentUser.getUserId());
+		if (currentUser.getUserId().equals(userId))
 			return;
 		System.out.println("收到消息");
 		Message message = new Message();
 		message.setId(StringUtils.getUUID());
-		message.setRoomId(msg.getFromId() + "");
+		message.setRoomId(userId);
 		String string = new String(msg.getData());
 		//		string = StringEscapeUtils.unescapeJava(string);
 		System.out.println(string);
@@ -1345,9 +1349,9 @@ public class ChatPanel extends ParentAvailablePanel {
 				MainFrame.getContext().setVisible(true);
 			}
 		};
-		trayInfo.id = msg.getFromId() + "";
+		trayInfo.id = userId;
 		trayInfo.type = ETrayType.CHAT;
-		String senderUserName = Launcher.getUserNameByUserId(msg.getFromId());
+		String senderUserName = Launcher.getUserNameByUserId(trayInfo.id);
 		System.out.println("用户：" + senderUserName);
 		trayInfo.icon = new ImageIcon(
 				AvatarUtil.createOrLoadUserAvatar(senderUserName).getScaledInstance(16, 16, Image.SCALE_SMOOTH));
@@ -1358,7 +1362,7 @@ public class ChatPanel extends ParentAvailablePanel {
 		message.setTimestamp(new Date().getTime());
 		message.setSenderUsername(senderUserName);
 		messageService.insertOrUpdate(message);
-		Room friendRoom = roomService.findById(msg.getFromId() + "");
+		Room friendRoom = roomService.findById(userId);
 		friendRoom.setLastMessage(message.getMessageContent());
 		friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
 		roomService.insertOrUpdate(friendRoom);
