@@ -59,7 +59,6 @@ import sun.audio.AudioStream;
 /**
  * Created by harry12800 on 17-5-28.
  */
-@SuppressWarnings("restriction")
 public class MainFrame extends JFrame {
 	/**
 	 * 

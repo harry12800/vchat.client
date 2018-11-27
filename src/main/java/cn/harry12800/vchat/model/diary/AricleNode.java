@@ -9,8 +9,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import cn.harry12800.j2se.component.utils.ImageUtils;
 import cn.harry12800.j2se.style.UI;
-import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.vchat.entity.Diary;
+import cn.harry12800.vchat.frames.components.JsonUtil;
 import cn.harry12800.vchat.model.diary.AricleItemPanel.Builder;
 import cn.harry12800.vchat.panels.DiaryPanel;
 

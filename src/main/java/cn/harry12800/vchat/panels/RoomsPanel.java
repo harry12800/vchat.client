@@ -18,7 +18,6 @@ import cn.harry12800.common.module.user.dto.ShowAllUserResponse;
 import cn.harry12800.common.module.user.dto.UserResponse;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.lnk.core.FileUtils;
-import cn.harry12800.tools.StringUtils;
 import cn.harry12800.vchat.adapter.RoomItemViewHolder;
 import cn.harry12800.vchat.adapter.RoomItemsAdapter;
 import cn.harry12800.vchat.app.Launcher;

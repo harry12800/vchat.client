@@ -20,7 +20,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import cn.harry12800.lnk.core.util.JsonUtil;
+import cn.harry12800.vchat.frames.components.JsonUtil;
 import okhttp3.FormBody;
 import okhttp3.Headers;
 import okhttp3.MediaType;
