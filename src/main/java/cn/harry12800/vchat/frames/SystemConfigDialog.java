@@ -18,11 +18,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import cn.harry12800.j2se.style.layout.VerticalFlowLayout;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.RCButton;
-import cn.harry12800.vchat.components.VerticalFlowLayout;
 import cn.harry12800.vchat.panels.AboutPanel;
 import cn.harry12800.vchat.panels.ChangeAvatarPanel;
 import cn.harry12800.vchat.panels.ChangePasswordPanel;
