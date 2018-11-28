@@ -34,6 +34,8 @@ import cn.harry12800.j2se.module.tray.TrayUtil;
 import cn.harry12800.j2se.style.layout.VerticalFlowLayout;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Config;
+import cn.harry12800.j2se.utils.FontUtil;
+import cn.harry12800.j2se.utils.IconUtil;
 import cn.harry12800.j2se.utils.OSUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
@@ -43,8 +45,6 @@ import cn.harry12800.vchat.components.RCTextField;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.service.CurrentUserService;
 import cn.harry12800.vchat.utils.DbUtils;
-import cn.harry12800.vchat.utils.FontUtil;
-import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * Created by harry12800 on 08/06/2017.

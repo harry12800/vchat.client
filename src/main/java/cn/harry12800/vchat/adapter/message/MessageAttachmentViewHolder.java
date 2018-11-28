@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
+import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.vchat.components.RCProgressBar;
 import cn.harry12800.vchat.components.SizeAutoAdjustTextArea;
 import cn.harry12800.vchat.components.message.AttachmentPanel;
 import cn.harry12800.vchat.components.message.RCAttachmentMessageBubble;
 import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 16/06/2017.

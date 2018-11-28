@@ -25,6 +25,8 @@ import cn.harry12800.common.module.ChatCmd;
 import cn.harry12800.common.module.ModuleId;
 import cn.harry12800.common.module.chat.dto.PrivateChatRequest;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.FontUtil;
+import cn.harry12800.j2se.utils.IconUtil;
 import cn.harry12800.j2se.utils.OSUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
@@ -34,8 +36,6 @@ import cn.harry12800.vchat.components.ScrollUI;
 import cn.harry12800.vchat.components.message.ChatEditorPopupMenu;
 import cn.harry12800.vchat.frames.ScreenShot;
 import cn.harry12800.vchat.listener.ExpressionListener;
-import cn.harry12800.vchat.utils.FontUtil;
-import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * Created by harry12800 on 17-5-30.

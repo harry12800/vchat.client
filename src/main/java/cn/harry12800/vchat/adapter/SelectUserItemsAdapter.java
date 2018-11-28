@@ -15,11 +15,11 @@ import javax.swing.JLabel;
 
 import cn.harry12800.j2se.action.AbstractMouseListener;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.IconUtil;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.entity.SelectUserData;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.CharacterParser;
-import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * Created by harry12800 on 17-5-30.

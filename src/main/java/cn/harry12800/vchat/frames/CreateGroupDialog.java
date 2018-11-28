@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCButton;
@@ -28,7 +29,6 @@ import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.entity.SelectUserData;
 import cn.harry12800.vchat.panels.SelectUserPanel;
-import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 07/06/2017.

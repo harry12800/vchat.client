@@ -11,9 +11,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.helper.AttachmentIconHelper;
-import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * 文件在输入框中的缩略图，当文件直接被粘贴到输入框时，该文件将会以缩略图的形式显示在输入框中 Created by harry12800 on

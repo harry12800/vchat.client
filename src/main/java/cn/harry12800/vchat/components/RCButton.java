@@ -13,7 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JButton;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.j2se.utils.FontUtil;
 
 public class RCButton extends JButton {
 	private static final long serialVersionUID = 39082560987930759L;

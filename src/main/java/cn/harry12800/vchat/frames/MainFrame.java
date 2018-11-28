@@ -41,6 +41,8 @@ import cn.harry12800.j2se.popup.PopupFrame;
 import cn.harry12800.j2se.style.J2seColor;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.style.ui.GradientProgressBarUI;
+import cn.harry12800.j2se.utils.FontUtil;
+import cn.harry12800.j2se.utils.IconUtil;
 import cn.harry12800.j2se.utils.OSUtil;
 import cn.harry12800.upgrade.PlatUpdate;
 import cn.harry12800.vchat.app.Launcher;
@@ -51,8 +53,6 @@ import cn.harry12800.vchat.panels.LeftPanel;
 import cn.harry12800.vchat.panels.RightPanel;
 import cn.harry12800.vchat.panels.RoomsPanel;
 import cn.harry12800.vchat.utils.ClipboardUtil;
-import cn.harry12800.vchat.utils.FontUtil;
-import cn.harry12800.vchat.utils.IconUtil;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 

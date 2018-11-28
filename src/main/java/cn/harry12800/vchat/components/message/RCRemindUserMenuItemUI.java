@@ -9,7 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.plaf.basic.BasicMenuItemUI;
 
 import cn.harry12800.j2se.style.ui.Colors;
-import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.j2se.utils.FontUtil;
 
 /**
  * Created by harry12800 on 21/06/2017.

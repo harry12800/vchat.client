@@ -14,13 +14,13 @@ import javax.swing.JPanel;
 
 import cn.harry12800.j2se.action.AbstractMouseListener;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.message.MainOperationPopupMenu;
 import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.frames.SystemConfigDialog;
 import cn.harry12800.vchat.utils.AvatarUtil;
-import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 17-5-29.

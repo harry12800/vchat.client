@@ -11,6 +11,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.vchat.adapter.search.SearchResultItemsAdapter;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
@@ -24,7 +25,6 @@ import cn.harry12800.vchat.db.service.FileAttachmentService;
 import cn.harry12800.vchat.db.service.MessageService;
 import cn.harry12800.vchat.db.service.RoomService;
 import cn.harry12800.vchat.entity.SearchResultItem;
-import cn.harry12800.vchat.utils.FontUtil;
 
 /**
  * Created by harry12800 on 17-5-29.

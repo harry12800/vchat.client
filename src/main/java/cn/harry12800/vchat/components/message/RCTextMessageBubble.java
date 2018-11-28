@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.Icon;
 import javax.swing.JTextArea;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.j2se.utils.FontUtil;
 
 /**
  * 文本气泡

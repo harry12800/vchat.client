@@ -9,7 +9,7 @@ import java.awt.RenderingHints;
 
 import javax.swing.JPanel;
 
-import cn.harry12800.vchat.utils.FontUtil;
+import cn.harry12800.j2se.utils.FontUtil;
 
 /**
  * Created by harry12800 on 12/06/2017.

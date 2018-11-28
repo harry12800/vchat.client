@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import cn.harry12800.j2se.action.AbstractMouseListener;
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.IconUtil;
 import cn.harry12800.vchat.adapter.SelectUserItemViewHolder;
 import cn.harry12800.vchat.adapter.SelectUserItemsAdapter;
 import cn.harry12800.vchat.adapter.SelectedUserItemsAdapter;
@@ -21,7 +22,6 @@ import cn.harry12800.vchat.components.GBC;
 import cn.harry12800.vchat.components.RCBorder;
 import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.entity.SelectUserData;
-import cn.harry12800.vchat.utils.IconUtil;
 
 /**
  * Created by harry12800 on 19/06/2017.

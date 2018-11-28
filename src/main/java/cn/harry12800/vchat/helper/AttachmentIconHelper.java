@@ -2,7 +2,7 @@ package cn.harry12800.vchat.helper;
 
 import javax.swing.ImageIcon;
 
-import cn.harry12800.vchat.utils.IconUtil;
+import cn.harry12800.j2se.utils.IconUtil;
 import cn.harry12800.vchat.utils.MimeTypeUtil;
 
 /**

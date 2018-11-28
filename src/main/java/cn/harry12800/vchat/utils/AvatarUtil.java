@@ -19,6 +19,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import cn.harry12800.j2se.style.ui.Colors;
+import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.tools.ImageUtils;
 import cn.harry12800.vchat.app.App;
 
