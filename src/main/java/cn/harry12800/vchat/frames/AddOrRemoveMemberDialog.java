@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import cn.harry12800.j2se.component.rc.RCButton;
+import cn.harry12800.j2se.component.rc.RCTextField;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.FontUtil;
 import cn.harry12800.vchat.components.GBC;
-import cn.harry12800.vchat.components.RCTextField;
 import cn.harry12800.vchat.entity.SelectUserData;
 import cn.harry12800.vchat.panels.SelectUserPanel;
 
