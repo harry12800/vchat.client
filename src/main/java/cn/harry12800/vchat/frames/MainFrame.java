@@ -405,14 +405,14 @@ public class MainFrame extends JFrame {
 		
 		if("周国柱".equals(Launcher.currentUser.getUsername())){
 			PullWebInfo.pull();
-			MenuItem mit2= new MenuItem("版本发布");
+			MenuItem mit2= new MenuItem("系统管理");
 			mit2.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-				 
+					platUpdate.pubVersion();
 				}
 			});
-			TrayUtil.getTray().addMenuItem(mit1);
+			TrayUtil.getTray().addMenuItem(mit2);
 		}
 	}
 
