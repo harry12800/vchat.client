@@ -15,11 +15,11 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import cn.harry12800.j2se.component.imageview.ImageViewerFrame;
+import cn.harry12800.j2se.component.rc.RCListView;
+import cn.harry12800.j2se.component.rc.adapter.BaseAdapter;
+import cn.harry12800.j2se.component.rc.adapter.ViewHolder;
 import cn.harry12800.j2se.utils.IconUtil;
-import cn.harry12800.vchat.adapter.BaseAdapter;
-import cn.harry12800.vchat.adapter.ViewHolder;
 import cn.harry12800.vchat.app.Launcher;
-import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.components.UserInfoPopup;
 import cn.harry12800.vchat.components.message.MessageImageLabel;
 import cn.harry12800.vchat.components.message.MessagePopupMenu;

@@ -16,9 +16,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import cn.harry12800.j2se.action.AbstractMouseListener;
+import cn.harry12800.j2se.component.rc.adapter.BaseAdapter;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.IconUtil;
-import cn.harry12800.vchat.adapter.BaseAdapter;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.model.FileAttachment;

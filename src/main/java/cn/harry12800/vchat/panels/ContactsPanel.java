@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cn.harry12800.j2se.component.rc.RCListView;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.vchat.adapter.ContactsItemsAdapter;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.components.GBC;
-import cn.harry12800.vchat.components.RCListView;
 import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.entity.ContactsItem;
