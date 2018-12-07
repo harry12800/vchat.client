@@ -19,6 +19,7 @@ import cn.harry12800.j2se.action.AbstractMouseListener;
 import cn.harry12800.j2se.component.rc.adapter.BaseAdapter;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.IconUtil;
+import cn.harry12800.j2se.utils.TimeUtil;
 import cn.harry12800.vchat.app.Launcher;
 import cn.harry12800.vchat.db.model.CurrentUser;
 import cn.harry12800.vchat.db.model.FileAttachment;
@@ -38,7 +39,6 @@ import cn.harry12800.vchat.tasks.HttpResponseListener;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.FileCache;
 import cn.harry12800.vchat.utils.HttpUtil;
-import cn.harry12800.vchat.utils.TimeUtil;
 
 /**
  * 搜索结果适配器 Created by harry12800 on 17-5-30.
