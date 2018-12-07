@@ -450,7 +450,6 @@ public class ChatPanel extends ParentAvailablePanel {
 		this.roomId = roomId;
 		CHAT_ROOM_OPEN_ID = roomId;
 		this.room = roomService.findById(roomId);
-
 		// 更新消息列表
 		this.notifyDataSetChanged();
 		// 更新房间标题，尤其是成员数
@@ -623,6 +622,17 @@ public class ChatPanel extends ParentAvailablePanel {
 		this.messageItems.add(item);
 		messagePanel.getMessageListView().notifyItemInserted(messageItems.size() - 1, true);
 		messagePanel.getMessageListView().setAutoScrollToBottom();
+
+	}
+	/**
+	 * 添加一条消息到消息列表最后
+	 *
+	 * @param item
+	 */
+	public void addMessageItemToTop(MessageItem item) {
+		this.messageItems.add(0,item);
+		messagePanel.getMessageListView().notifyItemInserted(0, true);
+		messagePanel.getMessageListView().setAutoScrollToTop();
 
 	}
 
@@ -1325,9 +1335,6 @@ public class ChatPanel extends ParentAvailablePanel {
 	
 	public void showReceiveMsg(MsgResponse msg) {
 		String userId = Launcher.getUserIdById(msg.getFromId());
-
-		System.err.println(userId);
-		System.err.println(currentUser.getUserId());
 		if (currentUser.getUserId().equals(userId))
 			return;
 		System.out.println("收到消息");
@@ -1363,8 +1370,16 @@ public class ChatPanel extends ParentAvailablePanel {
 		message.setSenderUsername(senderUserName);
 		messageService.insertOrUpdate(message);
 		Room friendRoom = roomService.findById(userId);
+		if(friendRoom == null){
+			friendRoom = new Room();
+			friendRoom.setCreatorId(userId);
+			friendRoom.setRoomId(userId);
+			friendRoom.setName(userId);
+			friendRoom.setTopic(userId);
+			friendRoom.setType("d");
+		}
+		friendRoom.setUnreadCount(friendRoom.getUnreadCount()+1);
 		friendRoom.setLastMessage(message.getMessageContent());
-		friendRoom.setUnreadCount(friendRoom.getUnreadCount() + 1);
 		roomService.insertOrUpdate(friendRoom);
 		MessageItem item = new MessageItem(message, friendRoom.getRoomId());
 		item.setMessageType(MessageItem.LEFT_TEXT);

@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cn.harry12800.j2se.component.rc.RCButton;
@@ -24,7 +23,6 @@ import cn.harry12800.vchat.db.model.ContactsUser;
 import cn.harry12800.vchat.db.model.Room;
 import cn.harry12800.vchat.db.service.ContactsUserService;
 import cn.harry12800.vchat.db.service.RoomService;
-import cn.harry12800.vchat.frames.MainFrame;
 import cn.harry12800.vchat.utils.AvatarUtil;
 import cn.harry12800.vchat.utils.HttpUtil;
 
@@ -116,17 +114,27 @@ public class UserInfoPanel extends ParentAvailablePanel {
 		if (room != null) {
 			ChatPanel.getContext().enterRoom(room.getRoomId());
 		} else {
-			createDirectChat(user.getName());
+			createDirectChat(user);
 		}
 	}
 
 	/**
 	 * 创建直接聊天
 	 *
-	 * @param username
+	 * @param user
 	 */
-	private void createDirectChat(String username) {
-		JOptionPane.showMessageDialog(MainFrame.getContext(), "发起聊天", "发起聊天", JOptionPane.INFORMATION_MESSAGE);
+	private void createDirectChat(ContactsUser user) {
+		Room room = new Room();
+		room.setCreatorId(user.getUserId());
+		room.setRoomId(user.getUserId());
+		room.setName(user.getUsername());
+		room.setTopic(user.getUsername());
+		room.setType("d");
+		roomService.insertOrUpdate(room);
+		RoomsPanel.getContext().addNewRoomItemToTop(room);
+		TabOperationPanel.getContext().showChatPanel();
+//		RoomsPanel.getContext().activeItem(0);
+		ChatPanel.getContext().enterRoom(user.getUserId());
 	}
 
 	public static void main(String[] args) throws IOException {

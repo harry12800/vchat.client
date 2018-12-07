@@ -80,7 +80,7 @@ public class UserLoginHandler {
 	 *            {@link null}
 	 */
 	@SocketCommand(cmd = UserCmd.SHOW_ALL_USER, desc = "登录帐号")
-	public void login1(int resultCode, byte[] data) {
+	public void showAllUser(int resultCode, byte[] data) {
 		if (resultCode == ResultCode.SUCCESS) {
 			ShowAllUserResponse userResponse = new ShowAllUserResponse();
 			userResponse.readFromBytes(data);
