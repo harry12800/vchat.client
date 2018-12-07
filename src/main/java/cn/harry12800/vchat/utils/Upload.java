@@ -20,12 +20,12 @@ public class Upload {
 
 		//一种：参数请求体
 		FormBody paramsBody = new FormBody.Builder()
-				.add("path", "/root/FileZilla_3.27.0.1_win64.zip")
+				.add("branchCode", "PAAS01")
 				.build();
 
 		//二种：文件请求体
 		MediaType type = MediaType.parse("application/octet-stream");//"text/xml;charset=utf-8"
-		File file = new File("D:\\software\\FileZilla_3.27.0.1_win64.zip");
+		File file = new File("C:\\Users\\admin\\Desktop\\A.txt");
 		RequestBody fileBody = RequestBody.create(type, file);
 
 		//三种：混合参数和文件请求
@@ -33,19 +33,19 @@ public class Upload {
 				.setType(MultipartBody.ALTERNATIVE)
 				//一样的效果
 				.addPart(Headers.of("Content-Disposition",
-						"form-data; name=\"params\""), paramsBody)
+						"form-data; name=\"branchCode\""), paramsBody)
 				.addPart(Headers.of("Content-Disposition",
-						"form-data; name=\"file\"; filename=\"FileZilla_3.27.0.1_win64.zip\""), fileBody)
+						"form-data; name=\"file\"; filename=\"A.txt\""), fileBody)
 				//一样的效果
-				.addFormDataPart("path", "/root/FileZilla_3.27.0.1_win64.zip")
+//				.addFormDataPart("path", "/root/FileZilla_3.27.0.1_win64.zip")
 				/*.addFormDataPart("name",currentPlan.getName())
 				.addFormDataPart("volume",currentPlan.getVolume())
 				.addFormDataPart("type",currentPlan.getType()+"")
 				.addFormDataPart("mode",currentPlan.getMode()+"")
 				.addFormDataPart("params","plans.xml",fileBody)*/
 				.build();
-
-		Request request = new Request.Builder().url("http://120.78.177.24/upload")
+		//http://open.teewon.net:9000/fs/media/
+		Request request = new Request.Builder().url("http://open.teewon.net:9000/twasp/fs/fs/file/upload")
 				.addHeader("User-Agent", "android")
 				.header("Content-Type", "text/html; charset=utf-8;")
 				.post(multipartBody)//传参数、文件或者混合，改一下就行请求体就行
