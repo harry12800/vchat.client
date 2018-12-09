@@ -12,7 +12,7 @@ public class ContactsHeaderViewHolder extends HeaderViewHolder {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String letter;
+	private String letter; 
 	public JLabel letterLabel;
 
 	public ContactsHeaderViewHolder(String ch) {
