@@ -511,7 +511,7 @@ public class MainFrame extends JFrame {
 	public void reLogin() {
 		try {
 			LoginRequest loginRequest = new LoginRequest();
-			loginRequest.setUserName(Launcher.currentUser.getUsername());
+			loginRequest.setUserName(Launcher.currentUser.getUserId());
 			loginRequest.setPassward(Launcher.currentUser.getPassword());
 			Request request = Request.valueOf(ModuleId.USER, UserCmd.LOGIN, loginRequest.getBytes());
 			Launcher.client.sendRequest(request);

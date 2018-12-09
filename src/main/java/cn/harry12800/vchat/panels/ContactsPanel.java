@@ -169,7 +169,7 @@ public class ContactsPanel extends ParentAvailablePanel {
 		for (UserResponse user : users) {
 			ContactsItem item = new ContactsItem(user.getUserId(), user.getRealName(), "d");
 			contactsItemList.add(item);
-			ContactsUser contactsUser = new ContactsUser(user.getUserId(), user.getRealName(), user.getRealName());
+			ContactsUser contactsUser = new ContactsUser(Launcher.currentUser.getUserId(), user.getRealName(), user.getRealName(),user.getUserId());
 			contactsUserService.insertOrUpdate(contactsUser );
 		}
 		notifyDataSetChanged();

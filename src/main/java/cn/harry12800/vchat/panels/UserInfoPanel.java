@@ -107,11 +107,16 @@ public class UserInfoPanel extends ParentAvailablePanel {
 
 	private void openOrCreateDirectChat() {
 		ContactsUser user = contactsUserService.find("username", username).get(0);
-		String userId = user.getUserId();
-		Room room = roomService.findRelativeRoomIdByUserId(userId);
+		String userId = user.getFriendId();
+		System.out.println(userId);
+		String creatorId = Launcher.currentUser.getUserId();
+		System.out.println(creatorId);
+		Room room = roomService.findRelativeRoomIdByUserId(userId,creatorId);
 
+		System.out.println(room);
 		// 房间已存在，直接打开，否则发送请求创建房间
 		if (room != null) {
+			TabOperationPanel.getContext().showChatPanel();
 			ChatPanel.getContext().enterRoom(room.getRoomId());
 		} else {
 			createDirectChat(user);
@@ -125,8 +130,8 @@ public class UserInfoPanel extends ParentAvailablePanel {
 	 */
 	private void createDirectChat(ContactsUser user) {
 		Room room = new Room();
-		room.setCreatorId(user.getUserId());
-		room.setRoomId(user.getUserId());
+		room.setCreatorId(Launcher.currentUser.getUserId());
+		room.setRoomId(user.getFriendId());
 		room.setName(user.getUsername());
 		room.setTopic(user.getUsername());
 		room.setType("d");
@@ -134,7 +139,7 @@ public class UserInfoPanel extends ParentAvailablePanel {
 		RoomsPanel.getContext().addNewRoomItemToTop(room);
 		TabOperationPanel.getContext().showChatPanel();
 //		RoomsPanel.getContext().activeItem(0);
-		ChatPanel.getContext().enterRoom(user.getUserId());
+		ChatPanel.getContext().enterRoom(user.getFriendId());
 	}
 
 	public static void main(String[] args) throws IOException {

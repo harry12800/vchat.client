@@ -231,7 +231,8 @@ public class SearchResultItemsAdapter extends BaseAdapter<SearchResultItemViewHo
 				if (e.getButton() == MouseEvent.BUTTON1) {
 
 					if (item.getType().equals("d")) {
-						String roomId = roomService.findRelativeRoomIdByUserId(item.getId()).getRoomId();
+						String creatorId = Launcher.currentUser.getUserId();
+						String roomId = roomService.findRelativeRoomIdByUserId(item.getId(),creatorId).getRoomId();
 						enterRoom(roomId, 0L);
 						clearSearchText();
 					} else if (item.getType().equals("c") || item.getType().equals("p")) {

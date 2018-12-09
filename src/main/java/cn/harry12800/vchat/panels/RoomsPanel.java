@@ -71,7 +71,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 			if (room == null) {
 				room = new Room();
 			}
-			room.setCreatorId(user.getUserId());
+			room.setCreatorId(Launcher.currentUser.getUserId());
 			room.setRoomId(user.getUserId());
 			room.setName(user.getNickName());
 			room.setTopic(user.getNickName());
@@ -98,7 +98,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 			if (room == null) {
 				room = new Room();
 			}
-			room.setCreatorId(userId);
+			room.setCreatorId(Launcher.currentUser.getUserId());
 			room.setRoomId(userId);
 			room.setName(userId);
 			room.setTopic(userId);
@@ -149,7 +149,7 @@ public class RoomsPanel extends ParentAvailablePanel {
 		roomItemList.clear();
 		// TODO: 从数据库中加载房间列表
 //		Room harry12800 = roomService.findRelativeRoomIdByUserId(Launcher.currentUser.getUserId());
-		List<Room> rooms = roomService.findAll();
+		List<Room> rooms = roomService.findRelativeRoomIdByCreatorId(Launcher.currentUser.getUserId());
 		for (Room room : rooms) {
 			RoomItem item = new RoomItem();
 			item.setRoomId(room.getRoomId());
