@@ -39,6 +39,8 @@ import cn.harry12800.j2se.dialog.YesNoDialog;
 import cn.harry12800.j2se.style.UI;
 import cn.harry12800.j2se.style.ui.Colors;
 import cn.harry12800.j2se.utils.Clip;
+import cn.harry12800.j2se.utils.JsonUtils;
+import cn.harry12800.lnk.core.util.JsonUtil;
 import cn.harry12800.tools.FileUtils;
 import cn.harry12800.tools.Lists;
 import cn.harry12800.tools.StringUtils;
@@ -48,7 +50,6 @@ import cn.harry12800.vchat.app.config.Contants;
 import cn.harry12800.vchat.entity.Diary;
 import cn.harry12800.vchat.entity.DiaryCatalog;
 import cn.harry12800.vchat.frames.MainFrame;
-import cn.harry12800.vchat.frames.components.JsonUtil;
 import cn.harry12800.vchat.model.diary.AricleNode;
 import cn.harry12800.vchat.model.diary.CategoryNode;
 import cn.harry12800.vchat.model.diary.MyJTreeTransferHandler;
@@ -240,7 +241,7 @@ public class DiaryCatalogPanel extends JScrollPane {
 									File f = createAricle(node.getFile());
 									Diary diary = new Diary();
 									diary.setSort(node.getFile().listFiles().length);
-									JsonUtil.saveObj(diary, f.getAbsolutePath());
+									JsonUtils.saveObj(diary, f.getAbsolutePath());
 									AricleNode newChild = new AricleNode(f, diary);
 
 									((CategoryNode) (object)).insert(newChild, 0);
